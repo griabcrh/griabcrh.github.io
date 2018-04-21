@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Docker," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="1.什么是 DockerDocker 是 Docker 公司的开源项目，使用 Google 公司推出的 Go 语言开发的,并于 2013 年 3 月以 Apache 2.0 授权协议开源，主要项目代码在 GitHub 上进行维护。 下面的图片比较了 Docker 和传统虚拟化方式的不同之处。传统虚拟机技术是虚拟出一套硬件后，在其上运行一个完整操作系统，在该系统上再运行所需应用进程；而容器内的应用">
+<meta name="keywords" content="Docker">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从零开始学Docker">
+<meta property="og:url" content="https://griabcrh.github.io/2018/04/21/从零开始学Docker/index.html">
+<meta property="og:site_name" content="Griabcrh&#39;s Blog">
+<meta property="og:description" content="1.什么是 DockerDocker 是 Docker 公司的开源项目，使用 Google 公司推出的 Go 语言开发的,并于 2013 年 3 月以 Apache 2.0 授权协议开源，主要项目代码在 GitHub 上进行维护。 下面的图片比较了 Docker 和传统虚拟化方式的不同之处。传统虚拟机技术是虚拟出一套硬件后，在其上运行一个完整操作系统，在该系统上再运行所需应用进程；而容器内的应用">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://griabcrh.github.io/images/docker1.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/docker2.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/docker3.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/docker4.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/docker5.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/docker6.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/docker7.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/docker8.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/docker11.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/docker10.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/docker9.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/docker12.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/docker13.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/docker14.png">
+<meta property="og:updated_time" content="2018-04-21T11:29:13.708Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="从零开始学Docker">
+<meta name="twitter:description" content="1.什么是 DockerDocker 是 Docker 公司的开源项目，使用 Google 公司推出的 Go 语言开发的,并于 2013 年 3 月以 Apache 2.0 授权协议开源，主要项目代码在 GitHub 上进行维护。 下面的图片比较了 Docker 和传统虚拟化方式的不同之处。传统虚拟机技术是虚拟出一套硬件后，在其上运行一个完整操作系统，在该系统上再运行所需应用进程；而容器内的应用">
+<meta name="twitter:image" content="https://griabcrh.github.io/images/docker1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://griabcrh.github.io/2018/04/21/从零开始学Docker/"/>
+
+
+
+
+
+  <title>从零开始学Docker | Griabcrh's Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?91c85e96d8e34ae79347b17b0d41826f";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Griabcrh's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">welcome</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/04/21/从零开始学Docker/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="griabcrh">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/24718752.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Griabcrh's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">从零开始学Docker</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-21T19:28:41+08:00">
+                2018-04-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/04/21/从零开始学Docker/" class="leancloud_visitors" data-flag-title="从零开始学Docker">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="/images/docker1.png" alt=""></p>
+<h3 id="1-什么是-Docker"><a href="#1-什么是-Docker" class="headerlink" title="1.什么是 Docker"></a>1.什么是 Docker</h3><p>Docker 是 Docker 公司的开源项目，使用 Google 公司推出的 Go 语言开发的,并于 2013 年 3 月以 Apache 2.0 授权协议开源，主要项目代码在 GitHub 上进行维护。</p>
+<p>下面的图片比较了 Docker 和传统虚拟化方式的不同之处。传统虚拟机技术是虚拟出一套硬件后，在其上运行一个完整操作系统，在该系统上再运行所需应用进程；而容器内的应用进程直接运行于宿主的内核，容器内没有自己的内核，而且也没有进行硬件虚拟。因此容器要比传统虚拟机更为轻便。</p>
+<p><img src="/images/docker2.png" alt=""></p>
+<p><img src="/images/docker3.png" alt=""></p>
+<h3 id="2-为什么要使用-Docker？"><a href="#2-为什么要使用-Docker？" class="headerlink" title="2.为什么要使用 Docker？"></a>2.为什么要使用 Docker？</h3><h4 id="2-1-更高效的利用系统资源"><a href="#2-1-更高效的利用系统资源" class="headerlink" title="2.1 更高效的利用系统资源"></a>2.1 更高效的利用系统资源</h4><p>由于容器不需要进行硬件虚拟以及运行完整操作系统等额外开销，Docker 对系统资源的利用率更高。无论是应用执行速度、内存损耗或者文件存储速度，都要比传统虚拟机技术更高效。因此，相比虚拟机技术，一个相同配置的主机，往往可以运行更多数量的应用。</p>
+<h4 id="2-2-更快速的启动时间"><a href="#2-2-更快速的启动时间" class="headerlink" title="2.2 更快速的启动时间"></a>2.2 更快速的启动时间</h4><p>传统的虚拟机技术启动应用服务往往需要数分钟，而 Docker 容器应用，由于直接运行于宿主内核，无需启动完整的操作系统，因此可以做到秒级、甚至毫秒级的启动时间。大大的节约了开发、测试、部署的时间。</p>
+<h4 id="2-3-一致的运行环境"><a href="#2-3-一致的运行环境" class="headerlink" title="2.3 一致的运行环境"></a>2.3 一致的运行环境</h4><p>开发过程中一个常见的问题是环境一致性问题。由于开发环境、测试环境、生产环境不一致，导致有些 bug 并未在开发过程中被发现。而 Docker 的镜像提供了除内核外完整的运行时环境，确保了应用运行环境一致性，从而不会再出现 “这段代码在我机器上没问题啊” 这类问题。</p>
+<h4 id="2-4-持续交付和部署"><a href="#2-4-持续交付和部署" class="headerlink" title="2.4 持续交付和部署"></a>2.4 持续交付和部署</h4><p>对开发和运维人员来说，最希望的就是一次创建或配置，可以在任意地方正常运行。</p>
+<p>使用 Docker 可以通过定制应用镜像来实现持续集成、持续交付、部署。开发人员可以通过 Dockerfile 来进行镜像构建，并结合 持续集成系统进行集成测试，而运维人员则可以直接在生产环境中快速部署该镜像，甚至结合持续部署系统进行自动部署。</p>
+<p>而且使用 Dockerfile 使镜像构建透明化，不仅仅开发团队可以理解应用运行环境，也方便运维团队理解应用运行所需条件，帮助更好的生产环境中部署该镜像。</p>
+<h4 id="2-5-更轻松的迁移"><a href="#2-5-更轻松的迁移" class="headerlink" title="2.5 更轻松的迁移"></a>2.5 更轻松的迁移</h4><p>由于 Docker 确保了执行环境的一致性，使得应用的迁移更加容易。Docker 可以在很多平台上运行，无论是物理机、虚拟机、公有云、私有云，甚至是笔记本，其运行结果是一致的。因此用户可以很轻易的将在一个平台上运行的应用，迁移到另一个平台上，而不用担心运行环境的变化导致应用无法正常运行的情况。</p>
+<h4 id="2-6-更轻松的维护和扩展"><a href="#2-6-更轻松的维护和扩展" class="headerlink" title="2.6 更轻松的维护和扩展"></a>2.6 更轻松的维护和扩展</h4><p>Docker 使用的分层存储以及镜像的技术，使得应用重复部分的复用更为容易，也使得应用的维护更新更加简单，基于基础镜像进一步扩展镜像也变得非常简单。此外，Docker 团队同各个开源项目团队一起维护了一大批高质量的官方镜像，既可以直接在生产环境使用，又可以作为基础进一步定制，大大的降低了应用服务的镜像制作成本。</p>
+<h4 id="2-7-对比传统虚拟机总结"><a href="#2-7-对比传统虚拟机总结" class="headerlink" title="2.7 对比传统虚拟机总结"></a>2.7 对比传统虚拟机总结</h4><p><img src="/images/docker4.png" alt=""></p>
+<h3 id="3-基本概念"><a href="#3-基本概念" class="headerlink" title="3 基本概念"></a>3 基本概念</h3><p>Docker 包括三个基本概念</p>
+<ul>
+<li>镜像（Image）</li>
+<li>容器（Container）</li>
+<li>仓库（Repository）</li>
+</ul>
+<p>理解了这三个概念，就理解了 Docker 的整个生命周期。</p>
+<h4 id="3-1-Docker-镜像"><a href="#3-1-Docker-镜像" class="headerlink" title="3.1 Docker 镜像"></a>3.1 Docker 镜像</h4><p>我们都知道，操作系统分为内核和用户空间。对于 Linux 而言，内核启动后，会挂载 root 文件系统为其提供用户空间支持。而 Docker 镜像，就相当于是一个 root 文件系统。比如 Docker 官方镜像 ubuntu:14.04 就包含了完整的一套 Ubuntu 14.04 最小系统的 root 文件系统。</p>
+<p>Docker 镜像是一个特殊的文件系统，除了提供容器运行时所需的程序、库、资源、配置等文件外，还包含了一些为运行时准备的一些配置参数（如匿名卷、环境变量、用户等）。镜像不包含任何动态数据，其内容在构建之后也不会被改变。</p>
+<h4 id="3-2-Docker-容器"><a href="#3-2-Docker-容器" class="headerlink" title="3.2 Docker 容器"></a>3.2 Docker 容器</h4><p>镜像和容器的关系，就像是面向对象程序设计中的类和实例一样，镜像是静态的定义，容器是镜像运行时的实体。容器可以被创建、启动、停止、删除、暂停等。</p>
+<p>每一个容器运行时，是以镜像为基础层，在其上创建一个当前容器的存储层，我们可以称这个为容器运行时读写而准备的存储层为容器存储层。</p>
+<p>容器存储层的生存周期和容器一样，容器消亡时，容器存储层也随之消亡。因此，任何保存于容器存储层的信息都会随容器删除而丢失。</p>
+<p>按照 Docker 最佳实践的要求，容器不应该向其存储层内写入任何数据，容器存储层要保持无状态化。所有的文件写入操作，都应该使用 数据卷（Volume）、或者绑定宿主目录，在这些位置的读写会跳过容器存储层，直接对宿主(或网络存储)发生读写，其性能和稳定性更高。</p>
+<p>数据卷的生存周期独立于容器，容器消亡，数据卷不会消亡。因此，使用数据卷后，容器可以随意删除、重新 run，数据却不会丢失。</p>
+<h4 id="3-3-Docker-仓库"><a href="#3-3-Docker-仓库" class="headerlink" title="3.3 Docker 仓库"></a>3.3 Docker 仓库</h4><p>镜像构建完成后，可以很容易的在当前宿主上运行，但是，如果需要在其它服务器上使用这个镜像，我们就需要一个集中的存储、分发镜像的服务，Docker Registry 就是这样的服务。</p>
+<h4 id="3-4-安装-Docker"><a href="#3-4-安装-Docker" class="headerlink" title="3.4 安装 Docker"></a>3.4 安装 Docker</h4><p>官方网站上有各种环境下的 安装指南，这里主要介绍下 CentOS 的安装。</p>
+<h3 id="4-CentOS-操作系统安装-Docker"><a href="#4-CentOS-操作系统安装-Docker" class="headerlink" title="4 CentOS 操作系统安装 Docker"></a>4 CentOS 操作系统安装 Docker</h3><h4 id="4-1-系统要求"><a href="#4-1-系统要求" class="headerlink" title="4.1 系统要求"></a>4.1 系统要求</h4><p>Docker 需要安装在 CentOS 7 64 位的平台，并且内核版本不低于 3.10. CentOS 7.× 满足要求的最低内核版本要求，但由于 CentOS 7 内核版本比较低，部分功能（如 overlay2 存储层驱动）无法使用，并且部分功能可能不太稳定。所以建议大家升级到最新的 CentOS 版本,并且内核也更新到最新的稳定版本.更新的方法可以看看我的&lt;<centos 7.="" ×="" 系统及内核升级指南="">&gt;</centos></p>
+<h4 id="4-2-使用阿里云的安装脚本自动安装"><a href="#4-2-使用阿里云的安装脚本自动安装" class="headerlink" title="4.2 使用阿里云的安装脚本自动安装"></a>4.2 使用阿里云的安装脚本自动安装</h4><p>为了简化 Docker 安装流程，我们可以使用阿里云提供的一套安装脚本，CentOS 系统上可以使用这套脚本安装 Docker :</p>
+<p>首先，查看阿里云ECS Linux服务器系统内核版本：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname -r</span><br></pre></td></tr></table></figure>
+<p>安装epel</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install epel-release -y</span><br></pre></td></tr></table></figure>
+<p><img src="/images/docker5.png" alt=""></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum clean all</span><br></pre></td></tr></table></figure>
+<p><img src="/images/docker6.png" alt=""></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum list</span><br></pre></td></tr></table></figure>
+<p>会出现非常多的包</p>
+<p>yum安装docker-io</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum -y install docker-io</span><br></pre></td></tr></table></figure>
+<p>安装成功，最终会出现Complete字样</p>
+<p>启动Docker</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl start docker</span><br></pre></td></tr></table></figure>
+<p><img src="/images/docker7.png" alt=""></p>
+<p>检查Docker服务，一般出现下图的信息说明Docker初步是安装成功的</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker info</span><br></pre></td></tr></table></figure>
+<p><img src="/images/docker8.png" alt=""></p>
+<p>执行这个命令后，脚本就会自动的将一切准备工作做好，并且把 Docker 安装在系统中。</p>
+<p>Docker 通过运行 hello-world 映像验证是否正确安装。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">$ docker run hello-world</span><br><span class="line"></span><br><span class="line">&gt; Unable to find image <span class="string">'hello-world:latest'</span> locally</span><br><span class="line">&gt; latest: Pulling from library/hello-world</span><br><span class="line">&gt; b04784fba78d: Pull complete </span><br><span class="line">&gt; Digest: sha256:f3b3b28a45160805bb16542c9531888519430e9e6d6ffc09d72261b0d26ff74f</span><br><span class="line">&gt; Status: Downloaded newer image <span class="keyword">for</span> hello-world:latest</span><br><span class="line"> </span><br><span class="line">&gt; Hello from Docker!</span><br><span class="line">&gt; This message shows that your installation appears to be working correctly.</span><br><span class="line"></span><br><span class="line">&gt; To generate this message, Docker took the following steps:</span><br><span class="line">&gt;  1. The Docker client contacted the Docker daemon.</span><br><span class="line">&gt;  2. The Docker daemon pulled the <span class="string">"hello-world"</span> image from the Docker Hub.</span><br><span class="line">&gt;  3. The Docker daemon created a new container from that image <span class="built_in">which</span> runs the</span><br><span class="line">&gt;     executable that produces the output you are currently reading.</span><br><span class="line">&gt;  4. The Docker daemon streamed that output to the Docker client, <span class="built_in">which</span> sent it</span><br><span class="line">&gt;     to your terminal.</span><br><span class="line"></span><br><span class="line">&gt; To try something more ambitious, you can run an Ubuntu container with:</span><br><span class="line">&gt;  $ docker run -it ubuntu bash</span><br><span class="line"></span><br><span class="line">&gt; Share images, automate workflows, and more with a free Docker ID:</span><br><span class="line">&gt;  https://cloud.docker.com/</span><br><span class="line"></span><br><span class="line">&gt; For more examples and ideas, visit:</span><br><span class="line">&gt;  https://docs.docker.com/engine/userguide/</span><br></pre></td></tr></table></figure>
+<p>此命令下载测试镜像并在容器中运行它。当容器运行时，它打印一条信息消息并退出。如果你没有配置镜像加速器的话,运行 hello-world 映像验证也是不会成功的.因为国内网络的原因,无法下载测试镜像,更别说运行测试镜像了,所以这一步可以先跳过,继续往下看,等一下配置完镜像加速器再来验证.</p>
+<h5 id="查看当前-Docker-的版本"><a href="#查看当前-Docker-的版本" class="headerlink" title="查看当前 Docker 的版本"></a>查看当前 Docker 的版本</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ docker -v</span><br><span class="line"></span><br><span class="line">&gt; Docker version 17.05.0-ce, build 89658be</span><br></pre></td></tr></table></figure>
+<p>可以看出当前的 Docker 为 Docker CE 17.05.0 版本,CE 代表 Docker 社区版,EE 代表 Docker 企业版.</p>
+<h5 id="卸载-Docker-CE"><a href="#卸载-Docker-CE" class="headerlink" title="卸载 Docker CE"></a>卸载 Docker CE</h5><p>卸载Docker软件包：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum remove docker-ce</span><br></pre></td></tr></table></figure>
+<h5 id="卸载旧版本-Docker"><a href="#卸载旧版本-Docker" class="headerlink" title="卸载旧版本 Docker"></a>卸载旧版本 Docker</h5><p>较老版本的 Docker 被称为 docker 或 docker-engine。如果这些已安装，请卸载它们以及关联的依赖关系。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum remove docker docker-common docker-selinux docker-engine</span><br></pre></td></tr></table></figure>
+<p>主机上的图像，容器，卷或自定义配置文件不会自动删除。必须手动删除任何已编辑的配置文件。删除所有图像，容器和卷：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ rm -rf /var/lib/docker</span><br></pre></td></tr></table></figure>
+<p>给镜像打标签       </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker tag ubuntu ubuntu1</span><br></pre></td></tr></table></figure>
+<p>改变tag值，区分标签</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker tag ubuntu ubuntu2:123</span><br></pre></td></tr></table></figure>
+<p><img src="/images/docker11.png" alt=""></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">docker run -itd centos //把镜像启动为容器，-i表示让容器的标准输入打开，-t表示分配一个伪终端，-d表示后台启动</span><br><span class="line">docker ps //查看运行的容器，加上-a选项后可以查看所有容器，包括未运行的</span><br><span class="line">docker rmi centos //用来删除指定镜像，其中后面的参数可以是tag，如果是tag时，实际上是删除该tag。当后面的参数为镜像ID时，则会彻底删除整个镜像，所有标签也会一同删除</span><br><span class="line"></span><br><span class="line"><span class="comment">##### 参考文档</span></span><br><span class="line"></span><br><span class="line">参见 Docker 官方 CentOS 安装文档.</span><br><span class="line"></span><br><span class="line"><span class="comment">##### 镜像加速器</span></span><br><span class="line"></span><br><span class="line">国内访问 Docker Hub 有时会遇到困难，此时可以配置镜像加速器。国内很多云服务商都提供了加速器服务，例如：</span><br><span class="line"></span><br><span class="line">阿里云加速器</span><br><span class="line">注册用户并且申请加速器，会获得如 https://jxus37ad.mirror.aliyuncs.com 这样的地址。我们需要将其配置给 Docker 引擎。</span><br><span class="line"></span><br><span class="line">用 systemctl <span class="built_in">enable</span> docker 启用服务后，编辑 /etc/systemd/system/multi-user.target.wants/docker.service 文件，找到 ExecStart= 这一行，在这行最后添加加速器地址 --registry-mirror=&lt;加速器地址&gt;，如：</span><br><span class="line"></span><br><span class="line">ExecStart=/usr/bin/dockerd --registry-mirror=https://jxus37ad.mirror.aliyuncs.com</span><br><span class="line">注：对于 1.12 以前的版本，dockerd 换成 docker daemon。</span><br><span class="line"></span><br><span class="line">重新加载配置并且重新启动。</span><br><span class="line"></span><br><span class="line">``` bash</span><br><span class="line">$ sudo systemctl daemon-reload</span><br><span class="line">$ sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
+<h5 id="检查加速器是否生效"><a href="#检查加速器是否生效" class="headerlink" title="检查加速器是否生效"></a>检查加速器是否生效</h5><p>Linux系统下配置完加速器需要检查是否生效，在命令行执行 ps -ef | grep dockerd，如果从结果中看到了配置的 –registry-mirror 参数说明配置成功。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sudo ps -ef | grep dockerd</span><br><span class="line"></span><br><span class="line">&gt; root      5346     1  0 19:03 ?        00:00:00 /usr/bin/dockerd --registry-mirror=https://jxus37ad.mirror.aliyuncs.com</span><br></pre></td></tr></table></figure>
+<h5 id="使用-Docker-镜像"><a href="#使用-Docker-镜像" class="headerlink" title="使用 Docker 镜像"></a>使用 Docker 镜像</h5><p>Docker 运行容器前需要本地存在对应的镜像，如果镜像不存在本地，Docker 会从镜像仓库下载（默认是 Docker Hub 公共注册服务器中的仓库）。</p>
+<h5 id="获取镜像"><a href="#获取镜像" class="headerlink" title="获取镜像"></a>获取镜像</h5><p>阿里云镜像库 上有大量的高质量的镜像可以用，这里我们就说一下怎么获取这些镜像并运行。</p>
+<p>获取镜像的命令是 docker pull。其命令格式为：</p>
+<p>docker pull [选项] [Docker Registry地址]&lt;仓库名&gt;:&lt;标签&gt;<br>具体的选项可以通过 docker pull –help 命令看到，这里我们说一下镜像名称的格式。</p>
+<p>Docker Registry地址：地址的格式一般是 &lt;域名/IP&gt;[:端口号]。默认地址是 Docker Hub。<br>仓库名：如之前所说，这里的仓库名是两段式名称，既 &lt;用户名&gt;/&lt;软件名&gt;。对于 Docker Hub，如果不给出用户名，则默认为 library，也就是官方镜像.一定要配置镜像加速器,不然下载速度很慢。<br>比如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ docker pull ubuntu:14.04</span><br><span class="line"></span><br><span class="line">14.04: Pulling from library/ubuntu</span><br><span class="line">bf5d46315322: Pull complete</span><br><span class="line">9f13e0ac480c: Pull complete</span><br><span class="line">e8988b5b3097: Pull complete</span><br><span class="line">40af181810e7: Pull complete</span><br><span class="line">e6f7c7e5c03e: Pull complete</span><br><span class="line">Digest: sha256:147913621d9cdea08853f6ba9116c2e27a3ceffecf3b492983ae97c3d643fbbe</span><br><span class="line">Status: Downloaded newer image <span class="keyword">for</span> ubuntu:14.04</span><br></pre></td></tr></table></figure>
+<p>上面的命令中没有给出 Docker Registry 地址，因此将会从 Docker Hub 获取镜像。而镜像名称是 ubuntu:14.04，因此将会获取官方镜像 library/ubuntu 仓库中标签为 14.04 的镜像。</p>
+<h5 id="查看已下载的镜像"><a href="#查看已下载的镜像" class="headerlink" title="查看已下载的镜像"></a>查看已下载的镜像</h5><p>要想列出已经下载下来的镜像，可以使用 docker images 命令。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ docker images</span><br><span class="line"></span><br><span class="line">REPOSITORY           TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">hello-world          latest              1815c82652c0        3 weeks ago         1.84kB</span><br><span class="line">ubuntu               14.04               4a2820e686c4        2 weeks ago         188 MB</span><br></pre></td></tr></table></figure>
+<p>列表包含了仓库名、标签、镜像 ID、创建时间以及所占用的空间。</p>
+<h5 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h5><p>有了镜像后，我们就可以以这个镜像为基础启动一个容器来运行。以上面的 ubuntu:14.04 为例，如果我们打算启动里面的 bash 并且进行交互式操作的话，可以执行下面的命令。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ docker run -it --rm ubuntu:14.04 bash</span><br><span class="line"></span><br><span class="line">root@e7009c6ce357:/<span class="comment"># cat /etc/os-release</span></span><br><span class="line">NAME=<span class="string">"Ubuntu"</span></span><br><span class="line">VERSION=<span class="string">"14.04.5 LTS, Trusty Tahr"</span></span><br><span class="line">ID=ubuntu</span><br><span class="line">ID_LIKE=debian</span><br><span class="line">PRETTY_NAME=<span class="string">"Ubuntu 14.04.5 LTS"</span></span><br><span class="line">VERSION_ID=<span class="string">"14.04"</span></span><br><span class="line">HOME_URL=<span class="string">"http://www.ubuntu.com/"</span></span><br><span class="line">SUPPORT_URL=<span class="string">"http://help.ubuntu.com/"</span></span><br><span class="line">BUG_REPORT_URL=<span class="string">"http://bugs.launchpad.net/ubuntu/"</span></span><br><span class="line">root@e7009c6ce357:/<span class="comment"># exit</span></span><br><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
+<p>docker run 就是运行容器的命令，具体格式我们会在后面的章节讲解，我们这里简要的说明一下上面用到的参数。</p>
+<p>-it：这是两个参数，一个是 -i：交互式操作，一个是 -t 终端。我们这里打算进入  bash 执行一些命令并查看返回结果，因此我们需要交互式终端。<br>–rm：这个参数是说容器退出后随之将其删除。默认情况下，为了排障需求，退出的容器并不会立即删除，除非手动 docker rm。我们这里只是随便执行个命令，看看结果，不需要排障和保留结果，因此使用 –rm 可以避免浪费空间。<br>ubuntu:14.04：这是指用 ubuntu:14.04 镜像为基础来启动容器。<br>bash：放在镜像名后的是命令，这里我们希望有个交互式 Shell，因此用的是 bash。<br>进入容器后，我们可以在 Shell 下操作，执行任何所需的命令。这里，我们执行了 cat /etc/os-release，这是 Linux 常用的查看当前系统版本的命令，从返回的结果可以看到容器内是 Ubuntu 14.04.5 LTS 系统。</p>
+<p>最后我们通过 exit 退出了这个容器。</p>
+<h5 id="定制镜像"><a href="#定制镜像" class="headerlink" title="定制镜像"></a>定制镜像</h5><p>现在让我们以定制一个 Web 服务器为例子，来讲解镜像是如何构建的。</p>
+<p>安装nginx</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -it --name my-nginx -d -p 80:80 nginx</span><br></pre></td></tr></table></figure>
+<p><img src="/images/docker10.png" alt=""></p>
+<p>这条命令会用 nginx 镜像启动一个容器，命名为 webserver，并且映射了 80 端口，这样我们可以用浏览器去访问这个 nginx 服务器。</p>
+<p>如果是在 Linux 本机运行的 Docker，或者如果使用的是 Docker for Mac、Docker for Windows，那么可以直接访问：<a href="http://localhost；如果使用的是" target="_blank" rel="noopener">http://localhost；如果使用的是</a> Docker Toolbox，或者是在虚拟机、云服务器上安装的 Docker，则需要将 localhost 换为虚拟机地址或者实际云服务器地址,还要配置安全组放通对应的端口。</p>
+<p>直接用浏览器访问的话，我们会看到默认的 Nginx 欢迎页面。</p>
+<p><img src="/images/docker9.png" alt=""></p>
+<h3 id="5-Docker的使用"><a href="#5-Docker的使用" class="headerlink" title="5 Docker的使用"></a>5 Docker的使用</h3><h4 id="5-1-Docker通过容器创建镜像"><a href="#5-1-Docker通过容器创建镜像" class="headerlink" title="5.1 Docker通过容器创建镜像"></a>5.1 Docker通过容器创建镜像</h4><p>通过docker run -it –rm centos bash启动容器后，bash为进入容器后我们要执行的命令，这样就可以打开一个终端</p>
+<p>进入到改容器中，我们做一些变更，比如安装一些东西，然后针对这个容器进行创建新的镜像</p>
+<p>想要查看net信息，ifcongif出现command not found，在容器中执行yum install -y net-tools</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker commit -m <span class="string">"change somth"</span> -a <span class="string">"somebody info"</span> container_id new_image_name //container_id通过docker ps -a 获取，后面的new_image_name为新镜像的名字</span><br></pre></td></tr></table></figure>
+<p>例如：docker commit -m “install net-tools” -a “amingLinux” ea4d8441675e centos_nettools</p>
+<p>这个命名有点像svn的提交，-m 加一些改动信息，-a 指定作者相关信息，ea4d8441675e这一串为容器Id，再后面为新镜像的名字。</p>
+<h4 id="5-2-Docker使用模板创建镜像"><a href="#5-2-Docker使用模板创建镜像" class="headerlink" title="5.2 Docker使用模板创建镜像"></a>5.2 Docker使用模板创建镜像</h4><p>首先去下载一个模板 <a href="https://openvz.org/Download/templates/precreated" target="_blank" rel="noopener">https://openvz.org/Download/templates/precreated</a></p>
+<p>导入改镜像的命令为：cat centos-6-x86-minimal.tar.gz|docker import - centos6</p>
+<p>docker images查看导入的镜像</p>
+<p>把现有镜像导出为一个文件:docker save -o aming-centos.tar</p>
+<p>我们还可以用该文件恢复本地镜像：docker load –input aming-centos.tar  或者 docker load &lt; aming-centos.tar</p>
+<p>docker push image_name  //可以把自己的镜像传到dockerhub官方网站上去，但前提是需要先注册一个用户，后续如果有需求在间就吧</p>
+<h4 id="5-3-Docker容器管理"><a href="#5-3-Docker容器管理" class="headerlink" title="5.3 Docker容器管理"></a>5.3 Docker容器管理</h4><p>docker create -it centos6 bash  //这样就可以创建一个容器，但该容器并没有启动</p>
+<p>docker start container_id  //启动容器后，可以使用docker ps 查看到，有start就有stop和restart</p>
+<p>之前我们使用的docker run 相当于先create再start</p>
+<p>docker run -it centos bash</p>
+<p>这样就进入到了一个虚拟终端里面，我们可以运行一些命令，使用命令exit或ctrl d 退出该bash，当退出后这个容器也会停止</p>
+<p>docker run -d 可以让容器在后台运行</p>
+<p>比如：docker run -d centos bash -c “while :;do echo “123”;sleep 2;done”</p>
+<p>docker run –name web -itd centos bash  //–name给容器自定义名字</p>
+<p>docker run –rm -it centos bash -c “sleep 30”   //–rm可以让容器退出后直接删除，在这里命令执行完容器就会退出</p>
+<p>docker logs 可以获取容器运行历史信息，用法如下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker logs container_id</span><br></pre></td></tr></table></figure>
+<p>docker attach 可以进入一个后台运行的容器，比如</p>
+<p>docker attach container_id  //但是attach命令不算好用，比如我们想退出终端，就得exit了，这样容器也就退出了，还有一种方法</p>
+<p>docker exec -it container_id bash  //可以临时打开一个虚拟终端，但exit后容器依然运行着</p>
+<p>docker rm container_id   //container_id是ps的时候查看到的，这样就可以把container删除，如果是运行的容器可以加-f</p>
+<p>docker export container_id &gt; file.tar  //导出容器，可以迁移到其他机器上，需要导入</p>
+<p>cat file.tar |docker import -aming_test  //这样会生成aming_test的镜像</p>
+<h4 id="5-4-Docker仓库管理"><a href="#5-4-Docker仓库管理" class="headerlink" title="5.4 Docker仓库管理"></a>5.4 Docker仓库管理</h4><h5 id="配置私有仓库"><a href="#配置私有仓库" class="headerlink" title="配置私有仓库"></a>配置私有仓库</h5><p>docker pull registry   //下载registry镜像，registry为Docker官方提供的一个镜像，我们可以用它来创建本地的Docker私有仓库</p>
+<p>docker run -d -p 5000:5000 registry  //以registry镜像启动容器，-p会把容器的端口映射到宿主机上，:左边为宿主机监听端口，:右边为容器监听端口</p>
+<p>curl 127.0.0.1:5000/v2/_catalog  //可以访问它</p>
+<p>下面我们来把其中一个镜像上传到私有仓库</p>
+<p>第一步打tag</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker tag aming_test 172.7.15.113:5000/centos   //标记一下tag，必须要带有私有仓库的ip:port</span><br></pre></td></tr></table></figure>
+<p>第二步push</p>
+<p>docker push 172.7.15.113:5000/centos  //把标记的镜像给推送到私有的仓库</p>
+<p>出现：The push refers to a repository [47.95.112.137:5000/centos6]<br>An image does not exist locally with the tag: 47.95.112.137:5000/centos6</p>
+<p>此时并不会成功需指定私有仓库地址，更改配置文件，vi /etc/docker/daemon.json,添加{“insecure-registries”:[“172.7.15.113:5000”]}</p>
+<p>重启systemctl restart docker ， docker ps -a 查看容器已经关闭，还需要重启</p>
+<p>docker start id   //这里的id为registry容器id</p>
+<p>再次push</p>
+<p>docker push 172.7.15.113:5000/centos</p>
+<p>curl 127.0.0.1:5000/v2/_catalog  //可以查看到推送上来的镜像</p>
+<h5 id="从私有仓库下载镜像"><a href="#从私有仓库下载镜像" class="headerlink" title="从私有仓库下载镜像"></a>从私有仓库下载镜像</h5><p>docker pull 172.7.15.113:5000/centos</p>
+<h4 id="5-5-Docker数据管理"><a href="#5-5-Docker数据管理" class="headerlink" title="5.5 Docker数据管理"></a>5.5 Docker数据管理</h4><h5 id="1-挂载本地的目录到容器里"><a href="#1-挂载本地的目录到容器里" class="headerlink" title="1 挂载本地的目录到容器里"></a>1 挂载本地的目录到容器里</h5><p>docker run -tid -v /data/:/data centos bash   //-v用来指定挂载目录，:前面的/data/为宿主机本地目录，:后面的/data/为容器里的目录，会在容器中自动创建</p>
+<h5 id="2-挂载数据卷"><a href="#2-挂载数据卷" class="headerlink" title="2 挂载数据卷"></a>2 挂载数据卷</h5><p>其实我们挂载目录的时候，可以指定容器name，如果不指定就随机定义了。比如上面我们没有指定，它就生成了一个名字为relaxed_franklin,这个名字可以使用命令docker ps 看最右侧一列</p>
+<p>docker run -itd –volumes-from relaxed_franklin aming123 bash  //relaxed_franklin为容器名，docker ps可知</p>
+<p>这样，我们使用aming123镜像创建了新的容器，并且使用了relaxed_franklin容器的数据卷</p>
+<h5 id="3-定义数据卷容器"><a href="#3-定义数据卷容器" class="headerlink" title="3 定义数据卷容器"></a>3 定义数据卷容器</h5><p>有时候，我们需要多个容器之间相互共享数据，类似于linux里的NFS，所以就可以搭建一个专门的数据卷容器，然后其他容器直接挂在改数据卷</p>
+<p>首先建立数据卷容器</p>
+<p>docker run -itd -v /data/ –name testvol centos bash  //注意这里的/data/是容器的/data目录，并非本地的/data/目录</p>
+<p>然后让其他容器挂载改数据卷</p>
+<p>docker run -itd –volumes-from testvol aming123 bash   //testvol为数据卷容器名，aming123为镜像</p>
+<p>如果想home目录也共享 mv /home/ /home.1; ln -s /data/ home   //软链接</p>
+<p><img src="/images/docker12.png" alt=""></p>
+<h5 id="4-数据卷管理-数据卷的备份与恢复"><a href="#4-数据卷管理-数据卷的备份与恢复" class="headerlink" title="4 数据卷管理 - 数据卷的备份与恢复"></a>4 数据卷管理 - 数据卷的备份与恢复</h5><h6 id="备份"><a href="#备份" class="headerlink" title="备份"></a>备份</h6><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir /vol_data_backup</span><br><span class="line">docker run --volumes-from testvol -v /vol_data_backup/:/backup aming centos tar cvf /backup/data.tar /data/</span><br></pre></td></tr></table></figure>
+<p>说明：首先我们需要使用testvol数据卷新开一个容器，同时我们还需要把本地的/vol_data_backup/目录挂载到改容器的/backup下，这样在容器中/backup目录里面新建的文件</p>
+<p>我们就可以直接在/vol_data_backup/目录中看到了。然后再把/data/目录下面的文件打包成data.tar文件放到/backup目录下面</p>
+<h6 id="恢复"><a href="#恢复" class="headerlink" title="恢复"></a>恢复</h6><p>思路：先新建一个数据卷容器，在建一个新的容器并挂载该数据卷容器，然后再把tar包解压。</p>
+<p>新建数据卷容器：docker run -itd -v /data/ –name testvol2 aming/centos bash</p>
+<p>挂载数据卷新容器，并解包：docker run –volumes-from testvol2 -v /vol_data_backup/:/backup aming/centos tar xvf /backup/data.tar</p>
+<h5 id="5-Docker网络模式"><a href="#5-Docker网络模式" class="headerlink" title="5 Docker网络模式"></a>5 Docker网络模式</h5><ul>
+<li>host模式，使用docker run 时使用–net=host指定</li>
+</ul>
+<p>docker使用的网络实际上和宿主机一样，在容器内看到的网卡ip是宿主机ip</p>
+<ul>
+<li>container模式，使用–net=container:container_id/container_name</li>
+</ul>
+<p>多个容器使用共同的网络，看到的ip是一样的</p>
+<ul>
+<li><p>none模式，使用–net=none指定，这种模式下，不会配置任何网络</p>
+</li>
+<li><p>bridge模式，使用–net=bridge指定默认模式，不用指定默认就是这种网络模式</p>
+</li>
+</ul>
+<p>这种模式会为每个容器分配一个独立的Network Namespace。 类似于vmware的nat网络模式。同一个宿主机上的所有容器会在同一个网段下，相互之间是可以通信的。</p>
+<h5 id="6-Docker网络管理-外部访问容器"><a href="#6-Docker网络管理-外部访问容器" class="headerlink" title="6 Docker网络管理 - 外部访问容器"></a>6 Docker网络管理 - 外部访问容器</h5><p>首先使用centos镜像新建一个容器，然后在该容器中安装httpd服务并启动</p>
+<p>再把该容器导成一个新的镜像（centos-httpd），然后再使用新镜像创建容器并指定端口映射</p>
+<p>docker run -itd -p 5123:80 centos-httpd bash   //-p 可以指定端口映射，本例中将容器的80端口映射为本地的5123端口</p>
+<p>docker exec -it container_id bash</p>
+<p>启动httpd：httpd -k start</p>
+<p>编辑1.html：vi/var/www/html/1.html 随便写点东西</p>
+<p>退出该容器：exit</p>
+<p>测试：curl 127.0.0.1:5123/1.html</p>
+<p>-p后面也支持IP:port:ip:port的格式，比如：-p 127.0.0.1:8080:80</p>
+<p>也可以不写本地的端口，只写ip，这样会随意分配一个端口</p>
+<p>-p 127.0.0.1::80  //注意这里是两个冒号</p>
+<p><strong>***</strong>例如：<br>进入容器里下载nginx<br>yum install -y epel-release<br>yum install -y nginx</p>
+<p>此时启动nginx会报错systemctl start nginx  Failed to get D-Bus connection: Operation not permitted</p>
+<p>安装完成nginx，将容器打包成镜像，</p>
+<p><img src="/images/docker13.png" alt=""></p>
+<p>运行镜像映射端口：</p>
+<p><img src="/images/docker14.png" alt=""></p>
+<p>内网curl localhost和外网curl 宿主机ip:8088均可访问</p>
+<p><strong><em>  Operation not permitted </em></strong></p>
+<p>新建的容器，启动nginx或者httpd服务的时候会报错</p>
+<p>Failed to get D-Bus connection:Operation not permitted,这是因为dbus-daemon没有启动，解决该问题可以这样做</p>
+<p>启动容器时，要加上–privileged -e “container=docker” , 并且最后面的命令改为/usr/sbin/init</p>
+<p>docker run run -itd –privileged -e “container=docker” -p 8088:80 centos_with_nginx /usr/sbin/init</p>
+<h5 id="7-Docker网络管理-容器互联"><a href="#7-Docker网络管理-容器互联" class="headerlink" title="7 Docker网络管理 - 容器互联"></a>7 Docker网络管理 - 容器互联</h5><p>下载一个mysql镜像 docker pull mysql</p>
+<p>新建一个容器命名为db ， docker run -it -d -p 13306:3306 –name db mysql bash</p>
+<p>在新建一个web容器，并和db互联</p>
+<p>docker run -it -d -p 12308:80 –name web –link db:db centos-httpd bash    //db:db意思为db容器在web容器里的别名为db</p>
+<p>在web上运行env命令可以查看到关于db环境变量</p>
+<h5 id="8-Docker网络管理-配置桥接网络"><a href="#8-Docker网络管理-配置桥接网络" class="headerlink" title="8 Docker网络管理 - 配置桥接网络"></a>8 Docker网络管理 - 配置桥接网络</h5><p>为了使本地网络中的机器和Docker容器更方便的通信，我们经常会有将Docker容器配置到和主机同一网段的需求。这个需求其实很容易实现，我们只要将Docker容器和宿主机的网卡桥接起来，再给Docker容器配上ip就可以了。</p>
+<p>cd /etc/sysconfig/network-scripts/;  cp ifcfg-eth0  ifcfg-br0</p>
+<p>vi ifcfg-eth0   //增加BRIDGE=br0, 删除IPADDR，NETMASK，GATEWAY, DNS1</p>
+<p>vi ifcfg-br0  //修改DEVICE为br0， Type为bridge，把eth0的网络设置到这里来</p>
+<p>systemctl restart network</p>
+<p>安装pipwork</p>
+<p>git clone <a href="https://github.com/jpetazzo/pipwork" target="_blank" rel="noopener">https://github.com/jpetazzo/pipwork</a></p>
+<p>cp pipework/pipework /usr/local/bin/</p>
+<p>开启一个容器</p>
+<p>docker run -itd –net=none –name aming123 centos_with_nettool bash</p>
+<p>pipework br0 aming123 <a href="mailto:172.7.15.201/24@172.7.15.3" target="_blank" rel="noopener">172.7.15.201/24@172.7.15.3</a>  // #201为容器的ip，@后面的ip为网关ip</p>
+<p>docker exec -it aming123 bash  //#进去后ifconfig查看就可以看到新添加的ip</p>
+<h5 id="9-Dockerfile创建镜像-dockerfile格式"><a href="#9-Dockerfile创建镜像-dockerfile格式" class="headerlink" title="9 Dockerfile创建镜像 - dockerfile格式"></a>9 Dockerfile创建镜像 - dockerfile格式</h5><ol>
+<li>FROM  //指定基于哪个基础镜像</li>
+</ol>
+<p>格式 FROM <image> 或者 FROM <image>:<tag>，比如：FROM centos , FROM centos:latest</tag></image></image></p>
+<ol start="2">
+<li>MAINTAINER  //指定作者信息</li>
+</ol>
+<p>格式：MAINTAIN <name>, 比如：MAINTAINER aming <a href="mailto:aming@aminglinux.com" target="_blank" rel="noopener">aming@aminglinux.com</a></name></p>
+<ol start="3">
+<li>RUN   //镜像操作指令</li>
+</ol>
+<p>格式为 RUN <command> 或者 RUN [“executable”,”param1”,”param2”]</p>
+<p>比如：RUN yum install httpd , RUN [“/bin/bash”,”-c”,”echo hello”]</p>
+<ol start="4">
+<li>CMD  //三种格式</li>
+</ol>
+<p>CMD [“executable”,”param1”,”param2”]<br>CMD command param1 param2<br>CMD [“param1”,”param2”]</p>
+<p>RUN和CMD看起来挺像，但是CMD用来指定容器启动时用到的命令，只能有一条。比如：</p>
+<p>CMD [“/bin/bash”,”/usr/local/nginx/sbin/nginx”,”-c”,”/usr/local/nginx/conf/nginx.conf”]</p>
+<ol start="5">
+<li>EXPOSE</li>
+</ol>
+<p>格式为 EXPOSE <port> [<port>…],比如 EXPOSE 22 80 8443</port></port></p>
+<p>这个用来指定要映射出去的端口，比如容器内部我们启动了sshd和nginx，所以我们需要把22和80端口暴露出去。这个需要配合-P（大写）来工作，也就是说在启动容器时，需要加上-P，让它自动分配。如果想指定具体的端口，也可以使用-p（小写）来指定。</p>
+<ol start="6">
+<li>ENV</li>
+</ol>
+<p>格式 ENV <key> <value>, 比如</value></key></p>
+<p>ENV PATH /usr/local/mysql/bin:$PATH</p>
+<p>它主要是为后续的RUN指令提供一个环境变量，我们也可以定义一些自定义的变量</p>
+<p>ENV MYSQL_version 5.6</p>
+<ol start="7">
+<li>ADD 格式add <src> <dest></dest></src></li>
+</ol>
+<p>将本地的一个文件或目录拷贝到容器的某个目录里。其实src为Dockerfile所在目录的相对路径，它也可以是一个url。比如： ADD &lt;conf/vhosts&gt; &lt;/usr/local/nginx/conf&gt;</p>
+<ol start="8">
+<li>COPY</li>
+</ol>
+<p>格式同add，使用方法和add一样，不同的是，它不支持url</p>
+<ol start="9">
+<li>ENTRYPOINT 格式类似CMD</li>
+</ol>
+<p>容器启动时要执行的命令，它和CMD很像，也是只有一条生效，如果写多个只有最后一条生效。和CMD不同是：</p>
+<p>CMD是可以被docker run 指令覆盖的，而ENTRYPOINT不能覆盖。比如，容器名字为aming，我们在Dockerfile中指定如下CMD：</p>
+<p>CMD [“/bin/echo”,”test”]</p>
+<p>启动容器的命令是docker run aming 这样会输出test， 假如启动容器的命令是docker run -it aming /bin/bash 什么都不会输出</p>
+<p>ENTRYPOINT不会被覆盖，而且会比CMD或者docker run指定的命令要靠前执行</p>
+<p>ENTRYPOINT [“echo”,”test”]</p>
+<p>docker run -it aming 123</p>
+<p>则会输出test 123 ，这相当于要执行命令echo test 123 </p>
+<ol start="10">
+<li>VOLUME</li>
+</ol>
+<p>格式 VOLUME [“/data”]</p>
+<p>创建一个可以从本地主机或其他容器挂载的挂载点</p>
+<ol start="11">
+<li>USER</li>
+</ol>
+<p>格式 USER daemon</p>
+<p>指定运行容器的用户</p>
+<ol start="12">
+<li>WORKDIR /path/to/workdir</li>
+</ol>
+<p>为后续的RUN、CMD或者ENTRYPOINT指定工作目录</p>
+<ol start="13">
+<li>Dockerfile创建镜像 - Dockerfile示例</li>
+</ol>
+<p>先下载nginx的配置文件</p>
+<p>wget <a href="http://www.apelearn.com/study_v2/nginx_conf" target="_blank" rel="noopener">http://www.apelearn.com/study_v2/nginx_conf</a></p>
+<p>vim Dockerfile  //内容如下</p>
+<p>##Set the base image to CentOS<br>FROM centos</p>
+<p>#File Author / Maintainer<br>MAINTAINER aming <a href="mailto:aming@aminglinux.com" target="_blank" rel="noopener">aming@aminglinux.com</a></p>
+<p>#Install necessary tools<br>RUN yum install -y pcre-devel wget net-tools gcc zlib-devel make openssl-devel</p>
+<p>#Install Nginx<br>ADD <a href="http://nginx.org/download/nginx-1.8.0.tar.gz" target="_blank" rel="noopener">http://nginx.org/download/nginx-1.8.0.tar.gz</a> .<br>RUN tar zxvf nginx-1.8.0.tar.gz<br>RUN mkdir -p /usr/local/nginx<br>RUN cd nginx-1.8.0 &amp;&amp; ./configure –prefix=/usr/local/nginx &amp;&amp; make &amp;&amp; make install<br>RUN rm -fv /usr/local/nginx/conf/nginx.conf<br>ADD <a href="http://www.apelearn.com/study_v2/" target="_blank" rel="noopener">http://www.apelearn.com/study_v2/</a> .nginx_conf /usr/local/nginx/conf/nginx.conf</p>
+<h1 id="Expose-ports"><a href="#Expose-ports" class="headerlink" title="Expose ports"></a>Expose ports</h1><p>EXPOSE 80</p>
+<h1 id="Set-the-default-command-to-execute-when-creating-a-new-container"><a href="#Set-the-default-command-to-execute-when-creating-a-new-container" class="headerlink" title="Set the default command to execute when creating a new container"></a>Set the default command to execute when creating a new container</h1><p>ENTRYPOINT /usr/local/nginx/sbin/nginx &amp;&amp; tall -f /etc/passwd</p>
+<p>创建镜像</p>
+<p>docker build -t centos_nginx .  //.表示在哪个路径下</p>
+<p>docker images  //可以看到我们新建的镜像</p>
+<p>docker run -itd -p 8088:80 centos_nginx bash</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Docker/" rel="tag"># Docker</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/21/什么是CAS机制（进阶篇）/" rel="next" title="什么是CAS机制（进阶篇）">
+                <i class="fa fa-chevron-left"></i> 什么是CAS机制（进阶篇）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/21/什么是区块链？/" rel="prev" title="什么是区块链？">
+                什么是区块链？ <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/24718752.gif"
+                alt="griabcrh" />
+            
+              <p class="site-author-name" itemprop="name">griabcrh</p>
+              <p class="site-description motion-element" itemprop="description">nice to meet you</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-什么是-Docker"><span class="nav-number">1.</span> <span class="nav-text">1.什么是 Docker</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-为什么要使用-Docker？"><span class="nav-number">2.</span> <span class="nav-text">2.为什么要使用 Docker？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-更高效的利用系统资源"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 更高效的利用系统资源</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-更快速的启动时间"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 更快速的启动时间</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-一致的运行环境"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 一致的运行环境</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-持续交付和部署"><span class="nav-number">2.4.</span> <span class="nav-text">2.4 持续交付和部署</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-5-更轻松的迁移"><span class="nav-number">2.5.</span> <span class="nav-text">2.5 更轻松的迁移</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-6-更轻松的维护和扩展"><span class="nav-number">2.6.</span> <span class="nav-text">2.6 更轻松的维护和扩展</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-7-对比传统虚拟机总结"><span class="nav-number">2.7.</span> <span class="nav-text">2.7 对比传统虚拟机总结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-基本概念"><span class="nav-number">3.</span> <span class="nav-text">3 基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-Docker-镜像"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 Docker 镜像</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-Docker-容器"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 Docker 容器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-Docker-仓库"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 Docker 仓库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-安装-Docker"><span class="nav-number">3.4.</span> <span class="nav-text">3.4 安装 Docker</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-CentOS-操作系统安装-Docker"><span class="nav-number">4.</span> <span class="nav-text">4 CentOS 操作系统安装 Docker</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-系统要求"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 系统要求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-使用阿里云的安装脚本自动安装"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 使用阿里云的安装脚本自动安装</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#查看当前-Docker-的版本"><span class="nav-number">4.2.1.</span> <span class="nav-text">查看当前 Docker 的版本</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#卸载-Docker-CE"><span class="nav-number">4.2.2.</span> <span class="nav-text">卸载 Docker CE</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#卸载旧版本-Docker"><span class="nav-number">4.2.3.</span> <span class="nav-text">卸载旧版本 Docker</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#检查加速器是否生效"><span class="nav-number">4.2.4.</span> <span class="nav-text">检查加速器是否生效</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#使用-Docker-镜像"><span class="nav-number">4.2.5.</span> <span class="nav-text">使用 Docker 镜像</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#获取镜像"><span class="nav-number">4.2.6.</span> <span class="nav-text">获取镜像</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#查看已下载的镜像"><span class="nav-number">4.2.7.</span> <span class="nav-text">查看已下载的镜像</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#运行"><span class="nav-number">4.2.8.</span> <span class="nav-text">运行</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#定制镜像"><span class="nav-number">4.2.9.</span> <span class="nav-text">定制镜像</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-Docker的使用"><span class="nav-number">5.</span> <span class="nav-text">5 Docker的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-1-Docker通过容器创建镜像"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 Docker通过容器创建镜像</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-2-Docker使用模板创建镜像"><span class="nav-number">5.2.</span> <span class="nav-text">5.2 Docker使用模板创建镜像</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-3-Docker容器管理"><span class="nav-number">5.3.</span> <span class="nav-text">5.3 Docker容器管理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-4-Docker仓库管理"><span class="nav-number">5.4.</span> <span class="nav-text">5.4 Docker仓库管理</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#配置私有仓库"><span class="nav-number">5.4.1.</span> <span class="nav-text">配置私有仓库</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#从私有仓库下载镜像"><span class="nav-number">5.4.2.</span> <span class="nav-text">从私有仓库下载镜像</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-5-Docker数据管理"><span class="nav-number">5.5.</span> <span class="nav-text">5.5 Docker数据管理</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-挂载本地的目录到容器里"><span class="nav-number">5.5.1.</span> <span class="nav-text">1 挂载本地的目录到容器里</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-挂载数据卷"><span class="nav-number">5.5.2.</span> <span class="nav-text">2 挂载数据卷</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-定义数据卷容器"><span class="nav-number">5.5.3.</span> <span class="nav-text">3 定义数据卷容器</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-数据卷管理-数据卷的备份与恢复"><span class="nav-number">5.5.4.</span> <span class="nav-text">4 数据卷管理 - 数据卷的备份与恢复</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#备份"><span class="nav-number">5.5.4.1.</span> <span class="nav-text">备份</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#恢复"><span class="nav-number">5.5.4.2.</span> <span class="nav-text">恢复</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-Docker网络模式"><span class="nav-number">5.5.5.</span> <span class="nav-text">5 Docker网络模式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6-Docker网络管理-外部访问容器"><span class="nav-number">5.5.6.</span> <span class="nav-text">6 Docker网络管理 - 外部访问容器</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#7-Docker网络管理-容器互联"><span class="nav-number">5.5.7.</span> <span class="nav-text">7 Docker网络管理 - 容器互联</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#8-Docker网络管理-配置桥接网络"><span class="nav-number">5.5.8.</span> <span class="nav-text">8 Docker网络管理 - 配置桥接网络</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#9-Dockerfile创建镜像-dockerfile格式"><span class="nav-number">5.5.9.</span> <span class="nav-text">9 Dockerfile创建镜像 - dockerfile格式</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Expose-ports"><span class="nav-number"></span> <span class="nav-text">Expose ports</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Set-the-default-command-to-execute-when-creating-a-new-container"><span class="nav-number"></span> <span class="nav-text">Set the default command to execute when creating a new container</span></a></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">griabcrh</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+|<span id="busuanzi_container_site_uv">
+  本站访客数<span id="busuanzi_value_site_uv"></span>人次
+</span>
+|<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("8TpPOiYi4ReJYs5sYfMdFmSO-gzGzoHsz", "hX7JfGRvJG8zcMqMRAWNMNyk");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
