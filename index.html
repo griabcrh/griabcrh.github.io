@@ -354,79 +354,16 @@
       
         
           
-            <h3 id="一、Git简介"><a href="#一、Git简介" class="headerlink" title="一、Git简介"></a>一、Git简介</h3><p>Git是一个分布式的版本控制系统，与集中式的版本控制系统不同的是，每个人都工作在通过克隆建立的本地版本库中。也就是说每个人都拥有一个完整的版本库，查看提交日志、提交、创建里程碑和分支、合并分支、回退等所有操作都直接在本地完成而不需要网络连接。</p>
-<p>对于Git仓库来说，每个人都有一个独立完整的仓库，所谓的远程仓库或是服务器仓库其实也是一个仓库，只不过这台主机24小时运行，它是一个稳定的仓库，供他人克隆、推送，也从服务器仓库中拉取别人的提交。</p>
-<h3 id="二、Git安装"><a href="#二、Git安装" class="headerlink" title="二、Git安装"></a>二、Git安装</h3><p>Git是Linux之父Linus的第二个伟大的作品，它最早是在Linux上开发的，被用来管理Linux核心的源代码。后来慢慢地有人将其移植到了Unix、Windows、Max OS等操作系统中。</p>
-<p>想要使用Git，第一步当然是安装。</p>
-<h4 id="2-1-Linux安装"><a href="#2-1-Linux安装" class="headerlink" title="2.1 Linux安装"></a>2.1 Linux安装</h4><p>我以Ubuntu系统为例，使用下面的命令可以查看该系统是否安装了Git。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git</span><br><span class="line">The program <span class="string">'git'</span> is currently not installed. You can install it by typing:</span><br><span class="line">sudo apt-get install git</span><br></pre></td></tr></table></figure>
-<p>如果如上所示，则说明没有安装Git，根据提示使用下面的命令安装Git。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install git</span><br></pre></td></tr></table></figure>
-<p>有一些教程的安装命令是：sudo apt-get install git-core，那是因为以前有个软件叫GIT(GNU Interactive Tools)，所以Git只能叫git-core，不过现在由于Git太有名。GNU Interactive Tools已经改名为gnuit，git-core也正式改名为git。所以老一点的教程或者系统是使用sudo apt-get install git-core。</p>
-<h4 id="2-2-Windows上安装"><a href="#2-2-Windows上安装" class="headerlink" title="2.2 Windows上安装"></a>2.2 Windows上安装</h4><p>在Git官网下载Windows版本的安装软件。根据你的电脑系统选择32位或者是64位。下载完成之后。双击运行，根据引导进行安装。</p>
-<p>安装完成之后，你可以在开始菜单中找到“Git”-&gt;”Git Bash”，打开“Git Bash”之后如果出现一个类似命令行窗口的东西，则说明安装成功。如下图所示：</p>
-<p><img src="/images/git-bash-win.png" alt=""></p>
-<h4 id="2-3-Mac-OS-X-上安装"><a href="#2-3-Mac-OS-X-上安装" class="headerlink" title="2.3 Mac OS X 上安装"></a>2.3 Mac OS X 上安装</h4><p>等我买了Mac笔记本再更新…心疼的摸一把自己的钱包。</p>
-<h4 id="2-4-安装后的配置"><a href="#2-4-安装后的配置" class="headerlink" title="2.4 安装后的配置"></a>2.4 安装后的配置</h4><p>安装完成之后可以使用下面的命令查看当前Git的版本。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git version</span><br><span class="line">git version 1.9.1</span><br></pre></td></tr></table></figure>
-<p>Git安装完成之后需要进行一些简单的设置。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git config --global user.name <span class="string">"Your Name"</span></span><br><span class="line">$ git config --global user.email <span class="string">"email@example.com"</span></span><br></pre></td></tr></table></figure>
-<p>–global这个参数的意思就是当前机器中的所有仓库都是用这个配置。</p>
-<p>有时候你在使用Git的过程中可能会出现warning: LF will be replaced by CRLF。这是因为Windows中的换行符为 CRLF， 而在linux下的换行符为：LF。所以有时候你在执行git add .时，系统会提示：LF 将被转换成 CRLF。使用下面的命令可以禁用自动转换。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git config --global core.autocrlf <span class="literal">false</span></span><br></pre></td></tr></table></figure>
-<h3 id="三、Git用法"><a href="#三、Git用法" class="headerlink" title="三、Git用法"></a>三、Git用法</h3><h4 id="3-1-创建版本库"><a href="#3-1-创建版本库" class="headerlink" title="3.1 创建版本库"></a>3.1 创建版本库</h4><p>创建版本库非常的简单，选择一个合适的地方，使用下面的命令创建版本库。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir TestGit <span class="comment"># 创建文件夹</span></span><br><span class="line">$ <span class="built_in">cd</span> TestGit <span class="comment"># 进入文件夹</span></span><br><span class="line">$ git init <span class="comment"># 初始化成Git版本库</span></span><br></pre></td></tr></table></figure>
-<p>Initialized empty Git repository in /home/kylin/Repositories/TestGit/.git/<br>至此一个空的Git仓库就创建好了，就是这么的简单。在这个目录下你会看到一个.git目录。这个目录就是Git用来跟踪管理版本库的。所以千万不要修改删除这个文件夹中的文件。因为这是隐藏目录，所以如果你看不见可以使用命令ls -a来查看。</p>
-<h4 id="3-2-Git基本命令"><a href="#3-2-Git基本命令" class="headerlink" title="3.2 Git基本命令"></a>3.2 Git基本命令</h4><p>当创建好了一个版本库之后，我们就可以在版本库中进行版本控制了。所以我们需要了解一下Git的一些基本命令。</p>
-<p>git add # 将工作区的修改提交到暂存区<br>git commit # 将暂存区的修改提交到当前分支<br>git status # 查看当前仓库的状态<br>git diff # 查看修改<br>git log # 查看提交历史<br>git reset # 回退到某一个版本<br>git reflog # 查看历史命令，类似与Linux中的history<br>3.3 工作区和暂存区</p>
-<p>上面说到了工作区和暂存区的概念，想要用好Git，那么了解Git中的工作区、暂存区之间的关系是很重要的。先来看一张图。</p>
-<p><img src="/images/git-repository.png" alt=""></p>
-<p>工作区：在你的电脑中可以看见的Git仓库的那个目录，如之前我创建的TestGit目录。那文件夹就是一个工作区。当我们往版本库提交的时候有两个步骤：</p>
-<p>git add # 这一步就是将工作区中修改添加到暂存区（stage）中。<br>git commit # 这一步其实就是将暂存区中的修改添加到当前的分支中。<br>所以我们在提交的时候一般都是这样：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git add . <span class="comment"># 将工作区中所有修改提交到暂存区，"."点的含义就是所有修改</span></span><br><span class="line">$ git commit -m <span class="string">"first commit"</span> <span class="comment"># 将暂存区的所有修改提交到当前分支，-m参数是命名当前的提交</span></span><br></pre></td></tr></table></figure>
-<h4 id="3-4-其他命令使用"><a href="#3-4-其他命令使用" class="headerlink" title="3.4 其他命令使用"></a>3.4 其他命令使用</h4><p>当我们修改了版本库中的一些文件之后，可以使用git status命令来查看都有那些修改。</p>
-<p><img src="/images/git-status.png" alt=""></p>
-<p>当你想要查看某个文件修改那些具体的内容，可以使用git diff <filename>命令来查看。</filename></p>
-<p><img src="/images/git-diff.png" alt=""></p>
-<p>当你的版本库有了很多次提交之后，你想查看以往的提交记录的话可以使用git log来查看历史提交记录。</p>
-<p><img src="/images/git-log.png" alt=""></p>
-<p>如果你想查看两次提交版本之间有什么修改的话，也可以使用git diff来查看。</p>
-<p><img src="/images/git-diff-2.png" alt=""></p>
-<p>如果你想要回到之前的版本的话，可以使用git reset命令。</p>
-<p><img src="/images/git-reset.png" alt=""></p>
-<p>如上图所示，先使用git log查看历史版本记录，可以看到有两个。先使用git reset –hard 51fca33命令让版本回退到第一次提交的时候。再使用git log命令查看一下当前的版本发现只有一个了，这时候版本成功回退到第一次提交的时候。</p>
-<p>那么如果我此时又想让版本回退到第二次提交的时候怎么办呢？此时只有一个版本啊。这时使用git reflog可以查看历史操作记录。只需要使用命令git reset回退到之前的操作就可以了。如下图所示：</p>
-<p><img src="/images/git-reflog.png" alt=""></p>
-<p>在上面的图中可以看到，commit_id是51fca33c34eec36c787faef180ccf2d3e5017462一大长串。但是我的命令中只使用了51fca33前面一小段。因为Git会根据你的输入自动去寻找相应的版本号，所以并不需要输入完整的ID,但是注意也不要输入太短。</p>
-<p>掌握了上面这些命令的话，基本上Git就可以很顺畅的使用了。当然在实际应用中，我们还需要学习远程仓库和分支的使用。</p>
-<h3 id="四、远程仓库"><a href="#四、远程仓库" class="headerlink" title="四、远程仓库"></a>四、远程仓库</h3><p>Git是分布式版本控制系统，同一个仓库，可以同步到很多不同的主机中，那么如何同步呢？这个时候只需要使用Git中克隆命令就可以从别的仓库中复制一份一样的到你的版本库中。非常的方便。</p>
-<p>首先需要使用克隆命令从远程服务器克隆版本库到本地，使用下面的命令进行克隆。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> &lt;url&gt; <span class="comment"># url是远程版本库的地址</span></span><br></pre></td></tr></table></figure>
-<p>使用git remote -v查看远程版本库的信息。如下图所示，前面的origin是远程库的别名，后面的地址是远程库的具体地址。使用git remote remove &lt;别名&gt;可以删除一个远程仓库。</p>
-<p><img src="/images/git-remote-remove.png" alt=""></p>
-<p>当我们使用git clone <url>命令克隆远程仓库的时候，已经自动添加了此远程仓库，别名为origin。如果你是在本地git init自己手动创建的版本库，想要和远程仓库进行关联，需要使用命令git remote add <remote-name> <url>先添加一个远程仓库。添加完成之后可以使用git remote -v查看。</url></remote-name></url></p>
-<p><img src="/images/git-remote-add.png" alt=""></p>
-<p>当然，也许你还想要添加其他的远程仓库，只需要在添加其他远程仓库的时候保证别名不一致就可以了。origin是默认的别名。</p>
-<p>当你添加了远程仓库之后，本地仓库就可以与远程仓库进行关联以及操作了。如果你想把本地仓库中的修改提交到远程仓库，可以使用命令git push <remote-name> <branch>提交到远程仓库。</branch></remote-name></p>
-<p><img src="/images/git-push.png" alt=""></p>
-<p>如果远程仓库中的文件有所改动，那么可以使用命令git pull <remote-name> <branch>下载远程仓库中的修改并进行快速合并。如果有与本地文件相冲突的内容，在命令行中会有提示，根据提示进行手动消除冲突就可以了。这样的话就可以让自己的本地库与远程库保持一致了。</branch></remote-name></p>
-<h3 id="五、分支管理"><a href="#五、分支管理" class="headerlink" title="五、分支管理"></a>五、分支管理</h3><p>Git中分支的使用非常快捷方便，相对于SVN来说，速度快了不知道多少。熟练的使用分支是团队协作开发的基础。</p>
-<h4 id="5-1-创建与合并分支"><a href="#5-1-创建与合并分支" class="headerlink" title="5.1 创建与合并分支"></a>5.1 创建与合并分支</h4><p>在Git中分支的创建、切换、删除都十分的快捷方便。主要命令如下：</p>
-<p>git branch # 查看所有本地分支<br>git branch# 创建一个新的分支<br>git checkout# 切换到指定分支<br>git branch -d# 删除一个分支<br>git merge# 将指定的分支合并到当前分支<br>git-base-branch</p>
-<p><img src="/images/git-base-branch.png" alt=""></p>
-<p>上图显示了分支的查看、创建、创建、切换、删除这几种操作。使用git branch可以查看本地所有分支，并且分支前面有一个*号的是当前分支。</p>
-<p>在团队的实际开发中，master主分支应该是最稳定的，用来发布新版本。dev分支是开发分支，在这个分支中进行开发，每一个程序员应当有自己的分支，如我在开发中需要创建我自己的分支kylin，我写的程序全部提交到kylin分支中，当完成了某一个模块，再将kylin分支的内容合并到dev中。这是团队开发中分支的基本管理，这里用到了分支合并，请看下图。</p>
-<p><img src="/images/git-merge.png" alt=""></p>
-<p>在上图中，我先切换到dev开发分支，修改了README.md文件之后，将修改提交到dev分支。然后切换到master分支，将dev分支使用命令git merge <branch>合并到master主分支中。这就是分支合并的基本用法。</branch></p>
-<h4 id="5-2-团队协作"><a href="#5-2-团队协作" class="headerlink" title="5.2 团队协作"></a>5.2 团队协作</h4><p>在团队协作中，我们需要了解分支管理。团队协作中的分支管理应该如同下图所示。</p>
-<p><img src="/images/git-brach-group.png" alt=""></p>
-<p>master主分支应该是最稳定的，主要用来发布新版本。<br>dev分支是开发分支，这是最不稳定的，程序员们都在这上面干活，只有当版本发布的时候，才将此分支合并到master主分支上。<br>每一个程序员应当有自己的分支，当完成某一块的内容的时候，往dev分支合并即可。<br>当程序出现了BUG的时候，你可以在master或是dev分支创建一个临时分支issue-001，在这个分支修复BUG，修复完成之后将此分支合并到主分支，然后删除BUG分支即可。</p>
-<p>总结<br>Git版本控制器真心是非常非常好用，在团队开发中可以很好的提高工作效率，真心是团队开发必备。本篇博客由于篇幅的原因，不能把Git的知识讲解的特别详细。仅将平时最常用的知识及命令整理总结了一下，如果有说的不好的地方还请指出来，我将及时改正。</p>
-<p>如果有小伙伴想要更加深入的了解Git的使用及其他的内容的话，在这里给大家推荐一些比较好的教程。</p>
-<p>廖雪峰的Git教程（非常推荐）<br>Git权威指南<br>Pro Git 中文版本<br>最后在附上一张Git命令速查表。</p>
-<p><img src="/images/Git.jpg" alt=""></p>
-
-          
+          一、Git简介Git是一个分布式的版本控制系统，与集中式的版本控制系统不同的是，每个人都工作在通过克隆建立的本地版本库中。也就是说每个人都拥有一个完整的版本库，查看提交日志、提交、创建里程碑和分支、合并分支、回退等所有操作都直接在本地完成而不需要网络连接。
+对于Git仓库来说，每个人都有一个独立完整
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/04/21/Git基础用法总结/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -555,42 +492,15 @@
       
         
           
-            <p>在Linux操作系统下，几乎所有的软件均通过RPM进行安装、卸载及管理等操作。RPM的全称为Redhat Package Manager，是由Redhat公司提出的，用于管理Linux 下软件包的软件。<br>Linux安装时，除了几个核心模块以外，其余几乎所有的模块均通过RPM 完成安装。RPM有五种操作模式，分别为：安装、卸载、升级、查询和验证。</p>
-<h4 id="1-RPM安装操作"><a href="#1-RPM安装操作" class="headerlink" title="1. RPM安装操作"></a>1. RPM安装操作</h4><h5 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h5><p>rpm -i 需要安装的包文件名</p>
-<p>举例如下：</p>
-<p>rpm -i example.rpm       //安装example.rpm包</p>
-<p>rpm -iv example.rpm      //安装 example.rpm 包并在安装过程中显示正在安装的文件信息</p>
-<p>rpm -ivh example.rpm     //安装 example.rpm 包并在安装过程中显示正在安装的文件信息及安装进度</p>
-<h4 id="2-RPM查询操作"><a href="#2-RPM查询操作" class="headerlink" title="2. RPM查询操作"></a>2. RPM查询操作</h4><h5 id="2-1-命令"><a href="#2-1-命令" class="headerlink" title="2.1 命令"></a>2.1 命令</h5><p>rpm -q …</p>
-<h5 id="2-2-附加查询命令"><a href="#2-2-附加查询命令" class="headerlink" title="2.2 附加查询命令"></a>2.2 附加查询命令</h5><p>a 查询所有已经安装的包以下两个附加命令用于查询安装包的信息；</p>
-<p>i 显示安装包的信息；</p>
-<p>l 显示安装包中的所有文件被安装到哪些目录下；</p>
-<p>s 显示安装版中的所有文件状态及被安装到哪些目录下；以下两个附加命令用于指定需要查询的是安装包还是已安装后的文件；</p>
-<p>p 查询的是安装包的信息；</p>
-<p>f 查询的是已安装的某文件信息；</p>
-<p>举例如下：</p>
-<p>rpm -qa | grep mysql      //查看mysql是否被安装</p>
-<p>rpm -qip example.rpm      //查看example.rpm安装包的信息；</p>
-<p>rpm -qif /bin/df          //查看/bin/df文件所在安装包的信息；</p>
-<p>rpm -qlf /bin/df          //查看/bin/df文件所在安装包中的各个文件分别被安装到哪个目录下；</p>
-<h4 id="3-RPM卸载操作"><a href="#3-RPM卸载操作" class="headerlink" title="3. RPM卸载操作"></a>3. RPM卸载操作</h4><h5 id="命令-1"><a href="#命令-1" class="headerlink" title="命令"></a>命令</h5><p>rpm -e   需要卸载的安装包<br>rpm -e –nodeps   强制卸载</p>
-<p>在卸载之前，通常需要使用rpm -q … 查询出来需要卸载的安装包名称。</p>
-<p>举例如下：</p>
-<p>rpm -e mysql       //卸载mysql软件包</p>
-<h4 id="4-RPM升级包"><a href="#4-RPM升级包" class="headerlink" title="4. RPM升级包"></a>4. RPM升级包</h4><h5 id="命令-2"><a href="#命令-2" class="headerlink" title="命令"></a>命令</h5><p>rpm -U 需要升级的包</p>
-<p>举例如下：</p>
-<p>rpm -Uvh example.rpm      //升级example.rpm软件包</p>
-<h4 id="5-RPM验证操作"><a href="#5-RPM验证操作" class="headerlink" title="5. RPM验证操作"></a>5. RPM验证操作</h4><h5 id="命令-3"><a href="#命令-3" class="headerlink" title="命令"></a>命令</h5><p>rpm -V 需要验证的包</p>
-<p>举例如下：</p>
-<p>rpm -Vf /etc/tomcat4/tomcat4.conf</p>
-<p>输出信息类似如下：</p>
-<p>S.5…T c /etc/tomcat4/tomcat4.conf</p>
-<p>其中，S 表示文件大小修改过，T 表示文件日期修改过。限于篇幅，更多的验证信息请您参考rpm 帮助文件：man rpm</p>
-<h4 id="6-RPM其他附加命令"><a href="#6-RPM其他附加命令" class="headerlink" title="6. RPM其他附加命令"></a>6. RPM其他附加命令</h4><p>–force      强制操作，如强制安装删除1等；</p>
-<p>–requires   显示该包的依赖关系；</p>
-<p>–nodeps      忽略依赖关系并继续操作；</p>
-
-          
+          在Linux操作系统下，几乎所有的软件均通过RPM进行安装、卸载及管理等操作。RPM的全称为Redhat Package Manager，是由Redhat公司提出的，用于管理Linux 下软件包的软件。Linux安装时，除了几个核心模块以外，其余几乎所有的模块均通过RPM 完成安装。RPM有五种操作
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/04/21/Linux下RPM软件包的安装及卸载/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -719,16 +629,16 @@
       
         
           
-            <p>我在用百度ip地址定位接口时，当把封装的ip定位的接口打war包放在服务器上时，出现获取的地址为服务器所在地的地址，<br>百度ip地址定位接口是可以根据你输入的ip来定位，需要用户输入ip地址是不可能的，用户也不知道他的ip地址是多少。</p>
-<h4 id="X-Forwarded-For"><a href="#X-Forwarded-For" class="headerlink" title="X-Forwarded-For"></a>X-Forwarded-For</h4><p>X-Forwarded-For:简称XFF头，它代表客户端，也就是HTTP的请求端真实的IP，只有在通过了HTTP 代理或者负载均衡服务器时才会添加该项。它不是RFC中定义的标准请求头信息，在squid缓存代理服务器开发文档中可以找到该项的详细介绍。标准格式如下：X-Forwarded-For: client1, proxy1, proxy2。</p>
-<h4 id="产生背景"><a href="#产生背景" class="headerlink" title="产生背景"></a>产生背景</h4><p>X-Forwarded-For(XFF)是用来识别通过HTTP代理或负载均衡方式连接到Web服务器的客户端最原始的IP地址的HTTP请求头字段。 Squid 缓存代理服务器的开发人员最早引入了这一HTTP头字段，并由IETF在Forwarded-For HTTP头字段标准化草案中正式提出。<br>当今多数缓存服务器的使用者为大型ISP，为了通过缓存的方式来降低他们的外部带宽，他们常常通过鼓励或强制用户使用代理服务器来接入互联网。有些情况下, 这些代理服务器是透明代理, 用户甚至不知道自己正在使用代理上网。<br>如果没有XFF或者另外一种相似的技术，所有通过代理服务器的连接只会显示代理服务器的IP地址(而非连接发起的原始IP地址), 这样的代理服务器实际上充当了匿名服务提供者的角色, 如果连接的原始IP地址不可得，恶意访问的检测与预防的难度将大大增加。XFF的有效性依赖于代理服务器提供的连接原始IP地址的真实性，因此, XFF的有效使用应该保证代理服务器是可信的, 比如可以通过建立可信服务器白名单的方式。[1] </p>
-<h4 id="格式"><a href="#格式" class="headerlink" title="格式"></a>格式</h4><p>这一HTTP头一般格式如下:<br>X-Forwarded-For: client1, proxy1, proxy2, proxy3<br>其中的值通过一个 逗号+空格 把多个IP地址区分开, 最左边(client1)是最原始客户端的IP地址, 代理服务器每成功收到一个请求，就把请求来源IP地址添加到右边。 在上面这个例子中，这个请求成功通过了三台代理服务器：proxy1, proxy2 及 proxy3。请求由client1发出，到达了proxy3(proxy3可能是请求的终点)。请求刚从client1中发出时，XFF是空的，请求被发往proxy1；通过proxy1的时候，client1被添加到XFF中，之后请求被发往proxy2;通过proxy2的时候，proxy1被添加到XFF中，之后请求被发往proxy3；通过proxy3时，proxy2被添加到XFF中，之后请求的的去向不明，如果proxy3不是请求终点，请求会被继续转发。<br>鉴于伪造这一字段非常容易，应该谨慎使用X-Forwarded-For字段。正常情况下XFF中最后一个IP地址是最后一个代理服务器的IP地址, 这通常是一个比较可靠的信息来源。[1] </p>
-<h4 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h4><p>在代理转发及反向代理中经常使用X-Forwarded-For 字段。</p>
-<h5 id="代理转发"><a href="#代理转发" class="headerlink" title="代理转发"></a>代理转发</h5><p>在 代理转发的场景中，你可以通过内部代理链以及记录在网关设备上的IP地址追踪到网络中客户端的IP地址。处于安全考虑，网关设备在把请求发送到外网（因特网）前，应该去除 X-Forwarded-For 字段里的所有信息。这种情况下所有的信息都是在你的内部网络内生成，因此X-Forwarded-For字段中的信息应该是可靠的。</p>
-<h5 id="反向代理"><a href="#反向代理" class="headerlink" title="反向代理"></a>反向代理</h5><p>在反向代理的情况下，你可以追踪到互联网上连接到你的服务器的客户端的IP地址, 即使你的网络服务器和互联网在路由上是不可达的。这种情况下你不应该信任所有X-Forwarded-For信息，其中有部分可能是伪造的。因此需要建立一个信任白名单来确保X-Forwarded-For中哪些IP地址对你是可信的。<br>最后一次代理服务器的地址并没有记录在代理链中，因此只记录 X-Forwarded-For 字段是不够的。完整起见，Web服务器应该记录请求来源的IP地址以及X-Forwarded-For 字段信息。[2] </p>
-<h5 id="Web日志"><a href="#Web日志" class="headerlink" title="Web日志"></a>Web日志</h5><p>大多数Web服务器可以通过配置在日志中记录X-Forwarded-For。 Apache中可以非常简单地修改配置来实现，但MS IIS 6及以下的版本需要第三方软件支持来实现。IIS7用户可以从IIS官方网站获得免费的IIS相关组件来实现。</p>
-<h4 id="java中使用X-Forwarded-For获取用户真正ip地址"><a href="#java中使用X-Forwarded-For获取用户真正ip地址" class="headerlink" title="java中使用X-Forwarded-For获取用户真正ip地址"></a>java中使用X-Forwarded-For获取用户真正ip地址</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">String ipS = null;</span><br><span class="line">String ipFor = request.getHeader(<span class="string">"x-forwarded-for"</span>);</span><br><span class="line"><span class="keyword">if</span> (ipFor == null || ipFor.length() == 0 || <span class="string">"unknown"</span>.equalsIgnoreCase(ipFor)) &#123;</span><br><span class="line">    <span class="keyword">if</span> (ipFor == null || ipFor.length() == 0 || <span class="string">"unknown"</span>.equalsIgnoreCase(ipFor)) &#123;</span><br><span class="line">        ipFor = request.getHeader(<span class="string">"Proxy-Client-IP"</span>);</span><br><span class="line">        System.out.println(<span class="string">"Proxy-Client-IP : "</span> + ipFor);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (ipFor == null || ipFor.length() == 0 || <span class="string">"unknown"</span>.equalsIgnoreCase(ipFor)) &#123;</span><br><span class="line">        ipFor = request.getHeader(<span class="string">"WL-Proxy-Client-IP"</span>);</span><br><span class="line">        System.out.println(<span class="string">"WL-Proxy-Client-IP : "</span> + ipFor);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (ipFor == null || ipFor.length() == 0 || <span class="string">"unknown"</span>.equalsIgnoreCase(ipFor)) &#123;</span><br><span class="line">        ipFor = request.getHeader(<span class="string">"HTTP_CLIENT_IP"</span>);</span><br><span class="line">        System.out.println(<span class="string">"HTTP_CLIENT_IP : "</span> + ipFor);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (ipFor == null || ipFor.length() == 0 || <span class="string">"unknown"</span>.equalsIgnoreCase(ipFor)) &#123;</span><br><span class="line">        ipFor = request.getHeader(<span class="string">"HTTP_X_FORWARDED_FOR"</span>);</span><br><span class="line">        System.out.println(<span class="string">"HTTP_X_FORWARDED_FOR : "</span> + ipFor);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (ipFor == null || ipFor.length() == 0 || <span class="string">"unknown"</span>.equalsIgnoreCase(ipFor)) &#123;</span><br><span class="line">        ipFor = request.getRemoteAddr();</span><br><span class="line">        System.out.println(<span class="string">"getRemoteAddr : "</span> + ipFor);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;<span class="keyword">else</span> <span class="keyword">if</span> (ipFor.length() &gt; 15) &#123;</span><br><span class="line">    String[] ips = ipFor.split(<span class="string">","</span>);</span><br><span class="line">    <span class="keyword">for</span> (int index = 0; index &lt; ips.length; index++) &#123;</span><br><span class="line">        String strIp = ips[index];</span><br><span class="line">        <span class="keyword">if</span> (!(<span class="string">"unknown"</span>.equalsIgnoreCase(strIp))) &#123;</span><br><span class="line">            ipS = strIp;</span><br><span class="line">            <span class="built_in">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">//</span><br><span class="line">String reallyIp = (null == ip || ip.isEmpty())? ipS : ip ;</span><br><span class="line">Log.info(<span class="string">"当前ip地址为： "</span>+reallyIp);</span><br><span class="line">System.out.println(<span class="string">"当前ip地址为： "</span>+reallyIp);</span><br></pre></td></tr></table></figure>
-          
+          我在用百度ip地址定位接口时，当把封装的ip定位的接口打war包放在服务器上时，出现获取的地址为服务器所在地的地址，百度ip地址定位接口是可以根据你输入的ip来定位，需要用户输入ip地址是不可能的，用户也不知道他的ip地址是多少。
+X-Forwarded-ForX-Forwarded-For:简称X
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/04/21/获取用户真正的ip地址/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -857,14 +767,17 @@
       
         
           
-            <p>在用百度ip定位的接口时遇到了返回回来的数据位Unicode编码，我一直以为是我接口封装错了，结果返回的结果就是unicode编码。</p>
-<p>Unicode转utf-8我用的是StringEscapeUtils.unescapeJava()</p>
-<p>首先需要引入<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.apache.commons&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;commons-lang3&lt;/artifactId&gt;</span><br><span class="line">	&lt;version&gt;3.4&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
-<p>之后只需要在你需要转码的地方加上这个result为unicode编码，rel为转码后的utf-8</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String rel = StringEscapeUtils.unescapeJava(result);</span><br></pre></td></tr></table></figure>
-<p>你可以输出看看</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(rel);</span><br></pre></td></tr></table></figure>
-          
+          在用百度ip定位的接口时遇到了返回回来的数据位Unicode编码，我一直以为是我接口封装错了，结果返回的结果就是unicode编码。
+Unicode转utf-8我用的是StringEscapeUtils.unescapeJava()
+首先需要引入12345&lt;dependency&gt;	&lt
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/04/21/unicode编码转utf-8/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -993,37 +906,15 @@
       
         
           
-            <p>不知道是怎么回事，yum  install redis 出现No package redis available<br>Loaded plugins: priorities, update-motd, upgrade-helper<br>No package redis available.<br>Error: Nothing to do</p>
-<p>在网上搜了很多方法比如epel什么的都不行，于是我就用最原始的方法安装redis，redis启动了</p>
-<p><img src="/images/redis1.png" alt=""></p>
-<p>下面就来讲解一下怎么安装的</p>
-<h3 id="1-Redis安装"><a href="#1-Redis安装" class="headerlink" title="1. Redis安装"></a>1. Redis安装</h3><h4 id="1-1-安装c"><a href="#1-1-安装c" class="headerlink" title="1.1 安装c++"></a>1.1 安装c++</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install gcc-c++</span><br></pre></td></tr></table></figure>
-<h4 id="1-2-在线下载redis"><a href="#1-2-在线下载redis" class="headerlink" title="1.2 在线下载redis"></a>1.2 在线下载redis</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://download.redis.io/releases/redis-2.8.18.tar.gz</span><br></pre></td></tr></table></figure>
-<h4 id="1-3-将下载的tar-gz解压"><a href="#1-3-将下载的tar-gz解压" class="headerlink" title="1.3 将下载的tar.gz解压"></a>1.3 将下载的tar.gz解压</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar xzf redis-2.8.18.tar.gz</span><br></pre></td></tr></table></figure>
-<h4 id="1-4-编译redis（将-c文件编译为-o文件）"><a href="#1-4-编译redis（将-c文件编译为-o文件）" class="headerlink" title="1.4 编译redis（将.c文件编译为.o文件）"></a>1.4 编译redis（将.c文件编译为.o文件）</h4><h5 id="1-3-1-进入解压文件夹"><a href="#1-3-1-进入解压文件夹" class="headerlink" title="1.3.1 进入解压文件夹"></a>1.3.1 进入解压文件夹</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> redis-2.8.18</span><br></pre></td></tr></table></figure>
-<h5 id="1-3-2-执行make"><a href="#1-3-2-执行make" class="headerlink" title="1.3.2 执行make"></a>1.3.2 执行make</h5><p>1） 如果没有安装gcc，编译将出现错误提示（如果安装失败，必须删除文件夹，重新解压）</p>
-<p>2） 安装成功</p>
-<p><img src="/images/redis3.png" alt=""></p>
-<h4 id="1-5-安装"><a href="#1-5-安装" class="headerlink" title="1.5 安装"></a>1.5 安装</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make PREFIX=/usr/<span class="built_in">local</span>/redis install</span><br></pre></td></tr></table></figure>
-<p><img src="/images/redis4.png" alt=""></p>
-<p>安装完成后在/usr/local/redis/bin下有几个可执行文件</p>
-<h4 id="1-6-copy文件"><a href="#1-6-copy文件" class="headerlink" title="1.6 copy文件"></a>1.6 copy文件</h4><p>redis启动需要一个配置文件，可以修改端口号等信息,记得先修改daemonize yes</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp redis.conf /usr/<span class="built_in">local</span>/redis</span><br></pre></td></tr></table></figure>
-<h4 id="1-7-启动redis"><a href="#1-7-启动redis" class="headerlink" title="1.7 启动redis"></a>1.7 启动redis</h4><p>首先进入<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/redis/</span><br></pre></td></tr></table></figure></p>
-<p>执行</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./bin/redis-server ./redis.conf</span><br></pre></td></tr></table></figure>
-<p>redis默认端口6370，通过当前服务进程查看</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps -ef | grep -i redis</span><br></pre></td></tr></table></figure>
-<p>如果请求时遇到MISCONF Redis is configured to save RDB snapshots,<br>but is currently not able to persist on disk. Commands that may modify the data set are disabled.<br>Please check Redis logs for details about the error.</p>
-<p>Redis被配置为保存数据库快照，但它目前不能持久化到硬盘。用来修改集合数据的命令不能用。请查看Redis日志的详细错误信息。</p>
-<p>原因</p>
-<p>强制关闭Redis快照导致不能持久化。</p>
-<p>解决方案</p>
-<p>将stop-writes-on-bgsave-error设置为no</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; config <span class="built_in">set</span> stop-writes-on-bgsave-error no</span><br></pre></td></tr></table></figure>
-<p>结束！</p>
-
-          
+          不知道是怎么回事，yum  install redis 出现No package redis availableLoaded plugins: priorities, update-motd, upgrade-helperNo package redis available.Error: Nothi
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/04/21/解决yum安装redis出现No-package-redis-available/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1288,24 +1179,16 @@
       
         
           
-            <p>测试环境中，随便stop和restart项目都无所谓，但在生产环境中，我们想要动态的修改配置信息就会很麻烦。这里用springBoot的 @PropertySource来读取.properties配置文件</p>
-<h3 id="1-读取本项目resources目录下的-properties配置文件"><a href="#1-读取本项目resources目录下的-properties配置文件" class="headerlink" title="1.读取本项目resources目录下的.properties配置文件"></a>1.读取本项目resources目录下的.properties配置文件</h3><h4 id="1-1-读取application-properties文件"><a href="#1-1-读取application-properties文件" class="headerlink" title="1.1 读取application.properties文件"></a>1.1 读取application.properties文件</h4><p>在application.properties文件里写如下代码</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">name=crh</span><br></pre></td></tr></table></figure>
-<p>读取application.properties文件里的信息不需要设置文件路径</p>
-<h4 id="1-2-读取新建的-properties文件"><a href="#1-2-读取新建的-properties文件" class="headerlink" title="1.2 读取新建的.properties文件"></a>1.2 读取新建的.properties文件</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">name=crh</span><br></pre></td></tr></table></figure>
-<p>在.java文件里读取.properties文件的路径，@PropertySource可以放在任意一个java文件里，做好放在main函数里</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@PropertySource(value = <span class="string">"classpath:dynamic.properties"</span>)</span><br></pre></td></tr></table></figure>
-<h3 id="2-包外的-properties文件"><a href="#2-包外的-properties文件" class="headerlink" title="2.包外的.properties文件"></a>2.包外的.properties文件</h3><h4 id="2-1读取本地的-properties文件"><a href="#2-1读取本地的-properties文件" class="headerlink" title="2.1读取本地的.properties文件"></a>2.1读取本地的.properties文件</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">name=crh</span><br></pre></td></tr></table></figure>
-<p>在.java文件里读取F盘的dynamic.properties文件的路径</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@PropertySource(value = <span class="string">"file:F:/GitLib/target/dynamic.properties"</span>)</span><br></pre></td></tr></table></figure>
-<h4 id="2-2部署到服务器上后，读取包外的-properties文件"><a href="#2-2部署到服务器上后，读取包外的-properties文件" class="headerlink" title="2.2部署到服务器上后，读取包外的.properties文件"></a>2.2部署到服务器上后，读取包外的.properties文件</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">name=crh</span><br></pre></td></tr></table></figure>
-<p>在.java文件里读取dynamic.properties文件的路径，我这里写的路径是tomcat的webapps的路径，dynamic.properties文件放在webapps下</p>
-<h5 id="2-2-1-绝对路径方式"><a href="#2-2-1-绝对路径方式" class="headerlink" title="2.2.1 绝对路径方式"></a>2.2.1 绝对路径方式</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@PropertySource(value = <span class="string">"file:/root/tomcat/apache-tomcat-8.5.23/webapps/dynamic.properties"</span>)</span><br></pre></td></tr></table></figure>
-<h5 id="2-2-2-相对路径方式"><a href="#2-2-2-相对路径方式" class="headerlink" title="2.2.2 相对路径方式"></a>2.2.2 相对路径方式</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@PropertySource(value = <span class="string">"classpath:dynamic.properties"</span>)</span><br></pre></td></tr></table></figure>
-<p>需在tomcat里配置classpath，在tomcat/conf下找到catalina.properties，找到shared.loader，添加shared.loader=/root/tomcat/apache-tomcat-8.5.23/webapps，启动tomcat。</p>
-<h3 id="3-编写java文件获取配置文件资源"><a href="#3-编写java文件获取配置文件资源" class="headerlink" title="3.编写java文件获取配置文件资源"></a>3.编写java文件获取配置文件资源</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">public class ApplicationProperties &#123;</span><br><span class="line"></span><br><span class="line">    private static ResourceBundle resourceBundle = ResourceBundle.getBundle(<span class="string">"application"</span>);</span><br><span class="line">    private static ResourceBundle resourceBundle2 = ResourceBundle.getBundle(<span class="string">"dynamic"</span>);</span><br><span class="line"></span><br><span class="line">    public static String getText(String key) &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            <span class="built_in">return</span> resourceBundle.getString(key);</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">return</span> null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static String getResource(String key) &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            <span class="built_in">return</span> resourceBundle2.getString(key);</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">return</span> null;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="至此，所有的设置都完成了"><a href="#至此，所有的设置都完成了" class="headerlink" title="至此，所有的设置都完成了(^-^)"></a>至此，所有的设置都完成了(^-^)</h5>
-          
+          测试环境中，随便stop和restart项目都无所谓，但在生产环境中，我们想要动态的修改配置信息就会很麻烦。这里用springBoot的 @PropertySource来读取.properties配置文件
+1.读取本项目resources目录下的.properties配置文件1.1 读取applic
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/04/21/将-properties文件做成包外映射/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1434,14 +1317,17 @@
       
         
           
-            <p>相信有很多小朋友和我一样，被百度云盘下载限速的问题困扰的头疼，如果说下载的是1G之内的，倒还可以接受，一旦下载大文件，哎吆码！等死人有木有？</p>
-<h4 id="1-首先打开百度网盘-https-pan-baidu-com，-找到需要下载的资源，比如图片中的内容"><a href="#1-首先打开百度网盘-https-pan-baidu-com，-找到需要下载的资源，比如图片中的内容" class="headerlink" title="1.首先打开百度网盘 https://pan.baidu.com， 找到需要下载的资源，比如图片中的内容"></a>1.首先打开百度网盘 <a href="https://pan.baidu.com，" target="_blank" rel="noopener">https://pan.baidu.com，</a> 找到需要下载的资源，比如图片中的内容</h4><p><img src="/images/baiduyunpan1.png" alt=""></p>
-<h4 id="2-按键盘F12，在弹出调试页面，然后选择Network–-gt-All，点击Clear，如图片步骤"><a href="#2-按键盘F12，在弹出调试页面，然后选择Network–-gt-All，点击Clear，如图片步骤" class="headerlink" title="2.按键盘F12，在弹出调试页面，然后选择Network–&gt;All，点击Clear，如图片步骤"></a>2.按键盘F12，在弹出调试页面，然后选择Network–&gt;All，点击Clear，如图片步骤</h4><p><img src="/images/baiduyunpan2.png" alt=""></p>
-<h4 id="3-点击百度网盘资源后面的下载按钮，并且在调试页面中可以抓取的请求，并且点击download-sign那个链接"><a href="#3-点击百度网盘资源后面的下载按钮，并且在调试页面中可以抓取的请求，并且点击download-sign那个链接" class="headerlink" title="3.点击百度网盘资源后面的下载按钮，并且在调试页面中可以抓取的请求，并且点击download?sign那个链接"></a>3.点击百度网盘资源后面的下载按钮，并且在调试页面中可以抓取的请求，并且点击download?sign那个链接</h4><p><img src="/images/baiduyunpan3.png" alt=""></p>
-<h4 id="4-点击Response标签，在底部把页面往右拖，复制dlink后面一段http-…-，复制双引号里面的全部内容"><a href="#4-点击Response标签，在底部把页面往右拖，复制dlink后面一段http-…-，复制双引号里面的全部内容" class="headerlink" title="4.点击Response标签，在底部把页面往右拖，复制dlink后面一段http://….，复制双引号里面的全部内容"></a>4.点击Response标签，在底部把页面往右拖，复制dlink后面一段http://….，复制双引号里面的全部内容</h4><p><img src="/images/baiduyunpan4.png" alt=""></p>
-<h4 id="5-将复制的链接在浏览器中打开"><a href="#5-将复制的链接在浏览器中打开" class="headerlink" title="5.将复制的链接在浏览器中打开"></a>5.将复制的链接在浏览器中打开</h4><p>会出现“无法访问此网站”的提示,在浏览器地址，把 <a href="https://d.pcs.baidu.com//file//840.." target="_blank" rel="noopener">https://d.pcs.baidu.com//file//840..</a>. 中后面两个斜杠都去掉一个，变成 <a href="https://d.pcs.baidu.com/file/840.." target="_blank" rel="noopener">https://d.pcs.baidu.com/file/840..</a>. ,点击回车，可以看到弹出直接下载页面和使用迅雷下载（猎豹浏览器，自带迅雷），点击迅雷下载或者点击直接下载，获取链接地址，然后去迅雷中新建下载。你也可以在迅雷里新建下载连接，将链接放进去下载。</p>
-<h5 id="至此，关于解决百度云盘下载限速问题已讲解完毕，网上有很多关于破解百度云盘下载限速教程，可自行百度。"><a href="#至此，关于解决百度云盘下载限速问题已讲解完毕，网上有很多关于破解百度云盘下载限速教程，可自行百度。" class="headerlink" title="至此，关于解决百度云盘下载限速问题已讲解完毕，网上有很多关于破解百度云盘下载限速教程，可自行百度。"></a>至此，关于解决百度云盘下载限速问题已讲解完毕，网上有很多关于破解百度云盘下载限速教程，可自行百度。</h5>
-          
+          相信有很多小朋友和我一样，被百度云盘下载限速的问题困扰的头疼，如果说下载的是1G之内的，倒还可以接受，一旦下载大文件，哎吆码！等死人有木有？
+1.首先打开百度网盘 https://pan.baidu.com， 找到需要下载的资源，比如图片中的内容
+2.按键盘F12，在弹出调试页面，然后选择Netwo
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/04/21/解决百度云盘下载限速问题/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1570,26 +1456,18 @@
       
         
           
-            <p>很多新手在入门微信的时候都会很困难，大脑笨的我更是如此，明明教程说的很详细，可固执的我还是抓住一点放不下，下面就来说说我入门微信的时候遇到的困难，希望可以帮助到你！</p>
-<p><img src="/images/wechat1.png" alt=""></p>
-<p>图片所示搭建Python环境，如果你是windows系统，那就自行百度，本篇文章介绍阿里云CentOS系统下配置Python。</p>
-<h4 id="1-安装Python"><a href="#1-安装Python" class="headerlink" title="1. 安装Python"></a>1. 安装Python</h4><p>阿里云CentOS系统自带了Python，使用命令查看Python版本</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -V</span><br></pre></td></tr></table></figure>
-<p>要求版本python2.7版本以上</p>
-<p>如果没有Python，使用命令下载Python</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install python -y</span><br></pre></td></tr></table></figure>
-<p>可以用命令查看有什么版本的Python可以下载</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum list python</span><br></pre></td></tr></table></figure>
-<h4 id="2-安装web-py"><a href="#2-安装web-py" class="headerlink" title="2. 安装web.py"></a>2. 安装web.py</h4><p>直接下载web.py安装文件，在linux的终端也可以输入：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -O http://webpy.org/static/web.py-0.37.tar.gz</span><br></pre></td></tr></table></figure>
-<p>下载好之后进行解压</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf web.py-0.37.tar.gz</span><br></pre></td></tr></table></figure>
-<p>解压之后会出现web.py的文件夹，进入到该文件夹下，输入：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python setup.py install</span><br></pre></td></tr></table></figure>
-<p>进行安装,安装好之后就能使用web.py了，可以在当前目录写代码。</p>
-<h4 id="3-创建工程"><a href="#3-创建工程" class="headerlink" title="3. 创建工程"></a>3. 创建工程</h4><p>之后的步骤直接按入门指南操作就好了。</p>
+          很多新手在入门微信的时候都会很困难，大脑笨的我更是如此，明明教程说的很详细，可固执的我还是抓住一点放不下，下面就来说说我入门微信的时候遇到的困难，希望可以帮助到你！
 
-          
+图片所示搭建Python环境，如果你是windows系统，那就自行百度，本篇文章介绍阿里云CentOS系统下配置Python。
+1.
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/04/21/微信公众号入门指南/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1718,55 +1596,18 @@
       
         
           
-            <p>最近电脑装的软件太多了导致git提交文章到博客上老是出现错误，今天重新搭了一下博客</p>
-<p><img src="/images/blog1.png" alt=""></p>
-<h3 id="一、前期准备"><a href="#一、前期准备" class="headerlink" title="一、前期准备"></a>一、前期准备</h3><h4 id="1-1-相关网站"><a href="#1-1-相关网站" class="headerlink" title="1.1 相关网站"></a>1.1 相关网站</h4><p>在搭建个人博客的过程中，你可能会使用到下面几个网站。在这几个网站中都有相应的官方文档及教程。如果官方文档不能满足你，那么请Google。</p>
-<p>Github 官网<br>Github Pages<br>Hexo 官网<br>Node.js 官网<br>Git 官网</p>
-<h3 id="二、搭建Git环境"><a href="#二、搭建Git环境" class="headerlink" title="二、搭建Git环境"></a>二、搭建Git环境</h3><h4 id="2-1-注册Github"><a href="#2-1-注册Github" class="headerlink" title="2.1 注册Github"></a>2.1 注册Github</h4><p>进入Github 网站，按照提示进行注册，然后登录。</p>
-<p><img src="/images/blog2.png" alt=""></p>
-<p>登录完成之后，在你的主页点击图标 New Repository 创建一个新的版本库，因为我们是使用 Github Pages 去搭建我们的静态博客，所以版本库的名称应该是你的用户名+.github.io。如：我的用户名是：griabcrh，那么版本库的名字应该是： griabcrh.github.io ，这个是一定不能出错的。因为之后你将要访问的你的博客地址就是： <a href="https://griabcrh.github.io">https://griabcrh.github.io</a> 。</p>
-<p>至此，Github账号创建完成，GIthub Pages 所需要的版本库也创建好了。</p>
-<h4 id="2-2-本地安装Git"><a href="#2-2-本地安装Git" class="headerlink" title="2.2 本地安装Git"></a>2.2 本地安装Git</h4><p>进入 Git 官网，下载相应的 Git 版本，下载完成之后按照引导安装 Git 。安装完成之后在开始菜单中会有一个 Git Bash 。这是一个类似于Liunx的终端，在里面可以模拟Linux下的终端进行操作。</p>
-<h4 id="2-3-配置SSH"><a href="#2-3-配置SSH" class="headerlink" title="2.3 配置SSH"></a>2.3 配置SSH</h4><p>打开 Git Bash ，执行下面的命令生成 SSH 访问私钥及公钥。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen -t rsa -C <span class="string">"email@email.com"</span></span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">输入命令回车之后会提示你输入一些东西，不用管。一直回车到底就好了。然后你的 ~/.ssh 文件下就会生成两个文件 id_rsa 和 id_rsa.pub 。</span><br><span class="line"></span><br><span class="line">打开你的 Github -&gt; setting -&gt; SSH Keys 。然后点击 New SSH Key 创建一个新的SSH Key。Title 可以用你的计算机名，可以用以区分。将文件 id_rsa.pub 中的所以内容复制粘贴到 Key 下面。然后使用下面的命令测试是否可以连接上 Github 。</span><br><span class="line"></span><br><span class="line">``` bash</span><br><span class="line">$ ssh -T git@github.com</span><br></pre></td></tr></table></figure>
-<p>如果出现下图所示内容则证明连接成功。</p>
-<p><img src="/images/ssh-T.png" alt=""></p>
-<h3 id="三、安装Hexo"><a href="#三、安装Hexo" class="headerlink" title="三、安装Hexo"></a>三、安装Hexo</h3><p>Hexo的安装在其官方文档中有很详细的说明。下面将简单介绍Hexo的安装。</p>
-<h4 id="3-1-安装前提"><a href="#3-1-安装前提" class="headerlink" title="3.1 安装前提"></a>3.1 安装前提</h4><p>安装 Node.js ，请进入Node.js 的官网下载安装。<br>安装 Git ，前面已经说明，不再赘述。</p>
-<h4 id="3-2-安装Hexo"><a href="#3-2-安装Hexo" class="headerlink" title="3.2 安装Hexo"></a>3.2 安装Hexo</h4><p>上面两个工具安装完整之后，打开 Git Bash ，只需要使用npm即可完成Hexo的安装。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
-<p>安装Hexo完成之后，执行下面的命令，Hexo将会在你制定的文件夹中新建所需要的文件。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ hexo init &lt;folder&gt;</span><br><span class="line">$ <span class="built_in">cd</span> &lt;folder&gt;</span><br><span class="line">$ npm install</span><br></pre></td></tr></table></figure>
-<p>新建完成后，文件夹下的目录如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── _config.yml</span><br><span class="line">├── package.json</span><br><span class="line">├── scaffolds</span><br><span class="line">├── <span class="built_in">source</span></span><br><span class="line">|   ├── _drafts</span><br><span class="line">|   └── _posts</span><br><span class="line">└── themes</span><br></pre></td></tr></table></figure>
-<p>_config.yml 文件是网站的配置文件，可以在其中配置网站的大部分参数。<br>package.json 文件是应用程序的信息。<br>source 是资源文件夹，是用来存放用户资源的地方。<br>themes 是主题文件夹，Hexo会根据主题来生成不同的静态页面。<br>scaffolds是模板件夹，当新建文章的时候，Hexo会根据模板来建立文件。</p>
-<h4 id="3-3-修改主题"><a href="#3-3-修改主题" class="headerlink" title="3.3 修改主题"></a>3.3 修改主题</h4><p>我使用的是NexT主题，下面只介绍怎么安装这种主题，其他主题可以在Hexo Themes、github里面寻找。</p>
-<p>先进入你的Hexo文件夹。然后使用下面的命令clone下NexT主题。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> https://github.com/iissnan/hexo-theme-next.git themes/next</span><br></pre></td></tr></table></figure>
-<p>然后打开Hexo主文件夹下的_config.yml，修改其中的theme 属性。theme: 后面要加空格。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">theme: next</span><br></pre></td></tr></table></figure>
-<h4 id="3-4-本地查看调试"><a href="#3-4-本地查看调试" class="headerlink" title="3.4 本地查看调试"></a>3.4 本地查看调试</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo g <span class="comment">#生成静态页面，生成的内容在public文件夹下</span></span><br><span class="line">$ hexo s <span class="comment">#启动本地服务，进行文章预览调试。hexo s --debug 命令可以用来调试</span></span><br></pre></td></tr></table></figure>
-<h4 id="3-5-部署到Github-Pages"><a href="#3-5-部署到Github-Pages" class="headerlink" title="3.5 部署到Github Pages"></a>3.5 部署到Github Pages</h4><p>先使用下面的命令对Git进行初始配置。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git config --global user.name <span class="string">"your name"</span></span><br><span class="line">$ git config --global user.email <span class="string">"email@email.com"</span></span><br></pre></td></tr></table></figure>
-<p>然后打开Hexo主文件夹下的_config.yml，设置其中的deploy 参数，详细请查看Hexo官方文档中部署部分。</p>
-<p>我的设置如下所示：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  <span class="built_in">type</span>: git </span><br><span class="line">  repo: git@github.com:griabcrh/griabcrh.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
-<p>git地址建议使用SSH地址。在上面的参数设置好了之后，使用下面的命令安装 hexo-deployer-git 插件，只有安装了插件之后才可以部署到Github Pages。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
-<p>安装完插件之后使用下面的命令进行部署：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo g <span class="comment">#生成静态文件</span></span><br><span class="line">$ hexo d <span class="comment">#部署到github</span></span><br></pre></td></tr></table></figure>
-<p>还有一个更快捷的命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo d -g <span class="comment">#在部署前先生成</span></span><br></pre></td></tr></table></figure>
-<h4 id="3-6-NexT-主题拓展"><a href="#3-6-NexT-主题拓展" class="headerlink" title="3.6 NexT 主题拓展"></a>3.6 NexT 主题拓展</h4><p>NexT 文档 - NexT的详细配置可以在这里查看。</p>
-<p>NexT Github 地址 - 想要二次开发，可以Fork一下。</p>
-<h3 id="四、Hexo常用命令"><a href="#四、Hexo常用命令" class="headerlink" title="四、Hexo常用命令"></a>四、Hexo常用命令</h3><p>下面仅列出几种常用的命令。更详细的命令请查看Hexo官方文档。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ hexo clean <span class="comment">#清理之前生成的内容，即public文件</span></span><br><span class="line">$ hexo g <span class="comment">#生成静态文件</span></span><br><span class="line">$ hexo d <span class="comment">#部署</span></span><br><span class="line">$ hexo s <span class="comment">#启动本地服务，可以通过http://localhost:4000查看</span></span><br><span class="line">$ hexo s --debug <span class="comment">#使用debug模式启动服务</span></span><br></pre></td></tr></table></figure>
-<h3 id="五-、Hexo集成百度统计"><a href="#五-、Hexo集成百度统计" class="headerlink" title="五 、Hexo集成百度统计"></a>五 、Hexo集成百度统计</h3><h4 id="5-1-登录-百度统计，-定位到站点的代码获取页面"><a href="#5-1-登录-百度统计，-定位到站点的代码获取页面" class="headerlink" title="5.1 登录 百度统计， 定位到站点的代码获取页面"></a>5.1 登录 百度统计， 定位到站点的代码获取页面</h4><h4 id="5-2-复制-hm-js-后面那串统计脚本-id，如："><a href="#5-2-复制-hm-js-后面那串统计脚本-id，如：" class="headerlink" title="5.2 复制 hm.js? 后面那串统计脚本 id，如："></a>5.2 复制 hm.js? 后面那串统计脚本 id，如：</h4><p><img src="/images/analytics-baidu-id.png" alt=""></p>
-<h4 id="5-3-编辑-主题配置文件-config-yml，-修改字段-baidu-analytics-字段，值设置成你的百度统计脚本-id。"><a href="#5-3-编辑-主题配置文件-config-yml，-修改字段-baidu-analytics-字段，值设置成你的百度统计脚本-id。" class="headerlink" title="5.3 编辑 主题配置文件_config.yml， 修改字段 baidu_analytics 字段，值设置成你的百度统计脚本 id。"></a>5.3 编辑 主题配置文件_config.yml， 修改字段 baidu_analytics 字段，值设置成你的百度统计脚本 id。</h4><h4 id="5-4-将统计结果显示在博客中"><a href="#5-4-将统计结果显示在博客中" class="headerlink" title="5.4 将统计结果显示在博客中"></a>5.4 将统计结果显示在博客中</h4><p>在\Hexo\themes\next\layout_partials中找到footer.swig,在结尾写上</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;script async src=<span class="string">"//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"</span>&gt;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">|&lt;span id=<span class="string">"busuanzi_container_site_uv"</span>&gt;</span><br><span class="line">  本站访客数&lt;span id=<span class="string">"busuanzi_value_site_uv"</span>&gt;&lt;/span&gt;人次</span><br><span class="line">&lt;/span&gt;</span><br><span class="line">|&lt;span id=<span class="string">"busuanzi_container_site_pv"</span>&gt;</span><br><span class="line">    本站总访问量&lt;span id=<span class="string">"busuanzi_value_site_pv"</span>&gt;&lt;/span&gt;次</span><br><span class="line">&lt;/span&gt;</span><br></pre></td></tr></table></figure>
-<p>更多关于统计的三方服务请自行去HEXO或NEXT官网查询。</p>
+          最近电脑装的软件太多了导致git提交文章到博客上老是出现错误，今天重新搭了一下博客
 
-          
+一、前期准备1.1 相关网站在搭建个人博客的过程中，你可能会使用到下面几个网站。在这几个网站中都有相应的官方文档及教程。如果官方文档不能满足你，那么请Google。
+Github 官网Github PagesHex
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/04/21/使用Hexo搭建个人博客/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
