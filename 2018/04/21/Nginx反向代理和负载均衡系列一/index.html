@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Nginx," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="1集群简介集群就是指一组（若干）相互独立的计算机，利用高速通信网络组成的一个较大的计算机服务系统，每个集群结点都是运行各自服务的独立服务器。这些服务器之间可以彼此通信，协同向用户提供应用程序、系统资源和数据，并以单一系统的模式加以管理。当客户机请求集群系统时，集群给用户的感觉就是一个单一独立的服务器，而实际上用户请求的是一组集群服务器。 若用一句话描述集群，即一堆服务器合作做同一件事，这些机器可能">
+<meta name="keywords" content="Nginx">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nginx反向代理和负载均衡系列一">
+<meta property="og:url" content="https://griabcrh.github.io/2018/04/21/Nginx反向代理和负载均衡系列一/index.html">
+<meta property="og:site_name" content="Griabcrh&#39;s Blog">
+<meta property="og:description" content="1集群简介集群就是指一组（若干）相互独立的计算机，利用高速通信网络组成的一个较大的计算机服务系统，每个集群结点都是运行各自服务的独立服务器。这些服务器之间可以彼此通信，协同向用户提供应用程序、系统资源和数据，并以单一系统的模式加以管理。当客户机请求集群系统时，集群给用户的感觉就是一个单一独立的服务器，而实际上用户请求的是一组集群服务器。 若用一句话描述集群，即一堆服务器合作做同一件事，这些机器可能">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://griabcrh.github.io/images/nginx1.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/nginx2.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/nginx3.png">
+<meta property="og:updated_time" content="2018-04-21T11:13:17.609Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Nginx反向代理和负载均衡系列一">
+<meta name="twitter:description" content="1集群简介集群就是指一组（若干）相互独立的计算机，利用高速通信网络组成的一个较大的计算机服务系统，每个集群结点都是运行各自服务的独立服务器。这些服务器之间可以彼此通信，协同向用户提供应用程序、系统资源和数据，并以单一系统的模式加以管理。当客户机请求集群系统时，集群给用户的感觉就是一个单一独立的服务器，而实际上用户请求的是一组集群服务器。 若用一句话描述集群，即一堆服务器合作做同一件事，这些机器可能">
+<meta name="twitter:image" content="https://griabcrh.github.io/images/nginx1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://griabcrh.github.io/2018/04/21/Nginx反向代理和负载均衡系列一/"/>
+
+
+
+
+
+  <title>Nginx反向代理和负载均衡系列一 | Griabcrh's Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?91c85e96d8e34ae79347b17b0d41826f";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Griabcrh's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">welcome</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/04/21/Nginx反向代理和负载均衡系列一/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="griabcrh">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/24718752.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Griabcrh's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Nginx反向代理和负载均衡系列一</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-21T19:11:54+08:00">
+                2018-04-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/04/21/Nginx反向代理和负载均衡系列一/" class="leancloud_visitors" data-flag-title="Nginx反向代理和负载均衡系列一">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="1集群简介"><a href="#1集群简介" class="headerlink" title="1集群简介"></a>1集群简介</h3><p>集群就是指一组（若干）相互独立的计算机，利用高速通信网络组成的一个较大的计算机服务系统，每个集群结点都是运行各自服务的独立服务器。这些服务器之间可以彼此通信，协同向用户提供应用程序、系统资源和数据，并以单一系统的模式加以管理。<br>当客户机请求集群系统时，集群给用户的感觉就是一个单一独立的服务器，而实际上用户请求的是一组集群服务器。</p>
+<p>若用一句话描述集群，即一堆服务器合作做同一件事，这些机器可能需要整个技术团队架构、设计和统一协调管理；可能分布在一个机房，也可能分布在全国各地。</p>
+<h3 id="2为什么要使用集群"><a href="#2为什么要使用集群" class="headerlink" title="2为什么要使用集群"></a>2为什么要使用集群</h3><h6 id="高性能（Performance）"><a href="#高性能（Performance）" class="headerlink" title="高性能（Performance）"></a>高性能（Performance）</h6><p>大型网站谷歌、淘宝、百度等，都不是几台大型机可以构建的，都是上万台服务器组成的高性能集群，分布于不同的地点。</p>
+<p>只有当并发或总请求数量超过单台服务器的承受能力时，服务器集群的优势才会体现出来。</p>
+<h6 id="价格有效性（Cost-effectiveness）"><a href="#价格有效性（Cost-effectiveness）" class="headerlink" title="价格有效性（Cost-effectiveness）"></a>价格有效性（Cost-effectiveness）</h6><p>在达到同样性能的需求下，采用计算机集群架构比采用同等运算能力的大型计算机具有更高的性价比。</p>
+<h6 id="可伸缩性（Scalability）"><a href="#可伸缩性（Scalability）" class="headerlink" title="可伸缩性（Scalability）"></a>可伸缩性（Scalability）</h6><p>当服务负载、压力增长时，针对集群系统进行较简单的扩展即可满足需求，且不会降低服务质量。</p>
+<h6 id="高可用（Availability）"><a href="#高可用（Availability）" class="headerlink" title="高可用（Availability）"></a>高可用（Availability）</h6><p>单一计算机发生故障时，就无法正常提供服务；而集群架构技术可以是得系统在若干硬件设备发生故障时仍可以继续工作。<br>集群系统在提高系统可靠性的同时，也大大减小了系统故障带来的业务损失，目前几乎100%的网站都要求7x24h提供服务。</p>
+<h6 id="透明性（Transparency）"><a href="#透明性（Transparency）" class="headerlink" title="透明性（Transparency）"></a>透明性（Transparency）</h6><p>多个独立计算机组成的耦合集群系统构成一个虚拟服务器。用户访问集群系统时，就像访问一台高性能、高可用的服务器一样，集群中一部分服务器的上线、下线不会中断整个系统服务，这对用户也是透明的。</p>
+<h6 id="可管理性（Manageability）"><a href="#可管理性（Manageability）" class="headerlink" title="可管理性（Manageability）"></a>可管理性（Manageability）</h6><p>这个系统可能在物理上很大，但其实很容易管理，就像管理一个单一映像系统一样。</p>
+<h6 id="可编程性（Programmability）"><a href="#可编程性（Programmability）" class="headerlink" title="可编程性（Programmability）"></a>可编程性（Programmability）</h6><p>在集群系统上，容易开发及修改各类应用程序。</p>
+<h3 id="3集群的分类"><a href="#3集群的分类" class="headerlink" title="3集群的分类"></a>3集群的分类</h3><h4 id="3-1集群的常见分类"><a href="#3-1集群的常见分类" class="headerlink" title="3.1集群的常见分类"></a>3.1集群的常见分类</h4><p>计算机集群架构按功能和结构可分为以下几类：</p>
+<h6 id="负载均衡集群（Load-balancing-clusters），LB；"><a href="#负载均衡集群（Load-balancing-clusters），LB；" class="headerlink" title="* 负载均衡集群（Load balancing clusters），LB；"></a>* 负载均衡集群（Load balancing clusters），LB；</h6><h6 id="高可用性集群（High-availability-clusters），-HA；"><a href="#高可用性集群（High-availability-clusters），-HA；" class="headerlink" title="* 高可用性集群（High-availability clusters）， HA；"></a>* 高可用性集群（High-availability clusters）， HA；</h6><h6 id="高性能计算集群（High-performance-cluster），HP；"><a href="#高性能计算集群（High-performance-cluster），HP；" class="headerlink" title="* 高性能计算集群（High-performance cluster），HP；"></a>* 高性能计算集群（High-performance cluster），HP；</h6><h6 id="网格计算集群（Grid-computing）；"><a href="#网格计算集群（Grid-computing）；" class="headerlink" title="* 网格计算集群（Grid computing）；"></a>* 网格计算集群（Grid computing）；</h6><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">负载均衡集群（LB）和高可用性集群（HA）是互联网行业常用的集群架构模式</span><br></pre></td></tr></table></figure>
+<h4 id="3-2不同种类的集群介绍"><a href="#3-2不同种类的集群介绍" class="headerlink" title="3.2不同种类的集群介绍"></a>3.2不同种类的集群介绍</h4><h5 id="3-2-1负载均衡集群"><a href="#3-2-1负载均衡集群" class="headerlink" title="3.2.1负载均衡集群"></a>3.2.1负载均衡集群</h5><p>负载均衡集群可以把很多客户集中的访问请求负载压力尽可能平均分摊在计算机集群中处理。<br>集群中每个节点都可以一定的访问请求负载压力，并且可以实现访问请求在各节点之间动态分配，以实现负载均衡。</p>
+<p>负载均衡集群运行时，一般是通过一个或多个前端负载均衡器（Director）将客户访问请求分发到后端的一组服务器上，从而达到整个系统的高性能和高可用性。<br>一般高可用性集群和负载均衡集群会使用类似的技术，或同时具有高可用性与负载均衡的特点。</p>
+<p>载均衡集群的作用：</p>
+<p>####### *分担用户访问请求及数据流量（负载均衡）；</p>
+<p>####### *保持业务连续性，即7x24h服务（高可用）；</p>
+<p>####### *应用于Web业务及数据库从库等服务器的业务；</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">负载均衡集群典型的开源软件包括：LVS、Nginx、Haproxy 等。</span><br></pre></td></tr></table></figure>
+<h5 id="3-2-2高可用性集群"><a href="#3-2-2高可用性集群" class="headerlink" title="3.2.2高可用性集群"></a>3.2.2高可用性集群</h5><p>一般是指集群中任意一个节点失效的情况下，该节点上的所有任务会自动转移到其他正常的节点上。此过程不会影响整个集群的运行。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">不同的业务会有若干秒的切换时间，DB业务明显长于Web业务切换时间。</span><br></pre></td></tr></table></figure>
+<p>当集群中的一个节点系统发生故障时，运行着的集群服务器会迅速做出反应，将该系统的服务分配到集群中其他正在工作的系统上运行。考虑到计算机硬件和软件的容错性，高可用性集群的主要目的是使局群的整体服务尽可能可用。<br>如果高可用集群中的主节点发生了故障，那么这段时间内将由备节点代替它。备节点通常是主节点的镜像。当它代替主节点时，它可以完全接管主节点（包括Ip和其他资源）提供服务，因此，使集群系统环境对系统环境来说是一致的，既不会影响用户的访问。</p>
+<p>高可用性集群使服务器系统的运行速度和响应速度会尽可能的快。它们经常利用在多台机器上运行的冗余节点和服务来相互跟踪。<br>如果某个节点失败，它的替补者将在几秒钟或更多时间内接管它的职责。因此，对于用户来说，集群里的任意一台机器宕机，业务都不会受影响。</p>
+<p>高可用性集群的作用为：</p>
+<h6 id="当一台机器宕机后，另外一台机器接管宕机的机器的Ip资源和服务资源，提供服务；"><a href="#当一台机器宕机后，另外一台机器接管宕机的机器的Ip资源和服务资源，提供服务；" class="headerlink" title="*当一台机器宕机后，另外一台机器接管宕机的机器的Ip资源和服务资源，提供服务；"></a>*当一台机器宕机后，另外一台机器接管宕机的机器的Ip资源和服务资源，提供服务；</h6><h6 id="常用于不易实现负载均衡的应用，如负载均衡器、主数据库、主存储对之间；"><a href="#常用于不易实现负载均衡的应用，如负载均衡器、主数据库、主存储对之间；" class="headerlink" title="*常用于不易实现负载均衡的应用，如负载均衡器、主数据库、主存储对之间；"></a>*常用于不易实现负载均衡的应用，如负载均衡器、主数据库、主存储对之间；</h6><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">高可用性集群常用开源软件包括：Keepalived、Heartbeat 等。</span><br></pre></td></tr></table></figure>
+<h5 id="3-2-3高性能计算集群"><a href="#3-2-3高性能计算集群" class="headerlink" title="3.2.3高性能计算集群"></a>3.2.3高性能计算集群</h5><p>高性能计算集群也称并行计算。通常，高性能计算集群涉及为集群开发的并行应用程序，以解决复杂的科学问题。</p>
+<p>高性能计算集群对外就好像一个超级计算机，这种超级计算机内部由数万个独立服务器组成，并且在公共消息传递层上进行通信以运行并行应用程序。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">在互联网网站运维中，常用的是负载均衡集群和高可用性集群。</span><br></pre></td></tr></table></figure>
+<p>常用集群软硬件介绍及选型</p>
+<p>企业运维中常见集群软硬件产品<br>互联网企业常用开源集群软件： Nginx，LVS，Haproxy，Keepalived，Heartbeat ；<br>互联网企业常用的商业集群硬件： F5，Netscaler，Radware，A10 等。</p>
+<p>对于集群软硬件产品选择</p>
+<h6 id="当企业业务重要，技术力量又薄弱，并且希望出钱购买产品以获得更好的服务时，可选择硬件负载均衡产品；"><a href="#当企业业务重要，技术力量又薄弱，并且希望出钱购买产品以获得更好的服务时，可选择硬件负载均衡产品；" class="headerlink" title="*当企业业务重要，技术力量又薄弱，并且希望出钱购买产品以获得更好的服务时，可选择硬件负载均衡产品；"></a>*当企业业务重要，技术力量又薄弱，并且希望出钱购买产品以获得更好的服务时，可选择硬件负载均衡产品；</h6><h6 id="并用软件以及硬件产品负载均衡产品来分担单一产品的风险；"><a href="#并用软件以及硬件产品负载均衡产品来分担单一产品的风险；" class="headerlink" title="*并用软件以及硬件产品负载均衡产品来分担单一产品的风险；"></a>*并用软件以及硬件产品负载均衡产品来分担单一产品的风险；</h6><h6 id="中小型互联网企业，会希望通过使用开源免费的方案来解决问题。"><a href="#中小型互联网企业，会希望通过使用开源免费的方案来解决问题。" class="headerlink" title="*中小型互联网企业，会希望通过使用开源免费的方案来解决问题。"></a>*中小型互联网企业，会希望通过使用开源免费的方案来解决问题。</h6><p>如何选择开源集群软件产品</p>
+<h6 id="网站在并发访问和总访问量不是很大的情况下，建议首选Nginx负载均衡，Nginx配置简单使用方便安全稳定。-另一个实现负载均衡的产品为Haproxy；"><a href="#网站在并发访问和总访问量不是很大的情况下，建议首选Nginx负载均衡，Nginx配置简单使用方便安全稳定。-另一个实现负载均衡的产品为Haproxy；" class="headerlink" title="*网站在并发访问和总访问量不是很大的情况下，建议首选Nginx负载均衡，Nginx配置简单使用方便安全稳定。 另一个实现负载均衡的产品为Haproxy；"></a>*网站在并发访问和总访问量不是很大的情况下，建议首选Nginx负载均衡，Nginx配置简单使用方便安全稳定。 另一个实现负载均衡的产品为Haproxy；</h6><h6 id="如果要考虑Nginx负载均衡的高可用功能，建议首选Keepalived软件，因为安装配置简单方便稳定。类似高可用软件还有Heartbeat，但比较复杂；"><a href="#如果要考虑Nginx负载均衡的高可用功能，建议首选Keepalived软件，因为安装配置简单方便稳定。类似高可用软件还有Heartbeat，但比较复杂；" class="headerlink" title="*如果要考虑Nginx负载均衡的高可用功能，建议首选Keepalived软件，因为安装配置简单方便稳定。类似高可用软件还有Heartbeat，但比较复杂；"></a>*如果要考虑Nginx负载均衡的高可用功能，建议首选Keepalived软件，因为安装配置简单方便稳定。类似高可用软件还有Heartbeat，但比较复杂；</h6><h6 id="如果是大型企业，负载均衡可以使用-LVS-Keepalived-在前端做四层转发，后端使用Nginx或Haproxy做七层转发，再后面是应用服务器。如果是数据库与存储的负载均衡和高可用，可选值-LVS-Heartbeat；"><a href="#如果是大型企业，负载均衡可以使用-LVS-Keepalived-在前端做四层转发，后端使用Nginx或Haproxy做七层转发，再后面是应用服务器。如果是数据库与存储的负载均衡和高可用，可选值-LVS-Heartbeat；" class="headerlink" title="*如果是大型企业，负载均衡可以使用 LVS+Keepalived 在前端做四层转发，后端使用Nginx或Haproxy做七层转发，再后面是应用服务器。如果是数据库与存储的负载均衡和高可用，可选值 LVS+Heartbeat；"></a>*如果是大型企业，负载均衡可以使用 LVS+Keepalived 在前端做四层转发，后端使用Nginx或Haproxy做七层转发，再后面是应用服务器。如果是数据库与存储的负载均衡和高可用，可选值 LVS+Heartbeat；</h6><p><img src="/images/nginx1.png" alt=""></p>
+<h3 id="4Nginx负载均衡集群介绍"><a href="#4Nginx负载均衡集群介绍" class="headerlink" title="4Nginx负载均衡集群介绍"></a>4Nginx负载均衡集群介绍</h3><h4 id="4-1反向代理与负载均衡概念简介"><a href="#4-1反向代理与负载均衡概念简介" class="headerlink" title="4.1反向代理与负载均衡概念简介"></a>4.1反向代理与负载均衡概念简介</h4><p>严格地说，Nginx仅仅是作为Nginx Proxy反向代理使用的，因为这个反向代理功能表现的效果是负载均衡集群的效果，所以本文称之为Nginx负载均衡。</p>
+<p>普通的负载均衡软件，如LVS，其实现的功能只是对请求数据包的转发、传递，从负载均衡下的节点服务器来看，接收到的请求还是来自访问负载均衡器的客户端的真实用户；<br>而反向代理就不一样了，反向代理服务器在接收访问用户请求后，会代理用户 重新发起请求代理下的节点服务器，最后把数据返回给客户端用户。在节点服务器看来，访问的节点服务器的客户端用户就是反向代理服务器，而非真实的网站访问用户。</p>
+<p>即，LVS等负载均衡是转发用户请求的数据包，而Nginx反向代理是接收用户请求后重新发起请求后端节点。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">这里我去看了一下Nginx的Access.log，客户端的访问日志全在代理节点上（Nginx-upstream），而后端节点的Access.log的来源是前端代理节点的IP</span><br></pre></td></tr></table></figure>
+<h4 id="4-2实现Nginx负载均衡的组件"><a href="#4-2实现Nginx负载均衡的组件" class="headerlink" title="4.2实现Nginx负载均衡的组件"></a>4.2实现Nginx负载均衡的组件</h4><p>实现Nginx负载均衡的组件主要有两个：”proxy”和”upstream”：</p>
+<p>Nginx_http模块                           模块说明</p>
+<p>ngx_http_proxy_module           proxy代理模块，用于把请求后抛给服务器节点或upstream服务器池<br>ngx_http_upstream_module       负载均衡模块，可以实现网站的负载均衡功能即节点的健康检查</p>
+<h5 id="4-2-1Nginx负载均衡核心组件介绍"><a href="#4-2-1Nginx负载均衡核心组件介绍" class="headerlink" title="4.2.1Nginx负载均衡核心组件介绍"></a>4.2.1Nginx负载均衡核心组件介绍</h5><h6 id="Nginx-upstream模块"><a href="#Nginx-upstream模块" class="headerlink" title="Nginx upstream模块"></a>Nginx upstream模块</h6><p>Module ngx_http_upstream_module</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Syntax：    upstream name &#123; ... &#125;</span><br><span class="line">Default:    —</span><br><span class="line">Context:    http</span><br></pre></td></tr></table></figure>
+<h6 id="Nginx模块介绍"><a href="#Nginx模块介绍" class="headerlink" title="Nginx模块介绍"></a>Nginx模块介绍</h6><p>Nginx的负载均衡功能依赖于ngx_http_upstream_module模块，所支持的代理方式包括：proxy_pass, fastcgi_pass, memcached_pass, uwsgi_pass, scgi_pass 等，这里主要讲解proxy_pass方式。</p>
+<p>upstream模块允许Nginx定义一组或多组节点服务器组，使用时可通过 proxy_pass 代理方式把网站的请求发送到事先定义好的对应 Upstream组 的名字上。</p>
+<h6 id="upstream模块语法"><a href="#upstream模块语法" class="headerlink" title="upstream模块语法"></a>upstream模块语法</h6><p>upstream模块内容放置于http{ }内：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">upstream upstream_name &#123;</span><br><span class="line">    server  address  [ parameters ]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#address可以是主机名、域名、ip或Unix Socket，也可以指定端口号</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#parameters代表可选参数, 有如下：</span></span><br><span class="line"><span class="comment">#backup，表示当前server是备用服务器，只有其它非backup后端服务器都挂掉了或很忙才会分配请求给它；</span></span><br><span class="line"><span class="comment">#weight，表示当前server负载权重，权重越大几率愈高；</span></span><br><span class="line"><span class="comment">#max_fails 和 fail_timeout 一般会关联使用，如果某台server在 fail_timeout 时间内出现了 max_fails 次连接失败，那么Nginx会认为其已经挂掉，从而在 fail_timeout 时间内不再去请求它，fail_timeout默认是 10s，max_fails默认是1，即默认情况只要是发生错误就认为服务器挂了，如果将max_fails设置为0，则表示取消这项检查；</span></span><br><span class="line"><span class="comment">#down，标志服务器永远不可用，可配合ip_hash使用。</span></span><br></pre></td></tr></table></figure>
+<p>upstream模块内参数                         参数说明</p>
+<p>weight                                  服务器权重<br>max_fails                              Nginx尝试连接后端主机失败的此时，这是值是配合 proxy_next_upstream、fastcgi_next_upstream和memcached_next_upstream这三个参数来使用的。当Nginx接收后端服务器返回这三个参数定义的状态码时，会将这个请求转发给正常工作的的后端服务器。如404、503、503,max_files=1<br>fail_timeout                          max_fails 和 fail_timeout 一般会关联使用，如果某台server在 fail_timeout 时间内出现了 max_fails 次连接失败，那么Nginx会认为其已经挂掉，从而在 fail_timeout 时间内不再去请求它，fail_timeout默认是 10s，max_fails默认是1，即默认情况只要是发生错误就认为服务器挂了，如果将max_fails设置为0，则表示取消这项检查<br>backup                                 表示当前server是备用服务器，只有其它非backup后端服务器都挂掉了或很忙才会分配请求给它<br>down                                 标志服务器永远不可用，可配合ip_hash使用</p>
+<p>举个栗子：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">upstream <span class="built_in">test</span> &#123;</span><br><span class="line">  server 191.168.1.11 weight=5 ;</span><br><span class="line">  server 191.168.1.22:82;</span><br><span class="line">  server example.com:8080 max_fails=2 fail_timeout=10s backup;</span><br><span class="line">  <span class="comment">#域名的话需要解析的哦，内网记得hosts</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果是两台Web服务器做高可用，常规方案就需要Keepalived配合，那么这里使用Nginx的backup参数通过负载均衡功能就可以实现Web服务器集群了。</p>
+<h6 id="upstream模块调度算法"><a href="#upstream模块调度算法" class="headerlink" title="upstream模块调度算法"></a>upstream模块调度算法</h6><p>调度算法一般分为静态调度算法 和 动态调度算法 。</p>
+<p>静态调度算法： 即负载均衡器根据自身设置的规则进行分配，不需要考虑后端节点服务器的情况。如 轮询（rr）、权重（wrr）、ip_hash ；</p>
+<ol>
+<li><p>rr轮询（默认调度算法）：<br>按照客户端请求顺序把请求逐一分配到不同的后端节点服务器，相当于LVS中的rr算法。如果后端服务器宕机，宕机的服务器会被自动从节点服务器池中剔除，以使客户端的用户访问不受影响，新的请求分配给正常的服务器；</p>
+</li>
+<li><p>wrr权重轮询：<br>权重越大，被转发的请求也就越多。可以根据服务器的配置和性能指定权重大小，有效解决新旧服务器性能不均带来的请求分配问题；</p>
+</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">upstream weight &#123;</span><br><span class="line">  server 191.168.1.11 weight=1;</span><br><span class="line">  server 192.168.1.22 weight=2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>ip_hash：<br>每个请求按客户端IP的hash结果分配，当新的请求到达时，先将其客户端ip通过哈希算法得出一个值，在随后的客户端请求中，客户IP的哈希值只要相同，就会被分配到同一台服务器。<br>该调度算法可以解决动态网页的session共享问题，但有时会导致请求分配不均，因为国内大多数都是NAT上网模式，多个客户端对应一个外部IP，所以这些客户端都会被分配到同一个节点服务器，从而导致请求分配不均。<br>LVS负载均衡的-p参数、Keepalived配置里的persisitence_timeout 50参数都类似Nginx的ip_hash参数，其功能都可以解决动态网页的session共享问题。</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">upstream iphash &#123;</span><br><span class="line">  ip_hash;</span><br><span class="line">  server 192.168.1.11;</span><br><span class="line">  server 192.168.1.22:8080;</span><br><span class="line">  <span class="comment">#ip_hash中，后端服务器在负载均衡调度中的状态不能有 weight 和 backup，有也不会生效</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>动态调度算法： 即负载均衡器会根据后端节点的当前状态来决定是否分发请求，如连接数少或响应时间短的优先获得请求。如 fair、least_conn 。</p>
+<ol start="4">
+<li>fair：<br>根据后端节点服务器的响应时间来分配请求，响应时间短的优先分配。这是更加智能的调度算法。<br>Nginx本身不支持这种算法，需要upstream_fair模块；</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">upstream fair &#123;</span><br><span class="line">  server 192.168.1.11;</span><br><span class="line">  server 192.168.1.22;</span><br><span class="line">  fair;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>least_conn：<br>根据后端节点的连接数来决定分配情况，那个机器少就分发；</li>
+</ol>
+<p>6.url_hash：<br>根据访问URL的hash结果来分配请求的，让每个URL定向到同一个后端服务器，后端服务器为缓存服务器时效果显著。<br>Nginx本身不支持url_hash，需要hash模块软件包；</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">upstream urlhash &#123;</span><br><span class="line">  server hahaha1:5678;</span><br><span class="line">  server hahaha2:5678;</span><br><span class="line">  <span class="built_in">hash</span> <span class="variable">$request_uri</span>;</span><br><span class="line">  hash_method md5;</span><br><span class="line">  <span class="comment">#同样不能使用 weight、backup</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="7">
+<li>一致性hash：<br>一致性hash算法一般用于代理后端业务为缓存服务器（如Memcached）的场景，通过将用户请求的URI或者指定字符串进行计算，然后调度到后端的服务器上，此后任何用户查找同一个URI货值指定字符串都会被调度到这一台服务器上，因此后端的每个节点缓存的内容都是不同的；</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">upstream &#123;</span><br><span class="line">  consistent_hash <span class="variable">$request_uri</span>;</span><br><span class="line">  server xxx;</span><br><span class="line">  server xxx;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h6 id="Nginx-proxy模块"><a href="#Nginx-proxy模块" class="headerlink" title="Nginx proxy模块"></a>Nginx proxy模块</h6><p>ngx_http_proxy_pass</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Syntax：proxy_pass URL;</span><br><span class="line">Default：—</span><br><span class="line">Context：location, <span class="keyword">if</span> <span class="keyword">in</span> location, limit_except</span><br></pre></td></tr></table></figure>
+<h6 id="proxy-pass介绍"><a href="#proxy-pass介绍" class="headerlink" title="proxy_pass介绍"></a>proxy_pass介绍</h6><p>proxy_pass指令属于ngx_http_proxy_module模块，此模块可以将请求转发到另一台服务器，在实际的反向代理工作中，会通过location功能匹配指定的URI，然后把接收到服务匹配URI的请求通过proyx_pass抛给定义好的upstream节点池。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">location /download/ &#123;</span><br><span class="line">  proxy_pass http://download/vedio/;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">#这是前端代理节点的设置</span></span><br><span class="line"><span class="comment">#交给后端upstream为download的节点</span></span><br><span class="line"></span><br><span class="line">location /name/ &#123;</span><br><span class="line">  rewrite /name/([^/]+) /users?name=<span class="variable">$1</span> <span class="built_in">break</span>;</span><br><span class="line">  proyx_pass http://127.0.0.1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h6 id="http-proyx模块参数"><a href="#http-proyx模块参数" class="headerlink" title="http_proyx模块参数"></a>http_proyx模块参数</h6><p>ngx_http_proxy_module参数<br>Nginx的代理功能是通过http_proxy模块来实现的。http_proxy模块参数举例：</p>
+<p>proxy模块参数                               说明</p>
+<p>proxy_next_upstream                什么情况下将请求传递到下一个upstream<br>proxy_limite_rate                限制从后端服务器读取响应的速率<br>proyx_set_header                设置http请求header传给后端服务器节点，如：可实现让代理后端的服务器节点获取访问客户端的这是ip<br>client_body_buffer_size            客户端请求主体缓冲区大小<br>proxy_connect_timeout            代理与后端节点服务器连接的超时时间<br>proxy_send_timeout                后端节点数据回传的超时时间<br>proxy_read_timeout                设置Nginx从代理的后端服务器获取信息的时间，表示连接成功建立后，Nginx等待后端服务器的响应时间<br>proxy_buffer_size                设置缓冲区大小<br>proxy_buffers                    设置缓冲区的数量和大小<br>proyx_busy_buffers_size            于设置系统很忙时可以使用的proxy_buffers大小，推荐为proxy_buffers*2<br>proxy_temp_file_write_size        指定proxy缓存临时文件的大小</p>
+<h3 id="5-Nginx负载均衡配置"><a href="#5-Nginx负载均衡配置" class="headerlink" title="5 Nginx负载均衡配置"></a>5 Nginx负载均衡配置</h3><h4 id="5-1-配置后端节点"><a href="#5-1-配置后端节点" class="headerlink" title="5.1 配置后端节点"></a>5.1 配置后端节点</h4><p>这儿是upstream后端节点：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/nginx/nginx.conf</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">  listen 80;</span><br><span class="line">  root /path/xxx;</span><br><span class="line"></span><br><span class="line">  location / &#123;</span><br><span class="line">    xxxx;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="5-2-Nginx负载均衡反向代理节点"><a href="#5-2-Nginx负载均衡反向代理节点" class="headerlink" title="5.2 Nginx负载均衡反向代理节点"></a>5.2 Nginx负载均衡反向代理节点</h4><p>这是代理节点：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">upstream <span class="built_in">test</span> &#123;</span><br><span class="line">  server test1 weight=1;</span><br><span class="line">  server test2 weight=1;</span><br><span class="line">  <span class="comment">#域名做hosts</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/nginx/nginx.conf</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">  listen 8888;</span><br><span class="line">  server_name www.test.com www.xx.com;</span><br><span class="line"></span><br><span class="line">  location  / &#123;</span><br><span class="line">    proxy_read_timeout 10s;</span><br><span class="line">    proxy_next_upstream error timeout invalid_header http_500 http_502 http_503 http_404;</span><br><span class="line">    proyx_pass http://<span class="built_in">test</span>;<span class="comment">#把用户的请求反向代理定义的upstream服务器池</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#proyx_set_header Host $host;在代理后端服务器发送的http请求头中加入host字段信息</span></span><br><span class="line">    <span class="comment">#proxy_set_header $remote_addr;后端节点服务器日志获取客户端真实ip，否则全都是代理节点的ip</span></span><br><span class="line">    <span class="comment">#proyx_connect_timeout 30s;</span></span><br><span class="line">    <span class="comment">#proxy_buffers_size 4m;</span></span><br><span class="line">    <span class="comment">#xxx    </span></span><br><span class="line">&#125;</span><br><span class="line">  xxxxx</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="5-3与反向代理配置相关的更多参数"><a href="#5-3与反向代理配置相关的更多参数" class="headerlink" title="5.3与反向代理配置相关的更多参数"></a>5.3与反向代理配置相关的更多参数</h4><p>除了具有多虚拟主机代理以及节点服务器记录真实用户ip的功能外，Nginx还提供了相当多的作为反向代理和后端节点服务器对话的相关控制参数。</p>
+<p>由于参数众多，建议把这些参数都写到另外一个配置文件里，然后用 include 方式包含到虚拟主机配置文件里。其他Nginx参数也同样可以使用此方法。</p>
+<p>proxy.conf：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">proxy_set_header Host <span class="variable">$host</span>;</span><br><span class="line">proxy_set_header <span class="variable">$remote_addr</span>;</span><br><span class="line">proxy_connect_timeout 60s;</span><br><span class="line">proxy_read_timeout 10s;</span><br><span class="line">proxy_send_timeout 20s;</span><br><span class="line">proxy_buffer_size 4m;</span><br><span class="line">proxy_buffer_size 4 2m;</span><br><span class="line">proxy_temp_file_write_size 2m;</span><br><span class="line">proxy_next_upstream error timeout invalid_header http_500 http_502 http_503 http_404</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">virtual.conf：</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">  listen 80;</span><br><span class="line">  server_name www.test.com www.xxx.com;</span><br><span class="line">  location / &#123;</span><br><span class="line">    include /etc/nginx/proxy.conf;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h6 id="proxy-next-upstream参数补充"><a href="#proxy-next-upstream参数补充" class="headerlink" title="proxy_next_upstream参数补充"></a>proxy_next_upstream参数补充</h6><p>当Nginx接收后端服务器发返回的proxy_next_upstream参数定义的状态码时，会将这个请求转发给正常工作的后端服务器，如500、502、503，此参数可以提升用户访问体验。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proyx_next_upstream error timeout invalid_header http_500 http_503 http_502 http_504;</span><br></pre></td></tr></table></figure>
+<h4 id="5-4-根据URL中的目录地址实现代理转发"><a href="#5-4-根据URL中的目录地址实现代理转发" class="headerlink" title="5.4 根据URL中的目录地址实现代理转发"></a>5.4 根据URL中的目录地址实现代理转发</h4><p>根据URL中的目录地址实现代理转发说明</p>
+<p>通过Nginx实现动静分离，即通过Nginx反向代理配置规则实现让动态资源和静态资源及其他业务分别由不同的服务器解析，已解决网站性能、安全、用户体验等重要问题。</p>
+<p><img src="/images/nginx2.png" alt=""></p>
+<h4 id="5-5-动静态分离配置文件"><a href="#5-5-动静态分离配置文件" class="headerlink" title="5.5 动静态分离配置文件"></a>5.5 动静态分离配置文件</h4><p>配置upstream.conf：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">upstream static &#123;</span><br><span class="line">  server 192.168.1.11;</span><br><span class="line">  <span class="comment">#或server static.com----hosts:static.com 192.168.1.11</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">upstream upload &#123;</span><br><span class="line">  server 192.168.1.22;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">upstream default &#123;</span><br><span class="line">  server 192.168.1.33;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#在http中加入,注意位置</span></span><br><span class="line">http &#123;</span><br><span class="line">  include upstream.conf;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>配置virtual.conf：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#方案1：利用location实现</span></span><br><span class="line">location  /static/ &#123;</span><br><span class="line">  proyx_pass http://static;</span><br><span class="line">  include proyx.conf;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">location /upload/ &#123;</span><br><span class="line">  proxy_pass http://upload;</span><br><span class="line">  include proxy.conf;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">location / &#123;</span><br><span class="line">  proxy_pass http://default;</span><br><span class="line">  include proxy.conf;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">========================================</span><br><span class="line"><span class="comment">#方案2：利用if语句实现</span></span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$request_uri</span> ~* <span class="string">"^/static/(.*)$"</span>)</span><br><span class="line">&#123;</span><br><span class="line">      proxy_pass http://static/<span class="variable">$1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$request_uri</span> ~* <span class="string">"^/upload/(.*)$"</span>)</span><br><span class="line">&#123;</span><br><span class="line">    proxy_pass http://upload/<span class="variable">$1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">location / &#123;</span><br><span class="line">  proxy_pass http://default;</span><br><span class="line">  include  proyx.conf;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="5-6-URL目录地址转发的应用场景"><a href="#5-6-URL目录地址转发的应用场景" class="headerlink" title="5.6 URL目录地址转发的应用场景"></a>5.6 URL目录地址转发的应用场景</h4><p>根据HTTP的URL进行转发的应用情况，被称为 第7层（应用层）的负载均衡；而LVS的负载均衡一般用于TCP等的转发，因此被称为第四层（传输层）的负载均衡 。</p>
+<p>有时因为需求，需要在代理服务器上通过配置规则，使得匹配不同规则的请求会交给不同的服务器池处理。</p>
+<h4 id="5-7-根据客户端的设备（user-agent）转发"><a href="#5-7-根据客户端的设备（user-agent）转发" class="headerlink" title="5.7 根据客户端的设备（user_agent）转发"></a>5.7 根据客户端的设备（user_agent）转发</h4><p>为了让不同客户端设备用户有更好的访问体验，需要在后端架设不同服务器来满足不同的客户端访问。如PC端和移动端，移动端又有安卓、苹果、Pad等。</p>
+<ol>
+<li><p>常规4层负载均衡解决方案架构<br>在常规4层负载均衡架构下，可以使用不同的域名来实现这个需求。<br>如，分配移动端访问 wap.xxx.com，PC端访问<a href="http://www.xxx.com。" target="_blank" rel="noopener">www.xxx.com。</a><br>通过不同域名来引导用户到指定后端服务器，但是这样就分别得记住不同的域名。</p>
+</li>
+<li><p>第7层负载均衡解决方案<br>在7层负载均衡架构下，对外只需要用一个域名，如<a href="http://www.xxx.com，然后通过获取用户请求中的设备信息$http_user_agent，根据此信息转给后端合适的服务器处理。" target="_blank" rel="noopener">www.xxx.com，然后通过获取用户请求中的设备信息$http_user_agent，根据此信息转给后端合适的服务器处理。</a></p>
+</li>
+</ol>
+<h4 id="5-8-根据-user-agent转发配置"><a href="#5-8-根据-user-agent转发配置" class="headerlink" title="5.8 根据$user_agent转发配置"></a>5.8 根据$user_agent转发配置</h4><p>栗子：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">location / &#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="variable">$http_user_agent</span> ~* <span class="string">"android"</span>)</span><br><span class="line">      &#123;</span><br><span class="line">          proxy_pass http://android;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$http_user_agent</span> ~* <span class="string">"iphone"</span>)</span><br><span class="line">      &#123;</span><br><span class="line">          proxy_pass http://iphone;</span><br><span class="line">      &#125;</span><br><span class="line">proxy_pass http://default;</span><br><span class="line">include proyx.conf;</span><br></pre></td></tr></table></figure>
+<h4 id="5-9-根据文件扩展名实现代理转发"><a href="#5-9-根据文件扩展名实现代理转发" class="headerlink" title="5.9 根据文件扩展名实现代理转发"></a>5.9 根据文件扩展名实现代理转发</h4><p>栗子：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#locaiton</span></span><br><span class="line">location ~*  .*\.(gif|jpg|png|css|js)$ &#123;</span><br><span class="line">  proyx_pass http://static;</span><br><span class="line">  include proxy.conf;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#if</span></span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$request_uri</span> ~* <span class="string">".*\.php$"</span>)</span><br><span class="line">  &#123;</span><br><span class="line">      proxy_pass http://php;</span><br><span class="line">  &#125;</span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$request_uri</span> ~* <span class="string">".*\.(jpg|png|css|js)$"</span>)</span><br><span class="line">  &#123;</span><br><span class="line">      proxy_pass http://static;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>在开发无法通过程序实现动静分离的时候，运维可以根据资源实体进行动静分离，根据不同实现策略制定后端服务器不同的组。在前端代理服务器上通过路径、扩展名等进行规则匹配，从而实现请求的动态分离。</p>
+<h3 id="6-Nginx负载均衡检测节点状态"><a href="#6-Nginx负载均衡检测节点状态" class="headerlink" title="6 Nginx负载均衡检测节点状态"></a>6 Nginx负载均衡检测节点状态</h3><p>淘宝技术团队开发了一个Tengine（Nginx分支）模块nginx_upstream_check_module<br><a href="https://github.com/yaoweibin/nginx_upstream_check_module，用于提供主动式后端服务器健康检查。" target="_blank" rel="noopener">https://github.com/yaoweibin/nginx_upstream_check_module，用于提供主动式后端服务器健康检查。</a><br>通过它检测后端realserver的健康状态，如果后端节点不可用，则所有的请求就不会转发到该节点上。</p>
+<p>Nginx需要通过打补丁的方式将该模块添加进去。源码安装才行的哈。</p>
+<h4 id="6-1安装："><a href="#6-1安装：" class="headerlink" title="6.1安装："></a>6.1安装：</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">wget https://codeload.github.com/yaoweibin/nginx_upstream_check_module/zip/master</span><br><span class="line">unzip master</span><br><span class="line"><span class="built_in">cd</span> nginx_upstream_check_module-master    <span class="comment">#解压后的文件夹</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span>  nginx源码安装包（我是 /usr/<span class="built_in">local</span>/nginx-1.12.1）</span><br><span class="line">patch -p1 &lt; ../nginx_upstream_check_module-master/check_1.12.1+.patch    <span class="comment">#选择对应的Nginx版本号，我的是1.12.1    #打补丁</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#编译，注意以前的编译参数</span></span><br><span class="line">./configure --prefix=/usr/<span class="built_in">local</span>/nginx \</span><br><span class="line">--user=nginx --group=nginx \</span><br><span class="line">--with-http_ssl_module \</span><br><span class="line">--with-http_realip_module \</span><br><span class="line">--with-http_addition_module \</span><br><span class="line">--with-http_gzip_static_module \</span><br><span class="line">--with-http_stub_status_module \</span><br><span class="line">--with-http_sub_module \</span><br><span class="line">--with-pcre \</span><br><span class="line">--add-module=../nginx_upstream_check_module-master</span><br><span class="line"></span><br><span class="line">make    </span><br><span class="line"><span class="comment">#给已经安装的Nginx系统打补丁不用执行make install</span></span><br><span class="line"><span class="comment">#make是重新生成Nginx二进制启动命令</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#备份</span></span><br><span class="line">mv /usr/<span class="built_in">local</span>/nginx/sbin/nginx&#123;,.bak&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#经打过补丁的Nginx二进制程序复制到/usr/local/nginx/sbin/ 下</span></span><br><span class="line">cp /usr/<span class="built_in">local</span>/nginx-1.12.1/objs/nginx /usr/<span class="built_in">local</span>/nginx/sbin/</span><br><span class="line"></span><br><span class="line">nginx -t</span><br></pre></td></tr></table></figure>
+<h4 id="6-2-配置nginx-upstream-check"><a href="#6-2-配置nginx-upstream-check" class="headerlink" title="6.2 配置nginx_upstream_check"></a>6.2 配置nginx_upstream_check</h4><p>配置upstream.conf：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">upstream zhang &#123;</span><br><span class="line">    server 192.168.1.7:5678 weight=1;</span><br><span class="line">    server 192.168.0.99:5678 weight=1;</span><br><span class="line">    check interval=3000 rise=2 fall=5 timeout=1000 <span class="built_in">type</span>=http;</span><br><span class="line">    <span class="comment">#每个3秒对负载均衡中所有节点检测一次，请求2次正常标记realserver状态为up；</span></span><br><span class="line">    <span class="comment">#如果检测5次都失败，则标记realserver状态为down，超时时间为1秒；</span></span><br><span class="line">    <span class="comment">#检查的协议为HTTP；</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>配置/status：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">location /status &#123;</span><br><span class="line">    check_status;</span><br><span class="line">    access_log off;</span><br><span class="line">    allow 192.168.1.0/24;</span><br><span class="line">    deny all;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>效果图：</p>
+<p><img src="/images/nginx3.png" alt=""></p>
+<p>而我的前端节点中 check interval=3000 rise=2 fall=5 timeout=1000 type=http; 这个使用的话，我的upstream无法生效，注释后就没问题。<br>不知道是不是因为我的upstream后端节点是通过yum安装的nginx，没有安装http_upstream_check_module。<br>所以此处我的Status是down。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Nginx/" rel="tag"># Nginx</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/21/RequestMapping用法详解/" rel="next" title="RequestMapping用法详解">
+                <i class="fa fa-chevron-left"></i> RequestMapping用法详解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/24718752.gif"
+                alt="griabcrh" />
+            
+              <p class="site-author-name" itemprop="name">griabcrh</p>
+              <p class="site-description motion-element" itemprop="description">nice to meet you</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1集群简介"><span class="nav-number">1.</span> <span class="nav-text">1集群简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2为什么要使用集群"><span class="nav-number">2.</span> <span class="nav-text">2为什么要使用集群</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#高性能（Performance）"><span class="nav-number">2.0.0.1.</span> <span class="nav-text">高性能（Performance）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#价格有效性（Cost-effectiveness）"><span class="nav-number">2.0.0.2.</span> <span class="nav-text">价格有效性（Cost-effectiveness）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#可伸缩性（Scalability）"><span class="nav-number">2.0.0.3.</span> <span class="nav-text">可伸缩性（Scalability）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#高可用（Availability）"><span class="nav-number">2.0.0.4.</span> <span class="nav-text">高可用（Availability）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#透明性（Transparency）"><span class="nav-number">2.0.0.5.</span> <span class="nav-text">透明性（Transparency）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#可管理性（Manageability）"><span class="nav-number">2.0.0.6.</span> <span class="nav-text">可管理性（Manageability）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#可编程性（Programmability）"><span class="nav-number">2.0.0.7.</span> <span class="nav-text">可编程性（Programmability）</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3集群的分类"><span class="nav-number">3.</span> <span class="nav-text">3集群的分类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1集群的常见分类"><span class="nav-number">3.1.</span> <span class="nav-text">3.1集群的常见分类</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#负载均衡集群（Load-balancing-clusters），LB；"><span class="nav-number">3.1.0.1.</span> <span class="nav-text">* 负载均衡集群（Load balancing clusters），LB；</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#高可用性集群（High-availability-clusters），-HA；"><span class="nav-number">3.1.0.2.</span> <span class="nav-text">* 高可用性集群（High-availability clusters）， HA；</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#高性能计算集群（High-performance-cluster），HP；"><span class="nav-number">3.1.0.3.</span> <span class="nav-text">* 高性能计算集群（High-performance cluster），HP；</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#网格计算集群（Grid-computing）；"><span class="nav-number">3.1.0.4.</span> <span class="nav-text">* 网格计算集群（Grid computing）；</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2不同种类的集群介绍"><span class="nav-number">3.2.</span> <span class="nav-text">3.2不同种类的集群介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-2-1负载均衡集群"><span class="nav-number">3.2.1.</span> <span class="nav-text">3.2.1负载均衡集群</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-2-2高可用性集群"><span class="nav-number">3.2.2.</span> <span class="nav-text">3.2.2高可用性集群</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#当一台机器宕机后，另外一台机器接管宕机的机器的Ip资源和服务资源，提供服务；"><span class="nav-number">3.2.2.1.</span> <span class="nav-text">*当一台机器宕机后，另外一台机器接管宕机的机器的Ip资源和服务资源，提供服务；</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#常用于不易实现负载均衡的应用，如负载均衡器、主数据库、主存储对之间；"><span class="nav-number">3.2.2.2.</span> <span class="nav-text">*常用于不易实现负载均衡的应用，如负载均衡器、主数据库、主存储对之间；</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-2-3高性能计算集群"><span class="nav-number">3.2.3.</span> <span class="nav-text">3.2.3高性能计算集群</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#当企业业务重要，技术力量又薄弱，并且希望出钱购买产品以获得更好的服务时，可选择硬件负载均衡产品；"><span class="nav-number">3.2.3.1.</span> <span class="nav-text">*当企业业务重要，技术力量又薄弱，并且希望出钱购买产品以获得更好的服务时，可选择硬件负载均衡产品；</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#并用软件以及硬件产品负载均衡产品来分担单一产品的风险；"><span class="nav-number">3.2.3.2.</span> <span class="nav-text">*并用软件以及硬件产品负载均衡产品来分担单一产品的风险；</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#中小型互联网企业，会希望通过使用开源免费的方案来解决问题。"><span class="nav-number">3.2.3.3.</span> <span class="nav-text">*中小型互联网企业，会希望通过使用开源免费的方案来解决问题。</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#网站在并发访问和总访问量不是很大的情况下，建议首选Nginx负载均衡，Nginx配置简单使用方便安全稳定。-另一个实现负载均衡的产品为Haproxy；"><span class="nav-number">3.2.3.4.</span> <span class="nav-text">*网站在并发访问和总访问量不是很大的情况下，建议首选Nginx负载均衡，Nginx配置简单使用方便安全稳定。 另一个实现负载均衡的产品为Haproxy；</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#如果要考虑Nginx负载均衡的高可用功能，建议首选Keepalived软件，因为安装配置简单方便稳定。类似高可用软件还有Heartbeat，但比较复杂；"><span class="nav-number">3.2.3.5.</span> <span class="nav-text">*如果要考虑Nginx负载均衡的高可用功能，建议首选Keepalived软件，因为安装配置简单方便稳定。类似高可用软件还有Heartbeat，但比较复杂；</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#如果是大型企业，负载均衡可以使用-LVS-Keepalived-在前端做四层转发，后端使用Nginx或Haproxy做七层转发，再后面是应用服务器。如果是数据库与存储的负载均衡和高可用，可选值-LVS-Heartbeat；"><span class="nav-number">3.2.3.6.</span> <span class="nav-text">*如果是大型企业，负载均衡可以使用 LVS+Keepalived 在前端做四层转发，后端使用Nginx或Haproxy做七层转发，再后面是应用服务器。如果是数据库与存储的负载均衡和高可用，可选值 LVS+Heartbeat；</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4Nginx负载均衡集群介绍"><span class="nav-number">4.</span> <span class="nav-text">4Nginx负载均衡集群介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1反向代理与负载均衡概念简介"><span class="nav-number">4.1.</span> <span class="nav-text">4.1反向代理与负载均衡概念简介</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2实现Nginx负载均衡的组件"><span class="nav-number">4.2.</span> <span class="nav-text">4.2实现Nginx负载均衡的组件</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#4-2-1Nginx负载均衡核心组件介绍"><span class="nav-number">4.2.1.</span> <span class="nav-text">4.2.1Nginx负载均衡核心组件介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Nginx-upstream模块"><span class="nav-number">4.2.1.1.</span> <span class="nav-text">Nginx upstream模块</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Nginx模块介绍"><span class="nav-number">4.2.1.2.</span> <span class="nav-text">Nginx模块介绍</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#upstream模块语法"><span class="nav-number">4.2.1.3.</span> <span class="nav-text">upstream模块语法</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#upstream模块调度算法"><span class="nav-number">4.2.1.4.</span> <span class="nav-text">upstream模块调度算法</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Nginx-proxy模块"><span class="nav-number">4.2.1.5.</span> <span class="nav-text">Nginx proxy模块</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#proxy-pass介绍"><span class="nav-number">4.2.1.6.</span> <span class="nav-text">proxy_pass介绍</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#http-proyx模块参数"><span class="nav-number">4.2.1.7.</span> <span class="nav-text">http_proyx模块参数</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-Nginx负载均衡配置"><span class="nav-number">5.</span> <span class="nav-text">5 Nginx负载均衡配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-1-配置后端节点"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 配置后端节点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-2-Nginx负载均衡反向代理节点"><span class="nav-number">5.2.</span> <span class="nav-text">5.2 Nginx负载均衡反向代理节点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-3与反向代理配置相关的更多参数"><span class="nav-number">5.3.</span> <span class="nav-text">5.3与反向代理配置相关的更多参数</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#proxy-next-upstream参数补充"><span class="nav-number">5.3.0.1.</span> <span class="nav-text">proxy_next_upstream参数补充</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-4-根据URL中的目录地址实现代理转发"><span class="nav-number">5.4.</span> <span class="nav-text">5.4 根据URL中的目录地址实现代理转发</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-5-动静态分离配置文件"><span class="nav-number">5.5.</span> <span class="nav-text">5.5 动静态分离配置文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-6-URL目录地址转发的应用场景"><span class="nav-number">5.6.</span> <span class="nav-text">5.6 URL目录地址转发的应用场景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-7-根据客户端的设备（user-agent）转发"><span class="nav-number">5.7.</span> <span class="nav-text">5.7 根据客户端的设备（user_agent）转发</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-8-根据-user-agent转发配置"><span class="nav-number">5.8.</span> <span class="nav-text">5.8 根据$user_agent转发配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-9-根据文件扩展名实现代理转发"><span class="nav-number">5.9.</span> <span class="nav-text">5.9 根据文件扩展名实现代理转发</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-Nginx负载均衡检测节点状态"><span class="nav-number">6.</span> <span class="nav-text">6 Nginx负载均衡检测节点状态</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#6-1安装："><span class="nav-number">6.1.</span> <span class="nav-text">6.1安装：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-2-配置nginx-upstream-check"><span class="nav-number">6.2.</span> <span class="nav-text">6.2 配置nginx_upstream_check</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">griabcrh</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+|<span id="busuanzi_container_site_uv">
+  本站访客数<span id="busuanzi_value_site_uv"></span>人次
+</span>
+|<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("8TpPOiYi4ReJYs5sYfMdFmSO-gzGzoHsz", "hX7JfGRvJG8zcMqMRAWNMNyk");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
