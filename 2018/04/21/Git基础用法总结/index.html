@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Git," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="一、Git简介Git是一个分布式的版本控制系统，与集中式的版本控制系统不同的是，每个人都工作在通过克隆建立的本地版本库中。也就是说每个人都拥有一个完整的版本库，查看提交日志、提交、创建里程碑和分支、合并分支、回退等所有操作都直接在本地完成而不需要网络连接。 对于Git仓库来说，每个人都有一个独立完整的仓库，所谓的远程仓库或是服务器仓库其实也是一个仓库，只不过这台主机24小时运行，它是一个稳定的仓库">
+<meta name="keywords" content="Git">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git基础用法总结">
+<meta property="og:url" content="https://griabcrh.github.io/2018/04/21/Git基础用法总结/index.html">
+<meta property="og:site_name" content="Griabcrh&#39;s Blog">
+<meta property="og:description" content="一、Git简介Git是一个分布式的版本控制系统，与集中式的版本控制系统不同的是，每个人都工作在通过克隆建立的本地版本库中。也就是说每个人都拥有一个完整的版本库，查看提交日志、提交、创建里程碑和分支、合并分支、回退等所有操作都直接在本地完成而不需要网络连接。 对于Git仓库来说，每个人都有一个独立完整的仓库，所谓的远程仓库或是服务器仓库其实也是一个仓库，只不过这台主机24小时运行，它是一个稳定的仓库">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://griabcrh.github.io/images/git-bash-win.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/git-repository.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/git-status.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/git-diff.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/git-log.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/git-diff-2.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/git-reset.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/git-reflog.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/git-remote-remove.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/git-remote-add.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/git-push.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/git-base-branch.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/git-merge.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/git-brach-group.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/Git.jpg">
+<meta property="og:updated_time" content="2018-04-21T09:23:35.966Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Git基础用法总结">
+<meta name="twitter:description" content="一、Git简介Git是一个分布式的版本控制系统，与集中式的版本控制系统不同的是，每个人都工作在通过克隆建立的本地版本库中。也就是说每个人都拥有一个完整的版本库，查看提交日志、提交、创建里程碑和分支、合并分支、回退等所有操作都直接在本地完成而不需要网络连接。 对于Git仓库来说，每个人都有一个独立完整的仓库，所谓的远程仓库或是服务器仓库其实也是一个仓库，只不过这台主机24小时运行，它是一个稳定的仓库">
+<meta name="twitter:image" content="https://griabcrh.github.io/images/git-bash-win.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://griabcrh.github.io/2018/04/21/Git基础用法总结/"/>
+
+
+
+
+
+  <title>Git基础用法总结 | Griabcrh's Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?91c85e96d8e34ae79347b17b0d41826f";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Griabcrh's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">welcome</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/04/21/Git基础用法总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="griabcrh">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/24718752.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Griabcrh's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Git基础用法总结</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-21T17:23:03+08:00">
+                2018-04-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/04/21/Git基础用法总结/" class="leancloud_visitors" data-flag-title="Git基础用法总结">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="一、Git简介"><a href="#一、Git简介" class="headerlink" title="一、Git简介"></a>一、Git简介</h3><p>Git是一个分布式的版本控制系统，与集中式的版本控制系统不同的是，每个人都工作在通过克隆建立的本地版本库中。也就是说每个人都拥有一个完整的版本库，查看提交日志、提交、创建里程碑和分支、合并分支、回退等所有操作都直接在本地完成而不需要网络连接。</p>
+<p>对于Git仓库来说，每个人都有一个独立完整的仓库，所谓的远程仓库或是服务器仓库其实也是一个仓库，只不过这台主机24小时运行，它是一个稳定的仓库，供他人克隆、推送，也从服务器仓库中拉取别人的提交。</p>
+<h3 id="二、Git安装"><a href="#二、Git安装" class="headerlink" title="二、Git安装"></a>二、Git安装</h3><p>Git是Linux之父Linus的第二个伟大的作品，它最早是在Linux上开发的，被用来管理Linux核心的源代码。后来慢慢地有人将其移植到了Unix、Windows、Max OS等操作系统中。</p>
+<p>想要使用Git，第一步当然是安装。</p>
+<h4 id="2-1-Linux安装"><a href="#2-1-Linux安装" class="headerlink" title="2.1 Linux安装"></a>2.1 Linux安装</h4><p>我以Ubuntu系统为例，使用下面的命令可以查看该系统是否安装了Git。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git</span><br><span class="line">The program <span class="string">'git'</span> is currently not installed. You can install it by typing:</span><br><span class="line">sudo apt-get install git</span><br></pre></td></tr></table></figure>
+<p>如果如上所示，则说明没有安装Git，根据提示使用下面的命令安装Git。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install git</span><br></pre></td></tr></table></figure>
+<p>有一些教程的安装命令是：sudo apt-get install git-core，那是因为以前有个软件叫GIT(GNU Interactive Tools)，所以Git只能叫git-core，不过现在由于Git太有名。GNU Interactive Tools已经改名为gnuit，git-core也正式改名为git。所以老一点的教程或者系统是使用sudo apt-get install git-core。</p>
+<h4 id="2-2-Windows上安装"><a href="#2-2-Windows上安装" class="headerlink" title="2.2 Windows上安装"></a>2.2 Windows上安装</h4><p>在Git官网下载Windows版本的安装软件。根据你的电脑系统选择32位或者是64位。下载完成之后。双击运行，根据引导进行安装。</p>
+<p>安装完成之后，你可以在开始菜单中找到“Git”-&gt;”Git Bash”，打开“Git Bash”之后如果出现一个类似命令行窗口的东西，则说明安装成功。如下图所示：</p>
+<p><img src="/images/git-bash-win.png" alt=""></p>
+<h4 id="2-3-Mac-OS-X-上安装"><a href="#2-3-Mac-OS-X-上安装" class="headerlink" title="2.3 Mac OS X 上安装"></a>2.3 Mac OS X 上安装</h4><p>等我买了Mac笔记本再更新…心疼的摸一把自己的钱包。</p>
+<h4 id="2-4-安装后的配置"><a href="#2-4-安装后的配置" class="headerlink" title="2.4 安装后的配置"></a>2.4 安装后的配置</h4><p>安装完成之后可以使用下面的命令查看当前Git的版本。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git version</span><br><span class="line">git version 1.9.1</span><br></pre></td></tr></table></figure>
+<p>Git安装完成之后需要进行一些简单的设置。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git config --global user.name <span class="string">"Your Name"</span></span><br><span class="line">$ git config --global user.email <span class="string">"email@example.com"</span></span><br></pre></td></tr></table></figure>
+<p>–global这个参数的意思就是当前机器中的所有仓库都是用这个配置。</p>
+<p>有时候你在使用Git的过程中可能会出现warning: LF will be replaced by CRLF。这是因为Windows中的换行符为 CRLF， 而在linux下的换行符为：LF。所以有时候你在执行git add .时，系统会提示：LF 将被转换成 CRLF。使用下面的命令可以禁用自动转换。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git config --global core.autocrlf <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+<h3 id="三、Git用法"><a href="#三、Git用法" class="headerlink" title="三、Git用法"></a>三、Git用法</h3><h4 id="3-1-创建版本库"><a href="#3-1-创建版本库" class="headerlink" title="3.1 创建版本库"></a>3.1 创建版本库</h4><p>创建版本库非常的简单，选择一个合适的地方，使用下面的命令创建版本库。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir TestGit <span class="comment"># 创建文件夹</span></span><br><span class="line">$ <span class="built_in">cd</span> TestGit <span class="comment"># 进入文件夹</span></span><br><span class="line">$ git init <span class="comment"># 初始化成Git版本库</span></span><br></pre></td></tr></table></figure>
+<p>Initialized empty Git repository in /home/kylin/Repositories/TestGit/.git/<br>至此一个空的Git仓库就创建好了，就是这么的简单。在这个目录下你会看到一个.git目录。这个目录就是Git用来跟踪管理版本库的。所以千万不要修改删除这个文件夹中的文件。因为这是隐藏目录，所以如果你看不见可以使用命令ls -a来查看。</p>
+<h4 id="3-2-Git基本命令"><a href="#3-2-Git基本命令" class="headerlink" title="3.2 Git基本命令"></a>3.2 Git基本命令</h4><p>当创建好了一个版本库之后，我们就可以在版本库中进行版本控制了。所以我们需要了解一下Git的一些基本命令。</p>
+<p>git add # 将工作区的修改提交到暂存区<br>git commit # 将暂存区的修改提交到当前分支<br>git status # 查看当前仓库的状态<br>git diff # 查看修改<br>git log # 查看提交历史<br>git reset # 回退到某一个版本<br>git reflog # 查看历史命令，类似与Linux中的history<br>3.3 工作区和暂存区</p>
+<p>上面说到了工作区和暂存区的概念，想要用好Git，那么了解Git中的工作区、暂存区之间的关系是很重要的。先来看一张图。</p>
+<p><img src="/images/git-repository.png" alt=""></p>
+<p>工作区：在你的电脑中可以看见的Git仓库的那个目录，如之前我创建的TestGit目录。那文件夹就是一个工作区。当我们往版本库提交的时候有两个步骤：</p>
+<p>git add # 这一步就是将工作区中修改添加到暂存区（stage）中。<br>git commit # 这一步其实就是将暂存区中的修改添加到当前的分支中。<br>所以我们在提交的时候一般都是这样：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git add . <span class="comment"># 将工作区中所有修改提交到暂存区，"."点的含义就是所有修改</span></span><br><span class="line">$ git commit -m <span class="string">"first commit"</span> <span class="comment"># 将暂存区的所有修改提交到当前分支，-m参数是命名当前的提交</span></span><br></pre></td></tr></table></figure>
+<h4 id="3-4-其他命令使用"><a href="#3-4-其他命令使用" class="headerlink" title="3.4 其他命令使用"></a>3.4 其他命令使用</h4><p>当我们修改了版本库中的一些文件之后，可以使用git status命令来查看都有那些修改。</p>
+<p><img src="/images/git-status.png" alt=""></p>
+<p>当你想要查看某个文件修改那些具体的内容，可以使用git diff <filename>命令来查看。</filename></p>
+<p><img src="/images/git-diff.png" alt=""></p>
+<p>当你的版本库有了很多次提交之后，你想查看以往的提交记录的话可以使用git log来查看历史提交记录。</p>
+<p><img src="/images/git-log.png" alt=""></p>
+<p>如果你想查看两次提交版本之间有什么修改的话，也可以使用git diff来查看。</p>
+<p><img src="/images/git-diff-2.png" alt=""></p>
+<p>如果你想要回到之前的版本的话，可以使用git reset命令。</p>
+<p><img src="/images/git-reset.png" alt=""></p>
+<p>如上图所示，先使用git log查看历史版本记录，可以看到有两个。先使用git reset –hard 51fca33命令让版本回退到第一次提交的时候。再使用git log命令查看一下当前的版本发现只有一个了，这时候版本成功回退到第一次提交的时候。</p>
+<p>那么如果我此时又想让版本回退到第二次提交的时候怎么办呢？此时只有一个版本啊。这时使用git reflog可以查看历史操作记录。只需要使用命令git reset回退到之前的操作就可以了。如下图所示：</p>
+<p><img src="/images/git-reflog.png" alt=""></p>
+<p>在上面的图中可以看到，commit_id是51fca33c34eec36c787faef180ccf2d3e5017462一大长串。但是我的命令中只使用了51fca33前面一小段。因为Git会根据你的输入自动去寻找相应的版本号，所以并不需要输入完整的ID,但是注意也不要输入太短。</p>
+<p>掌握了上面这些命令的话，基本上Git就可以很顺畅的使用了。当然在实际应用中，我们还需要学习远程仓库和分支的使用。</p>
+<h3 id="四、远程仓库"><a href="#四、远程仓库" class="headerlink" title="四、远程仓库"></a>四、远程仓库</h3><p>Git是分布式版本控制系统，同一个仓库，可以同步到很多不同的主机中，那么如何同步呢？这个时候只需要使用Git中克隆命令就可以从别的仓库中复制一份一样的到你的版本库中。非常的方便。</p>
+<p>首先需要使用克隆命令从远程服务器克隆版本库到本地，使用下面的命令进行克隆。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> &lt;url&gt; <span class="comment"># url是远程版本库的地址</span></span><br></pre></td></tr></table></figure>
+<p>使用git remote -v查看远程版本库的信息。如下图所示，前面的origin是远程库的别名，后面的地址是远程库的具体地址。使用git remote remove &lt;别名&gt;可以删除一个远程仓库。</p>
+<p><img src="/images/git-remote-remove.png" alt=""></p>
+<p>当我们使用git clone <url>命令克隆远程仓库的时候，已经自动添加了此远程仓库，别名为origin。如果你是在本地git init自己手动创建的版本库，想要和远程仓库进行关联，需要使用命令git remote add <remote-name> <url>先添加一个远程仓库。添加完成之后可以使用git remote -v查看。</url></remote-name></url></p>
+<p><img src="/images/git-remote-add.png" alt=""></p>
+<p>当然，也许你还想要添加其他的远程仓库，只需要在添加其他远程仓库的时候保证别名不一致就可以了。origin是默认的别名。</p>
+<p>当你添加了远程仓库之后，本地仓库就可以与远程仓库进行关联以及操作了。如果你想把本地仓库中的修改提交到远程仓库，可以使用命令git push <remote-name> <branch>提交到远程仓库。</branch></remote-name></p>
+<p><img src="/images/git-push.png" alt=""></p>
+<p>如果远程仓库中的文件有所改动，那么可以使用命令git pull <remote-name> <branch>下载远程仓库中的修改并进行快速合并。如果有与本地文件相冲突的内容，在命令行中会有提示，根据提示进行手动消除冲突就可以了。这样的话就可以让自己的本地库与远程库保持一致了。</branch></remote-name></p>
+<h3 id="五、分支管理"><a href="#五、分支管理" class="headerlink" title="五、分支管理"></a>五、分支管理</h3><p>Git中分支的使用非常快捷方便，相对于SVN来说，速度快了不知道多少。熟练的使用分支是团队协作开发的基础。</p>
+<h4 id="5-1-创建与合并分支"><a href="#5-1-创建与合并分支" class="headerlink" title="5.1 创建与合并分支"></a>5.1 创建与合并分支</h4><p>在Git中分支的创建、切换、删除都十分的快捷方便。主要命令如下：</p>
+<p>git branch # 查看所有本地分支<br>git branch# 创建一个新的分支<br>git checkout# 切换到指定分支<br>git branch -d# 删除一个分支<br>git merge# 将指定的分支合并到当前分支<br>git-base-branch</p>
+<p><img src="/images/git-base-branch.png" alt=""></p>
+<p>上图显示了分支的查看、创建、创建、切换、删除这几种操作。使用git branch可以查看本地所有分支，并且分支前面有一个*号的是当前分支。</p>
+<p>在团队的实际开发中，master主分支应该是最稳定的，用来发布新版本。dev分支是开发分支，在这个分支中进行开发，每一个程序员应当有自己的分支，如我在开发中需要创建我自己的分支kylin，我写的程序全部提交到kylin分支中，当完成了某一个模块，再将kylin分支的内容合并到dev中。这是团队开发中分支的基本管理，这里用到了分支合并，请看下图。</p>
+<p><img src="/images/git-merge.png" alt=""></p>
+<p>在上图中，我先切换到dev开发分支，修改了README.md文件之后，将修改提交到dev分支。然后切换到master分支，将dev分支使用命令git merge <branch>合并到master主分支中。这就是分支合并的基本用法。</branch></p>
+<h4 id="5-2-团队协作"><a href="#5-2-团队协作" class="headerlink" title="5.2 团队协作"></a>5.2 团队协作</h4><p>在团队协作中，我们需要了解分支管理。团队协作中的分支管理应该如同下图所示。</p>
+<p><img src="/images/git-brach-group.png" alt=""></p>
+<p>master主分支应该是最稳定的，主要用来发布新版本。<br>dev分支是开发分支，这是最不稳定的，程序员们都在这上面干活，只有当版本发布的时候，才将此分支合并到master主分支上。<br>每一个程序员应当有自己的分支，当完成某一块的内容的时候，往dev分支合并即可。<br>当程序出现了BUG的时候，你可以在master或是dev分支创建一个临时分支issue-001，在这个分支修复BUG，修复完成之后将此分支合并到主分支，然后删除BUG分支即可。</p>
+<p>总结<br>Git版本控制器真心是非常非常好用，在团队开发中可以很好的提高工作效率，真心是团队开发必备。本篇博客由于篇幅的原因，不能把Git的知识讲解的特别详细。仅将平时最常用的知识及命令整理总结了一下，如果有说的不好的地方还请指出来，我将及时改正。</p>
+<p>如果有小伙伴想要更加深入的了解Git的使用及其他的内容的话，在这里给大家推荐一些比较好的教程。</p>
+<p>廖雪峰的Git教程（非常推荐）<br>Git权威指南<br>Pro Git 中文版本<br>最后在附上一张Git命令速查表。</p>
+<p><img src="/images/Git.jpg" alt=""></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Git/" rel="tag"># Git</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/21/Linux下RPM软件包的安装及卸载/" rel="next" title="Linux下RPM软件包的安装及卸载">
+                <i class="fa fa-chevron-left"></i> Linux下RPM软件包的安装及卸载
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/24718752.gif"
+                alt="griabcrh" />
+            
+              <p class="site-author-name" itemprop="name">griabcrh</p>
+              <p class="site-description motion-element" itemprop="description">nice to meet you</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、Git简介"><span class="nav-number">1.</span> <span class="nav-text">一、Git简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、Git安装"><span class="nav-number">2.</span> <span class="nav-text">二、Git安装</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-Linux安装"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 Linux安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-Windows上安装"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 Windows上安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-Mac-OS-X-上安装"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 Mac OS X 上安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-安装后的配置"><span class="nav-number">2.4.</span> <span class="nav-text">2.4 安装后的配置</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、Git用法"><span class="nav-number">3.</span> <span class="nav-text">三、Git用法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-创建版本库"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 创建版本库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-Git基本命令"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 Git基本命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-其他命令使用"><span class="nav-number">3.3.</span> <span class="nav-text">3.4 其他命令使用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、远程仓库"><span class="nav-number">4.</span> <span class="nav-text">四、远程仓库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五、分支管理"><span class="nav-number">5.</span> <span class="nav-text">五、分支管理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-1-创建与合并分支"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 创建与合并分支</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-2-团队协作"><span class="nav-number">5.2.</span> <span class="nav-text">5.2 团队协作</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">griabcrh</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+|<span id="busuanzi_container_site_uv">
+  本站访客数<span id="busuanzi_value_site_uv"></span>人次
+</span>
+|<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("8TpPOiYi4ReJYs5sYfMdFmSO-gzGzoHsz", "hX7JfGRvJG8zcMqMRAWNMNyk");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

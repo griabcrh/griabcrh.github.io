@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="maven," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="我最近两天在看maven，因为之前用MyEclipse的ssh框架挺好用的，所以就用MyEclipse集成的maven进行学习。本文主要介绍maven project的构建。 1. maven介绍1.1 什么是mavenmaven是Apache下一个纯java开发的开源项目，它是一个项目管理工具，使用maven对Java项目进行构建、依赖管理。">
+<meta name="keywords" content="maven">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MyEclipse系列之maven">
+<meta property="og:url" content="https://griabcrh.github.io/2018/04/21/MyEclipse系列之maven/index.html">
+<meta property="og:site_name" content="Griabcrh&#39;s Blog">
+<meta property="og:description" content="我最近两天在看maven，因为之前用MyEclipse的ssh框架挺好用的，所以就用MyEclipse集成的maven进行学习。本文主要介绍maven project的构建。 1. maven介绍1.1 什么是mavenmaven是Apache下一个纯java开发的开源项目，它是一个项目管理工具，使用maven对Java项目进行构建、依赖管理。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://griabcrh.github.io/images/process.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/maven_install.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/maven1.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/maven2.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/maven3.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/maven4.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/maven5.png">
+<meta property="og:updated_time" content="2018-04-21T09:17:31.220Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MyEclipse系列之maven">
+<meta name="twitter:description" content="我最近两天在看maven，因为之前用MyEclipse的ssh框架挺好用的，所以就用MyEclipse集成的maven进行学习。本文主要介绍maven project的构建。 1. maven介绍1.1 什么是mavenmaven是Apache下一个纯java开发的开源项目，它是一个项目管理工具，使用maven对Java项目进行构建、依赖管理。">
+<meta name="twitter:image" content="https://griabcrh.github.io/images/process.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://griabcrh.github.io/2018/04/21/MyEclipse系列之maven/"/>
+
+
+
+
+
+  <title>MyEclipse系列之maven | Griabcrh's Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?91c85e96d8e34ae79347b17b0d41826f";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Griabcrh's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">welcome</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/04/21/MyEclipse系列之maven/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="griabcrh">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/24718752.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Griabcrh's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">MyEclipse系列之maven</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-21T17:16:38+08:00">
+                2018-04-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/04/21/MyEclipse系列之maven/" class="leancloud_visitors" data-flag-title="MyEclipse系列之maven">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>我最近两天在看maven，因为之前用MyEclipse的ssh框架挺好用的，所以就用MyEclipse集成的maven进行学习。本文主要介绍<strong>maven project</strong>的构建。</p>
+<h3 id="1-maven介绍"><a href="#1-maven介绍" class="headerlink" title="1. maven介绍"></a>1. maven介绍</h3><h4 id="1-1-什么是maven"><a href="#1-1-什么是maven" class="headerlink" title="1.1 什么是maven"></a>1.1 什么是maven</h4><p>maven是Apache下一个纯java开发的开源项目，它是一个<strong>项目管理工具</strong>，使用maven对Java项目进行构建、依赖管理。<br><a id="more"></a></p>
+<h3 id="2-什么是项目构建"><a href="#2-什么是项目构建" class="headerlink" title="2. 什么是项目构建"></a>2. 什么是项目构建</h3><p>项目构建是一个项目从编写源代码、测试、运行、打包、部署、运行的过程。<br>maven将项目构建的过程进行标准化，每个阶段使用一个命令完成，下图展示了构建过程的一些阶段。<br><img src="/images/process.png" alt=""><br>上图中部分阶段对应命令如下:</p>
+<ul>
+<li>清理阶段对应maven的命令式clean，清理输出的class文件。</li>
+<li>编译阶段对应maven的命令是compile，将java代码编译成.class文件。</li>
+<li>打包阶段对应的maven命令是package，Java工程可以打包成jar包，web工程可以打包成war包。</li>
+</ul>
+<p>maven工程构建的优点：</p>
+<ol>
+<li>1 一个命令完成构建、运行，方便快捷。</li>
+<li>2 maven对每个构建阶段进行规范，非常有利于大型团队协作开发。</li>
+</ol>
+<h3 id="3-什么是依赖管理"><a href="#3-什么是依赖管理" class="headerlink" title="3. 什么是依赖管理"></a>3. 什么是依赖管理</h3><p>什么是依赖？一个Java项目可能要使用一些第三方的jar包才可以运行，那么我们说这个Java项目依赖了这些第三方的jar包。<br>举个例子：一个web project使用ssh框架，该web project依赖ssh框架，具体它依赖的是hibernate，spring，struts2.<br>什么是依赖管理？就是对项目所依赖的jar包进行规范化管理。</p>
+<p>使用maven依赖管理添加jar的好处：</p>
+<ul>
+<li>通过pom.xml文件对jar包的版本进行统一管理，可避免版本冲突。</li>
+<li>maven团队维护了一个非常全的maven仓库，里面包括了当前使用的jar包，maven工程可以自动从maven仓库下载jar包，非常方便。</li>
+</ul>
+<h3 id="4-maven仓库"><a href="#4-maven仓库" class="headerlink" title="4. maven仓库"></a>4. maven仓库</h3><h4 id="4-1-maven仓库的作用"><a href="#4-1-maven仓库的作用" class="headerlink" title="4.1 maven仓库的作用"></a>4.1 maven仓库的作用</h4><p>maven的工作需要从远程仓库（可以理解为互联网上的仓库）下载一些jar包并保存在本地仓库，本地仓库就是本地文件夹，当第二次需要此jar包时则不再从远程仓库下载，因为本地仓库已经存在了，可以将本地仓库理解为缓存，有了本地仓库就不用每次从远程仓库下载了。项目所需要的插件或jar包，优先从本地仓库找。</p>
+<h4 id="4-2-搭建本地仓库"><a href="#4-2-搭建本地仓库" class="headerlink" title="4.2 搭建本地仓库"></a>4.2 搭建本地仓库</h4><p>默认本地仓库地址:${user.dir}/.m2/repository,${user.dir}表示windows用户目录。<br>配置本地仓库需要将repository.rar(自己去网上下载)解压至自己的电脑上。在maven的安装目录下的conf/settings.xml文件中配置本地仓库的位置：<br><img src="/images/maven_install.png" alt=""><br>将localRepository的地址改为你解压的repository.rar的地址。</p>
+<p>将MyEclipse上的maven默认仓库地址改为你解压的repository.rar的地址。打开windows下的preference做如下图的操作，这样，本地仓库算是搭建好了。<br><img src="/images/maven1.png" alt=""></p>
+<h4 id="4-3-maven项目工程目录"><a href="#4-3-maven项目工程目录" class="headerlink" title="4.3 maven项目工程目录"></a>4.3 maven项目工程目录</h4><p>src/main/java—存放项目的.java文件<br>src/main/resources—存放项目资源文件，如spring、hibernate配置文件<br>src/test/java—存放所有单元测试.java文件，如JUnit测试类<br>src/test/resources—测试资源文件<br>target—项目输出位置，编译后的class文件会输出到此目录<br>pom.xml—maven项目核心配置文件</p>
+<h3 id="5-构建web工程"><a href="#5-构建web工程" class="headerlink" title="5. 构建web工程"></a>5. 构建web工程</h3><h4 id="5-1-创建maven工程"><a href="#5-1-创建maven工程" class="headerlink" title="5.1 创建maven工程"></a>5.1 创建maven工程</h4><p>右击空白处，选择new Maven Project，这里将create a simple project勾选上<br><img src="/images/maven2.png" alt=""></p>
+<p>照着如下图定义坐标，注意groupId一般为公司或组织的名称，ArtifactId一般为项目的名称，packaging为打包方法，web工程为war，java工程为jar。<br><img src="/images/maven3.png" alt=""></p>
+<p>创建好后，pom.xml上会有个红叉，手动在main下新建一个web-app，在web-app下新建一个WEB-INF，再在其下建一个web.xml。在pom.xml里写上如下类容：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;build&gt;</span><br><span class="line">	&lt;plugins&gt;</span><br><span class="line">		&lt;plugin&gt;</span><br><span class="line">			&lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;</span><br><span class="line">			&lt;version&gt;3.5.1&lt;/version&gt;  </span><br><span class="line">			&lt;configuration&gt;</span><br><span class="line">				&lt;<span class="built_in">source</span>&gt;1.7&lt;/<span class="built_in">source</span>&gt;</span><br><span class="line">				&lt;target&gt;1.7&lt;/target&gt;</span><br><span class="line">				&lt;encoding&gt;UTF-8&lt;/encoding&gt;</span><br><span class="line">			&lt;/configuration&gt;</span><br><span class="line">		&lt;/plugin&gt;</span><br><span class="line">	&lt;/plugins&gt;</span><br><span class="line">&lt;/build&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="5-2-定义web-xml"><a href="#5-2-定义web-xml" class="headerlink" title="5.2 定义web.xml"></a>5.2 定义web.xml</h4><p>在src/web-app/WEB-INF下的web.xml文件写上如下类容：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span>?&gt;</span><br><span class="line">&lt;web-app xmlns:xsi=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span><br><span class="line">	xmlns=<span class="string">"http://java.sun.com/xml/ns/javaee"</span> xmlns:web=<span class="string">"http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"</span></span><br><span class="line">	xsi:schemalocation=<span class="string">"http://java.sun.com/xml/ns/javaee</span></span><br><span class="line"><span class="string">		http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"</span></span><br><span class="line">	id=<span class="string">"WebApp_ID"</span> version=<span class="string">"2.5"</span>&gt;</span><br><span class="line">		</span><br><span class="line">	&lt;welcome-file-list&gt;</span><br><span class="line">		&lt;welcome-file&gt;index.html&lt;/welcome-file&gt;</span><br><span class="line">		&lt;welcome-file&gt;index.htm&lt;/welcome-file&gt;</span><br><span class="line">		&lt;welcome-file&gt;index.jsp&lt;/welcome-file&gt;</span><br><span class="line">		&lt;welcome-file&gt;default.html&lt;/welcome-file&gt;</span><br><span class="line">		&lt;welcome-file&gt;default.htm&lt;/welcome-file&gt;</span><br><span class="line">		&lt;welcome-file&gt;default.jsp&lt;/welcome-file&gt;</span><br><span class="line">	&lt;/welcome-file-list&gt;</span><br><span class="line">&lt;/web-app&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="5-3编写servlet"><a href="#5-3编写servlet" class="headerlink" title="5.3编写servlet"></a>5.3编写servlet</h4><p>在src/main/java中创建servlet，代码如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">package com;</span><br><span class="line"></span><br><span class="line">import java.io.IOException;</span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line"></span><br><span class="line">public class ServletTest extends HttpServlet &#123;</span><br><span class="line"></span><br><span class="line">	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line"></span><br><span class="line">		response.setContentType(<span class="string">"text/html"</span>);</span><br><span class="line">		this.doPost(request,response);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line"></span><br><span class="line">		response.setContentType(<span class="string">"text/html"</span>);</span><br><span class="line">		request.getRequestDispatcher(<span class="string">"/jsp/test.jsp"</span>).forward(request, response);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="5-4-编写jsp"><a href="#5-4-编写jsp" class="headerlink" title="5.4 编写jsp"></a>5.4 编写jsp</h4><p><img src="/images/maven4.png" alt=""></p>
+<p>index.jsp的类容如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;body&gt;</span><br><span class="line">    Hello Word &lt;br&gt;</span><br><span class="line">&lt;/body&gt;</span><br></pre></td></tr></table></figure>
+<p>test.jsp的类容如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;body&gt;</span><br><span class="line">    运行一个servlet &lt;br&gt;</span><br><span class="line">&lt;/body&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="5-5-添加servlet-jsp的jar包"><a href="#5-5-添加servlet-jsp的jar包" class="headerlink" title="5.5 添加servlet/jsp的jar包"></a>5.5 添加servlet/jsp的jar包</h4><p>在pom.xml中添加如下类容,然后在你建的工程上右击选择maven-》update project加载所需要的servlet/jsp包。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependencies&gt;</span><br><span class="line">	&lt;dependency&gt;</span><br><span class="line">		&lt;groupId&gt;junit&lt;/groupId&gt;</span><br><span class="line">		&lt;artifactId&gt;junit&lt;/artifactId&gt;</span><br><span class="line">		&lt;version&gt;4.9&lt;/version&gt;</span><br><span class="line">	&lt;/dependency&gt;</span><br><span class="line">	&lt;dependency&gt;</span><br><span class="line">		&lt;groupId&gt;javax.servlet&lt;/groupId&gt;</span><br><span class="line">		&lt;artifactId&gt;servlet-api&lt;/artifactId&gt;</span><br><span class="line">		&lt;version&gt;2.5&lt;/version&gt;</span><br><span class="line">		&lt;scope&gt;provided&lt;/scope&gt;</span><br><span class="line">	&lt;/dependency&gt;</span><br><span class="line">	&lt;dependency&gt;</span><br><span class="line">		&lt;groupId&gt;javax.servlet&lt;/groupId&gt;</span><br><span class="line">		&lt;artifactId&gt;jsp-api&lt;/artifactId&gt;</span><br><span class="line">		&lt;version&gt;2.0&lt;/version&gt;</span><br><span class="line">		&lt;scope&gt;provided&lt;/scope&gt;</span><br><span class="line">	&lt;/dependency&gt;</span><br><span class="line">&lt;/dependencies&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="5-6-配置servlet"><a href="#5-6-配置servlet" class="headerlink" title="5.6 配置servlet"></a>5.6 配置servlet</h4><p>在web.xml里配置servlet</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;servlet&gt;</span><br><span class="line">    &lt;servlet-name&gt;ServletTest&lt;/servlet-name&gt;</span><br><span class="line">    &lt;servlet-class&gt;com.ServletTest&lt;/servlet-class&gt;</span><br><span class="line">&lt;/servlet&gt;</span><br><span class="line">&lt;servlet-mapping&gt;</span><br><span class="line">    &lt;servlet-name&gt;ServletTest&lt;/servlet-name&gt;</span><br><span class="line">    &lt;url-pattern&gt;/<span class="built_in">test</span>&lt;/url-pattern&gt;</span><br><span class="line">&lt;/servlet-mapping&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="5-7-运行"><a href="#5-7-运行" class="headerlink" title="5.7 运行"></a>5.7 运行</h4><p>右击工程选择run as ，选择maven build，在Goals一行填写：tomcat:run运行。(特别注意，当所有步骤都做完之后，如果项目工程还有小红叉，解决办法：右击工程选择maven-》update project把Offline勾选上)</p>
+<p><img src="/images/maven5.png" alt=""></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/maven/" rel="tag"># maven</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/21/将-properties文件做成包外映射/" rel="next" title="将-properties文件做成包外映射">
+                <i class="fa fa-chevron-left"></i> 将-properties文件做成包外映射
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/21/解决yum安装redis出现No-package-redis-available/" rel="prev" title="解决yum安装redis出现No-package-redis-available">
+                解决yum安装redis出现No-package-redis-available <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/24718752.gif"
+                alt="griabcrh" />
+            
+              <p class="site-author-name" itemprop="name">griabcrh</p>
+              <p class="site-description motion-element" itemprop="description">nice to meet you</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-maven介绍"><span class="nav-number">1.</span> <span class="nav-text">1. maven介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-什么是maven"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 什么是maven</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-什么是项目构建"><span class="nav-number">2.</span> <span class="nav-text">2. 什么是项目构建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-什么是依赖管理"><span class="nav-number">3.</span> <span class="nav-text">3. 什么是依赖管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-maven仓库"><span class="nav-number">4.</span> <span class="nav-text">4. maven仓库</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-maven仓库的作用"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 maven仓库的作用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-搭建本地仓库"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 搭建本地仓库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-maven项目工程目录"><span class="nav-number">4.3.</span> <span class="nav-text">4.3 maven项目工程目录</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-构建web工程"><span class="nav-number">5.</span> <span class="nav-text">5. 构建web工程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-1-创建maven工程"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 创建maven工程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-2-定义web-xml"><span class="nav-number">5.2.</span> <span class="nav-text">5.2 定义web.xml</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-3编写servlet"><span class="nav-number">5.3.</span> <span class="nav-text">5.3编写servlet</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-4-编写jsp"><span class="nav-number">5.4.</span> <span class="nav-text">5.4 编写jsp</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-5-添加servlet-jsp的jar包"><span class="nav-number">5.5.</span> <span class="nav-text">5.5 添加servlet/jsp的jar包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-6-配置servlet"><span class="nav-number">5.6.</span> <span class="nav-text">5.6 配置servlet</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-7-运行"><span class="nav-number">5.7.</span> <span class="nav-text">5.7 运行</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">griabcrh</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+|<span id="busuanzi_container_site_uv">
+  本站访客数<span id="busuanzi_value_site_uv"></span>人次
+</span>
+|<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("8TpPOiYi4ReJYs5sYfMdFmSO-gzGzoHsz", "hX7JfGRvJG8zcMqMRAWNMNyk");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
