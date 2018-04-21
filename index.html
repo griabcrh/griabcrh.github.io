@@ -272,6 +272,290 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/04/21/解决百度云盘下载限速问题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="griabcrh">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/24718752.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Griabcrh's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/04/21/解决百度云盘下载限速问题/" itemprop="url">解决百度云盘下载限速问题</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-21T17:08:41+08:00">
+                2018-04-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/04/21/解决百度云盘下载限速问题/" class="leancloud_visitors" data-flag-title="解决百度云盘下载限速问题">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>相信有很多小朋友和我一样，被百度云盘下载限速的问题困扰的头疼，如果说下载的是1G之内的，倒还可以接受，一旦下载大文件，哎吆码！等死人有木有？</p>
+<h4 id="1-首先打开百度网盘-https-pan-baidu-com，-找到需要下载的资源，比如图片中的内容"><a href="#1-首先打开百度网盘-https-pan-baidu-com，-找到需要下载的资源，比如图片中的内容" class="headerlink" title="1.首先打开百度网盘 https://pan.baidu.com， 找到需要下载的资源，比如图片中的内容"></a>1.首先打开百度网盘 <a href="https://pan.baidu.com，" target="_blank" rel="noopener">https://pan.baidu.com，</a> 找到需要下载的资源，比如图片中的内容</h4><p><img src="/images/baiduyunpan1.png" alt=""></p>
+<h4 id="2-按键盘F12，在弹出调试页面，然后选择Network–-gt-All，点击Clear，如图片步骤"><a href="#2-按键盘F12，在弹出调试页面，然后选择Network–-gt-All，点击Clear，如图片步骤" class="headerlink" title="2.按键盘F12，在弹出调试页面，然后选择Network–&gt;All，点击Clear，如图片步骤"></a>2.按键盘F12，在弹出调试页面，然后选择Network–&gt;All，点击Clear，如图片步骤</h4><p><img src="/images/baiduyunpan2.png" alt=""></p>
+<h4 id="3-点击百度网盘资源后面的下载按钮，并且在调试页面中可以抓取的请求，并且点击download-sign那个链接"><a href="#3-点击百度网盘资源后面的下载按钮，并且在调试页面中可以抓取的请求，并且点击download-sign那个链接" class="headerlink" title="3.点击百度网盘资源后面的下载按钮，并且在调试页面中可以抓取的请求，并且点击download?sign那个链接"></a>3.点击百度网盘资源后面的下载按钮，并且在调试页面中可以抓取的请求，并且点击download?sign那个链接</h4><p><img src="/images/baiduyunpan3.png" alt=""></p>
+<h4 id="4-点击Response标签，在底部把页面往右拖，复制dlink后面一段http-…-，复制双引号里面的全部内容"><a href="#4-点击Response标签，在底部把页面往右拖，复制dlink后面一段http-…-，复制双引号里面的全部内容" class="headerlink" title="4.点击Response标签，在底部把页面往右拖，复制dlink后面一段http://….，复制双引号里面的全部内容"></a>4.点击Response标签，在底部把页面往右拖，复制dlink后面一段http://….，复制双引号里面的全部内容</h4><p><img src="/images/baiduyunpan4.png" alt=""></p>
+<h4 id="5-将复制的链接在浏览器中打开"><a href="#5-将复制的链接在浏览器中打开" class="headerlink" title="5.将复制的链接在浏览器中打开"></a>5.将复制的链接在浏览器中打开</h4><p>会出现“无法访问此网站”的提示,在浏览器地址，把 <a href="https://d.pcs.baidu.com//file//840.." target="_blank" rel="noopener">https://d.pcs.baidu.com//file//840..</a>. 中后面两个斜杠都去掉一个，变成 <a href="https://d.pcs.baidu.com/file/840.." target="_blank" rel="noopener">https://d.pcs.baidu.com/file/840..</a>. ,点击回车，可以看到弹出直接下载页面和使用迅雷下载（猎豹浏览器，自带迅雷），点击迅雷下载或者点击直接下载，获取链接地址，然后去迅雷中新建下载。你也可以在迅雷里新建下载连接，将链接放进去下载。</p>
+<h5 id="至此，关于解决百度云盘下载限速问题已讲解完毕，网上有很多关于破解百度云盘下载限速教程，可自行百度。"><a href="#至此，关于解决百度云盘下载限速问题已讲解完毕，网上有很多关于破解百度云盘下载限速教程，可自行百度。" class="headerlink" title="至此，关于解决百度云盘下载限速问题已讲解完毕，网上有很多关于破解百度云盘下载限速教程，可自行百度。"></a>至此，关于解决百度云盘下载限速问题已讲解完毕，网上有很多关于破解百度云盘下载限速教程，可自行百度。</h5>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/04/21/微信公众号入门指南/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="griabcrh">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/24718752.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Griabcrh's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/04/21/微信公众号入门指南/" itemprop="url">微信公众号入门指南</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-21T17:07:19+08:00">
+                2018-04-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/04/21/微信公众号入门指南/" class="leancloud_visitors" data-flag-title="微信公众号入门指南">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>很多新手在入门微信的时候都会很困难，大脑笨的我更是如此，明明教程说的很详细，可固执的我还是抓住一点放不下，下面就来说说我入门微信的时候遇到的困难，希望可以帮助到你！</p>
+<p><img src="/images/wechat1.png" alt=""></p>
+<p>图片所示搭建Python环境，如果你是windows系统，那就自行百度，本篇文章介绍阿里云CentOS系统下配置Python。</p>
+<h4 id="1-安装Python"><a href="#1-安装Python" class="headerlink" title="1. 安装Python"></a>1. 安装Python</h4><p>阿里云CentOS系统自带了Python，使用命令查看Python版本</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -V</span><br></pre></td></tr></table></figure>
+<p>要求版本python2.7版本以上</p>
+<p>如果没有Python，使用命令下载Python</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install python -y</span><br></pre></td></tr></table></figure>
+<p>可以用命令查看有什么版本的Python可以下载</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum list python</span><br></pre></td></tr></table></figure>
+<h4 id="2-安装web-py"><a href="#2-安装web-py" class="headerlink" title="2. 安装web.py"></a>2. 安装web.py</h4><p>直接下载web.py安装文件，在linux的终端也可以输入：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -O http://webpy.org/static/web.py-0.37.tar.gz</span><br></pre></td></tr></table></figure>
+<p>下载好之后进行解压</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf web.py-0.37.tar.gz</span><br></pre></td></tr></table></figure>
+<p>解压之后会出现web.py的文件夹，进入到该文件夹下，输入：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python setup.py install</span><br></pre></td></tr></table></figure>
+<p>进行安装,安装好之后就能使用web.py了，可以在当前目录写代码。</p>
+<h4 id="3-创建工程"><a href="#3-创建工程" class="headerlink" title="3. 创建工程"></a>3. 创建工程</h4><p>之后的步骤直接按入门指南操作就好了。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/04/21/使用Hexo搭建个人博客/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -625,7 +909,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -638,7 +922,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
