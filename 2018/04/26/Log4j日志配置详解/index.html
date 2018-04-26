@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/griabcrh.gif?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Log4j2," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="最近在修改Log4j的项目，发现之前自己在SpringBoot下配置Log4j2只是基于完成任务，没有真正理解Log4j2，没有认真的了解Log4j2.xml配置文件。 今天我来详细的讲解一下（如果有讲错或者有更好的讲解欢迎私我） 一、Log4j升级Log4j2首先来说一下日志升级，log4j配置的变化，配置文件从log4j.xml变成了log4j2.xml，配置文件的内容也有很大不同，log f">
+<meta name="keywords" content="Log4j2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Log4j日志配置详解">
+<meta property="og:url" content="https://griabcrh.github.io/2018/04/26/Log4j日志配置详解/index.html">
+<meta property="og:site_name" content="Griabcrh&#39;s Blog">
+<meta property="og:description" content="最近在修改Log4j的项目，发现之前自己在SpringBoot下配置Log4j2只是基于完成任务，没有真正理解Log4j2，没有认真的了解Log4j2.xml配置文件。 今天我来详细的讲解一下（如果有讲错或者有更好的讲解欢迎私我） 一、Log4j升级Log4j2首先来说一下日志升级，log4j配置的变化，配置文件从log4j.xml变成了log4j2.xml，配置文件的内容也有很大不同，log f">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-04-26T13:00:36.589Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Log4j日志配置详解">
+<meta name="twitter:description" content="最近在修改Log4j的项目，发现之前自己在SpringBoot下配置Log4j2只是基于完成任务，没有真正理解Log4j2，没有认真的了解Log4j2.xml配置文件。 今天我来详细的讲解一下（如果有讲错或者有更好的讲解欢迎私我） 一、Log4j升级Log4j2首先来说一下日志升级，log4j配置的变化，配置文件从log4j.xml变成了log4j2.xml，配置文件的内容也有很大不同，log f">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://griabcrh.github.io/2018/04/26/Log4j日志配置详解/"/>
+
+
+
+
+
+  <title>Log4j日志配置详解 | Griabcrh's Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?91c85e96d8e34ae79347b17b0d41826f";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Griabcrh's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">welcome</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/04/26/Log4j日志配置详解/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="griabcrh">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/24718752.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Griabcrh's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Log4j日志配置详解</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-26T20:10:14+08:00">
+                2018-04-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/04/26/Log4j日志配置详解/" class="leancloud_visitors" data-flag-title="Log4j日志配置详解">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近在修改Log4j的项目，发现之前自己在SpringBoot下配置Log4j2只是基于完成任务，没有真正理解Log4j2，没有认真的了解Log4j2.xml配置文件。</p>
+<p>今天我来详细的讲解一下（如果有讲错或者有更好的讲解欢迎私我）</p>
+<h3 id="一、Log4j升级Log4j2"><a href="#一、Log4j升级Log4j2" class="headerlink" title="一、Log4j升级Log4j2"></a>一、Log4j升级Log4j2</h3><p>首先来说一下日志升级，log4j配置的变化，配置文件从log4j.xml变成了log4j2.xml，配置文件的内容也有很大不同，log file现在可以同时支持时间和文件大小分割。而且log4j2支持log的动态变化加载，直接指定监控周期就可。下面给出一个简单配置例子。<br>例子中使用了async模式，rollfile本身必须设置成immediateflush=“false”，然后创建一个async 节点，通过async节点网rollfile里面写日志。注意为了显示文件行数，方法名等信息加入了includelocation=“true”，在官方文档对这个有特别说明，对性能有影响，能不用就不用。<br>另：log4j2支持更多的filter机制，有兴趣可以好好看看，对复杂日志系统的日志过滤非常有帮助。对于真实环境中，error/aduit日志需要单独存放，最好不使用async模式，防止log丢失。log4j环境要实现同时按时间和大小截断日志文件的话可以考虑结合操作系统的cronjob来实现按时间截断打包，log4j本身指关心按大小截断。<br>Web项目中使用log4j的变化，因为log4j2可以自动监听log配置文件改动，所以一般使用的spring log4j listener就不再需要了，在servlet3.0中不需要在web.xml加入任何log4j2的配置，如果是servlet2.5就需要加入Log4jServletContextListener和Log4jServletFilter等配置，具体可见log4j2在Web中配置。</p>
+<h3 id="二、Log4j简介"><a href="#二、Log4j简介" class="headerlink" title="二、Log4j简介"></a>二、Log4j简介</h3><p>Log4j有三个主要的组件：Loggers(记录器)，Appenders (输出源)和Layouts(布局)。这里可简单理解为日志类别，日志要输出的地方和日志以何种形式输出。综合使用这三个组件可以轻松地记录信息的类型和级别，并可以在运行时控制日志输出的样式和位置。</p>
+<h4 id="1、Loggers"><a href="#1、Loggers" class="headerlink" title="1、Loggers"></a>1、Loggers</h4><p>Loggers组件在此系统中被分为五个级别：DEBUG、INFO、WARN、ERROR和FATAL。这五个级别是有顺序的，DEBUG &lt; INFO &lt; WARN &lt; ERROR &lt; FATAL，分别用来指定这条日志信息的重要程度，明白这一点很重要，Log4j有一个规则：只输出级别不低于设定级别的日志信息，假设Loggers级别设定为INFO，则INFO、WARN、ERROR和FATAL级别的日志信息都会输出，而级别比INFO低的DEBUG则不会输出。</p>
+<h4 id="2、Appenders"><a href="#2、Appenders" class="headerlink" title="2、Appenders"></a>2、Appenders</h4><p>禁用和使用日志请求只是Log4j的基本功能，Log4j日志系统还提供许多强大的功能，比如允许把日志输出到不同的地方，如控制台（Console）、文件（Files）等，可以根据天数或者文件大小产生新的文件，可以以流的形式发送到其它地方等等。</p>
+<p>常使用的类如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">org.apache.log4j.ConsoleAppender（控制台）</span><br><span class="line">org.apache.log4j.FileAppender（文件）</span><br><span class="line">org.apache.log4j.DailyRollingFileAppender（每天产生一个日志文件）</span><br><span class="line">org.apache.log4j.RollingFileAppender（文件大小到达指定尺寸的时候产生一个新的文件）</span><br><span class="line">org.apache.log4j.WriterAppender（将日志信息以流格式发送到任意指定的地方）</span><br></pre></td></tr></table></figure>
+<p>配置模式：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">log4j.appender.appenderName = className</span><br><span class="line">log4j.appender.appenderName.Option1 = value1</span><br><span class="line">…</span><br><span class="line">log4j.appender.appenderName.OptionN = valueN</span><br></pre></td></tr></table></figure></p>
+<h4 id="3、Layouts"><a href="#3、Layouts" class="headerlink" title="3、Layouts"></a>3、Layouts</h4><p>有时用户希望根据自己的喜好格式化自己的日志输出，Log4j可以在Appenders的后面附加Layouts来完成这个功能。Layouts提供四种日志输出样式，如根据HTML样式、自由指定样式、包含日志级别与信息的样式和包含日志时间、线程、类别等信息的样式。</p>
+<p>常使用的类如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">org.apache.log4j.HTMLLayout（以HTML表格形式布局）</span><br><span class="line">org.apache.log4j.PatternLayout（可以灵活地指定布局模式）</span><br><span class="line">org.apache.log4j.SimpleLayout（包含日志信息的级别和信息字符串）</span><br><span class="line">org.apache.log4j.TTCCLayout（包含日志产生的时间、线程、类别等信息）</span><br></pre></td></tr></table></figure>
+<p>配置模式：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">log4j.appender.appenderName.layout =className</span><br><span class="line">log4j.appender.appenderName.layout.Option1 = value1</span><br><span class="line">…</span><br><span class="line">log4j.appender.appenderName.layout.OptionN = valueN</span><br></pre></td></tr></table></figure>
+<h3 id="三、配置详解"><a href="#三、配置详解" class="headerlink" title="三、配置详解"></a>三、配置详解</h3><p>在实际应用中，要使Log4j在系统中运行须事先设定配置文件。配置文件事实上也就是对Logger、Appender及Layout进行相应设定。Log4j支持两种配置文件格式，一种是XML格式的文件，一种是properties属性文件。下面以properties属性文件为例介绍log4j.properties的配置。</p>
+<h4 id="1、配置根Logger："><a href="#1、配置根Logger：" class="headerlink" title="1、配置根Logger："></a>1、配置根Logger：</h4><p>log4j.rootLogger = [ level ] , appenderName1, appenderName2, …<br>log4j.additivity.org.apache=false：表示Logger不会在父Logger的appender里输出，默认为true。<br>level ：设定日志记录的最低级别，可设的值有OFF、FATAL、ERROR、WARN、INFO、DEBUG、ALL或者自定义的级别，Log4j建议只使用中间四个级别。通过在这里设定级别，您可以控制应用程序中相应级别的日志信息的开关，比如在这里设定了INFO级别，则应用程序中所有DEBUG级别的日志信息将不会被打印出来。<br>appenderName：就是指定日志信息要输出到哪里。可以同时指定多个输出目的地，用逗号隔开。<br>例如：log4j.rootLogger＝INFO,A1,B2,C3</p>
+<h4 id="2、配置日志信息输出目的地（appender）："><a href="#2、配置日志信息输出目的地（appender）：" class="headerlink" title="2、配置日志信息输出目的地（appender）："></a>2、配置日志信息输出目的地（appender）：</h4><p>log4j.appender.appenderName = className<br>appenderName：自定义appderName，在log4j.rootLogger设置中使用；<br>className：可设值如下：<br>(1)org.apache.log4j.ConsoleAppender（控制台）<br>(2)org.apache.log4j.FileAppender（文件）<br>(3)org.apache.log4j.DailyRollingFileAppender（每天产生一个日志文件）<br>(4)org.apache.log4j.RollingFileAppender（文件大小到达指定尺寸的时候产生一个新的文件）<br>(5)org.apache.log4j.WriterAppender（将日志信息以流格式发送到任意指定的地方）</p>
+<p>(1)ConsoleAppender选项：</p>
+<p>Threshold=WARN：指定日志信息的最低输出级别，默认为DEBUG。<br>ImmediateFlush=true：表示所有消息都会被立即输出，设为false则不输出，默认值是true。<br>Target=System.err：默认值是System.out。</p>
+<p>(2)FileAppender选项：</p>
+<p>Threshold=WARN：指定日志信息的最低输出级别，默认为DEBUG。<br>ImmediateFlush=true：表示所有消息都会被立即输出，设为false则不输出，默认值是true。<br>Append=false：true表示消息增加到指定文件中，false则将消息覆盖指定的文件内容，默认值是true。<br>File=D:/logs/logging.log4j：指定消息输出到logging.log4j文件中。</p>
+<p>(3)DailyRollingFileAppender选项：</p>
+<p>Threshold=WARN：指定日志信息的最低输出级别，默认为DEBUG。<br>ImmediateFlush=true：表示所有消息都会被立即输出，设为false则不输出，默认值是true。<br>Append=false：true表示消息增加到指定文件中，false则将消息覆盖指定的文件内容，默认值是true。<br>File=D:/logs/logging.log4j：指定当前消息输出到logging.log4j文件中。<br>DatePattern=’.’yyyy-MM：每月滚动一次日志文件，即每月产生一个新的日志文件。当前月的日志文件名为logging.log4j，前一个月的日志文件名为logging.log4j.yyyy-MM。</p>
+<p>另外，也可以指定按周、天、时、分等来滚动日志文件，对应的格式如下：<br>1)’.’yyyy-MM：每月<br>2)’.’yyyy-ww：每周<br>3)’.’yyyy-MM-dd：每天<br>4)’.’yyyy-MM-dd-a：每天两次<br>5)’.’yyyy-MM-dd-HH：每小时<br>6)’.’yyyy-MM-dd-HH-mm：每分钟</p>
+<p>(4)RollingFileAppender选项：</p>
+<p>Threshold=WARN：指定日志信息的最低输出级别，默认为DEBUG。<br>ImmediateFlush=true：表示所有消息都会被立即输出，设为false则不输出，默认值是true。<br>Append=false：true表示消息增加到指定文件中，false则将消息覆盖指定的文件内容，默认值是true。<br>File=D:/logs/logging.log4j：指定消息输出到logging.log4j文件中。<br>MaxFileSize=100KB：后缀可以是KB, MB 或者GB。在日志文件到达该大小时，将会自动滚动，即将原来的内容移到logging.log4j.1文件中。<br>MaxBackupIndex=2：指定可以产生的滚动文件的最大数，例如，设为2则可以产生logging.log4j.1，logging.log4j.2两个滚动文件和一个logging.log4j文件。</p>
+<h4 id="3、配置日志信息的输出格式（Layout）："><a href="#3、配置日志信息的输出格式（Layout）：" class="headerlink" title="3、配置日志信息的输出格式（Layout）："></a>3、配置日志信息的输出格式（Layout）：</h4><p>log4j.appender.appenderName.layout=className</p>
+<p>className：可设值如下：<br>(1)org.apache.log4j.HTMLLayout（以HTML表格形式布局）<br>(2)org.apache.log4j.PatternLayout（可以灵活地指定布局模式）<br>(3)org.apache.log4j.SimpleLayout（包含日志信息的级别和信息字符串）<br>(4)org.apache.log4j.TTCCLayout（包含日志产生的时间、线程、类别等等信息）</p>
+<p>(1)HTMLLayout选项：</p>
+<p>LocationInfo=true：输出java文件名称和行号，默认值是false。<br>Title=My Logging： 默认值是Log4J Log Messages。</p>
+<p>(2)PatternLayout选项：</p>
+<p>ConversionPattern=%m%n：设定以怎样的格式显示消息。</p>
+<p>格式化符号说明：</p>
+<p>%p：输出日志信息的优先级，即DEBUG，INFO，WARN，ERROR，FATAL。<br>%d：输出日志时间点的日期或时间，默认格式为ISO8601，也可以在其后指定格式，如：%d{yyyy/MM/dd HH:mm:ss,SSS}。<br>%r：输出自应用程序启动到输出该log信息耗费的毫秒数。<br>%t：输出产生该日志事件的线程名。<br>%l：输出日志事件的发生位置，相当于%c.%M(%F:%L)的组合，包括类全名、方法、文件名以及在代码中的行数。例如：test.TestLog4j.main(TestLog4j.java:10)。<br>%c：输出日志信息所属的类目，通常就是所在类的全名。<br>%M：输出产生日志信息的方法名。<br>%F：输出日志消息产生时所在的文件名称。<br>%L:：输出代码中的行号。<br>%m:：输出代码中指定的具体日志信息。<br>%n：输出一个回车换行符，Windows平台为”rn”，Unix平台为”n”。<br>%x：输出和当前线程相关联的NDC(嵌套诊断环境)，尤其用到像java servlets这样的多客户多线程的应用中。<br>%%：输出一个”%”字符。</p>
+<p>另外，还可以在%与格式字符之间加上修饰符来控制其最小长度、最大长度、和文本的对齐方式。如：<br>1) c：指定输出category的名称，最小的长度是20，如果category的名称长度小于20的话，默认的情况下右对齐。<br>2)%-20c：”-“号表示左对齐。<br>3)%.30c：指定输出category的名称，最大的长度是30，如果category的名称长度大于30的话，就会将左边多出的字符截掉，但小于30的话也不会补空格。</p>
+<p>附：Log4j比较全面的配置</p>
+<p>Log4j配置文件实现了输出到控制台、文件、回滚文件、发送日志邮件、输出到数据库日志表、自定义标签等全套功能。<br>log4j.rootLogger=DEBUG,console,dailyFile,im<br>log4j.additivity.org.apache=true</p>
+<h1 id="控制台-console"><a href="#控制台-console" class="headerlink" title="控制台(console)"></a>控制台(console)</h1><p>log4j.appender.console=org.apache.log4j.ConsoleAppender<br>log4j.appender.console.Threshold=DEBUG<br>log4j.appender.console.ImmediateFlush=true<br>log4j.appender.console.Target=System.err<br>log4j.appender.console.layout=org.apache.log4j.PatternLayout<br>log4j.appender.console.layout.ConversionPattern=[%-5p] %d(%r) –&gt; [%t] %l: %m %x %n</p>
+<h1 id="日志文件-logFile"><a href="#日志文件-logFile" class="headerlink" title="日志文件(logFile)"></a>日志文件(logFile)</h1><p>log4j.appender.logFile=org.apache.log4j.FileAppender<br>log4j.appender.logFile.Threshold=DEBUG<br>log4j.appender.logFile.ImmediateFlush=true<br>log4j.appender.logFile.Append=true<br>log4j.appender.logFile.File=D:/logs/log.log4j<br>log4j.appender.logFile.layout=org.apache.log4j.PatternLayout<br>log4j.appender.logFile.layout.ConversionPattern=[%-5p] %d(%r) –&gt; [%t] %l: %m %x %n</p>
+<h1 id="回滚文件-rollingFile"><a href="#回滚文件-rollingFile" class="headerlink" title="回滚文件(rollingFile)"></a>回滚文件(rollingFile)</h1><p>log4j.appender.rollingFile=org.apache.log4j.RollingFileAppender<br>log4j.appender.rollingFile.Threshold=DEBUG<br>log4j.appender.rollingFile.ImmediateFlush=true<br>log4j.appender.rollingFile.Append=true<br>log4j.appender.rollingFile.File=D:/logs/log.log4j<br>log4j.appender.rollingFile.MaxFileSize=200KB<br>log4j.appender.rollingFile.MaxBackupIndex=50<br>log4j.appender.rollingFile.layout=org.apache.log4j.PatternLayout<br>log4j.appender.rollingFile.layout.ConversionPattern=[%-5p] %d(%r) –&gt; [%t] %l: %m %x %n</p>
+<h1 id="定期回滚日志文件-dailyFile"><a href="#定期回滚日志文件-dailyFile" class="headerlink" title="定期回滚日志文件(dailyFile)"></a>定期回滚日志文件(dailyFile)</h1><p>log4j.appender.dailyFile=org.apache.log4j.DailyRollingFileAppender<br>log4j.appender.dailyFile.Threshold=DEBUG<br>log4j.appender.dailyFile.ImmediateFlush=true<br>log4j.appender.dailyFile.Append=true<br>log4j.appender.dailyFile.File=D:/logs/log.log4j<br>log4j.appender.dailyFile.DatePattern=’.’yyyy-MM-dd<br>log4j.appender.dailyFile.layout=org.apache.log4j.PatternLayout<br>log4j.appender.dailyFile.layout.ConversionPattern=[%-5p] %d(%r) –&gt; [%t] %l: %m %x %n</p>
+<h1 id="应用于socket"><a href="#应用于socket" class="headerlink" title="应用于socket"></a>应用于socket</h1><p>log4j.appender.socket=org.apache.log4j.RollingFileAppender<br>log4j.appender.socket.RemoteHost=localhost<br>log4j.appender.socket.Port=5001<br>log4j.appender.socket.LocationInfo=true</p>
+<h1 id="Set-up-for-Log-Factor-5"><a href="#Set-up-for-Log-Factor-5" class="headerlink" title="Set up for Log Factor 5"></a>Set up for Log Factor 5</h1><p>log4j.appender.socket.layout=org.apache.log4j.PatternLayout<br>log4j.appender.socket.layout.ConversionPattern=[%-5p] %d(%r) –&gt; [%t] %l: %m %x %n</p>
+<h1 id="Log-Factor-5-Appender"><a href="#Log-Factor-5-Appender" class="headerlink" title="Log Factor 5 Appender"></a>Log Factor 5 Appender</h1><p>log4j.appender.LF5_APPENDER=org.apache.log4j.lf5.LF5Appender<br>log4j.appender.LF5_APPENDER.MaxNumberOfRecords=2000</p>
+<h1 id="发送日志到指定邮件"><a href="#发送日志到指定邮件" class="headerlink" title="发送日志到指定邮件"></a>发送日志到指定邮件</h1><p>log4j.appender.mail=org.apache.log4j.net.SMTPAppender<br>log4j.appender.mail.Threshold=FATAL<br>log4j.appender.mail.BufferSize=10<br>log4j.appender.mail.From = <a href="mailto:xxx@mail.com" target="_blank" rel="noopener">xxx@mail.com</a><br>log4j.appender.mail.SMTPHost=mail.com<br>log4j.appender.mail.Subject=Log4J Message<br>log4j.appender.mail.To= <a href="mailto:xxx@mail.com" target="_blank" rel="noopener">xxx@mail.com</a><br>log4j.appender.mail.layout=org.apache.log4j.PatternLayout<br>log4j.appender.mail.layout.ConversionPattern=[%-5p] %d(%r) –&gt; [%t] %l: %m %x %n</p>
+<h1 id="应用于数据库"><a href="#应用于数据库" class="headerlink" title="应用于数据库"></a>应用于数据库</h1><p>log4j.appender.database=org.apache.log4j.jdbc.JDBCAppender<br>log4j.appender.database.URL=jdbc:mysql://localhost:3306/test<br>log4j.appender.database.driver=com.mysql.jdbc.Driver<br>log4j.appender.database.user=root<br>log4j.appender.database.password=<br>log4j.appender.database.sql=INSERT INTO LOG4J (Message) VALUES(‘=[%-5p] %d(%r) –&gt; [%t] %l: %m %x %n’)<br>log4j.appender.database.layout=org.apache.log4j.PatternLayout<br>log4j.appender.database.layout.ConversionPattern=[%-5p] %d(%r) –&gt; [%t] %l: %m %x %n</p>
+<h1 id="自定义Appender"><a href="#自定义Appender" class="headerlink" title="自定义Appender"></a>自定义Appender</h1><p>log4j.appender.im = net.cybercorlin.util.logger.appender.IMAppender<br>log4j.appender.im.host = mail.cybercorlin.net<br>log4j.appender.im.username = username<br>log4j.appender.im.password = password<br>log4j.appender.im.recipient = <a href="mailto:corlin@cybercorlin.net" target="_blank" rel="noopener">corlin@cybercorlin.net</a><br>log4j.appender.im.layout=org.apache.log4j.PatternLayout<br>log4j.appender.im.layout.ConversionPattern=[%-5p] %d(%r) –&gt; [%t] %l: %m %x %n</p>
+<p>log4j的强大功能无可置疑，但实际应用中免不了遇到某个功能需要输出独立的日志文件的情况，怎样才能把所需的内容从原有日志中分离，形成单独的日志文件呢？其实只要在现有的log4j基础上稍加配置即可轻松实现这一功能。</p>
+<p>先看一个常见的log4j.properties文件，它是在控制台和myweb.log文件中记录日志：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">log4j.rootLogger=DEBUG, stdout, logfile</span><br><span class="line"></span><br><span class="line">log4j.category.org.springframework=ERROR</span><br><span class="line"></span><br><span class="line">log4j.category.org.apache=INFO</span><br><span class="line"></span><br><span class="line">log4j.appender.stdout=org.apache.log4j.ConsoleAppender</span><br><span class="line"></span><br><span class="line">log4j.appender.stdout.layout=org.apache.log4j.PatternLayout</span><br><span class="line"></span><br><span class="line">log4j.appender.stdout.layout.ConversionPattern=%d %p [%c] - %m%n</span><br><span class="line"></span><br><span class="line">log4j.appender.logfile=org.apache.log4j.RollingFileAppender</span><br><span class="line"></span><br><span class="line">log4j.appender.logfile.File=<span class="variable">$&#123;myweb.root&#125;</span>/WEB-INF/<span class="built_in">log</span>/myweb.log</span><br><span class="line"></span><br><span class="line">log4j.appender.logfile.MaxFileSize=512KB</span><br><span class="line"></span><br><span class="line">log4j.appender.logfile.MaxBackupIndex=5</span><br><span class="line"></span><br><span class="line">log4j.appender.logfile.layout=org.apache.log4j.PatternLayout</span><br><span class="line"></span><br><span class="line">log4j.appender.logfile.layout.ConversionPattern=%d %p [%c] - %m%n</span><br></pre></td></tr></table></figure>
+<p>　　</p>
+<p>如果想对不同的类输出不同的文件(以cn.com.Test为例)，先要在Test.java中定义:</p>
+<p>private static Log logger = LogFactory.getLog(Test.class);</p>
+<p>　　然后在log4j.properties中加入:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">log4j.logger.cn.com.Test= DEBUG, <span class="built_in">test</span></span><br><span class="line"></span><br><span class="line">log4j.appender.test=org.apache.log4j.FileAppender</span><br><span class="line"></span><br><span class="line">log4j.appender.test.File=<span class="variable">$&#123;myweb.root&#125;</span>/WEB-INF/<span class="built_in">log</span>/test.log</span><br><span class="line"></span><br><span class="line">log4j.appender.test.layout=org.apache.log4j.PatternLayout</span><br><span class="line"></span><br><span class="line">log4j.appender.test.layout.ConversionPattern=%d %p [%c] - %m%n</span><br></pre></td></tr></table></figure>
+<p>　　也就是让cn.com.Test中的logger使用log4j.appender.test所做的配置。</p>
+<p>　　但是，如果在同一类中需要输出多个日志文件呢？其实道理是一样的，先在Test.java中定义:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">private static Log logger1 = LogFactory.getLog(<span class="string">"myTest1"</span>);</span><br><span class="line"></span><br><span class="line">private static Log logger2 = LogFactory.getLog(<span class="string">"myTest2"</span>);</span><br></pre></td></tr></table></figure>
+<p>　　然后在log4j.properties中加入:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">log4j.logger.myTest1= DEBUG, test1</span><br><span class="line"></span><br><span class="line">log4j.appender.test1=org.apache.log4j.FileAppender</span><br><span class="line"></span><br><span class="line">log4j.appender.test1.File=<span class="variable">$&#123;myweb.root&#125;</span>/WEB-INF/<span class="built_in">log</span>/test1.log</span><br><span class="line"></span><br><span class="line">log4j.appender.test1.layout=org.apache.log4j.PatternLayout</span><br><span class="line"></span><br><span class="line">log4j.appender.test1.layout.ConversionPattern=%d %p [%c] - %m%n</span><br><span class="line"></span><br><span class="line">　　</span><br><span class="line"></span><br><span class="line">log4j.logger.myTest2= DEBUG, test2</span><br><span class="line"></span><br><span class="line">log4j.appender.test2=org.apache.log4j.FileAppender</span><br><span class="line"></span><br><span class="line">log4j.appender.test2.File=<span class="variable">$&#123;myweb.root&#125;</span>/WEB-INF/<span class="built_in">log</span>/test2.log</span><br><span class="line"></span><br><span class="line">log4j.appender.test2.layout=org.apache.log4j.PatternLayout</span><br><span class="line"></span><br><span class="line">log4j.appender.test2.layout.ConversionPattern=%d %p [%c] - %m%n</span><br></pre></td></tr></table></figure>
+<p>　　也就是在用logger时给它一个自定义的名字(如这里的”myTest1”)，然后在log4j.properties中做出相应配置即可。别忘了不同日志要使用不同的logger(如输出到test1.log的要用logger1.info(“abc”))。</p>
+<p>　　还有一个问题，就是这些自定义的日志默认是同时输出到log4j.rootLogger所配置的日志中的，如何能只让它们输出到自己指定的日志中呢？别急，这里有个开关：</p>
+<p>log4j.additivity.myTest1 = false</p>
+<p>　　它用来设置是否同时输出到log4j.rootLogger所配置的日志中，设为false就不会输出到其它地方啦！注意这里的”myTest1”是你在程序中给logger起的那个自定义的名字！</p>
+<p>如果你说，我只是不想同时输出这个日志到log4j.rootLogger所配置的logfile中，stdout里我还想同时输出呢！那也好办，把你的log4j.logger.myTest1 = DEBUG, test1改为下式就OK啦！</p>
+<p>log4j.logger.myTest1=DEBUG, test1</p>
+<h3 id="四、加载配置文件的方法"><a href="#四、加载配置文件的方法" class="headerlink" title="四、加载配置文件的方法"></a>四、加载配置文件的方法</h3><p>引入的包<br>import org.apache.log4j.PropertyConfigurator;<br>import org.apache.log4j.xml.DOMConfigurator;</p>
+<p>DOMConfigurator.configure(“E:/study/log4j/log4j.xml”);//加载.xml文件<br>PropertyConfigurator.configure(“E:/study/log4j/log4j.properties”);//加载.properties文件</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Log4j2/" rel="tag"># Log4j2</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/21/解决表单重新提交问题/" rel="next" title="解决表单重新提交问题">
+                <i class="fa fa-chevron-left"></i> 解决表单重新提交问题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/24718752.gif"
+                alt="griabcrh" />
+            
+              <p class="site-author-name" itemprop="name">griabcrh</p>
+              <p class="site-description motion-element" itemprop="description">nice to meet you</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">43</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、Log4j升级Log4j2"><span class="nav-number">1.</span> <span class="nav-text">一、Log4j升级Log4j2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、Log4j简介"><span class="nav-number">2.</span> <span class="nav-text">二、Log4j简介</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、Loggers"><span class="nav-number">2.1.</span> <span class="nav-text">1、Loggers</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、Appenders"><span class="nav-number">2.2.</span> <span class="nav-text">2、Appenders</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、Layouts"><span class="nav-number">2.3.</span> <span class="nav-text">3、Layouts</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、配置详解"><span class="nav-number">3.</span> <span class="nav-text">三、配置详解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、配置根Logger："><span class="nav-number">3.1.</span> <span class="nav-text">1、配置根Logger：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、配置日志信息输出目的地（appender）："><span class="nav-number">3.2.</span> <span class="nav-text">2、配置日志信息输出目的地（appender）：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、配置日志信息的输出格式（Layout）："><span class="nav-number">3.3.</span> <span class="nav-text">3、配置日志信息的输出格式（Layout）：</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#控制台-console"><span class="nav-number"></span> <span class="nav-text">控制台(console)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#日志文件-logFile"><span class="nav-number"></span> <span class="nav-text">日志文件(logFile)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#回滚文件-rollingFile"><span class="nav-number"></span> <span class="nav-text">回滚文件(rollingFile)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#定期回滚日志文件-dailyFile"><span class="nav-number"></span> <span class="nav-text">定期回滚日志文件(dailyFile)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#应用于socket"><span class="nav-number"></span> <span class="nav-text">应用于socket</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Set-up-for-Log-Factor-5"><span class="nav-number"></span> <span class="nav-text">Set up for Log Factor 5</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Log-Factor-5-Appender"><span class="nav-number"></span> <span class="nav-text">Log Factor 5 Appender</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#发送日志到指定邮件"><span class="nav-number"></span> <span class="nav-text">发送日志到指定邮件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#应用于数据库"><span class="nav-number"></span> <span class="nav-text">应用于数据库</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#自定义Appender"><span class="nav-number"></span> <span class="nav-text">自定义Appender</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#四、加载配置文件的方法"><span class="nav-number">1.</span> <span class="nav-text">四、加载配置文件的方法</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">griabcrh</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+|<span id="busuanzi_container_site_uv">
+  本站访客数<span id="busuanzi_value_site_uv"></span>人次
+</span>
+|<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("8TpPOiYi4ReJYs5sYfMdFmSO-gzGzoHsz", "hX7JfGRvJG8zcMqMRAWNMNyk");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
