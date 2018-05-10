@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Http," />
+  <meta name="keywords" content="SpringMVC," />
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="官方的比较简洁的说明：301  ， 302  都是 HTTP  状态的编码，都代表着某个URL发生了转移，不同之处在于：    301 redirect: 301 代表永久性转移(Permanently Moved)    302 redirect: 302 代表暂时性转移(Temporarily Moved )    ps:这里也顺带记住了两个比较相近的英语单词（permanently、temp">
-<meta name="keywords" content="Http">
+<meta name="description" content="在改测试提出的bug时，因为项目不是我写的，而且我刚到这个公司，看代码时苦苦找不到前端和后端是怎么交互的，没有看到http请求（其实是有，我眼瞎了），在大神简单的讲了一下， 哇好像突然开窍了，之前没有看到的后端的Controller层也都浮出水面。这里也算积累到了经验，搜索url时不要整段url搜，因为后端可能是用多个@RequestMapper拼装的url，所以几率最大的是从url后面截取搜。">
+<meta name="keywords" content="SpringMVC">
 <meta property="og:type" content="article">
-<meta property="og:title" content="http请求的301和302区别">
-<meta property="og:url" content="https://griabcrh.github.io/2018/04/21/http请求的301和302区别/index.html">
+<meta property="og:title" content="让人眼前一亮的前后端数据交互方式">
+<meta property="og:url" content="https://griabcrh.github.io/2018/05/10/让人眼前一亮的前后端数据交互方式/index.html">
 <meta property="og:site_name" content="Griabcrh&#39;s Blog">
-<meta property="og:description" content="官方的比较简洁的说明：301  ， 302  都是 HTTP  状态的编码，都代表着某个URL发生了转移，不同之处在于：    301 redirect: 301 代表永久性转移(Permanently Moved)    302 redirect: 302 代表暂时性转移(Temporarily Moved )    ps:这里也顺带记住了两个比较相近的英语单词（permanently、temp">
+<meta property="og:description" content="在改测试提出的bug时，因为项目不是我写的，而且我刚到这个公司，看代码时苦苦找不到前端和后端是怎么交互的，没有看到http请求（其实是有，我眼瞎了），在大神简单的讲了一下， 哇好像突然开窍了，之前没有看到的后端的Controller层也都浮出水面。这里也算积累到了经验，搜索url时不要整段url搜，因为后端可能是用多个@RequestMapper拼装的url，所以几率最大的是从url后面截取搜。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-04-21T11:56:17.667Z">
+<meta property="og:updated_time" content="2018-05-10T11:58:23.009Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="http请求的301和302区别">
-<meta name="twitter:description" content="官方的比较简洁的说明：301  ， 302  都是 HTTP  状态的编码，都代表着某个URL发生了转移，不同之处在于：    301 redirect: 301 代表永久性转移(Permanently Moved)    302 redirect: 302 代表暂时性转移(Temporarily Moved )    ps:这里也顺带记住了两个比较相近的英语单词（permanently、temp">
+<meta name="twitter:title" content="让人眼前一亮的前后端数据交互方式">
+<meta name="twitter:description" content="在改测试提出的bug时，因为项目不是我写的，而且我刚到这个公司，看代码时苦苦找不到前端和后端是怎么交互的，没有看到http请求（其实是有，我眼瞎了），在大神简单的讲了一下， 哇好像突然开窍了，之前没有看到的后端的Controller层也都浮出水面。这里也算积累到了经验，搜索url时不要整段url搜，因为后端可能是用多个@RequestMapper拼装的url，所以几率最大的是从url后面截取搜。">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="https://griabcrh.github.io/2018/04/21/http请求的301和302区别/"/>
+  <link rel="canonical" href="https://griabcrh.github.io/2018/05/10/让人眼前一亮的前后端数据交互方式/"/>
 
 
 
 
 
-  <title>http请求的301和302区别 | Griabcrh's Blog</title>
+  <title>让人眼前一亮的前后端数据交互方式 | Griabcrh's Blog</title>
   
 
 
@@ -283,7 +283,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/04/21/http请求的301和302区别/">
+    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/05/10/让人眼前一亮的前后端数据交互方式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="griabcrh">
@@ -300,7 +300,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">http请求的301和302区别</h1>
+          <h1 class="post-title" itemprop="name headline">让人眼前一亮的前后端数据交互方式</h1>
         
 
         <div class="post-meta">
@@ -312,8 +312,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-21T19:55:41+08:00">
-                2018-04-21
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-10T19:37:18+08:00">
+                2018-05-10
               </time>
             
 
@@ -330,7 +330,7 @@
 
           
           
-             <span id="/2018/04/21/http请求的301和302区别/" class="leancloud_visitors" data-flag-title="http请求的301和302区别">
+             <span id="/2018/05/10/让人眼前一亮的前后端数据交互方式/" class="leancloud_visitors" data-flag-title="让人眼前一亮的前后端数据交互方式">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -361,23 +361,18 @@
       
 
       
-        <h4 id="官方的比较简洁的说明："><a href="#官方的比较简洁的说明：" class="headerlink" title="官方的比较简洁的说明："></a>官方的比较简洁的说明：</h4><p>301  ， 302  都是 HTTP  状态的编码，都代表着某个URL发生了转移，不同之处在于：<br>    301 redirect: 301 代表永久性转移(Permanently Moved)<br>    302 redirect: 302 代表暂时性转移(Temporarily Moved )<br>    ps:这里也顺带记住了两个比较相近的英语单词（permanently、temporarily），嘻哈！</p>
-<p>详细来说，301和302状态码都表示重定向，就是说浏览器在拿到服务器返回的这个状态码后会自动跳转到一个新的URL地址，这个地址可以从响应的Location首部中获取（用户看到的效果就是他输入的地址A瞬间变成了另一个地址B）——这是它们的共同点。他们的不同在于。301表示旧地址A的资源已经被永久地移除了（这个资源不可访问了），搜索引擎在抓取新内容的同时也将旧的网址交换为重定向之后的网址；302表示旧地址A的资源还在（仍然可以访问），这个重定向只是临时地从旧地址A跳转到地址B，搜索引擎会抓取新的内容而保存旧的网址。</p>
-<pre><code>这里开启傻瓜自问自答模式（自己可能想到的疑问）：
-</code></pre><h4 id="什么是重定向啊？"><a href="#什么是重定向啊？" class="headerlink" title="什么是重定向啊？"></a>什么是重定向啊？</h4><p>就是地址A跳转到地址B啦。百度百科的解释：重定向(Redirect)就是通过各种方法将各种网络请求重新定个方向转到其它位置（如：网页重定向、域名的重定向、路由选择的变化也是对数据报文经由路径的一种重定向）。</p>
-<h4 id="可是，为什么要进行重定向啊？什么时候需要重定向呢？"><a href="#可是，为什么要进行重定向啊？什么时候需要重定向呢？" class="headerlink" title="可是，为什么要进行重定向啊？什么时候需要重定向呢？"></a>可是，为什么要进行重定向啊？什么时候需要重定向呢？</h4><pre><code>想跳就跳，就跳的漂亮。还是借鉴百度百科：
-</code></pre><p>1）网站调整（如改变网页目录结构）；<br>2）网页被移到一个新地址；<br>3）网页扩展名改变(如应用需要把.php改成.Html或.shtml)。<br>    这种情况下，如果不做重定向，则用户收藏夹或搜索引擎数据库中旧地址只能让访问客户得到一个404页面错误信息，访问流量白白丧失；再者某些注册了多个域名的网站，也需要通过重定向让访问这些域名的用户自动跳转到主站点等。</p>
-<h4 id="那么，什么时候进行301或者302跳转呢？"><a href="#那么，什么时候进行301或者302跳转呢？" class="headerlink" title="那么，什么时候进行301或者302跳转呢？"></a>那么，什么时候进行301或者302跳转呢？</h4><p>当一个网站或者网页24—48小时内临时移动到一个新的位置，这时候就要进行302跳转，打个比方说，我有一套房子，但是最近走亲戚去亲戚家住了，过两天我还回来的。而使用301跳转的场景就是之前的网站因为某种原因需要移除掉，然后要到新的地址访问，是永久性的，就比如你的那套房子其实是租的，现在租期到了，你又在另一个地方找到了房子，之前租的房子不住了。<br>清晰明确而言：<br>使用301跳转的场景：<br>1）域名到期不想续费（或者发现了更适合网站的域名），想换个域名。<br>2）在搜索引擎的搜索结果中出现了不带www的域名，而带www的域名却没有收录，这个时候可以用301重定向来告诉搜索引擎我们目标的域名是哪一个。<br>3）空间服务器不稳定，换空间的时候。</p>
-<p>使用302跳转的场景：<br>        –尽量使用301跳转！</p>
-<h4 id="为什么尽量要使用301跳转？——网址劫持！"><a href="#为什么尽量要使用301跳转？——网址劫持！" class="headerlink" title="为什么尽量要使用301跳转？——网址劫持！"></a>为什么尽量要使用301跳转？——网址劫持！</h4><pre><code>这里摘录百度百科上的解释：
-从网址A 做一个302 重定向到网址B 时，主机服务器的隐含意思是网址A 随时有可能改主意，重新显示本身的内容或转向其他的地方。大部分的搜索引擎在大部分情况下，当收到302 重定向时，一般只要去抓取目标网址就可以了，也就是说网址B。如果搜索引擎在遇到302 转向时，百分之百的都抓取目标网址B 的话，就不用担心网址URL 劫持了。问题就在于，有的时候搜索引擎，尤其是Google，并不能总是抓取目标网址。比如说，有的时候A 网址很短，但是它做了一个302 重定向到B 网址，而B 网址是一个很长的乱七八糟的URL 网址，甚至还有可能包含一些问号之类的参数。很自然的，A 网址更加用户友好，而B 网址既难看，又不用户友好。这时Google 很有可能会仍然显示网址A。由于搜索引擎排名算法只是程序而不是人，在遇到302 重定向的时候，并不能像人一样的去准确判定哪一个网址更适当，这就造成了网址URL 劫持的可能性。也就是说，一个不道德的人在他自己的网址A 做一个302 重定向到你的网址B，出于某种原因， Google 搜索结果所显示的仍然是网址A，但是所用的网页内容却是你的网址B 上的内容，这种情况就叫做网址URL 劫持。你辛辛苦苦所写的内容就这样被别人偷走了。302 重定向所造成的网址URL 劫持现象，已经存在一段时间了。不过到目前为止，似乎也没有什么更好的解决方法。在正在进行的谷歌大爸爸数据中心转换中，302 重定向问题也是要被解决的目标之一。从一些搜索结果来看，网址劫持现象有所改善，但是并没有完全解决。
-我的理解是，从网站A（网站比较烂）上做了一个302跳转到网站B（搜索排名很靠前），这时候有时搜索引擎会使用网站B的内容，但却收录了网站A的地址，这样在不知不觉间，网站B在为网站A作贡献，网站A的排名就靠前了。
-301跳转对查找引擎是一种对照驯良的跳转编制，也是查找引擎能够遭遇的跳转编制，它告诉查找引擎，这个地址弃用了，永远转向一个新地址，可以转移新域名的权重。而302重定向很容易被搜索引擎误认为是利用多个域名指向同一网站，那么你的网站就会被封掉，罪名是“利用重复的内容来干扰Google搜索结果的网站排名”。
-</code></pre><h4 id="用户角度"><a href="#用户角度" class="headerlink" title="用户角度"></a>用户角度</h4><pre><code>301 ，302 对用户来说没有区别，他们看到效果只是一个跳转，浏览器中旧的URL 变成了新的URL 。页面跳到了这个新的url指向的地方。
-</code></pre><h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><pre><code>要是你还是没明白，那么我就大白话告诉你，当我们平时 重定向  的时候，并没有留意要给设置状态，如下代码（ Java  举例）。
-</code></pre><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">//设置为301</span><br><span class="line">hsResponse.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);   </span><br><span class="line">hsResponse.setHeader(<span class="string">"Location"</span>,<span class="string">"/blog/"</span>);</span><br></pre></td></tr></table></figure>
-<p>这样就设置为 301  了，我们这样设置表示，以后你什么时候访问都是跳转到新的 301  后的地址，而 302  是现在跳转到A页面，有可能明天跳转到B页面，又可能不跳转了，也就是一个是永久，一个表示不一定。</p>
-
+        <p>在改测试提出的bug时，因为项目不是我写的，而且我刚到这个公司，看代码时苦苦找不到前端和后端是怎么交互的，没有看到http请求（其实是有，我眼瞎了），在大神简单的讲了一下，</p>
+<p>哇好像突然开窍了，之前没有看到的后端的Controller层也都浮出水面。这里也算积累到了经验，搜索url时不要整段url搜，因为后端可能是用多个@RequestMapper拼装的url，所以几率最大的是从url后面截取搜。</p>
+<p>在前端.jsp页面中只看到了${param}，但没有看到后台到底是怎么传数据的，<strong><strong><em>**</em></strong></strong> 原来 <strong><strong><strong>**</strong></strong></strong></p>
+<p>下面讲讲SpringMVC的几种像页面传值的方式：</p>
+<h4 id="1-使用HttpServletRequest-然后setAttribute-，就和Servlet中一样"><a href="#1-使用HttpServletRequest-然后setAttribute-，就和Servlet中一样" class="headerlink" title="1. 使用HttpServletRequest 然后setAttribute()，就和Servlet中一样"></a>1. 使用HttpServletRequest 然后setAttribute()，就和Servlet中一样</h4><h4 id="2-使用ModelAndView对象"><a href="#2-使用ModelAndView对象" class="headerlink" title="2. 使用ModelAndView对象"></a>2. 使用ModelAndView对象</h4><p>Model数据会利用HttpServletRequest的Attribute传值到success.jsp中</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">	@RequestMapping(<span class="string">"/login.do"</span>)  </span><br><span class="line">    public ModelAndView  login(String name,String pass)&#123;  </span><br><span class="line">        User user = userService.login(name,<span class="built_in">pwd</span>);  </span><br><span class="line">        Map&lt;String,Object&gt; data = new HashMap&lt;String,Object&gt;();  </span><br><span class="line">        data.put(<span class="string">"user"</span>,user);  </span><br><span class="line">        <span class="built_in">return</span> new ModelAndView(<span class="string">"success"</span>,data);  </span><br><span class="line">    &#125;  </span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line"><span class="comment">#### 3. 使用ModelMap对象</span></span><br><span class="line"></span><br><span class="line">ModelMap数据会利用HttpServletRequest的Attribute传值到success.jsp中</span><br><span class="line"></span><br><span class="line">``` bash </span><br><span class="line">	@RequestMapping(<span class="string">"/login.do"</span>)  </span><br><span class="line">    public　String login(String name,String pass ,ModelMap model)&#123;  </span><br><span class="line">        User user  = userService.login(name,<span class="built_in">pwd</span>);  </span><br><span class="line">        model.addAttribute(<span class="string">"user"</span>,user);  </span><br><span class="line">        model.put(<span class="string">"name"</span>,name);  </span><br><span class="line">        <span class="built_in">return</span> <span class="string">"success"</span>;  </span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h4 id="4-使用-ModelAttribute注解"><a href="#4-使用-ModelAttribute注解" class="headerlink" title="4. 使用@ModelAttribute注解"></a>4. 使用@ModelAttribute注解</h4><p>在Controller方法的参数部分或Bean属性方法上使用</p>
+<p>@ModelAttribute数据会利用HttpServletRequest的Attribute传值到success.jsp中</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@RequestMapping(<span class="string">"/login.do"</span>)  </span><br><span class="line">   public String login(@ModelAttribute(<span class="string">"user"</span>) User user)&#123;  </span><br><span class="line">       //TODO  </span><br><span class="line">      <span class="built_in">return</span> <span class="string">"success"</span>;  </span><br><span class="line">   &#125;  </span><br><span class="line">     </span><br><span class="line">   @ModelAttribute(<span class="string">"name"</span>)  </span><br><span class="line">   public String <span class="function"><span class="title">getName</span></span>()&#123;  </span><br><span class="line">       <span class="built_in">return</span> name;  </span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<h4 id="5-Session存储"><a href="#5-Session存储" class="headerlink" title="5. Session存储"></a>5. Session存储</h4><p>可以利用HttpServletReequest的getSession()方法</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@RequestMapping(<span class="string">"/login.do"</span>)  </span><br><span class="line">   public String login(String name,String <span class="built_in">pwd</span>  </span><br><span class="line">                               ModelMap model,HttpServletRequest request)&#123;  </span><br><span class="line">        User user = serService.login(name,<span class="built_in">pwd</span>);  </span><br><span class="line">        HttpSession session = request.getSession();  </span><br><span class="line">        session.setAttribute(<span class="string">"user"</span>,user);  </span><br><span class="line">        model.addAttribute(<span class="string">"user"</span>,user);  </span><br><span class="line">        <span class="built_in">return</span> <span class="string">"success"</span>;  </span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<h4 id="6-自定义Map"><a href="#6-自定义Map" class="headerlink" title="6. 自定义Map"></a>6. 自定义Map</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@ResponseBody</span><br><span class="line">   @RequestMapping(value = <span class="string">"/updatestatus"</span>, method = RequestMethod.POST)</span><br><span class="line">   public Map&lt;String, Object&gt; updateStatus(HttpServletRequest request) &#123;</span><br><span class="line">       Map&lt;String, Object&gt; result = new HashMap&lt;String, Object&gt;();</span><br><span class="line">       String id = request.getParameter(<span class="string">"id"</span>);</span><br><span class="line">       SystemAdministrator sysadmin=systemAdminBiz.get(Integer.valueOf(id));</span><br><span class="line">       sysadmin.setStatus(1);</span><br><span class="line">       boolean    flag = systemAdminBiz.update(sysadmin);</span><br><span class="line">       result.put(<span class="string">"status"</span>, flag);</span><br><span class="line">       <span class="built_in">return</span> result;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
       
     </div>
     
@@ -394,7 +389,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Http/" rel="tag"># Http</a>
+            <a href="/tags/SpringMVC/" rel="tag"># SpringMVC</a>
           
         </div>
       
@@ -407,8 +402,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/04/21/Javascript严格模式use-strict详解/" rel="next" title="Javascript严格模式use strict详解">
-                <i class="fa fa-chevron-left"></i> Javascript严格模式use strict详解
+              <a href="/2018/05/10/详细了解Page指令/" rel="next" title="详细了解Page指令">
+                <i class="fa fa-chevron-left"></i> 详细了解Page指令
               </a>
             
           </div>
@@ -416,10 +411,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/04/21/将javaBean对象转换成MapStringObject-类型对象/" rel="prev" title="将javaBean对象转换成MapString,Object类型对象">
-                将javaBean对象转换成MapString,Object类型对象 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -546,7 +537,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#官方的比较简洁的说明："><span class="nav-number">1.</span> <span class="nav-text">官方的比较简洁的说明：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是重定向啊？"><span class="nav-number">2.</span> <span class="nav-text">什么是重定向啊？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#可是，为什么要进行重定向啊？什么时候需要重定向呢？"><span class="nav-number">3.</span> <span class="nav-text">可是，为什么要进行重定向啊？什么时候需要重定向呢？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#那么，什么时候进行301或者302跳转呢？"><span class="nav-number">4.</span> <span class="nav-text">那么，什么时候进行301或者302跳转呢？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#为什么尽量要使用301跳转？——网址劫持！"><span class="nav-number">5.</span> <span class="nav-text">为什么尽量要使用301跳转？——网址劫持！</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#用户角度"><span class="nav-number">6.</span> <span class="nav-text">用户角度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#总结"><span class="nav-number">7.</span> <span class="nav-text">总结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-使用HttpServletRequest-然后setAttribute-，就和Servlet中一样"><span class="nav-number">1.</span> <span class="nav-text">1. 使用HttpServletRequest 然后setAttribute()，就和Servlet中一样</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-使用ModelAndView对象"><span class="nav-number">2.</span> <span class="nav-text">2. 使用ModelAndView对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-使用-ModelAttribute注解"><span class="nav-number">3.</span> <span class="nav-text">4. 使用@ModelAttribute注解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-Session存储"><span class="nav-number">4.</span> <span class="nav-text">5. Session存储</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-自定义Map"><span class="nav-number">5.</span> <span class="nav-text">6. 自定义Map</span></a></li></ol></div>
             
 
           </div>
