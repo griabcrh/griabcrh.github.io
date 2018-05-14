@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="属性 定义     language=”ScriptLanguage” 指定JSP Container用什么语言来编译，目前只支持JAVA语言。默认为JAVA   extends=”className” 定义此JSP网页产生的Servlet是继承哪个   import=”importList” 定义此JSP网页要使用哪些Java API   session=”true false” 决定此页">
+<meta name="description" content="属性 定义     language=”ScriptLanguage” 指定JSP Container用什么语言来编译，目前只支持JAVA语言。默认为JAVA   extends=”className” 定义此JSP网页产生的Servlet是继承哪个   import=”importList” 定义此JSP网页要使用哪些Java API   session=”true/false” 决定此页">
 <meta name="keywords" content="Web">
 <meta property="og:type" content="article">
 <meta property="og:title" content="详细了解Page指令">
 <meta property="og:url" content="https://griabcrh.github.io/2018/05/10/详细了解Page指令/index.html">
 <meta property="og:site_name" content="Griabcrh&#39;s Blog">
-<meta property="og:description" content="属性 定义     language=”ScriptLanguage” 指定JSP Container用什么语言来编译，目前只支持JAVA语言。默认为JAVA   extends=”className” 定义此JSP网页产生的Servlet是继承哪个   import=”importList” 定义此JSP网页要使用哪些Java API   session=”true false” 决定此页">
+<meta property="og:description" content="属性 定义     language=”ScriptLanguage” 指定JSP Container用什么语言来编译，目前只支持JAVA语言。默认为JAVA   extends=”className” 定义此JSP网页产生的Servlet是继承哪个   import=”importList” 定义此JSP网页要使用哪些Java API   session=”true/false” 决定此页">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-05-10T11:35:44.057Z">
+<meta property="og:updated_time" content="2018-05-14T12:02:03.906Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="详细了解Page指令">
-<meta name="twitter:description" content="属性 定义     language=”ScriptLanguage” 指定JSP Container用什么语言来编译，目前只支持JAVA语言。默认为JAVA   extends=”className” 定义此JSP网页产生的Servlet是继承哪个   import=”importList” 定义此JSP网页要使用哪些Java API   session=”true false” 决定此页">
+<meta name="twitter:description" content="属性 定义     language=”ScriptLanguage” 指定JSP Container用什么语言来编译，目前只支持JAVA语言。默认为JAVA   extends=”className” 定义此JSP网页产生的Servlet是继承哪个   import=”importList” 定义此JSP网页要使用哪些Java API   session=”true/false” 决定此页">
 
 
 
@@ -382,33 +382,28 @@
 <td style="text-align:left">定义此JSP网页要使用哪些Java API</td>
 </tr>
 <tr>
-<td style="text-align:left">session=”true</td>
-<td style="text-align:left">false”</td>
-<td>决定此页面是否使用session对象。默认为true</td>
+<td style="text-align:left">session=”true/false”</td>
+<td style="text-align:left">决定此页面是否使用session对象。默认为true</td>
 </tr>
 <tr>
-<td style="text-align:left">buffer=”none</td>
-<td style="text-align:left">size in kb”</td>
-<td>决定输出流(Input stream)是否又缓冲区。默认为8kb</td>
+<td style="text-align:left">buffer=”none/size in kb”</td>
+<td style="text-align:left">决定输出流(Input stream)是否又缓冲区。默认为8kb</td>
 </tr>
 <tr>
-<td style="text-align:left">autoFlush=”true</td>
-<td style="text-align:left">false”</td>
-<td>决定输出流的缓冲区慢了后是否需要自动清除，缓冲区慢了后会产生异常错误(Exception).默认为true</td>
+<td style="text-align:left">autoFlush=”true/false”</td>
+<td style="text-align:left">决定输出流的缓冲区慢了后是否需要自动清除，缓冲区慢了后会产生异常错误(Exception).默认为true</td>
 </tr>
 <tr>
-<td style="text-align:left">isThreadSafe=”true</td>
-<td style="text-align:left">false”</td>
-<td>是否支持线程。默认为true</td>
+<td style="text-align:left">isThreadSafe=”true/false”</td>
+<td style="text-align:left">是否支持线程。默认为true</td>
 </tr>
 <tr>
 <td style="text-align:left">errorPage=”url”</td>
 <td style="text-align:left">如果此页发生异常，网页会重新指向一个url</td>
 </tr>
 <tr>
-<td style="text-align:left">isErrorPage=”true</td>
-<td style="text-align:left">false”</td>
-<td>表示此页面是否为错误处理页面。默认为false</td>
+<td style="text-align:left">isErrorPage=”true/false”</td>
+<td style="text-align:left">表示此页面是否为错误处理页面。默认为false</td>
 </tr>
 <tr>
 <td style="text-align:left">contentType=”text/html;charset=gb2312”</td>
@@ -419,9 +414,8 @@
 <td style="text-align:left">编码方式</td>
 </tr>
 <tr>
-<td style="text-align:left">isELLgnored=”true</td>
-<td style="text-align:left">false”</td>
-<td>表示是否在此JSP页面中EL表达式。true则忽略，反之false则支持。默认为false</td>
+<td style="text-align:left">isELLgnored=”true/false”</td>
+<td style="text-align:left">表示是否在此JSP页面中EL表达式。true则忽略，反之false则支持。默认为false</td>
 </tr>
 </tbody>
 </table>
@@ -539,7 +533,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">46</span>
+                  <span class="site-state-item-count">47</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -552,7 +546,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-count">36</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
