@@ -101,7 +101,7 @@
 <meta property="og:image" content="https://griabcrh.github.io/images/docker12.png">
 <meta property="og:image" content="https://griabcrh.github.io/images/docker13.png">
 <meta property="og:image" content="https://griabcrh.github.io/images/docker14.png">
-<meta property="og:updated_time" content="2018-04-21T11:29:13.708Z">
+<meta property="og:updated_time" content="2018-08-08T05:42:56.755Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从零开始学Docker">
 <meta name="twitter:description" content="1.什么是 DockerDocker 是 Docker 公司的开源项目，使用 Google 公司推出的 Go 语言开发的,并于 2013 年 3 月以 Apache 2.0 授权协议开源，主要项目代码在 GitHub 上进行维护。 下面的图片比较了 Docker 和传统虚拟化方式的不同之处。传统虚拟机技术是虚拟出一套硬件后，在其上运行一个完整操作系统，在该系统上再运行所需应用进程；而容器内的应用">
@@ -406,7 +406,7 @@
 <p>数据卷的生存周期独立于容器，容器消亡，数据卷不会消亡。因此，使用数据卷后，容器可以随意删除、重新 run，数据却不会丢失。</p>
 <h4 id="3-3-Docker-仓库"><a href="#3-3-Docker-仓库" class="headerlink" title="3.3 Docker 仓库"></a>3.3 Docker 仓库</h4><p>镜像构建完成后，可以很容易的在当前宿主上运行，但是，如果需要在其它服务器上使用这个镜像，我们就需要一个集中的存储、分发镜像的服务，Docker Registry 就是这样的服务。</p>
 <h4 id="3-4-安装-Docker"><a href="#3-4-安装-Docker" class="headerlink" title="3.4 安装 Docker"></a>3.4 安装 Docker</h4><p>官方网站上有各种环境下的 安装指南，这里主要介绍下 CentOS 的安装。</p>
-<h3 id="4-CentOS-操作系统安装-Docker"><a href="#4-CentOS-操作系统安装-Docker" class="headerlink" title="4 CentOS 操作系统安装 Docker"></a>4 CentOS 操作系统安装 Docker</h3><h4 id="4-1-系统要求"><a href="#4-1-系统要求" class="headerlink" title="4.1 系统要求"></a>4.1 系统要求</h4><p>Docker 需要安装在 CentOS 7 64 位的平台，并且内核版本不低于 3.10. CentOS 7.× 满足要求的最低内核版本要求，但由于 CentOS 7 内核版本比较低，部分功能（如 overlay2 存储层驱动）无法使用，并且部分功能可能不太稳定。所以建议大家升级到最新的 CentOS 版本,并且内核也更新到最新的稳定版本.更新的方法可以看看我的&lt;<centos 7.="" ×="" 系统及内核升级指南="">&gt;</centos></p>
+<h3 id="4-CentOS-操作系统安装-Docker"><a href="#4-CentOS-操作系统安装-Docker" class="headerlink" title="4 CentOS 操作系统安装 Docker"></a>4 CentOS 操作系统安装 Docker</h3><h4 id="4-1-系统要求"><a href="#4-1-系统要求" class="headerlink" title="4.1 系统要求"></a>4.1 系统要求</h4><p>Docker 需要安装在 CentOS 7 64 位的平台，并且内核版本不低于 3.10. CentOS 7.× 满足要求的最低内核版本要求，但由于 CentOS 7 内核版本比较低，部分功能（如 overlay2 存储层驱动）无法使用，并且部分功能可能不太稳定。所以建议大家升级到最新的 CentOS 版本,并且内核也更新到最新的稳定版本。</p>
 <h4 id="4-2-使用阿里云的安装脚本自动安装"><a href="#4-2-使用阿里云的安装脚本自动安装" class="headerlink" title="4.2 使用阿里云的安装脚本自动安装"></a>4.2 使用阿里云的安装脚本自动安装</h4><p>为了简化 Docker 安装流程，我们可以使用阿里云提供的一套安装脚本，CentOS 系统上可以使用这套脚本安装 Docker :</p>
 <p>首先，查看阿里云ECS Linux服务器系统内核版本：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname -r</span><br></pre></td></tr></table></figure>
@@ -696,8 +696,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/04/21/什么是CAS机制（进阶篇）/" rel="next" title="什么是CAS机制（进阶篇）">
-                <i class="fa fa-chevron-left"></i> 什么是CAS机制（进阶篇）
+              <a href="/2018/04/21/阿里云服务器ECS-Centos7-3搭建Nginx服务器以及均衡负载/" rel="next" title="阿里云服务器ECS Centos7.3搭建Nginx服务器以及均衡负载">
+                <i class="fa fa-chevron-left"></i> 阿里云服务器ECS Centos7.3搭建Nginx服务器以及均衡负载
               </a>
             
           </div>
@@ -706,8 +706,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/04/21/什么是区块链？/" rel="prev" title="什么是区块链？">
-                什么是区块链？ <i class="fa fa-chevron-right"></i>
+              <a href="/2018/04/21/大型网站架构演化历程/" rel="prev" title="大型网站架构演化历程">
+                大型网站架构演化历程 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -789,7 +789,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">51</span>
+                  <span class="site-state-item-count">43</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -802,7 +802,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">39</span>
+                  <span class="site-state-item-count">33</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
