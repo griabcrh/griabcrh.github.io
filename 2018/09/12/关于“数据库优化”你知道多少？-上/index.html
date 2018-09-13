@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/griabcrh.gif?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="数据库优化," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="对于数据库的优化可以从以下几点切入：  表的设计合理，符合3NF 添加适当的索引（index）【索引：普通索引，主键索引，唯一索引，全文 索引】 分表技术（垂直分割、水平分割） 读写分离 存储过程（模块化编程，可以提高速度，但是移植性比较差） 对mysql的配置优化（配置最大并发数my.ini, 调整缓存大小                  max_connections） mysql服务器硬件">
+<meta name="keywords" content="数据库优化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于“数据库优化”你知道多少？(上)">
+<meta property="og:url" content="https://griabcrh.github.io/2018/09/12/关于“数据库优化”你知道多少？-上/index.html">
+<meta property="og:site_name" content="Griabcrh&#39;s Blog">
+<meta property="og:description" content="对于数据库的优化可以从以下几点切入：  表的设计合理，符合3NF 添加适当的索引（index）【索引：普通索引，主键索引，唯一索引，全文 索引】 分表技术（垂直分割、水平分割） 读写分离 存储过程（模块化编程，可以提高速度，但是移植性比较差） 对mysql的配置优化（配置最大并发数my.ini, 调整缓存大小                  max_connections） mysql服务器硬件">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://griabcrh.github.io/images/数据库优化1.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/数据库优化2.png">
+<meta property="og:image" content="https://griabcrh.github.io/2018/09/12/关于“数据库优化”你知道多少？-上/images/数据库优化3.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/数据库优化4.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/数据库优化5.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/数据库优化6.png">
+<meta property="og:updated_time" content="2018-09-12T13:56:39.799Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="关于“数据库优化”你知道多少？(上)">
+<meta name="twitter:description" content="对于数据库的优化可以从以下几点切入：  表的设计合理，符合3NF 添加适当的索引（index）【索引：普通索引，主键索引，唯一索引，全文 索引】 分表技术（垂直分割、水平分割） 读写分离 存储过程（模块化编程，可以提高速度，但是移植性比较差） 对mysql的配置优化（配置最大并发数my.ini, 调整缓存大小                  max_connections） mysql服务器硬件">
+<meta name="twitter:image" content="https://griabcrh.github.io/images/数据库优化1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://griabcrh.github.io/2018/09/12/关于“数据库优化”你知道多少？-上/"/>
+
+
+
+
+
+  <title>关于“数据库优化”你知道多少？(上) | Griabcrh's Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?91c85e96d8e34ae79347b17b0d41826f";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Griabcrh's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">welcome</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/09/12/关于“数据库优化”你知道多少？-上/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="griabcrh">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/24718752.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Griabcrh's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">关于“数据库优化”你知道多少？(上)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-12T21:46:19+08:00">
+                2018-09-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/09/12/关于“数据库优化”你知道多少？-上/" class="leancloud_visitors" data-flag-title="关于“数据库优化”你知道多少？(上)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>对于数据库的优化可以从以下几点切入：</strong></p>
+<ul>
+<li>表的设计合理，符合3NF</li>
+<li>添加适当的索引（index）【索引：普通索引，主键索引，唯一索引，全文 索引】</li>
+<li>分表技术（垂直分割、水平分割）</li>
+<li>读写分离</li>
+<li>存储过程（模块化编程，可以提高速度，但是移植性比较差）</li>
+<li>对mysql的配置优化（配置最大并发数my.ini, 调整缓存大小                  max_connections）</li>
+<li>mysql服务器硬件升级</li>
+<li>定时的去清除不需要的数据,定时进行碎片整理(MyISAM)</li>
+</ul>
+<p><strong>关于MyISAM</strong></p>
+<blockquote>
+<p>MyISAM是默认存储引擎。它基于更老的ISAM代码，但有很多有用的扩展。（注意MySQL 5.1不支持ISAM）。<br>每个MyISAM在磁盘上存储成三个文件，每一个文件的名字均以表的名字开始，扩展名指出文件类型。</p>
+</blockquote>
+<ul>
+<li>.frm文件存储表定义；</li>
+<li>.MYD (MYData)文件存储表的数据；</li>
+<li>.MYI (MYIndex)文件存储表的索引。</li>
+<li>.opt为后缀的：用来记录该库的默认字符集编码和字符集排序规则用的</li>
+</ul>
+<p>#1、数据库分类</p>
+<ul>
+<li>关系型数据库    ：Mysql/Oracle/db2/Informix/Sysbase/SqlServer</li>
+<li>非关系型数据库(特点：面向对象或者集合)：NoSql、MongoDB</li>
+</ul>
+<p>#2、表的设计（符合3NF）</p>
+<p>1NF：即表的列的具有原子性,不可再分解，即列的信息，不能分解, 只要数据<br>库是关系型数据库，就自动的满足1NF</p>
+<p>2NF：表中的记录是唯一的, 就满足2NF, 通常我们设计一个主键来实现（设置<br>主键）</p>
+<p>3NF：即表中不要有冗余数据, 就是说，表的信息，如果能够被推导出来，就<br>不应该单独的设计一个字段来存放.</p>
+<p>##2.1 Sql语句本身的优化</p>
+<p>如何从一个大项目中，迅速的定位执行速度慢的语句. (定位慢查询)</p>
+<p>首先我们了解mysql数据库的一些运行状态如何查询</p>
+<p>比如想知道当前mysql运行的时间/一共执行了多少次select/update/delete.. / 当前连接是多少</p>
+<p>常用的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">show status like ‘uptime’ ; （mysql启动了多长时间（秒））</span><br><span class="line"></span><br><span class="line">show stauts like ‘com_select’  showstauts like ‘com_insert’ ...类推 update  delete（查询执行了多少次查询、添加..）</span><br><span class="line"></span><br><span class="line">show[session|global] status like .... 如果你不写  [session|global] 默认是session 会话，指取出当前窗口的执行，如果你想看所有(从mysql 启动到现在，则应该 global)</span><br><span class="line"></span><br><span class="line">show global status like ‘com_select’;</span><br><span class="line"></span><br><span class="line">show status like ‘connections’; （查询出现在连接mysql的数量）</span><br><span class="line"></span><br><span class="line">//显示慢查询次数</span><br><span class="line"></span><br><span class="line">show status like ‘slow_queries’;</span><br></pre></td></tr></table></figure></p>
+<p><strong>如何去定位慢查询</strong></p>
+<p>默认情况下，mysql认为10秒才是一个慢查询.</p>
+<p><strong>修改mysql的慢查询</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">show variables like ‘long_query_time’ ; //可以显示当前慢查询时间</span><br><span class="line"></span><br><span class="line">set long_query_time=1 ;//可以修改慢查询时间</span><br></pre></td></tr></table></figure></p>
+<p>这时我们如果出现一条语句执行时间超过1秒种，就会统计到。</p>
+<p><strong>如何把慢查询的sql记录到我们的一个日志中</strong></p>
+<p>在默认情况下，我们的mysql不会记录慢查询，需要在启动mysql时候，指定记录慢查询才可以</p>
+<p>Cmd指令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">bin\mysqld.exe - -safe-mode  - -slow-query-log [mysql5.5 可以在my.ini指定]</span><br><span class="line"></span><br><span class="line">bin\mysqld.exe –log-slow-queries=d:/abc.log [低版本mysql5.0可以在my.ini指定]</span><br></pre></td></tr></table></figure></p>
+<p>Safe：安全模式，这样可以记录日志，记录下sql语句，如果有特殊情况，数据可以回滚</p>
+<p>先关闭mysql,再启动, 如果启用了慢查询日志，默认把这个文件放在my.ini 文件中记录的位置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#Path to the database root</span><br><span class="line">datadir=&quot;C:/Documents and Settings/AllUsers/ApplicationData/MySQL/MySQL Server 5.5/Data/&quot;</span><br></pre></td></tr></table></figure>
+<p>注意：修改此文件的位置，有可能会改变索引。索引是跟磁盘地址有关联的，所以不要轻易的修改此文件的位置</p>
+<p>测试,可以看到在日志中就记录下我们的mysql慢sql语句.</p>
+<p><strong>番外篇：</strong></p>
+<p>通过 explain 语句可以分析mysql如何执行你的sql语句（可以看出语句有没有用到索引、扫描方式是什么样子的、有没有额外的开销）</p>
+<p>查询海量数据的时候，查询已经查询出的数据的时候，速度会变快，因为mysql会把原先查出的数据缓存下，再次查询的时候，会直接把数据返回回来</p>
+<p>#2、添加索引</p>
+<p>##2.1 为什么添加索引后，查询速度会变快？</p>
+<p><strong>(1).  不添加索引</strong></p>
+<p>不添加索引的时候，查询会通过dbms的游标从数据表的开始位置一直查询到数据表的结束，即使在中间位置已经查询到该条数据，游标依然会继续往下执行，因为它不确定下面有没有同样的数据，所以查询速度就会变慢。</p>
+<p><strong>(2).  添加索引</strong></p>
+<p>添加主键索引后，会按照二叉树（BTREE）的算法进行查询，比如这里是十一条数据。</p>
+<p><strong>二叉树算法</strong></p>
+<p>先是找中间数据，之后分成左右两个区间再分别找中间数，以此类推；如果剩两个数的话，可以向上取整也可以向下取整，但在同一个算法中必须同步，向上取整只能向上取整，不能混淆。<br><img src="/images/数据库优化1.png" alt=""></p>
+<p>使用二叉树算法后，查询的时候就会拿索引跟这二叉树进行比较。</p>
+<blockquote>
+<p>例如：现在我们想得到4的位置，那么先拿4跟6进行比较，4&lt;6,进入左边的树杈位置进行查询，这样就减少了1/2的数据。接下来继续比较，4&gt;3,进入右边一个树杈，又减去一半的数据，以此类推，获取到索引为4的数据，我们只查询了三次。但是如果没有加索引的话，它会从头查到尾，会查11次，这样很浪费性能。</p>
+</blockquote>
+<p>二叉树算法查询的数量是log2N（log以2为底的N）</p>
+<p>二叉树查询10次的话，那么没有索引就会查询2的十次方=1024.以此类推，可以看出二叉树算法很牛，可以解决庞大数据的查询。</p>
+<p><strong>注意</strong>：每一个索引对应的数据在磁盘中都有磁道来进行存储。</p>
+<p>##2.2 主键索引</p>
+<p>当一张表，把某个列设为主键，那个列就是主键索引<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Create  table aa(id intunsigned primary key auto_increment,namevarchar(32) not null defaul ‘’); )</span><br></pre></td></tr></table></figure></p>
+<p>这里的id就是主键索引</p>
+<p><strong>番外篇：</strong></p>
+<ul>
+<li>Primarykey ：设置主键</li>
+<li>auto_increment:设置自增</li>
+<li>defaul：设置默认值</li>
+</ul>
+<p><strong>Unsigned：</strong></p>
+<p>整型的每一种都分为：无符号（unsigned）和有符号（signed）两种类型（float和double总是带符号的），在默认情况下声明的整型变量都是有符号的类型（char有点特别），如果需声明无符号类型的话就需要在类型前加上。unsigned。无符号版本和有符号版本的区别就是无符号类型能保存2倍于有符号类型的正整数数据，比如16位系统中一个short能存储的数据的范围为-32768~32767，而unsigned能存储的数据范围则是0~65535。由于在计算机中,整数是以补码形式存放的。根据最高位的不同，如果是1,有符号数的话就是负数；如果是无符号数,则都解释为正数。另外，unsigned若省略后一个关键字，大多数编译器都会认为是unsigned int。</p>
+<p>如果你在创建表的时候，没有设置主键，可以后续添加<br>alter  table 表名 addprimary key（列名）;</p>
+<p>举例<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">create table bbb (id int , name varchar(32)not null default ‘’);</span><br><span class="line"></span><br><span class="line">alter table bbb add primary key (id);</span><br></pre></td></tr></table></figure></p>
+<p>##2.3 创建普通索引</p>
+<p>一般来说，普通索引的创建，是先创建表，然后在创建普通索引</p>
+<p>比如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">create table ccc(</span><br><span class="line"> id int unsigned, </span><br><span class="line"> name varchar(32) </span><br><span class="line"></span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
+<p>create index 索引名 on 表 (列1,列名2);</p>
+<p>##2.4 创建全文索引</p>
+<p>文索引，主要是针对文件、文本的检索, 比如文章, 全文索引针对MyISAM有用.（非关系型数据库就不能使用）</p>
+<p>创建<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE articles (</span><br><span class="line"></span><br><span class="line">      id INT UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,</span><br><span class="line"></span><br><span class="line">      title VARCHAR(200),</span><br><span class="line"></span><br><span class="line">      body TEXT,</span><br><span class="line"></span><br><span class="line">      FULLTEXT (title,body)</span><br><span class="line"></span><br><span class="line">    )engine=myisam charset utf8;</span><br></pre></td></tr></table></figure></p>
+<p>添加数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">INSERT INTO articles (title,body) VALUES</span><br><span class="line"></span><br><span class="line">    (&apos;MySQL Tutorial&apos;,&apos;DBMS stands for DataBase ...&apos;),</span><br><span class="line"></span><br><span class="line">    (&apos;How To Use MySQL Well&apos;,&apos;After you went through a ...&apos;),</span><br><span class="line"></span><br><span class="line">    (&apos;Optimizing MySQL&apos;,&apos;In this tutorial we will show ...&apos;),</span><br><span class="line"></span><br><span class="line">    (&apos;1001 MySQL Tricks&apos;,&apos;1. Never run mysqld as root. 2. ...&apos;),</span><br><span class="line"></span><br><span class="line">    (&apos;MySQL vs. YourSQL&apos;,&apos;In the following database comparison ...&apos;),</span><br><span class="line"></span><br><span class="line">    (&apos;MySQL Security&apos;,&apos;When configured properly, MySQL ...&apos;);</span><br></pre></td></tr></table></figure></p>
+<p><strong>如何使用全文索引</strong></p>
+<p>错误用法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from articles where body like ‘%mysql%’;【不会使用到全文索引】</span><br></pre></td></tr></table></figure></p>
+<p>证明<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">explain select * from articles where body like ‘%mysql%’</span><br></pre></td></tr></table></figure></p>
+<p>explain的作用：用于分析sql 语句的执行及数据库索引的使用<br><img src="/images/数据库优化2.png" alt=""><br><img src="images/数据库优化3.png" alt=""></p>
+<p>正确的用法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from articles wherematch(title,body) against(‘database’); 【可以】</span><br></pre></td></tr></table></figure></p>
+<p>上面是把title和body创建成全文索引的，against里面是需要查询的关键字。</p>
+<p><strong>☞ 说明:</strong></p>
+<ol>
+<li><p>在mysql中fulltext 索引只针对 myisam生效</p>
+</li>
+<li><p>mysql自己提供的fulltext针对英文生效-&gt;sphinx (coreseek) 技术处理中          文</p>
+</li>
+<li><p>使用方法是 match(字段名..) against(‘关键字’)</p>
+</li>
+<li><p>全文索引一个叫 停止词,  因为在一个文本中，创建索引是一个无穷大</p>
+<p> 的数，因此，对一些常用词和字符，就不会创建，这些词，称为停止词.</p>
+</li>
+</ol>
+<p>举例：<br><img src="/images/数据库优化4.png" alt=""><br> 查询第一列中与database匹配度为65%左右，第二列0%，以此类推</p>
+<p>全文索引不可能把每个词都建成索引，加入全文有上个个字符，那么组合起来的索引量就特别大，所以全文索引只会针对一些生僻的词<br><img src="/images/数据库优化5.png" alt=""></p>
+<p>像a这样的，在很多地方都会出现，所以就不会建立索引，因此叫做停止词。</p>
+<p>##2.5 创建唯一索引</p>
+<p>当表的某列被指定为unique约束时，这列就是一个唯一索引<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create table ddd(id int primary keyauto_increment , name varchar(32) unique);</span><br></pre></td></tr></table></figure></p>
+<p>这时, name 列就是一个唯一索引.</p>
+<p>unique字段可以为NULL,并可以有多NULL, 但是如果是具体内容，则不能重复.<br>主键字段，不能为NULL,也不能重复.</p>
+<p>在创建表后，再去创建唯一索引<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">create table eee(id int primary keyauto_increment, name varchar(32));</span><br><span class="line"></span><br><span class="line">create unique index 索引名  on 表名 (列名);</span><br></pre></td></tr></table></figure></p>
+<p>##2.6 查询索引</p>
+<p>desc 表名  ——查看表的详情</p>
+<p>Show index(es) from 表名 ——查看表的详情（一般用于查询索引使用，后面加\G可以显示的更清晰）</p>
+<p>Show keys from 表名\G</p>
+<p>##2.7 删除索引<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alter table 表名 drop index 索引名;</span><br></pre></td></tr></table></figure></p>
+<p>如果是删除主键索引<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alter table 表名 drop primary key</span><br></pre></td></tr></table></figure></p>
+<p>##2.8 修改索引<br>先删除，再重新创建</p>
+<p><strong>如何查看索引使用的情况</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show status like‘Handler_read%’;</span><br></pre></td></tr></table></figure></p>
+<p><strong>大家注意</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">handler_read_key:这个值越高越好，越高表示使用索引查询到的次数。</span><br><span class="line"></span><br><span class="line">handler_read_rnd_next:这个值越高，说明查询低效。</span><br></pre></td></tr></table></figure></p>
+<p><strong>总结</strong></p>
+<ul>
+<li>较频繁的作为查询字段的应该创建索引。</li>
+<li>唯一性太差的字段不适合单独创建索引，即使频繁作为查询条件。</li>
+<li>更新非常频繁的字段不适合创建索引。</li>
+<li>不会出现在Where子句中字段不该创建索引。</li>
+</ul>
+<p><strong>使用索引注意事项</strong></p>
+<ul>
+<li>创建索引，索引文件就会变大，占用磁盘空间</li>
+<li>使用索引，会降低dml（增删改）操作效率，因为每次改变数据，那么二叉树就重新排列索引位置。</li>
+<li>对于创建的多列索引，只要查询条件使用了最左边的列，索引一般就会被使用。 explain select * from dept where<br>dname like ‘%aaa’\G 不能使用索引，  即，在like查询时，关键的‘关键字’ , 最前面，不能使用 % 或者<br>_这样的字符.， 如果一定要前面有变化的值，则考虑使用 全文索引-&gt;sphinx.</li>
+<li>如果条件中有or，即使其中有条件带索引也不会使用。 换言之，就是要求使用的所有字段，都必须建立索引, 我们建议大家尽量避免使用or 关键字</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from dept where dname=’xxx’ or loc=’xx’ ordeptno=45</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>如果列类型是字符串，那一定要在条件中将数据使用引号引用起来。否则不使用索引。(添加时,字符串必须’’),<br>也就是，如果列是字符串类型，就一定要用 ‘’ 把他包括起来</p>
+</li>
+<li><p>如果mysql估计使用全表扫描要比使用索引快，则不使用索引。</p>
+<p> explain 可以帮助我们在不真正执行某个sql语句时，就执行mysql怎样执行，这样利用我们去分析sql指令.<br><img src="/images/数据库优化6.png" alt=""></p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数据库优化/" rel="tag"># 数据库优化</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/16/Linux系统下安装WebLogic/" rel="next" title="Linux系统下安装WebLogic">
+                <i class="fa fa-chevron-left"></i> Linux系统下安装WebLogic
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/12/关于“数据库优化”你知道多少？-下/" rel="prev" title="关于“数据库优化”你知道多少？(下)">
+                关于“数据库优化”你知道多少？(下) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/24718752.gif"
+                alt="griabcrh" />
+            
+              <p class="site-author-name" itemprop="name">griabcrh</p>
+              <p class="site-description motion-element" itemprop="description">nice to meet you</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">45</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">griabcrh</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+|<span id="busuanzi_container_site_uv">
+  本站访客数<span id="busuanzi_value_site_uv"></span>人次
+</span>
+|<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("8TpPOiYi4ReJYs5sYfMdFmSO-gzGzoHsz", "hX7JfGRvJG8zcMqMRAWNMNyk");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
