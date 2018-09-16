@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/griabcrh.gif?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Java," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="垃圾收集（Garbage Collection ,GC），是一个长久以来就被思考的问题，当考虑GC的时候，我们必须思考3件事情：　　哪些内存需要回收？ 　　什么时候回收？ 　　如何回收？ 　　那么在Java中，我们要怎么来考虑GC呢？首先回想以下内存区域的划分，其中程序计数器、本地方法栈、虚拟机栈三个区域随线程而生，随线程释放，栈中的栈帧随着方法的进入和退出执行着出栈和入栈的操作，每一个栈帧分配多">
+<meta name="keywords" content="Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一篇文章彻底了解Java垃圾收集(GC)机制">
+<meta property="og:url" content="https://griabcrh.github.io/2018/09/16/一篇文章彻底了解Java垃圾收集-GC-机制/index.html">
+<meta property="og:site_name" content="Griabcrh&#39;s Blog">
+<meta property="og:description" content="垃圾收集（Garbage Collection ,GC），是一个长久以来就被思考的问题，当考虑GC的时候，我们必须思考3件事情：　　哪些内存需要回收？ 　　什么时候回收？ 　　如何回收？ 　　那么在Java中，我们要怎么来考虑GC呢？首先回想以下内存区域的划分，其中程序计数器、本地方法栈、虚拟机栈三个区域随线程而生，随线程释放，栈中的栈帧随着方法的进入和退出执行着出栈和入栈的操作，每一个栈帧分配多">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://griabcrh.github.io/images/javaGc1.png">
+<meta property="og:updated_time" content="2018-09-16T06:06:33.635Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="一篇文章彻底了解Java垃圾收集(GC)机制">
+<meta name="twitter:description" content="垃圾收集（Garbage Collection ,GC），是一个长久以来就被思考的问题，当考虑GC的时候，我们必须思考3件事情：　　哪些内存需要回收？ 　　什么时候回收？ 　　如何回收？ 　　那么在Java中，我们要怎么来考虑GC呢？首先回想以下内存区域的划分，其中程序计数器、本地方法栈、虚拟机栈三个区域随线程而生，随线程释放，栈中的栈帧随着方法的进入和退出执行着出栈和入栈的操作，每一个栈帧分配多">
+<meta name="twitter:image" content="https://griabcrh.github.io/images/javaGc1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://griabcrh.github.io/2018/09/16/一篇文章彻底了解Java垃圾收集-GC-机制/"/>
+
+
+
+
+
+  <title>一篇文章彻底了解Java垃圾收集(GC)机制 | Griabcrh's Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?91c85e96d8e34ae79347b17b0d41826f";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Griabcrh's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">welcome</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/09/16/一篇文章彻底了解Java垃圾收集-GC-机制/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="griabcrh">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/24718752.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Griabcrh's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">一篇文章彻底了解Java垃圾收集(GC)机制</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-16T14:02:50+08:00">
+                2018-09-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/09/16/一篇文章彻底了解Java垃圾收集-GC-机制/" class="leancloud_visitors" data-flag-title="一篇文章彻底了解Java垃圾收集(GC)机制">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="垃圾收集（Garbage-Collection-GC），是一个长久以来就被思考的问题，当考虑GC的时候，我们必须思考3件事情："><a href="#垃圾收集（Garbage-Collection-GC），是一个长久以来就被思考的问题，当考虑GC的时候，我们必须思考3件事情：" class="headerlink" title="垃圾收集（Garbage Collection ,GC），是一个长久以来就被思考的问题，当考虑GC的时候，我们必须思考3件事情："></a>垃圾收集（Garbage Collection ,GC），是一个长久以来就被思考的问题，当考虑GC的时候，我们必须思考3件事情：</h3><p>　　哪些内存需要回收？</p>
+<p>　　什么时候回收？</p>
+<p>　　如何回收？</p>
+<p>　　那么在Java中，我们要怎么来考虑GC呢？首先回想以下内存区域的划分，其中程序计数器、本地方法栈、虚拟机栈三个区域随线程而生，随线程释放，栈中的栈帧随着方法的进入和退出执行着出栈和入栈的操作，每一个栈帧分配多少内存基本是在类结构确定时就已经固定的（可能会进行一些优化，但是大体上已知），因此这几个区域就不需要考虑回收的问题，因为方法结束或者线程结束时，内存自然都被回收。不需要额外的GC算法等。</p>
+<p>　　然而Java堆和方法区则不一样，一个接口所对应的多个实现类所需要的内存可能不一样，一个方法中的多个分支所需要的内存也可能不一样，我们只有在程序处于运行期间才能知道程序需要创建那些对象，这部分的内存的分配和回收是动态的，因此，垃圾收集器关注的是这方面的内存。</p>
+<h3 id="一-如何确定对象可以回收"><a href="#一-如何确定对象可以回收" class="headerlink" title="一. 如何确定对象可以回收"></a>一. 如何确定对象可以回收</h3><h4 id="1-引用计数算法"><a href="#1-引用计数算法" class="headerlink" title="1.引用计数算法"></a>1.引用计数算法</h4><p>　　最容易想到与理解的算法，即对于每一个对象，每当该对象被引用时，计数器值就+1，引用失效时，计数器就-1。因此，当对象的引用计数为0时，即为不可再被使用的。该算法也在一些领域被使用来进行内存管理，但是JAVA虚拟机中并没有选用该算法。主要是因为不能很好的解决循环引用的问题。</p>
+<p>　　举个简单的例子来说明循环引用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">class Container&#123;    public Object obj ;</span><br><span class="line">&#125;public class ReferTest &#123;    public static void main(String[] args)&#123;</span><br><span class="line">        Container c1 =new Container();</span><br><span class="line">        Container c2 =new Container();</span><br><span class="line">        c1.obj = c2 ;</span><br><span class="line">        c2.obj = c1 ;</span><br><span class="line">        </span><br><span class="line">        c1 = null ;</span><br><span class="line">        c2 = null ;        //此时c1 c1会被判定为死亡对象么？    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>　　事实上会被判定为死亡对象，因为JAVA虚拟机不是采用引用计数来进行判断的，因此如果发生垃圾回收，c1，c2 都会被回收内存。</p>
+<h4 id="2-可达性分析"><a href="#2-可达性分析" class="headerlink" title="2.可达性分析"></a>2.可达性分析</h4><p>　　Java、C#的主流实现都是采用该种方式，来判断对象是否存活。</p>
+<p>　　这个算法的基本思路就是一系列“GC Roots”作为起始点，从这些节点向下搜索，搜索到的所有引用链中的对象都是可达的，其余的对象都是不可达的，如上例，即使c1,c2互相引用，但是c1,c2都不属于GC Roots对象，因此都不可达。</p>
+<p>　　Java中，以下几种对象可以作为GC Roots：</p>
+<p>虚拟机栈（栈帧中的本地变量表）中引用的对象。</p>
+<p>本地方法栈JNI方法引用的对象。</p>
+<p>方法区类的静态属性引用的对象。</p>
+<p>方法区常量引用的对象。</p>
+<h4 id="3-引用的分类"><a href="#3-引用的分类" class="headerlink" title="3.引用的分类"></a>3.引用的分类</h4><p>　　了解了GC Roots之后，我们可能会希望存在这么一种对象，内存够的时候不进行回收，当需要内存时再将其回收。JDK 1.2 中对引用进行了扩充。将引用分为了4种，从强到弱依次为;</p>
+<p>　　强引用（Strong Reference）<br>　　我们一般情况下使用的都是强引用，如Object o = new Object()，之类的代码。只要强引用还在，垃圾收集器就永远不会回收被引用的对象。</p>
+<p>　　软引用（Soft  Reference）<br>　　SoftReference类来实现，用来描述一些还有用但是不必须的对象，在系统如果不回收就会发生OOM时才会对软引用进行内存回收。</p>
+<p>　　弱引用（Weak  Reference）<br>　　WeakReference类来实现，描述非必需的对象，强度弱，只能活到下一次发生垃圾回收前，无论那时内存是否短缺，都会对软引用对象进行内存回收</p>
+<p>　　虚引用（Phantom Reference）<br>　　PhantomReference类实现，不会对生存时间发生任何影响，唯一目的时能在这个对象被收集器回收时得到一个通知。</p>
+<h4 id="4-其他"><a href="#4-其他" class="headerlink" title="4.其他"></a>4.其他</h4><p>　　及其不建议使用finalize()方法,虽然可以在回收时被调用，但是finalize()方法的执行代价高昂，不确定性大，无法保证各个对象的调用顺序。使用finalize()能做的工作，使用try()finally()或其他方式可以执行的更好。大家可以忘记JAVA中有这个方法的存在。本身就是在JAVA刚诞生时向C/C++程序员做的妥协，但是未得到优化。</p>
+<p>　　方法区（永久代）进行GC的效率极低，花费较大，但是在大量使用反射、动态代理等场景都需要虚拟机具备类卸载的功能，以保证永生代的空间。</p>
+<h3 id="二-垃圾收集算法"><a href="#二-垃圾收集算法" class="headerlink" title="二.垃圾收集算法"></a>二.垃圾收集算法</h3><h4 id="1-标记清除算法（Mark-Sweep）"><a href="#1-标记清除算法（Mark-Sweep）" class="headerlink" title="1.标记清除算法（Mark-Sweep）"></a>1.标记清除算法（Mark-Sweep）</h4><p>　　算法分为两个阶段，标记与清除。</p>
+<p>　　标记阶段：标记出所有需要回收的对象。回收阶段：将所有标记区域回收。由于该算法不对空间进行整理，因此会产生大量的内存碎片，内存空间碎片过多会导致在分配较大的对象时，因为没有连续的内存而不得不提前触发一个GC。另外，标记与清除的过程效率都不高。这也是最基础的GC算法。</p>
+<h4 id="2-复制算法（Copying）"><a href="#2-复制算法（Copying）" class="headerlink" title="2.复制算法（Copying）"></a>2.复制算法（Copying）</h4><p>　　将内存的总容量分为两块，每次只使用其中的一块，当这一块用完了，触发GC，此时将还存活的对象转移到另一块内存中，之前使用的那一块内存完全清理掉。这样每次对一个半区进行回收，也不会存在内存碎片，实现简单，运行高效，但是一次只能使用半块内存可能会造成浪费。</p>
+<p>　　在新生代中，绝大部分的对象时“朝生夕死”的，因此，不需要按照1：1来划分空间。而是将内存分为一块较大的Eden区以及两个Survivor区，HotSpot虚拟机中，Eden:Survivor=8:1 ，每次使用一个Eden区以及一个Survivor区，90%的空间，触发GC后，将剩余的对象转移到未使用的Survivor中，然后清理Eden区和用过的Survivor区，空间不够时，会担保分配到老年代。这样一次可以使用90%的内存空间，极大的提高了内存的使用率。因此，新生代一般采用这种算法来回收。</p>
+<h4 id="3-标记整理算法（Mark-Compact）"><a href="#3-标记整理算法（Mark-Compact）" class="headerlink" title="3.标记整理算法（Mark-Compact）"></a>3.标记整理算法（Mark-Compact）</h4><p>　　如果回收时空间内的对象存活率较高，那么使用复制算法一次只能使用50%的空间（以应对所有对象都存活的情况），因此老年代采用标记整理算法。先对需要清理的对象进行标记，然后将存活的对象都向一端移动，直接清理掉端边界以外的内存。这种方式也不会留下内存碎片。</p>
+<p>　　标记整理算法没有复制算法快。</p>
+<h3 id="三-Java垃圾收集器"><a href="#三-Java垃圾收集器" class="headerlink" title="三. Java垃圾收集器"></a>三. Java垃圾收集器</h3><p>（了解即可，需要时可以网上细查）<br>新生代收集器：Serial收集器、ParNew收集器（Serial的多线程版本）、Parallel Scanvenge收集器（控制吞吐量，提高相应速度）</p>
+<p>老年代收集器：Serial Old收集器、Parallel Old收集器、CMS收集器（最短停顿）、G1（新生代、老年代都可回收）</p>
+<h3 id="四-内存的分配与回收"><a href="#四-内存的分配与回收" class="headerlink" title="四. 内存的分配与回收"></a>四. 内存的分配与回收</h3><p>新生代：即复制算法中提到的Eden区以及2个Survivor区。</p>
+<p>老年代：新生代存活足够长时间后进入老年代。堆上的另一块区域。</p>
+<p>Minor GC：发生在新生代的垃圾收集动作。因为Java对象存活时间一般较短，故Minor GC非常频繁，一般回收速度也较快。</p>
+<p>Full GC：发生在老年代的垃圾收集动作，伴随着最少一次的Minor GC，且速度较慢（比Minor GC慢10倍以上）</p>
+<h4 id="1-空间的分配"><a href="#1-空间的分配" class="headerlink" title="1.空间的分配"></a>1.空间的分配</h4><p>　　1）对象优先在新生代Eden区分配。当Eden区没有足够空间时，将发动一次Minor GC.</p>
+<p>　　2）较大对象需要连续的空间，如长字符串或数组，如果放在新生代会提前触发GC。故大对象直接进入老年代区域，避免频繁的GC。</p>
+<p>　　3）长期存活的对象进入老年代，每个对象有一个年龄，在对象头Mark Word中记录，刚被创建时年龄为0，当它活过一次Minor GC，并且转移到Survivor中，年龄变为1，此后，在Survivor区中每活过一个Minor GC，年龄就会+1，当年龄达到某个程度（默认为15），就会晋升到老年代。</p>
+<p>　　4）此外，为了适应内存的复杂情况，年龄不一定达到规定值才能进入老年代。当Survivor区的相同年龄所有对象大小大于Survivor区大小的一半时，此年龄就会被作为判定标准，大于等于该年龄的都会进入老年代。</p>
+<h4 id="2-空间的回收–GC"><a href="#2-空间的回收–GC" class="headerlink" title="2.空间的回收–GC"></a>2.空间的回收–GC</h4><p><img src="/images/javaGc1.png" alt=""></p>
+<p>这里我用一张图来彻底解释清除：</p>
+<p>需要解释的地方有：担保失败，这个的作用在图上已经解释的很清楚了，可以在JVM参数设置。</p>
+<p>另外一个地方就是平均大小来作比较，因为有多少对象晋升到老年代是无法知道的，所以只好取之前每一次晋升到老年代的对象的容量的平均值大小来作为经验值，来决定是否进行Full GC来让老年代腾出更多空间。如果仍然失败，那么只能进行一次Full GC。在我个人开来，之所以使用担保，经验值来尽可能的只进行MinorGC，所有的一切，都是为了尽可能不执行Full GC的情况下将需要申请的内存空间搞定。</p>
+<p>至于Full GC 和Minor GC的具体操作，请参考之前的标记整理算法和复制算法。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/16/Java内存模型详解/" rel="next" title="Java内存模型详解">
+                <i class="fa fa-chevron-left"></i> Java内存模型详解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/16/Maven自定义插件实现/" rel="prev" title="Maven自定义插件实现">
+                Maven自定义插件实现 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/24718752.gif"
+                alt="griabcrh" />
+            
+              <p class="site-author-name" itemprop="name">griabcrh</p>
+              <p class="site-description motion-element" itemprop="description">nice to meet you</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">58</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#垃圾收集（Garbage-Collection-GC），是一个长久以来就被思考的问题，当考虑GC的时候，我们必须思考3件事情："><span class="nav-number">1.</span> <span class="nav-text">垃圾收集（Garbage Collection ,GC），是一个长久以来就被思考的问题，当考虑GC的时候，我们必须思考3件事情：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一-如何确定对象可以回收"><span class="nav-number">2.</span> <span class="nav-text">一. 如何确定对象可以回收</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-引用计数算法"><span class="nav-number">2.1.</span> <span class="nav-text">1.引用计数算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-可达性分析"><span class="nav-number">2.2.</span> <span class="nav-text">2.可达性分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-引用的分类"><span class="nav-number">2.3.</span> <span class="nav-text">3.引用的分类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-其他"><span class="nav-number">2.4.</span> <span class="nav-text">4.其他</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二-垃圾收集算法"><span class="nav-number">3.</span> <span class="nav-text">二.垃圾收集算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-标记清除算法（Mark-Sweep）"><span class="nav-number">3.1.</span> <span class="nav-text">1.标记清除算法（Mark-Sweep）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-复制算法（Copying）"><span class="nav-number">3.2.</span> <span class="nav-text">2.复制算法（Copying）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-标记整理算法（Mark-Compact）"><span class="nav-number">3.3.</span> <span class="nav-text">3.标记整理算法（Mark-Compact）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三-Java垃圾收集器"><span class="nav-number">4.</span> <span class="nav-text">三. Java垃圾收集器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四-内存的分配与回收"><span class="nav-number">5.</span> <span class="nav-text">四. 内存的分配与回收</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-空间的分配"><span class="nav-number">5.1.</span> <span class="nav-text">1.空间的分配</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-空间的回收–GC"><span class="nav-number">5.2.</span> <span class="nav-text">2.空间的回收–GC</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">griabcrh</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+|<span id="busuanzi_container_site_uv">
+  本站访客数<span id="busuanzi_value_site_uv"></span>人次
+</span>
+|<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("8TpPOiYi4ReJYs5sYfMdFmSO-gzGzoHsz", "hX7JfGRvJG8zcMqMRAWNMNyk");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

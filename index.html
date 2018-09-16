@@ -282,7 +282,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/09/13/IDE里的Tomcat是怎么工作的？/">
+    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/09/16/SpringBoot搭建Activiti整合流程设计器（一步一步教你配置）/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="griabcrh">
@@ -301,7 +301,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/09/13/IDE里的Tomcat是怎么工作的？/" itemprop="url">IDE里的Tomcat是怎么工作的？</a></h1>
+                <a class="post-title-link" href="/2018/09/16/SpringBoot搭建Activiti整合流程设计器（一步一步教你配置）/" itemprop="url">SpringBoot搭建Activiti整合流程设计器（一步一步教你配置）</a></h1>
         
 
         <div class="post-meta">
@@ -313,8 +313,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-13T21:24:33+08:00">
-                2018-09-13
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-16T14:11:22+08:00">
+                2018-09-16
               </time>
             
 
@@ -331,7 +331,7 @@
 
           
           
-             <span id="/2018/09/13/IDE里的Tomcat是怎么工作的？/" class="leancloud_visitors" data-flag-title="IDE里的Tomcat是怎么工作的？">
+             <span id="/2018/09/16/SpringBoot搭建Activiti整合流程设计器（一步一步教你配置）/" class="leancloud_visitors" data-flag-title="SpringBoot搭建Activiti整合流程设计器（一步一步教你配置）">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -364,13 +364,11 @@
       
         
           
-          &emsp;如果正在阅读本文的你是一名开发者，那么一定听说过Eclipse和Intellij IDEA这两款可以称之为神器的集成开发环境(IDE)。
-&emsp;Eclipse以其代码开源、插件众多、扩展方便等特点，可以通过配置支持多种开发语言，用户众多。
-&emsp;Intellij IDEA则是
+          1、框架搭建在IDE里新建SpringBoot项目，在pom.xml里引入如下依赖pom.xml123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/09/13/IDE里的Tomcat是怎么工作的？/#more" rel="contents">
+            <a class="btn" href="/2018/09/16/SpringBoot搭建Activiti整合流程设计器（一步一步教你配置）/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -421,7 +419,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/09/13/程序员的健康要重视起来/">
+    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/09/16/Maven自定义插件实现/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="griabcrh">
@@ -440,7 +438,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/09/13/程序员的健康要重视起来/" itemprop="url">程序员的健康要重视起来</a></h1>
+                <a class="post-title-link" href="/2018/09/16/Maven自定义插件实现/" itemprop="url">Maven自定义插件实现</a></h1>
         
 
         <div class="post-meta">
@@ -452,8 +450,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-13T21:13:46+08:00">
-                2018-09-13
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-16T14:07:32+08:00">
+                2018-09-16
               </time>
             
 
@@ -470,7 +468,7 @@
 
           
           
-             <span id="/2018/09/13/程序员的健康要重视起来/" class="leancloud_visitors" data-flag-title="程序员的健康要重视起来">
+             <span id="/2018/09/16/Maven自定义插件实现/" class="leancloud_visitors" data-flag-title="Maven自定义插件实现">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -503,22 +501,12 @@
       
         
           
-          程序员是一个经常熬夜通宵的群体，是职业病高发人群（不说了，都是泪…）
-程序员常见的职业病有
-
-颈椎病
-臀病(屁股疼)
-眼疲劳、用眼过度
-饮食、作息不规律导致的胃病
-严重掉发
-
-下面针对职业病来找一找应对办法。
-#一、不要犹豫，动起来
-程序员这行，长时间都是坐立不动的。我们的身体得不到锻炼，坐姿也不正
+          没有接触过自定义插件，都会把它想的特别难，我刚接触也是，但“手是英雄”，真正动手做了才知道。
+Maven 作为一个优秀的项目管理工具，其插件机制为其功能扩展提供了非常大的便捷性。虽然说大多数情况下，我们可能不太会自己去编写 Maven 插件，但不排除在某些特殊的情况下，我们需要去完成一个自己的插件，
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/09/13/程序员的健康要重视起来/#more" rel="contents">
+            <a class="btn" href="/2018/09/16/Maven自定义插件实现/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -569,7 +557,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/09/13/HashMap底层实现原理/">
+    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/09/16/一篇文章彻底了解Java垃圾收集-GC-机制/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="griabcrh">
@@ -588,7 +576,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/09/13/HashMap底层实现原理/" itemprop="url">HashMap底层实现原理</a></h1>
+                <a class="post-title-link" href="/2018/09/16/一篇文章彻底了解Java垃圾收集-GC-机制/" itemprop="url">一篇文章彻底了解Java垃圾收集(GC)机制</a></h1>
         
 
         <div class="post-meta">
@@ -600,8 +588,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-13T20:34:21+08:00">
-                2018-09-13
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-16T14:02:50+08:00">
+                2018-09-16
               </time>
             
 
@@ -618,7 +606,7 @@
 
           
           
-             <span id="/2018/09/13/HashMap底层实现原理/" class="leancloud_visitors" data-flag-title="HashMap底层实现原理">
+             <span id="/2018/09/16/一篇文章彻底了解Java垃圾收集-GC-机制/" class="leancloud_visitors" data-flag-title="一篇文章彻底了解Java垃圾收集(GC)机制">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -651,11 +639,14 @@
       
         
           
-          &emsp;在JDK1.6，JDK1.7中，HashMap采用位桶+链表实现，即使用链表处理冲突，同一hash值的链表都存储在一个链表里。但是当位于一个桶中的元素较多，即hash值相等的元素较多时，通过key值依次查找的效率较低。而JDK1.8中，HashMap采用位桶+链表+红黑树实现，当链表长度
+          垃圾收集（Garbage Collection ,GC），是一个长久以来就被思考的问题，当考虑GC的时候，我们必须思考3件事情：　　哪些内存需要回收？
+　　什么时候回收？
+　　如何回收？
+　　那么在Java中，我们要怎么来考虑GC呢？首先回想以下内存区域的划分，其中程序计数器、本地方法栈、虚拟机栈三
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/09/13/HashMap底层实现原理/#more" rel="contents">
+            <a class="btn" href="/2018/09/16/一篇文章彻底了解Java垃圾收集-GC-机制/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -706,7 +697,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/09/12/关于“数据库优化”你知道多少？-下/">
+    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/09/16/Java内存模型详解/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="griabcrh">
@@ -725,7 +716,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/09/12/关于“数据库优化”你知道多少？-下/" itemprop="url">关于“数据库优化”你知道多少？(下)</a></h1>
+                <a class="post-title-link" href="/2018/09/16/Java内存模型详解/" itemprop="url">Java内存模型详解</a></h1>
         
 
         <div class="post-meta">
@@ -737,8 +728,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-12T21:58:08+08:00">
-                2018-09-12
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-16T13:57:33+08:00">
+                2018-09-16
               </time>
             
 
@@ -755,7 +746,7 @@
 
           
           
-             <span id="/2018/09/12/关于“数据库优化”你知道多少？-下/" class="leancloud_visitors" data-flag-title="关于“数据库优化”你知道多少？(下)">
+             <span id="/2018/09/16/Java内存模型详解/" class="leancloud_visitors" data-flag-title="Java内存模型详解">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -788,11 +779,13 @@
       
         
           
-          1、分表技术（垂直分割、水平分割、库表散列）1.1 分表技术由来&emsp;关系型数据库本身比较容易成为系统性能瓶颈，单机存储容量、连接数、处理能力等都很有限，数据库本身的“有状态性”导致了它并不像Web和应用服务器那么容易扩展。在互联网行业海量数据和高并发访问的考验下，聪明的技术人员提出了分库分表
+          借用一句话：Java与C++之间有一堵内存动态分配和垃圾收集技术围成的高墙，墙外面的人想进来，墙里面的人却想出去。
+ 
+一.我们为什么要了解JAVA内存　　因为虚拟机帮我们JAVA程序员管理着内存，我们在new Object()申请了内存创建对象之后，便不需要再去delete/free来释放内存。也
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/09/12/关于“数据库优化”你知道多少？-下/#more" rel="contents">
+            <a class="btn" href="/2018/09/16/Java内存模型详解/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -843,7 +836,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/09/12/关于“数据库优化”你知道多少？-上/">
+    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/09/16/Java中的23种设计模式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="griabcrh">
@@ -862,7 +855,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/09/12/关于“数据库优化”你知道多少？-上/" itemprop="url">关于“数据库优化”你知道多少？(上)</a></h1>
+                <a class="post-title-link" href="/2018/09/16/Java中的23种设计模式/" itemprop="url">Java中的23种设计模式</a></h1>
         
 
         <div class="post-meta">
@@ -874,8 +867,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-12T21:46:19+08:00">
-                2018-09-12
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-16T13:52:06+08:00">
+                2018-09-16
               </time>
             
 
@@ -892,7 +885,7 @@
 
           
           
-             <span id="/2018/09/12/关于“数据库优化”你知道多少？-上/" class="leancloud_visitors" data-flag-title="关于“数据库优化”你知道多少？(上)">
+             <span id="/2018/09/16/Java中的23种设计模式/" class="leancloud_visitors" data-flag-title="Java中的23种设计模式">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -925,18 +918,14 @@
       
         
           
-          对于数据库的优化可以从以下几点切入：
-
-表的设计合理，符合3NF
-添加适当的索引（index）【索引：普通索引，主键索引，唯一索引，全文 索引】
-分表技术（垂直分割、水平分割）
-读写分离
-存储过程（模块化编程，可以提高速度，但是移植性比较差）
-对mysql的配置优化（配置最大并发数my.ini, 调
+          
+java的设计模式大体上分为三大类：创建型模式（5种）：工厂方法模式，抽象工厂模式，单例模式，建造者模式，原型模式。
+结构型模式（7种）：适配器模式，装饰器模式，代理模式，外观模式，桥接模式，组合模式，享元模式。
+行为型模式（11种）：策略模式、模板方法模式、观察者模式、迭代子模式、责任链模式、命
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/09/12/关于“数据库优化”你知道多少？-上/#more" rel="contents">
+            <a class="btn" href="/2018/09/16/Java中的23种设计模式/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -987,7 +976,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/07/16/Linux系统下安装WebLogic/">
+    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/09/16/IDEA-2017-1-5破解教程/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="griabcrh">
@@ -1006,7 +995,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/07/16/Linux系统下安装WebLogic/" itemprop="url">Linux系统下安装WebLogic</a></h1>
+                <a class="post-title-link" href="/2018/09/16/IDEA-2017-1-5破解教程/" itemprop="url">IDEA 2017.1.5破解教程</a></h1>
         
 
         <div class="post-meta">
@@ -1018,8 +1007,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-16T16:28:28+08:00">
-                2018-07-16
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-16T13:49:34+08:00">
+                2018-09-16
               </time>
             
 
@@ -1036,7 +1025,7 @@
 
           
           
-             <span id="/2018/07/16/Linux系统下安装WebLogic/" class="leancloud_visitors" data-flag-title="Linux系统下安装WebLogic">
+             <span id="/2018/09/16/IDEA-2017-1-5破解教程/" class="leancloud_visitors" data-flag-title="IDEA 2017.1.5破解教程">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -1069,11 +1058,12 @@
       
         
           
-          1、 什么是WebLogic百度百科上是这样解释的：WebLogic是美国Oracle公司出品的一个application server，确切的说是一个基于JAVAEE架构的中间件，WebLogic是用于开发、集成、部署和管理大型分布式Web应用、网络应用和数据库应用的Java应用服务器。将Java
+          前两天我的IDEA学生注册过期，作为社会人的我，没法再使用免费的IDEA了，官网搜了一下，得要几百美金，刚毕业，手里没钱，就破解IDEA使用吧。提倡使用正版。
+1、下载JetbrainsCrack-2.6.2.jar破解补丁链接：https://pan.baidu.com/s/1Lp08-FsimH
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/07/16/Linux系统下安装WebLogic/#more" rel="contents">
+            <a class="btn" href="/2018/09/16/IDEA-2017-1-5破解教程/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1124,7 +1114,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/07/12/Sql注入基本原理/">
+    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/09/16/使用用户名密码直接clone/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="griabcrh">
@@ -1143,7 +1133,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/07/12/Sql注入基本原理/" itemprop="url">Sql注入基本原理</a></h1>
+                <a class="post-title-link" href="/2018/09/16/使用用户名密码直接clone/" itemprop="url">使用用户名密码直接clone</a></h1>
         
 
         <div class="post-meta">
@@ -1155,8 +1145,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-12T20:51:58+08:00">
-                2018-07-12
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-16T13:43:57+08:00">
+                2018-09-16
               </time>
             
 
@@ -1173,7 +1163,7 @@
 
           
           
-             <span id="/2018/07/12/Sql注入基本原理/" class="leancloud_visitors" data-flag-title="Sql注入基本原理">
+             <span id="/2018/09/16/使用用户名密码直接clone/" class="leancloud_visitors" data-flag-title="使用用户名密码直接clone">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -1206,12 +1196,16 @@
       
         
           
-          1、什么是Sql注入攻击SQL注入攻击通过构建特殊的输入作为参数传入Web应用程序，而这些输入大都是SQL语法里的一些组合，通过执行SQL语句进而执行攻击者所要的操作，它目前是黑客对数据库进行攻击的最常用手段之一。 
-本课程将带你从介绍 Web 应用运行原理开始，一步一步理解 Sql 注入的由来、原
-          ...
+          当你处于这样的情况下：gitlib/github仓库没有权限，领导又不在你没法找领导加权限，but你又急着pull代码。
+
+git clone http://username:password@remote
+
+username和password可以是你同事的用户名密码remote就是远程仓库的地址
+
+          
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/07/12/Sql注入基本原理/#more" rel="contents">
+            <a class="btn" href="/2018/09/16/使用用户名密码直接clone/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1262,7 +1256,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/06/10/git如何回滚远程仓库版本/">
+    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/09/16/FreeMarker初识篇/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="griabcrh">
@@ -1281,7 +1275,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/06/10/git如何回滚远程仓库版本/" itemprop="url">git如何回滚远程仓库版本</a></h1>
+                <a class="post-title-link" href="/2018/09/16/FreeMarker初识篇/" itemprop="url">FreeMarker初识篇</a></h1>
         
 
         <div class="post-meta">
@@ -1293,8 +1287,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-10T09:50:41+08:00">
-                2018-06-10
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-16T13:35:33+08:00">
+                2018-09-16
               </time>
             
 
@@ -1311,7 +1305,7 @@
 
           
           
-             <span id="/2018/06/10/git如何回滚远程仓库版本/" class="leancloud_visitors" data-flag-title="git如何回滚远程仓库版本">
+             <span id="/2018/09/16/FreeMarker初识篇/" class="leancloud_visitors" data-flag-title="FreeMarker初识篇">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -1344,11 +1338,13 @@
       
         
           
-          1.关于远程仓库回滚首先，必须要明白的一件事，任何普通用户不能擅自做有关远程仓库回退的操作，如果你擅自回滚了远程仓库，会对项目团队其他人造成不可预知的影响。如果需要回退版本，先联系项目的仓库管理员，在团队其他人都对自己本地未提交的工作做好备份之后，再进行远程仓库回退操作，操作结束后，团队成员需要重新
+          什么是Apache FreeMarkerFreeMarker是一款模板引擎： 即一种基于模板和要改变的数据，    并用来生成输出文本（HTML网页、电子邮件、配置文件、源代码等）的通用工具。    它不是面向最终用户的，而是一个Java类库，是一款程序员可以嵌入他们所开发产品的组件。
+
+FreeM
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/06/10/git如何回滚远程仓库版本/#more" rel="contents">
+            <a class="btn" href="/2018/09/16/FreeMarker初识篇/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1399,7 +1395,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/06/09/新奇的发现/">
+    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/09/16/Activiti初识篇/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="griabcrh">
@@ -1418,7 +1414,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/06/09/新奇的发现/" itemprop="url">新奇的发现</a></h1>
+                <a class="post-title-link" href="/2018/09/16/Activiti初识篇/" itemprop="url">Activiti初识篇</a></h1>
         
 
         <div class="post-meta">
@@ -1430,8 +1426,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-09T21:30:21+08:00">
-                2018-06-09
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-16T11:47:19+08:00">
+                2018-09-16
               </time>
             
 
@@ -1448,7 +1444,7 @@
 
           
           
-             <span id="/2018/06/09/新奇的发现/" class="leancloud_visitors" data-flag-title="新奇的发现">
+             <span id="/2018/09/16/Activiti初识篇/" class="leancloud_visitors" data-flag-title="Activiti初识篇">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -1481,15 +1477,11 @@
       
         
           
-          记录一下在我做项目的时候发现一些用的很广泛，但很少接触到的
-1. Loadmaskloadmask是jquery的一个插件，在我们访问网站加载资源的时候可能会碰到“正在加载，请稍后”的提示，这个提示就是通过loadmask这个插件实现的，当然也有其他实现方法。
-
-使用此插件非常简单，如下步骤所示：
-
+          &emsp;关于工作流，我们应该都不陌生，生活中到处都是“流”，你在单位要请假，首先要找领导审批，在领导审批通过之后才请假成功；从网上购物，下单的那一刻就已经触发了一条工作流，此时可以跟踪购物流程，什么时间下单、什么时间付款、什么时间发货、什么时间收到货，在快递单上签字的时候才等于一条工作流结束了。
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/06/09/新奇的发现/#more" rel="contents">
+            <a class="btn" href="/2018/09/16/Activiti初识篇/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1540,7 +1532,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/05/28/Jenkins安装配置/">
+    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/09/16/你了解Mysql的存储过程吗？/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="griabcrh">
@@ -1559,7 +1551,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/05/28/Jenkins安装配置/" itemprop="url"> Jenkins安装配置</a></h1>
+                <a class="post-title-link" href="/2018/09/16/你了解Mysql的存储过程吗？/" itemprop="url">你了解Mysql的存储过程吗？</a></h1>
         
 
         <div class="post-meta">
@@ -1571,8 +1563,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-28T21:29:21+08:00">
-                2018-05-28
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-16T11:43:40+08:00">
+                2018-09-16
               </time>
             
 
@@ -1589,7 +1581,7 @@
 
           
           
-             <span id="/2018/05/28/Jenkins安装配置/" class="leancloud_visitors" data-flag-title=" Jenkins安装配置">
+             <span id="/2018/09/16/你了解Mysql的存储过程吗？/" class="leancloud_visitors" data-flag-title="你了解Mysql的存储过程吗？">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -1622,11 +1614,13 @@
       
         
           
-          1. windows下的jenkins安装于操作官网https://jenkins.ioJenkins是一个开源的、可扩展的持续集成、交付、部署（软件/代码的编译、打包、部署）基于web界面的平台。Jenkins是一个工具集，提供了各种各样的插件比如获取git上最新的代码比如可以帮你编译源代码比如可
+          程序员们去IBM面试的时候，几乎每个面试官问到数据库的时候都要问用没用过存储过程，烦人不？大家去面的程序员，又不是 DBA，以前的项目都没有用到存储，不照样运行的好好的？
+存储过程真的那么重要吗，它到底有什么好处呢？
+1、什么是mysql存储例程?存储例程是存储在数据库服务器中的一组sql语句，通过
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/05/28/Jenkins安装配置/#more" rel="contents">
+            <a class="btn" href="/2018/09/16/你了解Mysql的存储过程吗？/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1668,7 +1662,7 @@
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1718,7 +1712,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-count">58</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1731,7 +1725,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">42</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

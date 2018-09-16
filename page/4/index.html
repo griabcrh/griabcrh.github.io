@@ -282,7 +282,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/04/21/SpringBoot系列之日志log4j2/">
+    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/04/21/Java对象的序列化与反序列化/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="griabcrh">
@@ -301,7 +301,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/04/21/SpringBoot系列之日志log4j2/" itemprop="url">SpringBoot系列之日志log4j2</a></h1>
+                <a class="post-title-link" href="/2018/04/21/Java对象的序列化与反序列化/" itemprop="url">Java对象的序列化与反序列化</a></h1>
         
 
         <div class="post-meta">
@@ -313,7 +313,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-21T19:09:59+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-21T19:35:54+08:00">
                 2018-04-21
               </time>
             
@@ -331,7 +331,7 @@
 
           
           
-             <span id="/2018/04/21/SpringBoot系列之日志log4j2/" class="leancloud_visitors" data-flag-title="SpringBoot系列之日志log4j2">
+             <span id="/2018/04/21/Java对象的序列化与反序列化/" class="leancloud_visitors" data-flag-title="Java对象的序列化与反序列化">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -363,12 +363,14 @@
 
       
         
-          <p>后台程序开发及上线时，一般都会用到Log信息打印及Log日志记录，开发时通过Log信息打印可以快速的定位问题所在，帮助我们快捷开发。程序上线后如遇到Bug或错误，此时则需要日志记录来查找发现问题所在。</p>
-<p>Spring Boot 可以集成很多不同的日志系统，其中最常用的Apache Log4j，而Log4j 2是Log4j的升级版本，Log4j 2相对于Log4j 1.x 有了很多显著的改善。所以这篇博客就直接来说说Spring Boot如何集成并配置使用Log4j2.</p>
-<h3 id="1-在pom-xml里添加log4j的jar包"><a href="#1-在pom-xml里添加log4j的jar包" class="headerlink" title="1.在pom.xml里添加log4j的jar包"></a>1.在pom.xml里添加log4j的jar包</h3>
+          
+          在写代码时，我们都会碰到Serializable字段，可我们对Serializable又了解多少呢，对序列化和反序列化了解多少呢？
+
+
+          
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/04/21/SpringBoot系列之日志log4j2/#more" rel="contents">
+            <a class="btn" href="/2018/04/21/Java对象的序列化与反序列化/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -419,7 +421,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/04/21/SpringBoot系列之Whitelabel-Error-Page/">
+    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/04/21/以吃货的角度理解IaaS，PaaS，SaaS是什么？/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="griabcrh">
@@ -438,7 +440,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/04/21/SpringBoot系列之Whitelabel-Error-Page/" itemprop="url">SpringBoot系列之Whitelabel-Error-Page</a></h1>
+                <a class="post-title-link" href="/2018/04/21/以吃货的角度理解IaaS，PaaS，SaaS是什么？/" itemprop="url">以吃货的角度理解IaaS，PaaS，SaaS是什么？</a></h1>
         
 
         <div class="post-meta">
@@ -450,7 +452,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-21T19:08:36+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-21T19:34:56+08:00">
                 2018-04-21
               </time>
             
@@ -468,144 +470,7 @@
 
           
           
-             <span id="/2018/04/21/SpringBoot系列之Whitelabel-Error-Page/" class="leancloud_visitors" data-flag-title="SpringBoot系列之Whitelabel-Error-Page">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>一路走来，从maven–&gt;springMVC–&gt;springBoot，只了解了很粗浅的东西，今天第一次搭建springBoot框架，最经典的Hello World。还是出现了bug，出现如图所示错误：</p>
-<p><img src="/images/springboot1.png" alt=""></p>
-<p>下面说说具体解决办法<br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/04/21/SpringBoot系列之Whitelabel-Error-Page/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/04/21/SpringBoot系列之Springboot集成Swagger/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="griabcrh">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/24718752.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Griabcrh's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/04/21/SpringBoot系列之Springboot集成Swagger/" itemprop="url">SpringBoot系列之Springboot集成Swagger</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-21T19:06:33+08:00">
-                2018-04-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2018/04/21/SpringBoot系列之Springboot集成Swagger/" class="leancloud_visitors" data-flag-title="SpringBoot系列之Springboot集成Swagger">
+             <span id="/2018/04/21/以吃货的角度理解IaaS，PaaS，SaaS是什么？/" class="leancloud_visitors" data-flag-title="以吃货的角度理解IaaS，PaaS，SaaS是什么？">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -638,12 +503,13 @@
       
         
           
-          1. Swagger的产生我们的RESTful API需要面对多个开发人员或多个开发团队：IOS开发、Android开发或是Web开发等。为了减少与其他团队平时开发期间的频繁沟通成本，传统做法我们会创建一份RESTful API文档来记录所有接口细节，然而这样的做法有以下几个问题：
-由于接口众多，并
+          随着云计算时代的到来，越来越多的软件，开始采用云服务。越来越多的概念也随之而来。云服务只是一个统称，可以分成三大类。
+
+IaaS：基础设施服务，Infrastructure-as-a-servicePaaS：平台服务，Platform-as-a-serviceSaaS：软件服务，Software-a
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/04/21/SpringBoot系列之Springboot集成Swagger/#more" rel="contents">
+            <a class="btn" href="/2018/04/21/以吃货的角度理解IaaS，PaaS，SaaS是什么？/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -694,7 +560,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/04/21/maven模块化项目/">
+    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/04/21/大型网站架构演化历程/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="griabcrh">
@@ -713,7 +579,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/04/21/maven模块化项目/" itemprop="url">maven模块化项目</a></h1>
+                <a class="post-title-link" href="/2018/04/21/大型网站架构演化历程/" itemprop="url">大型网站架构演化历程</a></h1>
         
 
         <div class="post-meta">
@@ -725,7 +591,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-21T19:05:36+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-21T19:31:42+08:00">
                 2018-04-21
               </time>
             
@@ -743,7 +609,7 @@
 
           
           
-             <span id="/2018/04/21/maven模块化项目/" class="leancloud_visitors" data-flag-title="maven模块化项目">
+             <span id="/2018/04/21/大型网站架构演化历程/" class="leancloud_visitors" data-flag-title="大型网站架构演化历程">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -776,12 +642,13 @@
       
         
           
-          1.如何理解软件设计的模块化解决软件的复杂性问题，或说降低软件的复杂性。不至于随着变大而不可控二失败，使其可控、可维护、可扩展。模块化是以分治法为依据。简单说就是把软件整体划分，划分后的块组成了软件。这些块都相对独立，之间用接口（协议）通信，每个块完成一个功能，多个块组合可以完成一系列功能。
-2.模
+          大型网站系统的特点高并发，大流量需要面对高并发用户，大流量访问。Google 日均 PV 35 亿，日 IP 访问数 3 亿；腾讯 QQ 的最大在线用户数 1.4 亿（2011年数据）。
+高可用系统 7 x 24 小时不间断服务。
+海量数据需要存储、管理海量数据，需要使用大量服务器。Facebook
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/04/21/maven模块化项目/#more" rel="contents">
+            <a class="btn" href="/2018/04/21/大型网站架构演化历程/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -832,7 +699,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/04/21/Linux下安装mysql/">
+    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/04/21/从零开始学Docker/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="griabcrh">
@@ -851,7 +718,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/04/21/Linux下安装mysql/" itemprop="url">Linux下安装mysql</a></h1>
+                <a class="post-title-link" href="/2018/04/21/从零开始学Docker/" itemprop="url">从零开始学Docker</a></h1>
         
 
         <div class="post-meta">
@@ -863,7 +730,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-21T19:04:33+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-21T19:28:41+08:00">
                 2018-04-21
               </time>
             
@@ -881,7 +748,7 @@
 
           
           
-             <span id="/2018/04/21/Linux下安装mysql/" class="leancloud_visitors" data-flag-title="Linux下安装mysql">
+             <span id="/2018/04/21/从零开始学Docker/" class="leancloud_visitors" data-flag-title="从零开始学Docker">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -914,12 +781,13 @@
       
         
           
-          CentOS7默认数据库是mariadb,配置等用着不习惯,因此决定改成mysql,但是CentOS7的yum源中默认好像是没有mysql的。为了解决这个问题，我们要先下载mysql的repo源。
-1.下载mysql的repo源1$ wget http://repo.mysql.com/mysql-
+          
+1.什么是 DockerDocker 是 Docker 公司的开源项目，使用 Google 公司推出的 Go 语言开发的,并于 2013 年 3 月以 Apache 2.0 授权协议开源，主要项目代码在 GitHub 上进行维护。
+下面的图片比较了 Docker 和传统虚拟化方式的不同之处。传统虚
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/04/21/Linux下安装mysql/#more" rel="contents">
+            <a class="btn" href="/2018/04/21/从零开始学Docker/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -970,7 +838,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/04/21/Linux服务器中的tomcat配置虚拟路径/">
+    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/04/21/阿里云服务器ECS-Centos7-3搭建Nginx服务器以及均衡负载/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="griabcrh">
@@ -989,7 +857,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/04/21/Linux服务器中的tomcat配置虚拟路径/" itemprop="url">Linux服务器中的tomcat配置虚拟路径</a></h1>
+                <a class="post-title-link" href="/2018/04/21/阿里云服务器ECS-Centos7-3搭建Nginx服务器以及均衡负载/" itemprop="url">阿里云服务器ECS Centos7.3搭建Nginx服务器以及均衡负载</a></h1>
         
 
         <div class="post-meta">
@@ -1001,7 +869,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-21T19:03:05+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-21T19:24:46+08:00">
                 2018-04-21
               </time>
             
@@ -1019,7 +887,7 @@
 
           
           
-             <span id="/2018/04/21/Linux服务器中的tomcat配置虚拟路径/" class="leancloud_visitors" data-flag-title="Linux服务器中的tomcat配置虚拟路径">
+             <span id="/2018/04/21/阿里云服务器ECS-Centos7-3搭建Nginx服务器以及均衡负载/" class="leancloud_visitors" data-flag-title="阿里云服务器ECS Centos7.3搭建Nginx服务器以及均衡负载">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -1052,13 +920,12 @@
       
         
           
-          有时候我们有固定的deployment的目录，需要我们将war包放在规定的文件夹里，而不是tomcat的webapps，这就需要我们配置虚拟路径，
-假如我们将war包放在deployment/webapps下，我们的tomcat安装目录为：deployment/tools/
-我们需要将tomcat下
+          1.添加资源添加CentOS 7 Nginx yum资源库,打开终端,使用以下命令(没有换行):
+1sudo rpm -Uvh http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/04/21/Linux服务器中的tomcat配置虚拟路径/#more" rel="contents">
+            <a class="btn" href="/2018/04/21/阿里云服务器ECS-Centos7-3搭建Nginx服务器以及均衡负载/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1109,7 +976,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/04/21/如何更改打包的war包名/">
+    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/04/21/回顾2017，展望2018/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="griabcrh">
@@ -1128,7 +995,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/04/21/如何更改打包的war包名/" itemprop="url">如何更改打包的war包名</a></h1>
+                <a class="post-title-link" href="/2018/04/21/回顾2017，展望2018/" itemprop="url">回顾2017，展望2018</a></h1>
         
 
         <div class="post-meta">
@@ -1140,7 +1007,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-21T17:55:40+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-21T19:18:15+08:00">
                 2018-04-21
               </time>
             
@@ -1158,7 +1025,7 @@
 
           
           
-             <span id="/2018/04/21/如何更改打包的war包名/" class="leancloud_visitors" data-flag-title="如何更改打包的war包名">
+             <span id="/2018/04/21/回顾2017，展望2018/" class="leancloud_visitors" data-flag-title="回顾2017，展望2018">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -1191,15 +1058,12 @@
       
         
           
-          有时我们会要求有固定的war包名，war包部署在服务器上需要包名来进行url访问，有的公司需要有意义的包名（url），下面我们就来说说如何改包名
-1 在pom.xml里修改package，如下图
-只修改这个还不可以
-2 在build里面增加finalName，如下图
-3 打包，看target下的包名
+          2017年已经过去了，我是看到别人都在发自己2017年干了什么，2018年的目标，想起自己也应该回顾一下2017展望一下2018.
+处于这个年龄真是尴尬，小学同学、初中同学、高中同学都有孩子了，大学同学有的毕业后就准备订婚，这个年纪的我，22周岁，腰包里一万块钱都没有。逛着知乎，逛着简书，看着别人如
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/04/21/如何更改打包的war包名/#more" rel="contents">
+            <a class="btn" href="/2018/04/21/回顾2017，展望2018/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1250,7 +1114,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/04/21/Git基础用法总结/">
+    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/04/21/一个故事讲完https/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="griabcrh">
@@ -1269,7 +1133,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/04/21/Git基础用法总结/" itemprop="url">Git基础用法总结</a></h1>
+                <a class="post-title-link" href="/2018/04/21/一个故事讲完https/" itemprop="url">一个故事讲完https</a></h1>
         
 
         <div class="post-meta">
@@ -1281,7 +1145,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-21T17:23:03+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-21T19:16:18+08:00">
                 2018-04-21
               </time>
             
@@ -1299,7 +1163,7 @@
 
           
           
-             <span id="/2018/04/21/Git基础用法总结/" class="leancloud_visitors" data-flag-title="Git基础用法总结">
+             <span id="/2018/04/21/一个故事讲完https/" class="leancloud_visitors" data-flag-title="一个故事讲完https">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -1332,12 +1196,14 @@
       
         
           
-          一、Git简介Git是一个分布式的版本控制系统，与集中式的版本控制系统不同的是，每个人都工作在通过克隆建立的本地版本库中。也就是说每个人都拥有一个完整的版本库，查看提交日志、提交、创建里程碑和分支、合并分支、回退等所有操作都直接在本地完成而不需要网络连接。
-对于Git仓库来说，每个人都有一个独立完整
+          1.序言今天来聊一聊https 安全传输的原理。
+在开始之前，我们来虚构两个人物， 一个是位于中国的张大胖（怎么又是你？！）， 还有一个是位于米国的Bill (怎么还是你？！)。
+这俩哥们隔着千山万水，通过网络联系上了， 两个人臭味相投，聊得火热。
+此时正值米国大选， 张大胖亲切地“致电”Bill,
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/04/21/Git基础用法总结/#more" rel="contents">
+            <a class="btn" href="/2018/04/21/一个故事讲完https/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1388,7 +1254,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/04/21/Linux下RPM软件包的安装及卸载/">
+    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/04/21/Nginx服务器的负载均衡/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="griabcrh">
@@ -1407,7 +1273,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/04/21/Linux下RPM软件包的安装及卸载/" itemprop="url">Linux下RPM软件包的安装及卸载</a></h1>
+                <a class="post-title-link" href="/2018/04/21/Nginx服务器的负载均衡/" itemprop="url">Nginx服务器的负载均衡</a></h1>
         
 
         <div class="post-meta">
@@ -1419,7 +1285,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-21T17:22:10+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-21T19:15:23+08:00">
                 2018-04-21
               </time>
             
@@ -1437,7 +1303,7 @@
 
           
           
-             <span id="/2018/04/21/Linux下RPM软件包的安装及卸载/" class="leancloud_visitors" data-flag-title="Linux下RPM软件包的安装及卸载">
+             <span id="/2018/04/21/Nginx服务器的负载均衡/" class="leancloud_visitors" data-flag-title="Nginx服务器的负载均衡">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -1470,11 +1336,11 @@
       
         
           
-          在Linux操作系统下，几乎所有的软件均通过RPM进行安装、卸载及管理等操作。RPM的全称为Redhat Package Manager，是由Redhat公司提出的，用于管理Linux 下软件包的软件。Linux安装时，除了几个核心模块以外，其余几乎所有的模块均通过RPM 完成安装。RPM有五种操作
+          Nginx服务器反向代理服务的一个重要用途是实现负载均衡。随着信息数量的不断增长，目前网络的业务量的急剧升高，访问量和数据流量也在飞速增长，因而对网络本身的处理能力和计算强度的要求也越来越高。现有的网络硬件条件显然不能满足日益增长的需求，但是完全抛弃已有的硬件环境又是不现实的，于是，就出现了“网络负
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/04/21/Linux下RPM软件包的安装及卸载/#more" rel="contents">
+            <a class="btn" href="/2018/04/21/Nginx服务器的负载均衡/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1525,7 +1391,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/04/21/获取用户真正的ip地址/">
+    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/04/21/Nginx反向代理和负载均衡系列一/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="griabcrh">
@@ -1544,7 +1410,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/04/21/获取用户真正的ip地址/" itemprop="url">获取用户真正的ip地址</a></h1>
+                <a class="post-title-link" href="/2018/04/21/Nginx反向代理和负载均衡系列一/" itemprop="url">Nginx反向代理和负载均衡系列一</a></h1>
         
 
         <div class="post-meta">
@@ -1556,7 +1422,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-21T17:20:45+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-21T19:11:54+08:00">
                 2018-04-21
               </time>
             
@@ -1574,7 +1440,7 @@
 
           
           
-             <span id="/2018/04/21/获取用户真正的ip地址/" class="leancloud_visitors" data-flag-title="获取用户真正的ip地址">
+             <span id="/2018/04/21/Nginx反向代理和负载均衡系列一/" class="leancloud_visitors" data-flag-title="Nginx反向代理和负载均衡系列一">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -1607,12 +1473,151 @@
       
         
           
-          我在用百度ip地址定位接口时，当把封装的ip定位的接口打war包放在服务器上时，出现获取的地址为服务器所在地的地址，百度ip地址定位接口是可以根据你输入的ip来定位，需要用户输入ip地址是不可能的，用户也不知道他的ip地址是多少。
-X-Forwarded-ForX-Forwarded-For:简称X
+          1集群简介集群就是指一组（若干）相互独立的计算机，利用高速通信网络组成的一个较大的计算机服务系统，每个集群结点都是运行各自服务的独立服务器。这些服务器之间可以彼此通信，协同向用户提供应用程序、系统资源和数据，并以单一系统的模式加以管理。当客户机请求集群系统时，集群给用户的感觉就是一个单一独立的服务器
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/04/21/获取用户真正的ip地址/#more" rel="contents">
+            <a class="btn" href="/2018/04/21/Nginx反向代理和负载均衡系列一/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/04/21/RequestMapping用法详解/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="griabcrh">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/24718752.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Griabcrh's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/04/21/RequestMapping用法详解/" itemprop="url">RequestMapping用法详解</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-21T19:10:56+08:00">
+                2018-04-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/04/21/RequestMapping用法详解/" class="leancloud_visitors" data-flag-title="RequestMapping用法详解">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          1 简介@RequestMapping
+RequestMapping是一个用来处理请求地址映射的注解，可用于类或方法上。用于类上，表示类中的所有响应请求的方法都是以该地址作为父路径。
+RequestMapping注解有六个属性，下面我们把她分成三类进行说明。
+1.1 value， method；va
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/04/21/RequestMapping用法详解/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1654,7 +1659,7 @@ X-Forwarded-ForX-Forwarded-For:简称X
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1704,7 +1709,7 @@ X-Forwarded-ForX-Forwarded-For:简称X
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-count">58</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1717,7 +1722,7 @@ X-Forwarded-ForX-Forwarded-For:简称X
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">42</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

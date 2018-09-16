@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/griabcrh.gif?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Activiti," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="&amp;emsp;关于工作流，我们应该都不陌生，生活中到处都是“流”，你在单位要请假，首先要找领导审批，在领导审批通过之后才请假成功；从网上购物，下单的那一刻就已经触发了一条工作流，此时可以跟踪购物流程，什么时间下单、什么时间付款、什么时间发货、什么时间收到货，在快递单上签字的时候才等于一条工作流结束了。 &amp;emsp;工作流应用广泛，在由任务驱动的各种系统中都能遇到它的身影，例如：CRM、ERP、ECM">
+<meta name="keywords" content="Activiti">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Activiti初识篇">
+<meta property="og:url" content="https://griabcrh.github.io/2018/09/16/Activiti初识篇/index.html">
+<meta property="og:site_name" content="Griabcrh&#39;s Blog">
+<meta property="og:description" content="&amp;emsp;关于工作流，我们应该都不陌生，生活中到处都是“流”，你在单位要请假，首先要找领导审批，在领导审批通过之后才请假成功；从网上购物，下单的那一刻就已经触发了一条工作流，此时可以跟踪购物流程，什么时间下单、什么时间付款、什么时间发货、什么时间收到货，在快递单上签字的时候才等于一条工作流结束了。 &amp;emsp;工作流应用广泛，在由任务驱动的各种系统中都能遇到它的身影，例如：CRM、ERP、ECM">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://griabcrh.github.io/images/activiti1.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/activiti2.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/activiti3.png">
+<meta property="og:updated_time" content="2018-09-16T03:54:56.399Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Activiti初识篇">
+<meta name="twitter:description" content="&amp;emsp;关于工作流，我们应该都不陌生，生活中到处都是“流”，你在单位要请假，首先要找领导审批，在领导审批通过之后才请假成功；从网上购物，下单的那一刻就已经触发了一条工作流，此时可以跟踪购物流程，什么时间下单、什么时间付款、什么时间发货、什么时间收到货，在快递单上签字的时候才等于一条工作流结束了。 &amp;emsp;工作流应用广泛，在由任务驱动的各种系统中都能遇到它的身影，例如：CRM、ERP、ECM">
+<meta name="twitter:image" content="https://griabcrh.github.io/images/activiti1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://griabcrh.github.io/2018/09/16/Activiti初识篇/"/>
+
+
+
+
+
+  <title>Activiti初识篇 | Griabcrh's Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?91c85e96d8e34ae79347b17b0d41826f";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Griabcrh's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">welcome</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/09/16/Activiti初识篇/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="griabcrh">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/24718752.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Griabcrh's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Activiti初识篇</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-16T11:47:19+08:00">
+                2018-09-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/09/16/Activiti初识篇/" class="leancloud_visitors" data-flag-title="Activiti初识篇">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&emsp;关于工作流，我们应该都不陌生，生活中到处都是“流”，你在单位要请假，首先要找领导审批，在领导审批通过之后才请假成功；从网上购物，下单的那一刻就已经触发了一条工作流，此时可以跟踪购物流程，什么时间下单、什么时间付款、什么时间发货、什么时间收到货，在快递单上签字的时候才等于一条工作流结束了。</p>
+<p>&emsp;工作流应用广泛，在由任务驱动的各种系统中都能遇到它的身影，例如：<font color="#ff3300">CRM、ERP、ECM、BI、OA</font>等。在企业中还有很多产品或平台集成工作流引擎，用来处理系统运行过程中发起的业务流程。</p>
+<p>&emsp;<font color="#ff3300">工作流总是以任务( Task)的形式驱动人处理业务或者驱动业务系统自动完成作业</font>。有了工作流引擎之后，我们不必一直等待其他人的工作进度，直白地说，我们只需要关心系统首页的待办任务数即可，由系统提醒当前有多少待办任务需要处理。</p>
+<p>&emsp;国内的工作流产品繁多，但开源一直为Activiti和jBPM垄断。</p>
+<p>&emsp;大家第一次接触Activiti的时候不理解它为什么要叫这个名字，从词典中也没有找到对它的解释；可能有人会想到另外一个单词Activity（活动），与Activiti仅一个字母之差。在工作流方面有些基础的读者或许能很快理解，<font color="#ff3300">业务流程由多个环节串联起来并且每个环节被赋予任务，而每个任务又可以分为多个活动</font>。举个日常的例子——网上购物的下单环节，首先需要搜索到要购买的商品，然后将其加入到购物车，最后下单填写邮寄地址并付款。这个例子中的每一动作都可以称为活动( Activity)，也就是业务流程中最小的组成部分。多个活动在英文中肯定要用复数形式，即Activities；最后以复数化简的方式标示活动的集合，以此来诠释Activiti与工作流的目的与设计。</p>
+<p>&emsp;Activiti是一个针对企业用户、开发人员、系统管理员的<font color="#ff3300">轻量级工作流业务管理平台</font>，其核心是使用Java开发的快速、稳定的BPMN e 2.0流程引擎。Activiti是在ApacheV2许可下发布的，<font color="#ff3300">可以运行在任何类型的Java程序中</font>，例如服务器、集群、云服务等。Activiti可以完美地与Spring集成。同时，基于简约思想的设计使Activiti非常轻量级。</p>
+<p>接下来简单了解一下工作流及其相关规范的历史。</p>
+<h2>1、工作流基础</h2>
+
+<h3>1.1 什么是BPM</h3>
+
+<p>&emsp;<font color="#ff3300">BPM是Business Process Management的缩写，中文含义是业务流程管理</font>，是一套达成企业各种业务环节整合的全面管理模式。</p>
+<p>&emsp;BPM是为了实现一定的经营目的而执行的一系列逻辑相关的活动的集合。业务流程的输出是满足市场需要的产品或服务。根据功能、管理范围等的不同，企业流程管理一般分为生产流程层、运作层、计划层和战略层四个层次。BMP是根据业务环境的变化，推进人与人之间、人与系统之间，以及系统与系统之间的整合及调整的经营方法与解决方案的lT工具。</p>
+<p>&emsp;BPM最早是由工作流和企业应用集成(Enterprise Application Intergration)逐步融合而发展起来的。随着时间的推移，BPM的定义范围逐步扩展，不仅用来满足无纸化办公需求，现在BPM是一种企业集成技术，作为对面向服务系统架构SOA( Service-Oriented Architecture)、企业应用集成EAI (Enterprise Application Integration)、企业服务总线ESB( Enterprise Service Bus)的补充。</p>
+<p>&emsp;从概念上来说，BPM包含两个不同方面的意思：管理规范和软件工程。各大BPM供应商长期以来试图抽象这两个不同的方面，但是依然混乱。</p>
+<p>&emsp;作为管理规范，BPM是每一个战略管理者的责任。BPM是组织必须执行的核心业务流程，包含了企业价值和如何提供其实现。作为日常工作的一部分，业务系统可以借助模型和流程规范地定义业务流程。BPM流程图表达的是执行流程的步骤，已完成特定目标。特别说明的是这些模型用于人与人的沟通。这些都是诠释未决的，这意味着它们可以包含更高级别有价值的信息而不包括不必要的细节。这种诠释未决的过程模型也被称为抽象业务流程(Abstract Business Processes.).</p>
+<p>&emsp;BPM作为软件工程时可以由BPM系统(BPMS)拽行可执行的业务流程。可执行的业务流程是在一个流程基础上表示不同的流程顺序。流程图完全可以看做一个抽象的业务流程。可执行流程不同于抽象业务流程，因为它总是以最简单的方式运行。这部分内容也是被大多数厂商认同并接受的。</p>
+<h3>1.2 什么是BPMN</h3>
+
+<p>&emsp;<font color="#ff3300">Business Process Modeling Notation，简称BPMN，中文译为业务流程建模标注</font>，是由BPMN标准组织发布的，其第一版BPMN l.0规范于2004年5月发布。经过多年的改进新的规范BPMN 2.0于2011年发布。之后各大厂商、开源社区均基于2.0规范设计自己的流程引擎，结束了各个厂商“各自为政’的局面，相应地统一了标准，从而利于以后的产品迁移。</p>
+<p>&emsp;BPMN定义了业务流程图，其基于流程图技术，同时对创建业务流程操作的图形化模型进行了裁减。业务流程的模型就是图形化对象的网图，包括活动（也可以说工作）和定义操作顺序的流控制。</p>
+<p>&emsp;在BPMN l.x版本中昀一些概念，如人工任务、可以执行脚本、自动决策等，都是独立于供应商的可视化标准化的方式。在BPNfN 2.0规范中重点聚焦在如何执行语义和一个被业界认可的通用交换格式。这意味着基于BPMN 2.0的流程建模不仅在流程设计器上可以通用，还可以在任何符合BPMN 2.0规范的流程引擎上执行。</p>
+<h3>1.3 工作流生命周期</h3>
+
+<p>&emsp;一个完整的工作流生命周期会经过5步，并且迭代循环，如图1所示。</p>
+<center><img src="/images/activiti1.png" alt=""><br>图1</center>
+
+<p><strong>定义</strong>：工作流生命周期总是从流程定义开始。此阶段的任务主要是收集业务需求并转化为流程定义。一般由业务需求人员进行，然后交由开发人员加工转化为计算机可以识别的流程定义。</p>
+<p><strong>发布</strong>：由开发人员打包各种资源，然后在系统管理（平台）中发布流程定义。在具体的流程引擎中包括流程定义文件（bpmn20.xml结尾）、自定义表单、任务监听类。</p>
+<p><strong>执行</strong>：具体的流程引擎（例如，Activiti）按照事先定义的流程处理路线以任务驱动的方式执行业务流程。</p>
+<p><strong>监控</strong>：此阶段是依赖执行阶段。业务人员在办理任务的同时收集每个任务(Task)的结果，然后根据结果做出相应处理，例如，在采购办公用品流程中，在通过领导审批之后，采购人员就要根据申请单外出采购。</p>
+<p><strong>优化</strong>：在此阶段，一个完整的流程已经结束，或许能满足业务需求，或许需要优化，而糟糕的情况是需要重新设计（流程没结束就异常终止），优化与设计正是此阶段需要处理的。根据整个流程的运行过程结果分析问题的根源，然后在此基础上进一步改进，并再次开始一个新的周期。</p>
+<h3>1.3 Activiti的特点</h3>
+
+<ul>
+<li>数据持久化</li>
+</ul>
+<p>Activiti的设计思想是简洁、快速。有过应用开发经验的开发人员都知道应用的瓶颈体现在和数据库交换数据的过程中，针对这一点Activiti选择了使MyBatis，从而可以通过最优的SQL语句执行Command，仅凭如此就能让引擎在速度上保持最高的性能。</p>
+<ul>
+<li>引擎Service接口</li>
+</ul>
+<p>Activiti引擎提供了七大Service接口，均通过ProcessEngine获取，并且支持链式API编程风格。</p>
+<ul>
+<li>流程设计器</li>
+</ul>
+<p>在jBPM4时代有专门的Eclipse插件可以用来设计jPDL，同样Activiti团队也专门设计了用来设计BPMN 2.0规范的流程谩计器-Eclipse Designer。此外还有Signavio公司为Activiti定制的基于Web的Activiti Modeler流程设计器。喜欢用IDEA的，IDEA也有actiBPM插件支持。</p>
+<ul>
+<li>原生支持Spring</li>
+</ul>
+<p>Activiti原生支持Spring，这一点对企业应用来说尤为重要：可以很轻松地进行Spring集成，非常方便管理事务和解析表达式( Expression)。</p>
+<ul>
+<li>分离运行时与历史数据</li>
+</ul>
+<p>Activiti继承自jBPM4，在表结构设计方面也遵循运行时与历史数据的分离，这样的设计可以快速读取运行时数据，仅当需要查询历史数据时再从专门的历史数据表中读取。这种设计方式可以大幅提高数据的存取效率，尤其是当数据日积月累时依然能够快速反应。</p>
+<h3>1.4 Activiti架构与组件</h3>
+
+<p>Activiti槊构中最重要的肯定是引擎，当然还有刚刚提到的外部工具和组件，如图2所示。</p>
+<center><img src="/images/activiti2.png" alt=""></center><br><center>图2</center>
+
+<p><strong>下面依次介绍Activiti架构图中的各个组件。</strong></p>
+<p><strong>Activiti Engine</strong>：作为最核心的模块，提供针对BPMN 2.0规范的解析、执行、创建、管理（任务、流程实例）、查询历史记录并根据结果生成报表。</p>
+<p><strong>Activiti Modeler</strong>：是模型设计器，其并非由Activiti公司所开发，而是由业界认可的Signavio公司赠送的（Signavio e原本是收费的产品，现在被免费授权给Activiti用户使用）。适用于业务人员把需求转换为规范流程定义。</p>
+<p><strong>Activiti Designer</strong>：功能和Activiti Modeler类似，同样提供了基于BPMN 2.0规范的可视化设计功能，但是目前还没有完全支持BPMN规范的定义。适用于开发人员，可以把业务需求人员用Signavio设计的流程定义（XML格式）导入到Designer中，从而让开发人员将其进一步加工成为可以运行的流程定义。</p>
+<p><strong>Activiti Explorer</strong>：可以用来管理仓库、用户、组，启动流程、任务办理等。此组件使用REST风格API（目的在于让开发人员快速入门），提供一个基础的设计模型。如果业务简单，也可以直接使用无需开发。还可以作为后台管理员的流程、任务管理系统使用。</p>
+<p><strong>Activiti REST</strong>：提供Restful风格的服务，允许客户端以JSON的方式与引擎的REST API交互，通用的协议具有跨平台、跨语言的特性。</p>
+<h3>1.5 Activiti与jBPM5比较</h3>
+
+<p>&emsp;目前流行的工作流引擎有Activiti和jBPM5，而在jBPM5友布以前大多数项目、平台都是基于jBPM3、jBPM4开发的。本节内容从技术和实际应用上对Activiti和jBPM5进行比较。表1-1从技术层面比较了两者的区别。</p>
+<center><img src="/images/activiti3.png" alt="这里写图片描述"></center><br><center>表1-1</center>
+
+
+<p>&emsp;Activiti是基于jBPM4设计的衍生版本，如果选择Activiti可以继续滑用jBPM的思想理念设计、整合Activiti到项目或平台中，这也是相对于jBPM5来说的一个优势；相反，对于jBPM5来说要花点时间重新接受开发者的设计思想。</p>
+<p>&emsp;在各个流程引擎社区中有很多关于该如何选择Activ…和jBPM5的讨论，这两者有着很多相似的地方，争论主要是对规则引擎的支持：jBPM5是基于Drool Flow所有自然深度继承而来的规则引擎Drools；早期的Activiti功能比较简单，后来陆续添加的新特性也支持规则引擎Drools，开发人员只要简单配置规则接口即可达到与jBPM5 一样的效果。</p>
+<font color="#d3d3d3">本文参考“Activiti实战”</font>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Activiti/" rel="tag"># Activiti</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/16/你了解Mysql的存储过程吗？/" rel="next" title="你了解Mysql的存储过程吗？">
+                <i class="fa fa-chevron-left"></i> 你了解Mysql的存储过程吗？
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/16/FreeMarker初识篇/" rel="prev" title="FreeMarker初识篇">
+                FreeMarker初识篇 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/24718752.gif"
+                alt="griabcrh" />
+            
+              <p class="site-author-name" itemprop="name">griabcrh</p>
+              <p class="site-description motion-element" itemprop="description">nice to meet you</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">58</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text">1、工作流基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 什么是BPM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 什么是BPMN</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">1.3.</span> <span class="nav-text">1.3 工作流生命周期</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">1.4.</span> <span class="nav-text">1.3 Activiti的特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">1.5.</span> <span class="nav-text">1.4 Activiti架构与组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">1.6.</span> <span class="nav-text">1.5 Activiti与jBPM5比较</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">griabcrh</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+|<span id="busuanzi_container_site_uv">
+  本站访客数<span id="busuanzi_value_site_uv"></span>人次
+</span>
+|<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("8TpPOiYi4ReJYs5sYfMdFmSO-gzGzoHsz", "hX7JfGRvJG8zcMqMRAWNMNyk");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

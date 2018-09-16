@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/griabcrh.gif?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="FreeMarker," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="什么是Apache FreeMarkerFreeMarker是一款模板引擎： 即一种基于模板和要改变的数据，    并用来生成输出文本（HTML网页、电子邮件、配置文件、源代码等）的通用工具。    它不是面向最终用户的，而是一个Java类库，是一款程序员可以嵌入他们所开发产品的组件。  FreeMarker是免费的，基于Apache许可证2.0版本发布。其模板编写为FreeMarker Temp">
+<meta name="keywords" content="FreeMarker">
+<meta property="og:type" content="article">
+<meta property="og:title" content="FreeMarker初识篇">
+<meta property="og:url" content="https://griabcrh.github.io/2018/09/16/FreeMarker初识篇/index.html">
+<meta property="og:site_name" content="Griabcrh&#39;s Blog">
+<meta property="og:description" content="什么是Apache FreeMarkerFreeMarker是一款模板引擎： 即一种基于模板和要改变的数据，    并用来生成输出文本（HTML网页、电子邮件、配置文件、源代码等）的通用工具。    它不是面向最终用户的，而是一个Java类库，是一款程序员可以嵌入他们所开发产品的组件。  FreeMarker是免费的，基于Apache许可证2.0版本发布。其模板编写为FreeMarker Temp">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://griabcrh.github.io/images/freemaker1.png">
+<meta property="og:updated_time" content="2018-09-16T05:42:42.078Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="FreeMarker初识篇">
+<meta name="twitter:description" content="什么是Apache FreeMarkerFreeMarker是一款模板引擎： 即一种基于模板和要改变的数据，    并用来生成输出文本（HTML网页、电子邮件、配置文件、源代码等）的通用工具。    它不是面向最终用户的，而是一个Java类库，是一款程序员可以嵌入他们所开发产品的组件。  FreeMarker是免费的，基于Apache许可证2.0版本发布。其模板编写为FreeMarker Temp">
+<meta name="twitter:image" content="https://griabcrh.github.io/images/freemaker1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://griabcrh.github.io/2018/09/16/FreeMarker初识篇/"/>
+
+
+
+
+
+  <title>FreeMarker初识篇 | Griabcrh's Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?91c85e96d8e34ae79347b17b0d41826f";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Griabcrh's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">welcome</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/09/16/FreeMarker初识篇/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="griabcrh">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/24718752.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Griabcrh's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">FreeMarker初识篇</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-16T13:35:33+08:00">
+                2018-09-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/09/16/FreeMarker初识篇/" class="leancloud_visitors" data-flag-title="FreeMarker初识篇">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="什么是Apache-FreeMarker"><a href="#什么是Apache-FreeMarker" class="headerlink" title="什么是Apache FreeMarker"></a>什么是Apache FreeMarker</h3><pre><code>FreeMarker是一款模板引擎： 即一种基于模板和要改变的数据，    并用来生成输出文本（HTML网页、电子邮件、配置文件、源代码等）的通用工具。    它不是面向最终用户的，而是一个Java类库，是一款程序员可以嵌入他们所开发产品的组件。
+
+FreeMarker是免费的，基于Apache许可证2.0版本发布。其模板编写为FreeMarker Template Language（FTL），属于简单、专用的语言。需要准备数据在真实编程语言中来显示，比如数据库查询和业务运算，    之后模板显示已经准备好的数据。在模板中，主要用于如何展现数据，    而在模板之外注意于要展示什么数据  。（--来自百度百科）
+</code></pre><h3 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h3><p><img src="/images/freemaker1.png" alt=""></p>
+<p>假设在一个应用系统中需要一个HTML页面如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">    &lt;head&gt;</span><br><span class="line">        &lt;title&gt;Welcome!&lt;/title&gt;</span><br><span class="line">    &lt;/head&gt;</span><br><span class="line">    &lt;body&gt;</span><br><span class="line">        &lt;h1&gt;Welcome Big Joe!&lt;/h1&gt;</span><br><span class="line">        &lt;p&gt;Our latest product:</span><br><span class="line">        &lt;a href=<span class="string">"products/greenmouse.html"</span>&gt;green mouse&lt;/a&gt;!</span><br><span class="line">    &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<p>页面中的用户名（即上面的“Big Joe”）是登录这个网页的访问者的名字， 并且最新产品的数据应该来自于数据库才能随时更新。所以，不能直接在HTML页面中输入“Big Joe”、“greenmouse”及链接， 不能使用静态HTML代码。可以使用要求输出的模板来解决，模板和静态页面是相同的，只是它会包含一些FreeMarker将它们变成动态内容的指令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">    &lt;head&gt;</span><br><span class="line">        &lt;title&gt;Welcome!&lt;/title&gt;</span><br><span class="line">    &lt;/head&gt;</span><br><span class="line">    &lt;body&gt;</span><br><span class="line">        &lt;h1&gt;Welcome <span class="variable">$&#123;user&#125;</span>!&lt;/h1&gt;</span><br><span class="line">        &lt;p&gt;Our latest product:</span><br><span class="line">        &lt;a href=<span class="string">"<span class="variable">$&#123;latestProduct.url&#125;</span>"</span>&gt;<span class="variable">$&#123;latestProduct.name&#125;</span>&lt;/a&gt;!</span><br><span class="line">    &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<p>模板文件存放在Web服务器上，当有人来访问这个页面，FreeMarker就会介入执行，然后动态转换模板，用最新的数据内容替换模板中${…}的部分，之后将结果发送到访问者的Web浏览器中。访问者的Web浏览器就会接收到例如第一个HTML示例那样的内容（也就是没有FreeMarker指令的HTML代码），访问者也不会察觉到服务器端使用的FreeMarker。（存储在Web服务器端的模板文件是不会被修改的；替换也仅仅出现在Web服务器的响应中。）</p>
+<p>为模板准备的数据整体被称作为数据模型。数据模型是树形结构（就像硬盘上的文件夹和文件)，在视觉效果上， 数据模型可以是（这只是一个形象化显示，数据模型不是文本格式，它来自于Java对象）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">(root)</span><br><span class="line">  |</span><br><span class="line">  +- user = <span class="string">"Big Joe"</span></span><br><span class="line">  |</span><br><span class="line">  +- latestProduct</span><br><span class="line">      |</span><br><span class="line">      +- url = <span class="string">"products/greenmouse.html"</span></span><br><span class="line">      |</span><br><span class="line">      +- name = <span class="string">"green mouse"</span></span><br></pre></td></tr></table></figure>
+<p>早期版本中，可以从数据模型中选取这些值，使用user和latestProduct.name表达式即可。类比于硬盘的树形结构，数据模型就像一个文件系统，“(root)”和latestProduct就对应着目录（文件夹），而user、url和name就是这些目录中的文件。</p>
+<p>总体上，模板和数据模型是FreeMarker来生成输出所必须的组成部分：模板 + 数据模型 = 输出  。</p>
+<h5 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h5><p>和java不同，FreeMarker不需要定义变量的类型，直接赋值即可。<br>字符串： value = “xxxx” 。如果有特殊字符 string = r”xxxx” 。单引号和双引号是一样的。<br>数值：value = 1.2。数值可以直接等于，但是不能用科学计数法。<br>布尔值：true or false。<br>List集合：list = [1,2,3] ; list=[1..100] 表示 1 到 100 的集合，反之亦然。<br>Map集合：map = {“key” : “value” , “key2” : “value2”}，key 必须是字符串哦！<br>实体类：和EL表达式差不多，直接点出来。</p>
+<h5 id="字符串操作"><a href="#字符串操作" class="headerlink" title="字符串操作"></a>字符串操作</h5><p>字符串连接：可以直接嵌套${“hello , ${name}”} ； 也可以用加号${“hello , “ + name}</p>
+<p>字符串截取：string[index]。index 可以是一个值，也可以是形如 0..2 表示下标从0开始，到下标为2结束。一共是三个数。</p>
+<h5 id="比较运算符"><a href="#比较运算符" class="headerlink" title="比较运算符"></a>比较运算符</h5><p>== （等于），!= （不等于），gt（大于），gte（大于或者等于），lt（小于），lte（小于或者等于）。不建议用 &gt;，&lt; 可能会报错！<br>一般和 if 配合使用</p>
+<h5 id="内建函数"><a href="#内建函数" class="headerlink" title="内建函数"></a>内建函数</h5><p>FreeMarker 提供了一些内建函数来转换输出，其结构：变量?内建函数，这样就可以通过内建函数来转换输出变量。<br>html： 对字符串进行HTML编码；<br>cap_first： 使字符串第一个字母大写；<br>lower_case： 将字符串转成小写；<br>upper_case： 将字符串转成大写；<br>size： 获得集合中元素的个数；<br>int： 取得数字的整数部分。</p>
+<h5 id="变量空判断"><a href="#变量空判断" class="headerlink" title="变量空判断"></a>变量空判断</h5><p>! 　　指定缺失变量的默认值；一般配置变量输出使用<br>?? 　判断变量是否存在。一般配合if使用 &lt;#if value??&gt;&lt;/#if&gt;</p>
+<h5 id="宏指令"><a href="#宏指令" class="headerlink" title="宏指令"></a>宏指令</h5><p>可以理解为java的封装方法，供其他地方使用。宏指令也称为自定义指令，macro指令<br>语法很简单：&lt;#macro val &gt; 声明macro &lt;/#macro&gt;; 使用macro &lt;@val /&gt;</p>
+<h5 id="命名空间"><a href="#命名空间" class="headerlink" title="命名空间"></a>命名空间</h5><p>可以理解为java的import语句，为避免变量重复。一个重要的规则就是:路径不应该包含大写字母，使用下划线_分隔词语，myName –&gt; my_name<br>语法很简单：&lt;#import “xxx.ftl” as val&gt;</p>
+<h3 id="FreeMarker的优点"><a href="#FreeMarker的优点" class="headerlink" title="FreeMarker的优点"></a>FreeMarker的优点</h3><p>(1)可以彻底的分离表现层和业务逻辑。</p>
+<pre><code>FreeMarker的原理就是：模板+数据模型=输出，模板只负责数据在页面中          的表现，不涉及任何的逻辑代码，而所有的逻辑都是由数据模型来处理              的。用户最终看到的输出是模板和数据模型合并后创建的。
+</code></pre><p>(2)可以提高开发效率。</p>
+<pre><code>公司使用freemarker开发一款可拖拽的前端插件，即使没有前端工程师，公        司的后端工程师们也可以通过拖拽页面布局、按钮来实现前端页面的开发。
+</code></pre><h3 id="FreeMarker使用"><a href="#FreeMarker使用" class="headerlink" title="FreeMarker使用"></a>FreeMarker使用</h3><p>基于freemarker编写插件，再结合editor，可以实现拖拽图形生成html代码和controller代码；当然freemarke的作用不仅仅如此，我们还可以使用freemarker自动生成数据库实体等。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/FreeMarker/" rel="tag"># FreeMarker</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/16/Activiti初识篇/" rel="next" title="Activiti初识篇">
+                <i class="fa fa-chevron-left"></i> Activiti初识篇
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/16/使用用户名密码直接clone/" rel="prev" title="使用用户名密码直接clone">
+                使用用户名密码直接clone <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/24718752.gif"
+                alt="griabcrh" />
+            
+              <p class="site-author-name" itemprop="name">griabcrh</p>
+              <p class="site-description motion-element" itemprop="description">nice to meet you</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">58</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是Apache-FreeMarker"><span class="nav-number">1.</span> <span class="nav-text">什么是Apache FreeMarker</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#工作原理"><span class="nav-number">2.</span> <span class="nav-text">工作原理</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#数据类型"><span class="nav-number">2.0.1.</span> <span class="nav-text">数据类型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#字符串操作"><span class="nav-number">2.0.2.</span> <span class="nav-text">字符串操作</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#比较运算符"><span class="nav-number">2.0.3.</span> <span class="nav-text">比较运算符</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#内建函数"><span class="nav-number">2.0.4.</span> <span class="nav-text">内建函数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#变量空判断"><span class="nav-number">2.0.5.</span> <span class="nav-text">变量空判断</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#宏指令"><span class="nav-number">2.0.6.</span> <span class="nav-text">宏指令</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#命名空间"><span class="nav-number">2.0.7.</span> <span class="nav-text">命名空间</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FreeMarker的优点"><span class="nav-number">3.</span> <span class="nav-text">FreeMarker的优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FreeMarker使用"><span class="nav-number">4.</span> <span class="nav-text">FreeMarker使用</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">griabcrh</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+|<span id="busuanzi_container_site_uv">
+  本站访客数<span id="busuanzi_value_site_uv"></span>人次
+</span>
+|<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("8TpPOiYi4ReJYs5sYfMdFmSO-gzGzoHsz", "hX7JfGRvJG8zcMqMRAWNMNyk");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

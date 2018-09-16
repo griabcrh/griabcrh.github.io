@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/griabcrh.gif?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Mysql," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="程序员们去IBM面试的时候，几乎每个面试官问到数据库的时候都要问用没用过存储过程，烦人不？大家去面的程序员，又不是 DBA，以前的项目都没有用到存储，不照样运行的好好的？ 存储过程真的那么重要吗，它到底有什么好处呢？ 1、什么是mysql存储例程?存储例程是存储在数据库服务器中的一组sql语句，通过在查询中调用一个指定的名称来执行这些sql语句命令。 2、为什么要使用mysql存储过程？我们都知道">
+<meta name="keywords" content="Mysql">
+<meta property="og:type" content="article">
+<meta property="og:title" content="你了解Mysql的存储过程吗？">
+<meta property="og:url" content="https://griabcrh.github.io/2018/09/16/你了解Mysql的存储过程吗？/index.html">
+<meta property="og:site_name" content="Griabcrh&#39;s Blog">
+<meta property="og:description" content="程序员们去IBM面试的时候，几乎每个面试官问到数据库的时候都要问用没用过存储过程，烦人不？大家去面的程序员，又不是 DBA，以前的项目都没有用到存储，不照样运行的好好的？ 存储过程真的那么重要吗，它到底有什么好处呢？ 1、什么是mysql存储例程?存储例程是存储在数据库服务器中的一组sql语句，通过在查询中调用一个指定的名称来执行这些sql语句命令。 2、为什么要使用mysql存储过程？我们都知道">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-09-16T03:45:27.529Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="你了解Mysql的存储过程吗？">
+<meta name="twitter:description" content="程序员们去IBM面试的时候，几乎每个面试官问到数据库的时候都要问用没用过存储过程，烦人不？大家去面的程序员，又不是 DBA，以前的项目都没有用到存储，不照样运行的好好的？ 存储过程真的那么重要吗，它到底有什么好处呢？ 1、什么是mysql存储例程?存储例程是存储在数据库服务器中的一组sql语句，通过在查询中调用一个指定的名称来执行这些sql语句命令。 2、为什么要使用mysql存储过程？我们都知道">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://griabcrh.github.io/2018/09/16/你了解Mysql的存储过程吗？/"/>
+
+
+
+
+
+  <title>你了解Mysql的存储过程吗？ | Griabcrh's Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?91c85e96d8e34ae79347b17b0d41826f";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Griabcrh's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">welcome</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/09/16/你了解Mysql的存储过程吗？/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="griabcrh">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/24718752.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Griabcrh's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">你了解Mysql的存储过程吗？</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-16T11:43:40+08:00">
+                2018-09-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/09/16/你了解Mysql的存储过程吗？/" class="leancloud_visitors" data-flag-title="你了解Mysql的存储过程吗？">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>程序员们去IBM面试的时候，几乎每个面试官问到数据库的时候都要问用没用过存储过程，烦人不？大家去面的程序员，又不是 DBA，以前的项目都没有用到存储，不照样运行的好好的？</p>
+<p>存储过程真的那么重要吗，它到底有什么好处呢？</p>
+<h3 id="1、什么是mysql存储例程"><a href="#1、什么是mysql存储例程" class="headerlink" title="1、什么是mysql存储例程?"></a>1、什么是mysql存储例程?</h3><p>存储例程是存储在数据库服务器中的一组sql语句，通过在查询中调用一个指定的名称来执行这些sql语句命令。</p>
+<h3 id="2、为什么要使用mysql存储过程？"><a href="#2、为什么要使用mysql存储过程？" class="headerlink" title="2、为什么要使用mysql存储过程？"></a>2、为什么要使用mysql存储过程？</h3><p>我们都知道应用程序分为两种，一种是基于web，一种是基于桌面，他们都和数据库进行交互来完成数据的存取工作。假设现在有一种应用程序包含了这两种，现在要修改其中的一个查询sql语句，那么我们可能要同时修改他们中对应的查询sql语句，当我们的应用程序很庞大很复杂的时候问题就出现了，不易维 护！另外把sql查询语句放在我们的web程序或桌面中很容易遭到sql注入的破坏。而存储例程正好可以帮我们解决这些问题。</p>
+<h3 id="3、存储过程-stored-procedure-、存储例程-store-routine-、存储函数区别"><a href="#3、存储过程-stored-procedure-、存储例程-store-routine-、存储函数区别" class="headerlink" title="3、存储过程(stored procedure)、存储例程(store routine)、存储函数区别"></a>3、存储过程(stored procedure)、存储例程(store routine)、存储函数区别</h3><p>Mysql存储例程实际包含了存储过程和存储函数，它们被统称为存储例程。</p>
+<p>其中存储过程主要完成在获取记录或插入记录或更新记录或删除记录，即完成select insert delete update等的工作。而存储函数只完成查询的工作，可接受输入参数并返回一个结果。</p>
+<h3 id="4、创建mysql存储过程、存储函数"><a href="#4、创建mysql存储过程、存储函数" class="headerlink" title="4、创建mysql存储过程、存储函数"></a>4、创建mysql存储过程、存储函数</h3><font color="#ff0000">create procedure 存储过程名(参数）</font>
+
+<p><strong>下面是存储过程的例子：</strong></p>
+<font color="#ff0000"><br>mysql&gt; DELIMITER //<br>mysql&gt; CREATE PROCEDURE proc1(OUT s int)<br>   -&gt; BEGIN<br>   -&gt; SELECT COUNT(*) INTO s FROM user;<br>   -&gt; END<br>   -&gt; //<br>mysql&gt; DELIMITER ;<br><font color="#ff0000"><br><br><br><strong>注：</strong><br><br>（1）这里需要注意的是DELIMITER//和DELIMITER;两句，DELIMITER是分割符的意思，因为MySQL默认以”;”为分隔 符，如果我们没有声明分割符，那么编译器会把存储过程当成SQL语句进行处理，则存储过程的编译过程会报错，所以要事先用DELIMITER关键字申明当 前段分隔符，这样MySQL才会将”;”当做存储过程中的代码，不会执行这些代码，用完了之后要把分隔符还原。<br><br>（2）存储过程根据需要可能会有输入in、输出out、输入输出inout参数，这里有一个输出参数s，类型是int型，如果有多个参数用”,”分割开。<br><br>（3）过程体的开始与结束使用BEGIN与END进行标识。<br><br>这样，我们的一个MySQL存储过程就完成了，是不是很容易呢?看不懂也没关系，接下来，我们详细的讲解。<br><br><br><strong>声明分割符</strong><br><br>其实，关于声明分割符，上面的注解已经写得很清楚，不需要多说，只是稍微要注意一点的是：如果是用MySQL的Administrator管理工具时，可以直接创建，不再需要声明。<br><br><strong>参数</strong><br><br>MySQL存储过程的参数用在存储过程的定义，共有三种参数类型,IN,OUT,INOUT。<br><br>形式如：<br><br><font color="#ff0000">CREATEPROCEDURE 存储过程名([[IN |OUT |INOUT ] 参数名 数据类形…])</font>
+
+<ul>
+<li>IN 输入参数:表示该参数的值必须在调用存储过程时指定，在存储过程中修改该参数的值不能被返回，为默认值</li>
+<li>OUT 输出参数:该值可在存储过程内部被改变，并可返回</li>
+<li>INOUT 输入输出参数:调用时指定，并且可被改变和返回</li>
+</ul>
+<h3 id="5、存储过程的删改查"><a href="#5、存储过程的删改查" class="headerlink" title="5、存储过程的删改查"></a>5、存储过程的删改查</h3><h4 id="5-1-调用存储过程"><a href="#5-1-调用存储过程" class="headerlink" title="5.1 调用存储过程"></a>5.1 调用存储过程</h4><font color="#ff0000">Call sp_name([parameter[,…]]);</font>
+
+<ul>
+<li>Sp_name被调用存储过程的名称</li>
+<li>Parameter:指定调用存储过程所要使用的参数。</li>
+</ul>
+<h4 id="5-2-MySQL存储过程的查询"><a href="#5-2-MySQL存储过程的查询" class="headerlink" title="5.2 MySQL存储过程的查询"></a>5.2 MySQL存储过程的查询</h4><p>我们可以查看存储过程的详细，但是需要用另一种方法：</p>
+<font color="#ff0000">SHOWCREATEPROCEDURE 数据库.存储过程名;</font>
+
+<p>就可以查看当前存储过程的详细。</p>
+<h4 id="5-3-MySQL存储过程的修改"><a href="#5-3-MySQL存储过程的修改" class="headerlink" title="5.3. MySQL存储过程的修改"></a>5.3. MySQL存储过程的修改</h4><font color="#ff0000">ALTER PROCEDURE</font>
+
+<p>更改用CREATE PROCEDURE 建立的预先指定的存储过程，其不会影响相关存储过程或存储功能。</p>
+<h4 id="5-4-MySQL存储过程的删除"><a href="#5-4-MySQL存储过程的删除" class="headerlink" title="5.4 MySQL存储过程的删除"></a>5.4 MySQL存储过程的删除</h4><p>删除一个存储过程比较简单，和删除表一样：</p>
+<font color="#ff0000">DROP PROCEDURE</font>
+
+<p>从MySQL的表格中删除一个或多个存储过程。</p>
+<h3 id="6、存储过程的优点"><a href="#6、存储过程的优点" class="headerlink" title="6、存储过程的优点"></a>6、存储过程的优点</h3><p> 存储过程只在创造时进行编译，以后每次执行存储过程都不需再重新编译，而一般 SQL 语句每执行一次就编译一次,所以使用存储过程可提高数据库执行速度。</p>
+<p>当对数据库进行复杂操作时(如对多个表进行 Update,Insert,Query,Delete 时），可将此复杂操作用存储过程封装起来与数据库提供的事务处理结合一起使用。这些操作，如果用程序来完成，就变成了一条条的 SQL 语句，可能要多次连接数据库。而换成存储，只需要连接一次数据库就可以了。</p>
+<p>存储过程可以重复使用,可减少数据库开发人员的工作量。</p>
+<p>安全性高,可设定只有某此用户才具有对指定存储过程的使用权。</p>
+<h3 id="7、存储函数"><a href="#7、存储函数" class="headerlink" title="7、存储函数"></a>7、存储函数</h3><p>什么是存储函数: 封装一段sql代码，完成一种特定的功能，返回结果。</p>
+<p><strong>存储函数的语法:</strong> </p>
+<p><font color="#ff0000"><br>create function 函数([函数参数[,….]]) Returns 返回类型<br>Begin<br>If(<br>Return (返回的数据)<br>Else<br>Return (返回的数据)<br>end if;<br>end;</font></p>
+<font color="#ff0000">
+
+<p>与存储过程返回参数不同的是存储函数在定义时没用直接声明哪个变量是返回参数，而只是使用了returns声明了返回参数所属的数据类型，返回参数是在函数体中使用return返回要返回的数据变量的形式来表示的。这就需要注意的是：<br>存储函数只支持输入参数，并且输入参数前没有IN或INOUT.</p>
+<p><strong>存储函数中的限制</strong></p>
+<p>流控制（Flow-of-control）语句(IF, CASE, WHILE, LOOP, WHILE, REPEAT, LEAVE,ITERATE)也是合法的.<br>变量声明(DECLARE)以及指派(SET)是合法的.<br>允许条件声明.<br>异常处理声明也是允许的.<br>但是在这里要记住函数有受限条件:不能在函数中访问表.因此在函数中使用以下语句是非法的。 </p>
+<p><font color="#ff0000"><br>ALTER ‘CACHE INDEX’ CALL COMMIT CREATE DELETE<br>DROP ‘FLUSH PRIVILEGES’ GRANT INSERT KILL<br>LOCK OPTIMIZE REPAIR REPLACE REVOKE<br>ROLLBACK SAVEPOINT ‘SELECT FROM table’<br>‘SET system variable’ ‘SET TRANSACTION’<br>SHOW ‘START TRANSACTION’ TRUNCATE UPDATE</font></p>
+<font color="#ff0000">
+
+
+<h3 id="8、存储函数与存储过程的区别"><a href="#8、存储函数与存储过程的区别" class="headerlink" title="8、存储函数与存储过程的区别"></a>8、存储函数与存储过程的区别</h3><ul>
+<li>存储函数有且只有一个返回值，而存储过程不能有返回值。</li>
+<li>函数只能有输入参数，而且不能带in, 而存储过程可以有多个in,out,inout参数。</li>
+<li>存储过程中的语句功能更强大，存储过程可以实现很复杂的业务逻辑，而函数有很多限制，如不能在函数中使用insert,update,delete,create等语句；存储函数只完成查询的工作，可接受输入参数并返回一个结果，也就是函数实现的功能针对性比较强。</li>
+<li>存储过程可以调用存储函数。但函数不能调用存储过程。</li>
+<li>存储过程一般是作为一个独立的部分来执行(call调用)。而函数可以作为查询语句的一个部分来调用。</li>
+</ul>
+</font></font></font></font>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Mysql/" rel="tag"># Mysql</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/13/IDE里的Tomcat是怎么工作的？/" rel="next" title="IDE里的Tomcat是怎么工作的？">
+                <i class="fa fa-chevron-left"></i> IDE里的Tomcat是怎么工作的？
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/16/Activiti初识篇/" rel="prev" title="Activiti初识篇">
+                Activiti初识篇 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/24718752.gif"
+                alt="griabcrh" />
+            
+              <p class="site-author-name" itemprop="name">griabcrh</p>
+              <p class="site-description motion-element" itemprop="description">nice to meet you</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">58</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、什么是mysql存储例程"><span class="nav-number">1.</span> <span class="nav-text">1、什么是mysql存储例程?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、为什么要使用mysql存储过程？"><span class="nav-number">2.</span> <span class="nav-text">2、为什么要使用mysql存储过程？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、存储过程-stored-procedure-、存储例程-store-routine-、存储函数区别"><span class="nav-number">3.</span> <span class="nav-text">3、存储过程(stored procedure)、存储例程(store routine)、存储函数区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、创建mysql存储过程、存储函数"><span class="nav-number">4.</span> <span class="nav-text">4、创建mysql存储过程、存储函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5、存储过程的删改查"><span class="nav-number">5.</span> <span class="nav-text">5、存储过程的删改查</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-1-调用存储过程"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 调用存储过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-2-MySQL存储过程的查询"><span class="nav-number">5.2.</span> <span class="nav-text">5.2 MySQL存储过程的查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-3-MySQL存储过程的修改"><span class="nav-number">5.3.</span> <span class="nav-text">5.3. MySQL存储过程的修改</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-4-MySQL存储过程的删除"><span class="nav-number">5.4.</span> <span class="nav-text">5.4 MySQL存储过程的删除</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6、存储过程的优点"><span class="nav-number">6.</span> <span class="nav-text">6、存储过程的优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7、存储函数"><span class="nav-number">7.</span> <span class="nav-text">7、存储函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8、存储函数与存储过程的区别"><span class="nav-number">8.</span> <span class="nav-text">8、存储函数与存储过程的区别</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">griabcrh</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+|<span id="busuanzi_container_site_uv">
+  本站访客数<span id="busuanzi_value_site_uv"></span>人次
+</span>
+|<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("8TpPOiYi4ReJYs5sYfMdFmSO-gzGzoHsz", "hX7JfGRvJG8zcMqMRAWNMNyk");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
