@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/griabcrh.gif?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="JWT," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="什么是JSON Web Token？JSON Web Token（JWT）是一个开放标准（RFC 7519），它定义了一种紧凑且独立的方式，可以在各方之间作为JSON对象安全地传输信息。此信息可以通过数字签名进行验证和信任。JWT可以使用秘密（使用HMAC算法）或使用RSA或ECDSA的公钥/私钥对进行签名。 虽然JWT可以加密以在各方之间提供保密，但我们将专注于签名令牌。签名令牌可以验证其中包含">
+<meta name="keywords" content="JWT">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JWT的那些事儿">
+<meta property="og:url" content="https://griabcrh.github.io/2018/09/25/JWT的那些事儿/index.html">
+<meta property="og:site_name" content="Griabcrh&#39;s Blog">
+<meta property="og:description" content="什么是JSON Web Token？JSON Web Token（JWT）是一个开放标准（RFC 7519），它定义了一种紧凑且独立的方式，可以在各方之间作为JSON对象安全地传输信息。此信息可以通过数字签名进行验证和信任。JWT可以使用秘密（使用HMAC算法）或使用RSA或ECDSA的公钥/私钥对进行签名。 虽然JWT可以加密以在各方之间提供保密，但我们将专注于签名令牌。签名令牌可以验证其中包含">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-09-25T06:08:29.407Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JWT的那些事儿">
+<meta name="twitter:description" content="什么是JSON Web Token？JSON Web Token（JWT）是一个开放标准（RFC 7519），它定义了一种紧凑且独立的方式，可以在各方之间作为JSON对象安全地传输信息。此信息可以通过数字签名进行验证和信任。JWT可以使用秘密（使用HMAC算法）或使用RSA或ECDSA的公钥/私钥对进行签名。 虽然JWT可以加密以在各方之间提供保密，但我们将专注于签名令牌。签名令牌可以验证其中包含">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://griabcrh.github.io/2018/09/25/JWT的那些事儿/"/>
+
+
+
+
+
+  <title>JWT的那些事儿 | Griabcrh's Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?91c85e96d8e34ae79347b17b0d41826f";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Griabcrh's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">welcome</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/09/25/JWT的那些事儿/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="griabcrh">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/24718752.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Griabcrh's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">JWT的那些事儿</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-25T14:04:10+08:00">
+                2018-09-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/09/25/JWT的那些事儿/" class="leancloud_visitors" data-flag-title="JWT的那些事儿">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="什么是JSON-Web-Token？"><a href="#什么是JSON-Web-Token？" class="headerlink" title="什么是JSON Web Token？"></a>什么是JSON Web Token？</h3><p>JSON Web Token（JWT）是一个开放标准（RFC 7519），它定义了一种紧凑且独立的方式，可以在各方之间作为JSON对象安全地传输信息。此信息可以通过数字签名进行验证和信任。JWT可以使用秘密（使用HMAC算法）或使用RSA或ECDSA的公钥/私钥对进行签名。</p>
+<p>虽然JWT可以加密以在各方之间提供保密，但我们将专注于签名令牌。签名令牌可以验证其中包含的声明的完整性，而加密令牌则隐藏其他方的声明。当使用公钥/私钥对签署令牌时，签名还证明只有持有私钥的一方是签署私钥的一方。</p>
+<h3 id="什么时候应该使用JSON-Web令牌？"><a href="#什么时候应该使用JSON-Web令牌？" class="headerlink" title="什么时候应该使用JSON Web令牌？"></a>什么时候应该使用JSON Web令牌？</h3><p>以下是JSON Web令牌有用的一些场景：</p>
+<p><b>授权</b>：这是使用JWT的最常见方案。一旦用户登录，每个后续请求将包括JWT，允许用户访问该令牌允许的路由，服务和资源。Single Sign On是一种现在广泛使用JWT的功能，因为它的开销很小，并且能够在不同的域中轻松使用。</p>
+<p><b>信息交换</b>：JSON Web令牌是在各方之间安全传输信息的好方法。因为JWT可以签名 - 例如，使用公钥/私钥对 - 您可以确定发件人是他们所说的人。此外，由于使用标头和有效负载计算签名，您还可以验证内容是否未被篡改。</p>
+<p>举一个例子，假如一个电商网站，在用户登录以后，需要验证用户的地方其实有很多，比如购物车，订单页，个人中心等等，访问这些页面正常的逻辑是先验证用户权限和登录状态，如果验证通过，则进入访问的页面，否则重定向到登录页。<b>我使用JWT一般都是结合OAuth2.0进行使用。</b></p>
+<p>而在 JWT 之前，这样的验证我们大多都是通过 cookie 和 session 去实现的，我们接下来就来对比以下这两种方式的不同。</p>
+<h3 id="JWT-对比-cookie-session"><a href="#JWT-对比-cookie-session" class="headerlink" title="JWT 对比 cookie/session"></a>JWT 对比 cookie/session</h3><h4 id="cookie-session-的过程："><a href="#cookie-session-的过程：" class="headerlink" title="cookie/session 的过程："></a>cookie/session 的过程：</h4><p>由于浏览器的请求是无状态的，cookie 的存在就是为了带给服务器一些状态信息，服务器在接收到请求时会对其进行验证（其实是在登录时，服务器发给浏览器的），如果验证通过则正常返回结果，如果验证不通过则重定向到登录页，而服务器是根据 session 中存储的结果和收到的信息进行对比决定是否验证通过，当然这里只是简述过程。</p>
+<h4 id="cookie-session-的问题："><a href="#cookie-session-的问题：" class="headerlink" title="cookie/session 的问题："></a>cookie/session 的问题：</h4><p>从上面可以看出服务器种植 cookie 后每次请求都会带上 cookie，浪费带宽，而且 cookie 不支持跨域，不方便与其他的系统之间进行跨域访问，而服务器会用 session 来存储这些用户验证的信息，这样浪费了服务器的内存，当多个服务器想要共享 session 需要都拷贝过去。</p>
+<h3 id="JWT-的过程"><a href="#JWT-的过程" class="headerlink" title="JWT 的过程"></a>JWT 的过程</h3><p>当用户发送请求，将用户信息带给服务器的时候，服务器不再像过去一样存储在 session 中，而是将浏览器发来的内容通过内部的密钥加上这些信息，使用 sha256 和 RSA 等加密算法生成一个 token 令牌和用户信息一起返回给浏览器，当涉及验证用户的所有请求只需要将这个 token 和用户信息发送给服务器，而服务器将用户信息和自己的密钥通过既定好的算法进行签名，然后将发来的签名和生成的签名比较，严格相等则说明用户信息没被篡改和伪造，验证通过。</p>
+<p>JWT 的过程中，服务器不再需要额外的内存存储用户信息，和多个服务器之间只需要共享密钥就可以让多个服务器都有验证能力，同时也解决了 cookie 不能跨域的问题。</p>
+<h3 id="JWT-的结构"><a href="#JWT-的结构" class="headerlink" title="JWT 的结构"></a>JWT 的结构</h3><p>JWT 之所以能被作为一种声明传递的标准是因为它有自己的结构，并不是随便的发个 token 就可以的，JWT 用于生成 token 的结构有三个部分，使用 . 隔开。</p>
+<h4 id="1、Header"><a href="#1、Header" class="headerlink" title="1、Header"></a>1、Header</h4><p>Header 头部中主要包含两部分，token 类型和加密算法，如 {typ: “jwt”, alg: “HS256”}，HS256 就是指 sha256 算法，会将这个对象转成 base64。</p>
+<h4 id="2、Payload"><a href="#2、Payload" class="headerlink" title="2、Payload"></a>2、Payload</h4><p>Payload 负载就是存放有效信息的地方，有效信息被分为标准中注册的声明、公共的声明和私有的声明。</p>
+<h5 id="1-标准中注册的声明"><a href="#1-标准中注册的声明" class="headerlink" title="(1) 标准中注册的声明"></a>(1) 标准中注册的声明</h5><p>下面是标准中注册的声明，建议但不强制使用。</p>
+<p>iss：jwt 签发者；</p>
+<p>sub：jwt 所面向的用户；</p>
+<p>aud：接收 jwt 的一方；</p>
+<p>exp：jwt 的过期时间，这个过期时间必须要大于签发时间，这是一个秒数；</p>
+<p>nbf：定义在什么时间之前，该 jwt 都是不可用的；</p>
+<p>iat：jwt 的签发时间。</p>
+<p>上面的标准中注册的声明中常用的有 exp 和 nbf。</p>
+<h5 id="2-公共声明"><a href="#2-公共声明" class="headerlink" title="(2) 公共声明"></a>(2) 公共声明</h5><p>公共的声明可以添加任何的信息，一般添加用户的相关信息或其他业务需要的必要信息，但不建议添加敏感信息，因为该部分在客户端可解密，如 {“id”, username: “panda”, adress: “Beijing”}，会将这个对象转成 base64。</p>
+<h5 id="3-私有声明"><a href="#3-私有声明" class="headerlink" title="(3) 私有声明"></a>(3) 私有声明</h5><p>私有声明是提供者和消费者所共同定义的声明，一般不建议存放敏感信息，因为 base64 是对称解密的，意味着该部分信息可以归类为明文信息。</p>
+<h4 id="3、Signature"><a href="#3、Signature" class="headerlink" title="3、Signature"></a>3、Signature</h4><p>Signature 这一部分指将 Header 和 Payload 通过密钥 secret 和加盐算法进行加密后生成的签名，secret，密钥保存在服务端，不会发送给任何人，所以 JWT 的传输方式是很安全的。</p>
+<p>最后将三部分使用 . 连接成字符串，就是要返回给浏览器的 token 浏览器一般会将这个 token 存储在 localStorge 以备其他需要验证用户的请求使用。</p>
+<p>注意：secret是保存在服务器端的，jwt的签发生成也是在服务器端的，secret就是用来进行jwt的签发和jwt的验证，所以，它就是你服务端的私钥，在任何场景都不应该流露出去。一旦客户端得知这个secret, 那就意味着客户端是可以自我签发jwt了。</p>
+<p><b>如何应用</b></p>
+<p>一般是在请求头里加入Authorization，并加上Bearer标注：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">fetch(<span class="string">'api/user/1'</span>, &#123;</span><br><span class="line">  headers: &#123;    <span class="string">'Authorization'</span>: <span class="string">'Bearer '</span> + token</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>服务端会验证token，如果验证通过就会返回相应的资源。整个流程就是这样的:</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h4><p>因为json的通用性，所以JWT是可以进行跨语言支持的，像JAVA,JavaScript,NodeJS,PHP等很多语言都可以使用。</p>
+<p>因为有了payload部分，所以JWT可以在自身存储一些其他业务逻辑所必要的非敏感信息。</p>
+<p>便于传输，jwt的构成非常简单，字节占用很小，所以它是非常便于传输的。</p>
+<p>它不需要在服务端保存会话信息, 所以它易于应用的扩展</p>
+<h4 id="安全相关"><a href="#安全相关" class="headerlink" title="安全相关"></a>安全相关</h4><p>不应该在jwt的payload部分存放敏感信息，因为该部分是客户端可解密的部分。</p>
+<p>保护好secret私钥，该私钥非常重要。</p>
+<p>如果可以，请使用https协议</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JWT/" rel="tag"># JWT</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/16/分布式锁原理探究/" rel="next" title="分布式锁原理探究">
+                <i class="fa fa-chevron-left"></i> 分布式锁原理探究
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/24718752.gif"
+                alt="griabcrh" />
+            
+              <p class="site-author-name" itemprop="name">griabcrh</p>
+              <p class="site-description motion-element" itemprop="description">nice to meet you</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">60</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是JSON-Web-Token？"><span class="nav-number">1.</span> <span class="nav-text">什么是JSON Web Token？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么时候应该使用JSON-Web令牌？"><span class="nav-number">2.</span> <span class="nav-text">什么时候应该使用JSON Web令牌？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JWT-对比-cookie-session"><span class="nav-number">3.</span> <span class="nav-text">JWT 对比 cookie/session</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#cookie-session-的过程："><span class="nav-number">3.1.</span> <span class="nav-text">cookie/session 的过程：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#cookie-session-的问题："><span class="nav-number">3.2.</span> <span class="nav-text">cookie/session 的问题：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JWT-的过程"><span class="nav-number">4.</span> <span class="nav-text">JWT 的过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JWT-的结构"><span class="nav-number">5.</span> <span class="nav-text">JWT 的结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、Header"><span class="nav-number">5.1.</span> <span class="nav-text">1、Header</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、Payload"><span class="nav-number">5.2.</span> <span class="nav-text">2、Payload</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-标准中注册的声明"><span class="nav-number">5.2.1.</span> <span class="nav-text">(1) 标准中注册的声明</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-公共声明"><span class="nav-number">5.2.2.</span> <span class="nav-text">(2) 公共声明</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-私有声明"><span class="nav-number">5.2.3.</span> <span class="nav-text">(3) 私有声明</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、Signature"><span class="nav-number">5.3.</span> <span class="nav-text">3、Signature</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#优点"><span class="nav-number">6.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安全相关"><span class="nav-number">6.2.</span> <span class="nav-text">安全相关</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">griabcrh</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+|<span id="busuanzi_container_site_uv">
+  本站访客数<span id="busuanzi_value_site_uv"></span>人次
+</span>
+|<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("8TpPOiYi4ReJYs5sYfMdFmSO-gzGzoHsz", "hX7JfGRvJG8zcMqMRAWNMNyk");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

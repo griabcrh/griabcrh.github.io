@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/griabcrh.gif?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="分布式," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="一、前言在同一个 JVM 进程中，我们可以使用 JUC 提供的一些锁来解决多个线程竞争同一个共享资源时候的线程安全问题，但是当多个不同 JVM 进程中的线程共同竞争同一个共享资源时候，JUC 包的锁就无能无力了，这时候就需要分布式锁了。 本文主要讲解几种常见的分布式锁实现方案以及原理，主要内容如下： 分布式锁与 JUC 包锁的不同； 使用数据库锁来实现分布式锁； 使用 Redis 来实现分布式锁；">
+<meta name="keywords" content="分布式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分布式锁原理探究">
+<meta property="og:url" content="https://griabcrh.github.io/2018/09/16/分布式锁原理探究/index.html">
+<meta property="og:site_name" content="Griabcrh&#39;s Blog">
+<meta property="og:description" content="一、前言在同一个 JVM 进程中，我们可以使用 JUC 提供的一些锁来解决多个线程竞争同一个共享资源时候的线程安全问题，但是当多个不同 JVM 进程中的线程共同竞争同一个共享资源时候，JUC 包的锁就无能无力了，这时候就需要分布式锁了。 本文主要讲解几种常见的分布式锁实现方案以及原理，主要内容如下： 分布式锁与 JUC 包锁的不同； 使用数据库锁来实现分布式锁； 使用 Redis 来实现分布式锁；">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://griabcrh.github.io/images/分布式锁1.jpg">
+<meta property="og:image" content="https://griabcrh.github.io/images/分布式锁2.jpg">
+<meta property="og:updated_time" content="2018-09-25T06:03:34.398Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="分布式锁原理探究">
+<meta name="twitter:description" content="一、前言在同一个 JVM 进程中，我们可以使用 JUC 提供的一些锁来解决多个线程竞争同一个共享资源时候的线程安全问题，但是当多个不同 JVM 进程中的线程共同竞争同一个共享资源时候，JUC 包的锁就无能无力了，这时候就需要分布式锁了。 本文主要讲解几种常见的分布式锁实现方案以及原理，主要内容如下： 分布式锁与 JUC 包锁的不同； 使用数据库锁来实现分布式锁； 使用 Redis 来实现分布式锁；">
+<meta name="twitter:image" content="https://griabcrh.github.io/images/分布式锁1.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://griabcrh.github.io/2018/09/16/分布式锁原理探究/"/>
+
+
+
+
+
+  <title>分布式锁原理探究 | Griabcrh's Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?91c85e96d8e34ae79347b17b0d41826f";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Griabcrh's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">welcome</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/09/16/分布式锁原理探究/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="griabcrh">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/24718752.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Griabcrh's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">分布式锁原理探究</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-16T14:32:51+08:00">
+                2018-09-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/09/16/分布式锁原理探究/" class="leancloud_visitors" data-flag-title="分布式锁原理探究">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h3><p>在同一个 JVM 进程中，我们可以使用 JUC 提供的一些锁来解决多个线程竞争同一个共享资源时候的线程安全问题，但是当多个不同 JVM 进程中的线程共同竞争同一个共享资源时候，JUC 包的锁就无能无力了，这时候就需要分布式锁了。</p>
+<p>本文主要讲解几种常见的分布式锁实现方案以及原理，主要内容如下：</p>
+<p>分布式锁与 JUC 包锁的不同；</p>
+<p>使用数据库锁来实现分布式锁；</p>
+<p>使用 Redis 来实现分布式锁；</p>
+<p>使用 Zookeeper 的序列节点来实现分布式锁；</p>
+<p>三种方案的简单对比。</p>
+<h3 id="二、分布式锁与-JUC-包锁"><a href="#二、分布式锁与-JUC-包锁" class="headerlink" title="二、分布式锁与 JUC 包锁"></a>二、分布式锁与 JUC 包锁</h3><p>Java JDK 里面的并发包（JUC）里提供了一些锁，比如ReentrantLock、ReentrantReadWriteLock、StampedLock 等，在同一个 JVM 中多个线程共同竞争同一个资源时，可以使用这些锁来保证访问资源的线程安全性。在同一个 JVM 进程中，你可以创建一个全局的（多个线程都可以访问到的）锁的实例，然后在具体访问资源前调用锁的 Lock 方法获取锁:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ReentrantLock lock = new ReentrantLock();//(1)lock.lock();//(2)获取锁try &#123;   //访问共享资源（3）&#125; catch (Exception e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; finally &#123;</span><br><span class="line">    lock.unlock();//4释放锁&#125;</span><br></pre></td></tr></table></figure></p>
+<p>如上代码 1 创建了一个锁，然后在多个线程中访问共享资源前都可以调用锁的 lock 方法对资源进行加锁，从而保证资源同时只能被一个线程访问（当然对应读锁来说的话，多个线程可以同时访问共享资源）。</p>
+<p>上面介绍的是在同一个 JVM 中的情况，那么如果在多个 JVM 进程中的多个线程共同竞争同一个共享资源那，更常见的是在不同主机的 JVM 进程中的多个线程共同访问同一个共享资源时候，这时候 JUC 包的锁能保证对资源访问的安全性？</p>
+<p>答案是不能的，因为 JUC 包锁的作用域是创建该锁的 JVM 进程内的，其它主机的 JVM 进程是没有办法访问到当前主机创建的锁的。也就是 JUC 包的锁在同一个 JVM 中是全局的，所有线程都可以使用方法获取到，然后该锁就可以保证同一个 JVM 进程内多个线程竞争同一个共享资源的安全性。那么对应不同主机的 JVM 进程中的线程，同样可以搞一个对各个主机来说是全局的锁，这个全局的锁就是分布式锁，所谓分布式，说白了，是说存在多个 JVM 进程，而分布式锁，就是能保证多个 JVM 进程中的线程共同访问共享资源时候，资源安全性的锁。</p>
+<h3 id="三、使用数据库悲观锁来实现分布式锁"><a href="#三、使用数据库悲观锁来实现分布式锁" class="headerlink" title="三、使用数据库悲观锁来实现分布式锁"></a>三、使用数据库悲观锁来实现分布式锁</h3><p>本节我们来使用单实例数据库的悲观锁来实现分布式锁，所谓悲观锁是指对数据记录被外界修改持保守态度。在对数据记录处理过程中，将数据处于锁定状态。悲观锁的实现，往往依靠数据库提供的行锁机制，数据库中实现是对数据记录操作前给行记录加排它锁。</p>
+<p>多个线程获取同一个行锁时候，如果获取锁失败，则说明数据正在被其它线程修改，则等待或者抛出异常。如果加锁成功，则获取记录，对其修改，然后事务提交后释放锁。</p>
+<p>使用悲观锁的一个常用的例子： select * from 表 where id = #id for update，当多个线程（无论是同一个 JVM 中的线程还是不同 JVM 中的多个线程）开启事务传递相同的 id 执行该语句时，只有一个线程会获取到该 id 对应的行记录的锁然后返回，其它线程则会阻塞到该语句的执行上，等获取行锁的线程提交事务后就释放了行锁，阻塞的多个线程就会通过竞争使一个线程获取到行锁，其它线程继续阻塞。由于不同 JVM 中线程共同去竞争的同一个行记录，所以这就实现了一个分布式锁。</p>
+<p>下面我们就是用上面介绍的原理来实现一个分布式锁，首先需要建立一个表 lock，表里面字段有一个 id 就可以了 (保证唯一)，然后插入一行记录。</p>
+<p>这个实现原理比较简单，下面我们先来看实现代码：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">public class DBdistributedLock &#123;    </span><br><span class="line">	private DataSource dataSource;    </span><br><span class="line">	private static final String cmd = <span class="string">"select * from lock where id = 1 for update"</span>;    </span><br><span class="line">	public DBdistributedLock(DataSource ds) &#123;        </span><br><span class="line">		this.dataSource = ds;</span><br><span class="line">    &#125;    </span><br><span class="line">	public static interface CallBack&#123;        </span><br><span class="line">		public void doAction();</span><br><span class="line">    &#125;    </span><br><span class="line">	public void lock(CallBack callBack)  &#123;</span><br><span class="line">        Connection conn = null;</span><br><span class="line">        PreparedStatement stmt = null;</span><br><span class="line">        ResultSet rs = null;        try &#123;            //3.1try get lock</span><br><span class="line">            System.out.println(Thread.currentThread().getName() + <span class="string">" begin try lock"</span>);</span><br><span class="line">            conn = dataSource.getConnection();</span><br><span class="line">            conn.setAutoCommit(<span class="literal">false</span>);</span><br><span class="line">            stmt = conn.prepareStatement(cmd);</span><br><span class="line">            rs = stmt.executeQuery();            //3.2do business thing</span><br><span class="line">            callBack.doAction();            //3.3release lock</span><br><span class="line">            conn.commit();</span><br><span class="line">            System.out.println(Thread.currentThread().getName() + <span class="string">" release lock"</span>);</span><br><span class="line"></span><br><span class="line">        &#125; catch (SQLException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line"></span><br><span class="line">        &#125; finally &#123;            //3.4</span><br><span class="line">            <span class="keyword">if</span> (null != conn) &#123;                try &#123;</span><br><span class="line">                    conn.close();</span><br><span class="line">                &#125; catch (SQLException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>如上代码 DBdistributedLock 类封装了分布式锁实现，其构造函数需要传递一个数据源。其中 lock 方法就是加锁用的方法，其内部代码 3.1 首先从数据源获取一个数据库连接，然后设置事务自动提交为 false（也就是设置为手动提交事务），然后具体执行 CMD 对应的 SQL（也就是使用 for update 锁住记录），多个线程执行，只有一个线程能获取到行锁，其他线程阻塞到 stmt.executeQuery() 处。</p>
+<p>当线程执行 3.1 获取到记录的行锁后会执行代码 3.2，3.2 执行传递的 callback 的业务逻辑（也就是需要在锁内执行的代码），业务执行完毕后 执行 3.3、commit 提交事务，这意味着当前线程释放了获取的锁，这时候被阻塞的线程会竞争获取该锁。</p>
+<p>这里需要注意的是必须设置为事务为手动提交，这保证了：</p>
+<p>rs = stmt.executeQuery();//3.2do business thingcallBack.doAction();//3.3release lockconn.commit();<br>是在一个事务中执行的，是原子性的。如果不设置为手动提交，则多个线程执行完 stmt.executeQuery() 后就释放了行锁，那么多个线程就可以同时执行代码3.2，这显然是错误的。</p>
+<p>下面我们来看看具体如何使用：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">final DBdistributedLock bdistributedLock = new DBdistributedLock(dataSource);</span><br><span class="line">bdistributedLock.lock(new <span class="function"><span class="title">CallBack</span></span>() &#123;                        </span><br><span class="line">	@Override</span><br><span class="line">    public void <span class="function"><span class="title">doAction</span></span>() &#123;</span><br><span class="line">        System.out.println(Thread.currentThread().getName() + <span class="string">"beging do somthing"</span>);                            </span><br><span class="line">		try &#123;                            </span><br><span class="line">			//<span class="keyword">do</span> business</span><br><span class="line">        &#125; catch (InterruptedException e) &#123;                                </span><br><span class="line">			// TODO Auto-generated catch block</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(Thread.currentThread().getName() + <span class="string">"end do somthing"</span>);</span><br><span class="line"></span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure></p>
+<p>如上代码可知使用时候只需要创建的一个 DBdistributedLock 对象，然后调用其 Lock 方法，并且传递一个 callback 的实现，实现方法里具体做业务，这些业务是受分布式锁保护的，拥有原子性。</p>
+<p>在每个 JVM 进程中可以创建一个 DBdistributedLock 的实例，JVM 进程内公用同一个实例，不同 JVM 进程维护自己的 DBdistributedLock 实例，由于加锁时候多个线程是共同竞争同一个行锁，所以实现了分布式锁。</p>
+<h3 id="四、使用-Redis-实现分布式锁"><a href="#四、使用-Redis-实现分布式锁" class="headerlink" title="四、使用 Redis 实现分布式锁"></a>四、使用 Redis 实现分布式锁</h3><p>在 JUC 包中除了阻塞锁外还有一种叫 CAS 的无阻塞锁，CAS 操作本身是原子性的，多个线程操作同一个变量的 CAS 时候只有一个线程能进行 CAS 成功，失败的线程接下来那么使用乐观锁机制直接失败要么使用自旋方式使用 CPU 资源重复进行 CAS 尝试。</p>
+<p>那么在分布式锁的实现中我们也可以使用类似的方式，比如 Redis 提供了一个保证原子性的 setnx 函数，多个线程调用该函数操作同一个 key 的时候，只有一个线程会返回 OK，其他线程返回 null，那么多个 JVM 中的线程同时设置同一个 key 时候只有一个 JVM 里面的一个线程可以返回 OK，返回 OK 的线程就相当于获取了全局锁，返回 null 的线程则可以选择自旋重试。获取到锁的线程使用完毕后调用 del 函数删除对应的 key，然后自旋的线程就会有一个返回 OK…</p>
+<p>在讲解具体实现前，先来讲解下 Redis 的 set,get,del,eval 函数，本文使用的 Redis 版本：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;redis.clients&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;jedis&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;2.9.0&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
+<p>函数讲解：</p>
+<h5 id="1）String-set-final-String-key-final-String-value-final-String-nxxx-final-String-expx-final-int-time"><a href="#1）String-set-final-String-key-final-String-value-final-String-nxxx-final-String-expx-final-int-time" class="headerlink" title="1）String set(final String key, final String value, final String nxxx, final String expx,final int time)"></a>1）String set(final String key, final String value, final String nxxx, final String expx,final int time)</h5><p>在 Redis 中支持 kv 存储，这里 key 就是 kv 中的 key,value 就是 kv 中的 value。</p>
+<p>从 Redis 2.6.12 版本开始， SET 命令的行为可以通过一系列参数来修改；其中 nxxx 的枚举值为 NX 和 XX，模式 NX 意思是说如果 key 不存在则插入该 key 对应的 value 并返回 OK，否者什么都不做返回 null；XX 意思是只在 key 已经存在时，才对 key 进行设置操作, 否者 null, 如果已经存在 key 并且进行了多次设置，则最终 key 对应的值为最后一次设置的值。</p>
+<p>其中 expx 的枚举值为 EX 和 PX，当为 EX 时候标示设置超时时间为 time 秒，当为 PX 时候标示设置超时时间为 time 毫秒。</p>
+<p>为了实现 CAS 的效果，本文选用 nxxx 为 NX 模式，因为这种模式下当多个线程设置同一个 key 时只有一个线程会返回 OK，其他线程则会返回 null，返回 OK 的线程标示获取到了分布式锁，返回 null 的则视为获取锁失败，则通过自旋来不断尝试获取。</p>
+<p>然后 value 值使用请求 id 来标示，多个线程设置同一个 key 的时候对应的 value 值要不一样，这是为了保证只有获取到锁的线程才应该释放锁，下面会具体讲解。</p>
+<h5 id="2）-String-get-final-String-key"><a href="#2）-String-get-final-String-key" class="headerlink" title="2） String get(final String key)"></a>2） String get(final String key)</h5><p>获取 key 对应的 value 值，key 不存在则返回 null</p>
+<h5 id="3）Long-del-String-key"><a href="#3）Long-del-String-key" class="headerlink" title="3）Long del(String key)"></a>3）Long del(String key)</h5><p>删除 key 对应的 value 值, 如果 key 存在则返回 1，否者返回 0</p>
+<p>由于需要保证只有获取锁的线程才能释放锁，所以需要在获取锁时候调用 set 方法传递一个唯一的 value 值，上面说了，可以传递请求 id; 然后在释放锁的时候需要调用 get 方法获取 key 对应的 value，如果 value 值等于当前线程的请求 id 则说明是当前线程获取的锁，则调用 del 方法删除该 key 对应的 value，这就相当于当前线程释放了锁；如果 value 不等于当前线程的请求 id 则不做删除操作。</p>
+<p>可见释放锁的操作需要调用 get 方法，然后 if 语句进行判断，判断 OK 然后调用 del 删除，而这三步并不是原子性的，如果不是原子性的会存在什么问题那？</p>
+<p>假设线程 A 调用 set 方法设置 key 对应的 value 为 AA 成功， 则线程 A 获取到了锁，然后在执行完业务逻辑后，首先通过 get 方法获取 key 对应的 value，然后通过 if 语句判断为 true，假设在执行 del 方法前对应的 key 已经超时了，并且线程 B 调用 set 方法设置 key 对应的 value 为 BB 成功了，也就是线程 B 获取到了锁，但是这时候线程 A 开始执行 del 方法了，则会把线程 B 对应的 key 的值删除了（不同线程调用 set 的时候 key 一样），也就是释放了锁，这时候其他线程就会竞争到该锁。这明显是错误的。</p>
+<p>Redis 有一个叫做 eval 的函数，支持 Lua 脚本执行，并且能够保证脚本执行的原子性，也就是在执行脚本期间，其它执行 redis 命令的线程都会被阻塞。这里解锁时候使用下面脚本：</p>
+<p>if redis.call(‘get’, KEYS[1]) == ARGV[1] then return redis.call(‘del’, KEYS[1]) else return 0 end<br>其中 keys[1] 为 unLock 方法传递的 key，argv[1] 为 unLock 方法传递的 requestId；脚本 redis.call(‘get’, KEYS[1]) 的作用是获取 key 对应的 value 值，这里会返回通过 Lock 方法传递的 requetId，然后看当前传递的 RequestId 是否等于 key 对应的值，等于则说明当前要释放锁的线程就是获取锁的线程，则继续执行 redis.call(‘del’, KEYS[1]) 脚本，删除 key 对应的值。</p>
+<p>原理讲解完了，下面我们来具体看代码：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line">package com.jiaduo.DistributedLock;</span><br><span class="line">import java.util.Collections;</span><br><span class="line">import redis.clients.jedis.Jedis;</span><br><span class="line">import redis.clients.jedis.JedisPool;</span><br><span class="line">public class DistributedLock &#123;    </span><br><span class="line">	private static final String LOCK_SUCCESS = <span class="string">"OK"</span>;    </span><br><span class="line">	private static final String SET_IF_NOT_EXIST = <span class="string">"NX"</span>;    </span><br><span class="line">	private static final String SET_WITH_EXPIRE_TIME = <span class="string">"PX"</span>;    </span><br><span class="line">	private static final Long RELEASE_SUCCESS = 1L;    </span><br><span class="line">	private static void validParam(JedisPool jedisPool, String lockKey, String requestId, int expireTime) &#123;        </span><br><span class="line">		<span class="keyword">if</span> (null == jedisPool) &#123;            </span><br><span class="line">			throw new IllegalArgumentException(<span class="string">"jedisPool obj is null"</span>);</span><br><span class="line">        &#125;        </span><br><span class="line">		<span class="keyword">if</span> (null == lockKey || <span class="string">""</span>.equals(lockKey)) &#123;            </span><br><span class="line">			throw new IllegalArgumentException(<span class="string">"lock key  is blank"</span>);</span><br><span class="line">        &#125;        </span><br><span class="line">		<span class="keyword">if</span> (null == requestId || <span class="string">""</span>.equals(requestId)) &#123;            </span><br><span class="line">			throw new IllegalArgumentException(<span class="string">"requestId is blank"</span>);</span><br><span class="line">        &#125;        </span><br><span class="line">		<span class="keyword">if</span> (expireTime &lt; 0) &#123;            </span><br><span class="line">			throw new IllegalArgumentException(<span class="string">"expireTime is not allowed less zero"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;    </span><br><span class="line">	/**</span><br><span class="line">     * </span><br><span class="line">     * @param jedis</span><br><span class="line">     * @param lockKey</span><br><span class="line">     * @param requestId</span><br><span class="line">     * @param expireTime</span><br><span class="line">     * @<span class="built_in">return</span></span><br><span class="line">     */</span><br><span class="line">    public static boolean tryLock(JedisPool jedisPool, String lockKey, String requestId, int expireTime) &#123;</span><br><span class="line"></span><br><span class="line">        validParam(jedisPool, lockKey, requestId, expireTime);</span><br><span class="line"></span><br><span class="line">        Jedis jedis = null;        </span><br><span class="line">		try &#123;</span><br><span class="line">            jedis = jedisPool.getResource();</span><br><span class="line">            String result = jedis.set(lockKey, requestId, SET_IF_NOT_EXIST, SET_WITH_EXPIRE_TIME, expireTime);            </span><br><span class="line">			<span class="keyword">if</span> (LOCK_SUCCESS.equals(result)) &#123;                </span><br><span class="line">				<span class="built_in">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; catch (Exception e) &#123;            </span><br><span class="line">			throw e;</span><br><span class="line">        &#125; finally &#123;            </span><br><span class="line">		<span class="keyword">if</span> (null != jedis) &#123;</span><br><span class="line">                jedis.close();</span><br><span class="line">        &#125;</span><br><span class="line">        &#125;       </span><br><span class="line">		<span class="built_in">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;    </span><br><span class="line">	/**</span><br><span class="line">     * </span><br><span class="line">     * @param jedis</span><br><span class="line">     * @param lockKey</span><br><span class="line">     * @param requestId</span><br><span class="line">     * @param expireTime</span><br><span class="line">     */</span><br><span class="line">    public static void lock(JedisPool jedisPool, String lockKey, String requestId, int expireTime) &#123;</span><br><span class="line"></span><br><span class="line">        validParam(jedisPool, lockKey, requestId, expireTime);        </span><br><span class="line">		<span class="keyword">while</span> (<span class="literal">true</span>) &#123;            </span><br><span class="line">			<span class="keyword">if</span> (tryLock(jedisPool, lockKey, requestId, expireTime)) &#123;                </span><br><span class="line">			<span class="built_in">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;    </span><br><span class="line">	/**</span><br><span class="line">     * </span><br><span class="line">     * @param jedis</span><br><span class="line">     * @param lockKey</span><br><span class="line">     * @param requestId</span><br><span class="line">     * @<span class="built_in">return</span></span><br><span class="line">     */</span><br><span class="line">        public static void unLock(JedisPool jedisPool, String lockKey, String requestId) &#123;</span><br><span class="line"></span><br><span class="line">        validParam(jedisPool, lockKey, requestId, 1);</span><br><span class="line"></span><br><span class="line">        String script = <span class="string">"if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end"</span>;</span><br><span class="line"></span><br><span class="line">        Jedis jedis = null;        try &#123;</span><br><span class="line"></span><br><span class="line">            jedis = jedisPool.getResource();</span><br><span class="line">            Object result = jedis.eval(script, Collections.singletonList(lockKey),</span><br><span class="line">                    Collections.singletonList(requestId));            </span><br><span class="line">				</span><br><span class="line">				<span class="keyword">if</span> (RELEASE_SUCCESS.equals(result)) &#123;</span><br><span class="line">                System.out.println(<span class="string">"relese lock ok "</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125; catch (Exception e) &#123;            </span><br><span class="line">			throw e;</span><br><span class="line">        &#125; finally &#123;            </span><br><span class="line">		<span class="keyword">if</span> (null != jedis) &#123;</span><br><span class="line">                jedis.close();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>通过 tryLock 方法尝试获取锁，内部是具体调用 Redis 的 set 方法，多个线程同时调用 tryLock 时候, 会同时调用 set 方法，但是 set 方法本身是保证原子性的，对应同一个 key 来说，多个线程调用 set 方法时候只有一个线程返回 OK，其它线程因为 key 已经存在会返回 null，返回 OK 的线程就相当与获取到了锁，其它返回 null 的线程则相当于获取锁失败。</p>
+<p>通过 lock 方法让使用 tryLock 获取锁失败的线程本地自旋转重试获取锁，这类似 JUC 里面的 CAS。</p>
+<p>通过 unLock 方法使用 redis 的 eval 函数传递 lua 脚本来保证操作的原子性。</p>
+<h3 id="四、使用-Zookeeper-来实现分布式锁"><a href="#四、使用-Zookeeper-来实现分布式锁" class="headerlink" title="四、使用 Zookeeper 来实现分布式锁"></a>四、使用 Zookeeper 来实现分布式锁</h3><p>在 ZK 中是使用文件目录的格式存放节点内容，其中节点类型分为：</p>
+<p>持久节点（PERSISTENT ）：节点创建后，一直存在，直到主动删除了该节点。</p>
+<p>临时节点（EPHEMERAL）：生命周期和客户端会话绑定，一旦客户端会话失效，这个节点就会自动删除。</p>
+<p>序列节点（SEQUENTIAL ）：多个线程创建同一个顺序节点时候，每个线程会得到一个带有编号的节点，节点编号是递增不重复的，如下图：</p>
+<p><img src="/images/分布式锁1.jpg" alt=""></p>
+<p>如上图，三个线程分别创建路径为 /locks/lockOne 的节点，可知在 ZK 服务器端会在根路径 locks下创建三个 lockOne 节点，并且器编号是唯一递增的。</p>
+<p>具体在节点创建过程中，可以混合使用上面三种模式，比如创建临时顺序节点（EPHEMERAL_SEQUENTIAL），这里我们就使用临时顺序节点来实现分布式锁。</p>
+<p>分布式锁实现步骤，每个想要获取锁的线程都要执行下面步骤：</p>
+<p>创建临时顺序节点,比如 /locks/lockOne，假设返回结果为 /locks/lockOne000000000*。</p>
+<p>获取 /locks下所有孩子节点，用自己创建的节点 /locks/lockOne000000000<em> 的序号 lockOne000000000</em> 与所有子节点比较，看看自己是不是编号最小的。如果是最小的则就相当于获取到了锁;如果自己不是最小的，则从所有子节点里面获取比自己次小的一个节点，然后设置监听该节点的事件，然后挂起当前线程。</p>
+<p>当最小编号的线程获取锁，处理完业务后删除自己对应的节点，删除后会激活比自己大一号的节点的线程从阻塞变为运行态，被激活的线程应该就是当前 node 序列号最小的了，然后就会获取到锁。</p>
+<p>整个过程是一个类似循环监听的模式：</p>
+<p><img src="/images/分布式锁2.jpg" alt=""></p>
+<p>如上图当三个线程启动时候分别执行步骤（1）（2）（3），分别在 zk 服务器上创建自己的顺序节点。</p>
+<p>由于线程1创建的节点的序列最小，所以线程1获取到了锁；线程 2 发现自己不是最小的所以首先注册监听线程1创建的 LockOne001 节点的事件，然后挂起自己；线程 3 发现自己不是最小的所以首先注册监听线程 2 创建的 LockOne002 节点的事件，然后挂起自己。</p>
+<p>当线程 1 获取锁后，执行完了业务逻辑后，会执行步骤 6 删除创建的 LockOne001 节点，删除后线程 2 由于设置了对 LockOne1 的监听，所以 zk 服务器会给线程 2 所在机器发送事件，接受事件后发现是 LockOne1 的删除事件，则会激活线程 2，这时候线程 2 就获取到了锁。</p>
+<p>当线程 2 获取锁后，执行完了业务逻辑后，会执行步骤 8 删除创建的 LockOne002 节点，删除后线程3由于设置了对 LockOne2 的监听，所以 zk 服务器会给线程 3 所在机器发送事件，接受事件后发现是 LockOne2 的删除事件，则会激活线程 3，这时候线程 3 就获取到了锁。</p>
+<p>下面我们看看代码实现：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line">public class ZookeeperDistributedLock &#123;    </span><br><span class="line">	public final static Joiner j = Joiner.on(<span class="string">"|"</span>).useForNull(<span class="string">""</span>);    //zk客户端</span><br><span class="line">    private ZooKeeper zk;    //zk是一个目录结构，root为最外层目录</span><br><span class="line">    private String root = <span class="string">"/locks"</span>;    //锁的名称</span><br><span class="line">    private String lockName;    //当前线程创建的序列node</span><br><span class="line">    private ThreadLocal&lt;String&gt; nodeId = new ThreadLocal&lt;&gt;();    //用来同步等待zkclient链接到了服务端</span><br><span class="line">    private CountDownLatch connectedSignal = new CountDownLatch(1);    </span><br><span class="line">	private final static int sessionTimeout = 3000;    </span><br><span class="line">	private final static byte[] data= new byte[0];    </span><br><span class="line">	public ZookeeperDistributedLock(String config, String lockName) &#123;        </span><br><span class="line">		this.lockName = lockName;        </span><br><span class="line">		try &#123;</span><br><span class="line">            zk = new ZooKeeper(config, sessionTimeout, new <span class="function"><span class="title">Watcher</span></span>() &#123;                </span><br><span class="line">				@Override</span><br><span class="line">                public void process(WatchedEvent event) &#123;                    // 建立连接</span><br><span class="line">                    <span class="keyword">if</span> (event.getState() == KeeperState.SyncConnected) &#123;</span><br><span class="line">                        connectedSignal.countDown();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">            connectedSignal.await();</span><br><span class="line">            Stat <span class="built_in">stat</span> = zk.exists(root, <span class="literal">false</span>);            </span><br><span class="line">			<span class="keyword">if</span> (null == <span class="built_in">stat</span>) &#123;                // 创建根节点</span><br><span class="line">                zk.create(root, data, ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; catch (Exception e) &#123;            </span><br><span class="line">			throw new RuntimeException(e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;    </span><br><span class="line">	class LockWatcher implements Watcher &#123;        </span><br><span class="line">		private CountDownLatch latch = null;        </span><br><span class="line">		public LockWatcher(CountDownLatch latch) &#123;            </span><br><span class="line">			this.latch = latch;</span><br><span class="line">        &#125;        </span><br><span class="line">		@Override</span><br><span class="line">        public void process(WatchedEvent event) &#123;            </span><br><span class="line">			<span class="keyword">if</span> (event.getType() == Event.EventType.NodeDeleted)</span><br><span class="line">            latch.countDown();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;    </span><br><span class="line">	public void <span class="function"><span class="title">lock</span></span>() &#123;        </span><br><span class="line">	try &#123;            // 创建临时子节点</span><br><span class="line">        String myNode = zk.create(root + <span class="string">"/"</span> + lockName , data, ZooDefs.Ids.OPEN_ACL_UNSAFE,CreateMode.EPHEMERAL_SEQUENTIAL);</span><br><span class="line">        System.out.println(j.join(Thread.currentThread().getName() + myNode, <span class="string">"created"</span>));            // 取出所有子节点</span><br><span class="line">        List&lt;String&gt; subNodes = zk.getChildren(root, <span class="literal">false</span>);</span><br><span class="line">        TreeSet&lt;String&gt; sortedNodes = new TreeSet&lt;&gt;();           </span><br><span class="line">		<span class="keyword">for</span>(String node :subNodes) &#123;</span><br><span class="line">                sortedNodes.add(root +<span class="string">"/"</span> +node);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        String smallNode = sortedNodes.first();</span><br><span class="line">        String preNode = sortedNodes.lower(myNode);            </span><br><span class="line">		<span class="keyword">if</span> (myNode.equals( smallNode)) &#123;                // 如果是最小的节点,则表示取得锁</span><br><span class="line">			System.out.println(j.join(Thread.currentThread().getName(), myNode, <span class="string">"get lock"</span>));                </span><br><span class="line">			this.nodeId.set(myNode);                </span><br><span class="line">			<span class="built_in">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        CountDownLatch latch = new CountDownLatch(1);</span><br><span class="line">        Stat <span class="built_in">stat</span> = zk.exists(preNode, new LockWatcher(latch));//</span><br><span class="line">        // 判断比自己小一个数的节点是否存在,存在则注册监听</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">stat</span> != null) &#123;</span><br><span class="line">            System.out.println(j.join(Thread.currentThread().getName(), myNode,<span class="string">" waiting for "</span> + root + <span class="string">"/"</span> + preNode + <span class="string">" released lock"</span>));</span><br><span class="line">            latch.await();// 等待，这里应该一直等待其他线程释放锁</span><br><span class="line">            nodeId.set(myNode);</span><br><span class="line">            latch = null;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; catch (Exception e) &#123;            </span><br><span class="line">		throw new RuntimeException(e);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#125;    </span><br><span class="line">	public void <span class="function"><span class="title">unlock</span></span>() &#123;        </span><br><span class="line">		try &#123;</span><br><span class="line">            System.out.println(j.join(Thread.currentThread().getName(), nodeId.get(), <span class="string">"unlock "</span>));            </span><br><span class="line">			<span class="keyword">if</span> (null != nodeId) &#123;</span><br><span class="line">                zk.delete(nodeId.get(), -1);</span><br><span class="line">            &#125;</span><br><span class="line">            nodeId.remove();</span><br><span class="line">        &#125; catch (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; catch (KeeperException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>如上代码，ZookeeperDistributedLock 的构造函数里面首先创建 zkclient，并且注册了监听事件，然后调用 connectedSignal.await() 挂起当前线程。</p>
+<p>当 zkclient 链接到服务器后，会给监听器发送 SyncConnected 事件，监听器判断当前链接已经建立了，则调用 connectedSignal.countDown(); 激活当前线程，然后创建 locks 根节点。</p>
+<p>获取锁的方法 lock，内部首先创建 /locks/lockOne 的顺序临时节点，然后获取 /locks 下所有的孩子节点，并对子节点进行排序，然后判断自己是不是最小的编号，如果是直接返回 true 标示获取锁成功。</p>
+<p>否者看比自己小一个号的节点是否存在，存在则注册该节点的事件，然后挂起当前线程，等待比自己小一个数的节点释放锁后发送节点删除事件，事件里面激活当前线程。</p>
+<p>释放锁的方法 unlock 比较简单，就是简单的删除获取锁时候创建的节点。</p>
+<h3 id="五、三种实现方式对比"><a href="#五、三种实现方式对比" class="headerlink" title="五、三种实现方式对比"></a>五、三种实现方式对比</h3><p>使用数据库悲观锁来做分布式锁由于使用数据库自带的行锁机制，优点是实现比较简单；但是缺点也很明显，当高并发情况大量线程同时竞争时候，只有一个线程会获取到行锁，其它线程必须挂起等待，更严重的是每个挂起的线程都持有一个数据库的链接，在高并发下，数据库链接可能会被占用完，从而不能进行正常业务的访问；另外使用这种方式没有手动设置超时自动释放锁的概念，等待的线程要么获取到了锁，那么等待获取行锁超时后返回（这里的超时，是数据库 SQL 执行的超时时间）；所以这种实现在并发量过大的时候不是很适用。</p>
+<p>使用 Redis 来实现分布式锁优点是实现简单，并且获取锁的 setnx 方法使用 cas 算法来判断获取锁是否成功，吞吐量不错；另外 setnx 方法自带了超时参数，这可以有效避免当一个线程获取到锁后，在释放锁前机器挂了后，其他线程一直阻塞到获取锁的情况，等超时时间过了，锁会被自动释放；缺点也很明显，本文例子获取锁时候是类似 CAS 自旋重试的，在高并发情况下会造成大量线程共同竞争锁时候的本地自旋，这很像 JUC 中的 AtomicLong 一样，在高并发下多个线程竞争同一个资源时候造成大量线程占用 cpu 进行重试操作。这时候其实可以随机生成一个等待时间，等时间到后在进行重试，以减少潜在的同时对一个资源进行竞争的并发量；另外本文使用的是最简单的 Redis 单实例实现，如果单实例挂了，也会存在问题，大家可以下去学习下多实例的情况，参考链接。</p>
+<p>使用 Zookeeper 实现分布式锁优点是可以对节点进行监听，多个线程获取锁时候没有获取到锁的线程不需要本地自旋重试，而是挂起自己，等待获取锁的线程释放锁后发送事件激活自己；由于线程阻塞自己使用的是 JUC 包的 CountDownLatch，在调用 await 的时候是可以添加超时时间的（本文并没有加这个参数），所以 zk 方式也可以在实现获取锁时候超时候自动返回；缺点是使用 zk 实现比较重，实现起来不是那么简单，其实 Apache Curator 对 zk 进行了封装，大家下去可以研究下：<a href="https://curator.apache.org/" target="_blank" rel="noopener">https://curator.apache.org/</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/分布式/" rel="tag"># 分布式</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/16/SpringBoot搭建Activiti整合流程设计器（一步一步教你配置）/" rel="next" title="SpringBoot搭建Activiti整合流程设计器（一步一步教你配置）">
+                <i class="fa fa-chevron-left"></i> SpringBoot搭建Activiti整合流程设计器（一步一步教你配置）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/25/JWT的那些事儿/" rel="prev" title="JWT的那些事儿">
+                JWT的那些事儿 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/24718752.gif"
+                alt="griabcrh" />
+            
+              <p class="site-author-name" itemprop="name">griabcrh</p>
+              <p class="site-description motion-element" itemprop="description">nice to meet you</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">60</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、前言"><span class="nav-number">1.</span> <span class="nav-text">一、前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、分布式锁与-JUC-包锁"><span class="nav-number">2.</span> <span class="nav-text">二、分布式锁与 JUC 包锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、使用数据库悲观锁来实现分布式锁"><span class="nav-number">3.</span> <span class="nav-text">三、使用数据库悲观锁来实现分布式锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、使用-Redis-实现分布式锁"><span class="nav-number">4.</span> <span class="nav-text">四、使用 Redis 实现分布式锁</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1）String-set-final-String-key-final-String-value-final-String-nxxx-final-String-expx-final-int-time"><span class="nav-number">4.0.1.</span> <span class="nav-text">1）String set(final String key, final String value, final String nxxx, final String expx,final int time)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2）-String-get-final-String-key"><span class="nav-number">4.0.2.</span> <span class="nav-text">2） String get(final String key)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3）Long-del-String-key"><span class="nav-number">4.0.3.</span> <span class="nav-text">3）Long del(String key)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、使用-Zookeeper-来实现分布式锁"><span class="nav-number">5.</span> <span class="nav-text">四、使用 Zookeeper 来实现分布式锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五、三种实现方式对比"><span class="nav-number">6.</span> <span class="nav-text">五、三种实现方式对比</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">griabcrh</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+|<span id="busuanzi_container_site_uv">
+  本站访客数<span id="busuanzi_value_site_uv"></span>人次
+</span>
+|<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("8TpPOiYi4ReJYs5sYfMdFmSO-gzGzoHsz", "hX7JfGRvJG8zcMqMRAWNMNyk");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
