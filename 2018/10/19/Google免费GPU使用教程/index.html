@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<meta name="baidu-site-verification" content="cysG3IKyZB" />
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/griabcrh.gif?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="GPU," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="初识深度学习，想找几个模型训练一下，又苦于笔记本的计算能力太弱。自己搭建一台深度学习服务器又麻烦又贵，搭载K80的AWS EC2 P2实例，十几个小时训练下来也很心疼钱包啊。有没有现成又免费的深度学习平台呢？嘻嘻，今天就给大家介绍Google的一项免费云端机器学习服务——Colaboratry。 Google Colab 提供免费的 Jupyter 笔记本环境，不需要进行任何设置就可以使用，并且完">
+<meta name="keywords" content="GPU">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Google免费GPU使用教程">
+<meta property="og:url" content="https://griabcrh.github.io/2018/10/19/Google免费GPU使用教程/index.html">
+<meta property="og:site_name" content="Griabcrh&#39;s Blog">
+<meta property="og:description" content="初识深度学习，想找几个模型训练一下，又苦于笔记本的计算能力太弱。自己搭建一台深度学习服务器又麻烦又贵，搭载K80的AWS EC2 P2实例，十几个小时训练下来也很心疼钱包啊。有没有现成又免费的深度学习平台呢？嘻嘻，今天就给大家介绍Google的一项免费云端机器学习服务——Colaboratry。 Google Colab 提供免费的 Jupyter 笔记本环境，不需要进行任何设置就可以使用，并且完">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://griabcrh.github.io/images/gpu1.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/gpu2.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/gpu3.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/gpu4.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/gpu5.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/gpu6.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/gpu7.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/gpu8.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/gpu9.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/gpu10.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/gpu11.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/gpu12.png">
+<meta property="og:updated_time" content="2018-10-19T15:29:34.638Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Google免费GPU使用教程">
+<meta name="twitter:description" content="初识深度学习，想找几个模型训练一下，又苦于笔记本的计算能力太弱。自己搭建一台深度学习服务器又麻烦又贵，搭载K80的AWS EC2 P2实例，十几个小时训练下来也很心疼钱包啊。有没有现成又免费的深度学习平台呢？嘻嘻，今天就给大家介绍Google的一项免费云端机器学习服务——Colaboratry。 Google Colab 提供免费的 Jupyter 笔记本环境，不需要进行任何设置就可以使用，并且完">
+<meta name="twitter:image" content="https://griabcrh.github.io/images/gpu1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://griabcrh.github.io/2018/10/19/Google免费GPU使用教程/"/>
+
+
+
+
+
+  <title>Google免费GPU使用教程 | Griabcrh's Blog</title>
+  
+
+
+
+
+
+<script>
+	var _hmt = _hmt || [];
+	(function() {
+	var hm = document.createElement("script");
+	hm.src = "https://hm.baidu.com/hm.js?91c85e96d8e34ae79347b17b0d41826f";
+	var s = document.getElementsByTagName("script")[0]; 
+	s.parentNode.insertBefore(hm, s);
+	})();
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Griabcrh's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">welcome</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/10/19/Google免费GPU使用教程/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="griabcrh">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/24718752.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Griabcrh's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Google免费GPU使用教程</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+			  
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-19T22:57:44+08:00">
+                2018-10-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/10/19/Google免费GPU使用教程/" class="leancloud_visitors" data-flag-title="Google免费GPU使用教程">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>初识深度学习，想找几个模型训练一下，又苦于笔记本的计算能力太弱。自己搭建一台深度学习服务器又麻烦又贵，搭载K80的AWS EC2 P2实例，十几个小时训练下来也很心疼钱包啊。有没有现成又免费的深度学习平台呢？嘻嘻，今天就给大家介绍Google的一项免费云端机器学习服务——Colaboratry。</p>
+<p>Google Colab 提供免费的 Jupyter 笔记本环境，不需要进行任何设置就可以使用，并且完全在云端运行，其默认的后台深度学习框架是TensorFlow, 除此之外，你也可以在上面安装并使用Keras、PyTorch、OpenCV等等流行的深度学习库来练练手，开发深度学习应用。Google还贴心地写了中文版简介：<a href="https://colab.research.google.com/notebook" target="_blank" rel="noopener">https://colab.research.google.com/notebook</a></p>
+<h4 id="1-准备工作"><a href="#1-准备工作" class="headerlink" title="1. 准备工作"></a>1. 准备工作</h4><p>要使用Colab,首先我们需要有一个Google Drive账号（当然，前提条件是你能科学上网，限于篇幅此处不具体介绍，请自行百度）。请注意，非教育邮箱申请到 Google Drive账号云盘只有15个G的免费容量，这对于深度学习是远远不够的，要知道可能一个数据集都不止15个G。因此你必须想办法将云盘扩容，这…..可能就要收费了。嘻嘻，秉持着免费到底的原则，小编这里附上一个链接，教你如何申请美国的教育邮箱，获取无限量的google云盘容量，过程有点繁琐，但是谁让你免费呢？网址见文末附录。</p>
+<p>Colab用的数据都存储在Google Drive云端硬盘上，所以为了方便管理我们的项目，先在GoogleDrive上新建一个文件夹，用于存放项目有关的所有文件。这里我们新建一个文件夹，取名“MyProject”。</p>
+<p><img src="/images/gpu1.png" alt=""></p>
+<p>双击进入“MyProject文件夹”</p>
+<p><img src="/images/gpu2.png" alt=""></p>
+<p>(此处我的网页被自动翻译为中文了，为了更普遍，文字介绍的是对应的英文网页，大家只要自行翻译一下就可以理解了）</p>
+<p>之后若想上传本地电脑的文件或文件夹到这里就可以通过拖曳或点击“New”上传。紧接着我们新建一个笔记本(notebook): 右击空白处或者单击“New”，选择“Connect more apps”。搜索Colaboratory，选择“connect”。</p>
+<p><img src="/images/gpu3.png" alt=""></p>
+<p>然后新建一个Colab笔记本：右击或单击“New&gt;more&gt;Colaboratory”</p>
+<p><img src="/images/gpu4.png" alt=""></p>
+<p>这里将新建的笔记本取名为 “GetStarted”。</p>
+<p><img src="/images/gpu5.png" alt=""></p>
+<h4 id="2-设置免费GPU"><a href="#2-设置免费GPU" class="headerlink" title="2. 设置免费GPU"></a>2. 设置免费GPU</h4><p>可以在”Edit&gt;Notebook Settings”中设置笔记本所用的默认硬件，或者”Runtime&gt;Change runtime type”，然后在Hardware accelerator(硬件加速器）一栏选择GPU，然后就可以在Google Colab里使用GPU运行基本的python代码了。</p>
+<p><img src="/images/gpu6.png" alt=""></p>
+<h4 id="3-安装各种工具包"><a href="#3-安装各种工具包" class="headerlink" title="3. 安装各种工具包"></a>3. 安装各种工具包</h4><p>使用！pip install 或者！apt-get install命令，值得注意的是，在Colab中，在命令前加上感叹号“！”运行的就是linux命令。</p>
+<p><img src="/images/gpu7.png" alt=""></p>
+<h4 id="4-用Colab运行GoogleDrive中的-py文件"><a href="#4-用Colab运行GoogleDrive中的-py文件" class="headerlink" title="4. 用Colab运行GoogleDrive中的.py文件"></a>4. 用Colab运行GoogleDrive中的.py文件</h4><p>将要运行的.py文件上传至GoogleDrive, 这里我们上传到新建的”MyProject”文件夹中。</p>
+<p><img src="/images/gpu8.png" alt=""></p>
+<p>目前，我们的工作目录默认在 “/content” 目录下，该目录下只有一个默认建好的“sample_data”文件夹：（！pwd命令查看当前工作目录，使用! ls命令查看当前工作目录下的所有文件和文件夹）</p>
+<p><img src="/images/gpu9.png" alt=""></p>
+<p>为了能运行Google Drive上 “MyProject” 文件夹中的exe1.py文件，首先我们要将当前工作目录挂载在google Driver上的”MyProject”路径下。注意，这一步网上的许多教程所说的方法都已经是失效的，小编查询官方文档后发现其实只要两行代码就可以了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">from google.colab import drive </span><br><span class="line">drive.mount(&apos;/content/drive&apos;)</span><br></pre></td></tr></table></figure>
+<p>运行后会出现一个链接，点击该链接，选择自己的google账号，之后复制出现的密钥，粘贴至下方框中即可。</p>
+<p><img src="/images/gpu10.png" alt=""></p>
+<p>之后输入 ! ls，或者刷新左侧文件目录，你会发现新出现了一个”drive”文件夹。依次打开文件夹可以找到上传的“exe1.py”文件和新建的“GetStarted.ipynb”笔记本。</p>
+<p><img src="/images/gpu11.png" alt=""></p>
+<p>再修改当前工作目录到“MyProject”目录下，使用python的 os模块的chdir()函数，之后检查当前目录的文件，得到如下结果：</p>
+<p><img src="/images/gpu12.png" alt=""></p>
+<p>接下来就可以在Colab中使用命令行运行exe1.py了，输入!python exe1.py即可运行。</p>
+<h4 id="5-下载数据集"><a href="#5-下载数据集" class="headerlink" title="5. 下载数据集"></a>5. 下载数据集</h4><p>训练模型当然少不了大量数据集，当然你可以通过拖曳将本地数据集上传到google drive上,可是那样你会崩溃的——太慢慢慢慢慢慢慢了。所以，最好的办法是让谷歌服务器直接下载数据，而不是本地电脑下载数据集再传送过去。怎么做呢？使用!wget命令—— </p>
+<p>由于下载的是.zip压缩包，需要解压，使用!unzip命令。</p>
+<p>接着刷新就看到下载的数据集“train2014”了</p>
+<p>![](/images/gpu13.png</p>
+<h4 id="6-克隆gitub上项目代码"><a href="#6-克隆gitub上项目代码" class="headerlink" title="6. 克隆gitub上项目代码"></a>6. 克隆gitub上项目代码</h4><p>我们也可以在Colab中直接将gitub上别人的项目代码拷贝过来，使用!git clone 命令</p>
+<p>刷新，左侧出现<a href="https://github.com/elleryqueenhomels/arbitrary_style_transfer" target="_blank" rel="noopener">https://github.com/elleryqueenhomels/arbitrary_style_transfer</a> 网址上的项目文件夹，是不是很方便？</p>
+<p>另外，左侧“代码段”菜单是官方给出的一些常用代码段，如打开、保存、写入一个文件等，直接双击该代码段，再做一些修改就可使用，有什么不懂的建议阅读官方文档，或者在google, StackOverflow中提问，因为百度上的许多回答都是很久之前的，已经失效。</p>
+<p><strong>附录：</strong></p>
+<p>教育邮箱申请，不限量GoogleDrive容量：</p>
+<p><a href="https://nvtnet.com/edu邮箱申请-google-drive无限储存，office365教育版（在线）" target="_blank" rel="noopener">https://nvtnet.com/edu邮箱申请-google-drive无限储存，office365教育版（在线）</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/GPU/" rel="tag"># GPU</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/19/微服务部署：蓝绿部署、滚动部署、灰度发布-金丝雀发布/" rel="next" title="微服务部署：蓝绿部署、滚动部署、灰度发布/金丝雀发布">
+                <i class="fa fa-chevron-left"></i> 微服务部署：蓝绿部署、滚动部署、灰度发布/金丝雀发布
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/24718752.gif"
+                alt="griabcrh" />
+            
+              <p class="site-author-name" itemprop="name">griabcrh</p>
+              <p class="site-description motion-element" itemprop="description">nice to meet you</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">62</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">46</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-准备工作"><span class="nav-number">1.</span> <span class="nav-text">1. 准备工作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-设置免费GPU"><span class="nav-number">2.</span> <span class="nav-text">2. 设置免费GPU</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-安装各种工具包"><span class="nav-number">3.</span> <span class="nav-text">3. 安装各种工具包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-用Colab运行GoogleDrive中的-py文件"><span class="nav-number">4.</span> <span class="nav-text">4. 用Colab运行GoogleDrive中的.py文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-下载数据集"><span class="nav-number">5.</span> <span class="nav-text">5. 下载数据集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-克隆gitub上项目代码"><span class="nav-number">6.</span> <span class="nav-text">6. 克隆gitub上项目代码</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">griabcrh</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+|<span id="busuanzi_container_site_uv">
+  本站访客数<span id="busuanzi_value_site_uv"></span>人次
+</span>
+|<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("8TpPOiYi4ReJYs5sYfMdFmSO-gzGzoHsz", "hX7JfGRvJG8zcMqMRAWNMNyk");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
