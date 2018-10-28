@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<meta name="baidu-site-verification" content="cysG3IKyZB" />
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/griabcrh.gif?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="微服务," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="我们的行业还很年轻，它似乎在不断地重塑自己。不过，一些关键定律还是经受住了时间的考验。例如摩尔定律，它表示集成电路上可容纳的晶体管数目每两年会增加一倍。该定律已经被证明准确得惊人（尽管有人预测，这种趋势已经放缓）。还有一条定律，我发现几乎普遍适用，在我的日常工作中也更有用，那就是康威定律。 梅尔 · 康威于 1968 年 4 月 在Datamation杂志上发表了一篇名为“How Do Commi">
+<meta name="keywords" content="微服务">
+<meta property="og:type" content="article">
+<meta property="og:title" content="康威定律—不得不了解的微服务架构理论基础">
+<meta property="og:url" content="https://griabcrh.github.io/2018/10/28/康威定律—不得不了解的微服务架构理论基础/index.html">
+<meta property="og:site_name" content="Griabcrh&#39;s Blog">
+<meta property="og:description" content="我们的行业还很年轻，它似乎在不断地重塑自己。不过，一些关键定律还是经受住了时间的考验。例如摩尔定律，它表示集成电路上可容纳的晶体管数目每两年会增加一倍。该定律已经被证明准确得惊人（尽管有人预测，这种趋势已经放缓）。还有一条定律，我发现几乎普遍适用，在我的日常工作中也更有用，那就是康威定律。 梅尔 · 康威于 1968 年 4 月 在Datamation杂志上发表了一篇名为“How Do Commi">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-10-28T07:58:30.410Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="康威定律—不得不了解的微服务架构理论基础">
+<meta name="twitter:description" content="我们的行业还很年轻，它似乎在不断地重塑自己。不过，一些关键定律还是经受住了时间的考验。例如摩尔定律，它表示集成电路上可容纳的晶体管数目每两年会增加一倍。该定律已经被证明准确得惊人（尽管有人预测，这种趋势已经放缓）。还有一条定律，我发现几乎普遍适用，在我的日常工作中也更有用，那就是康威定律。 梅尔 · 康威于 1968 年 4 月 在Datamation杂志上发表了一篇名为“How Do Commi">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://griabcrh.github.io/2018/10/28/康威定律—不得不了解的微服务架构理论基础/"/>
+
+
+
+
+
+  <title>康威定律—不得不了解的微服务架构理论基础 | Griabcrh's Blog</title>
+  
+
+
+
+
+
+<script>
+	var _hmt = _hmt || [];
+	(function() {
+	var hm = document.createElement("script");
+	hm.src = "https://hm.baidu.com/hm.js?91c85e96d8e34ae79347b17b0d41826f";
+	var s = document.getElementsByTagName("script")[0]; 
+	s.parentNode.insertBefore(hm, s);
+	})();
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Griabcrh's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">welcome</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/10/28/康威定律—不得不了解的微服务架构理论基础/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="griabcrh">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/24718752.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Griabcrh's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">康威定律—不得不了解的微服务架构理论基础</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+			  
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-28T15:56:02+08:00">
+                2018-10-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/10/28/康威定律—不得不了解的微服务架构理论基础/" class="leancloud_visitors" data-flag-title="康威定律—不得不了解的微服务架构理论基础">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>我们的行业还很年轻，它似乎在不断地重塑自己。不过，一些关键定律还是经受住了时间的考验。例如摩尔定律，它表示集成电路上可容纳的晶体管数目每两年会增加一倍。该定律已经被证明准确得惊人（尽管有人预测，这种趋势已经放缓）。还有一条定律，我发现几乎普遍适用，在我的日常工作中也更有用，那就是康威定律。</p>
+<pre><code>梅尔 · 康威于 1968 年 4 月 在Datamation杂志上发表了一篇名为“How Do Committees Invent”的论文，文中指出：
+
+
+
+任何组织在设计一套系统（广义概念上的系统）时，所交付的设计方案在结构上都与该组织的沟通结构保持一致。
+
+
+
+这句话被称为康威定律，经常以各种形式被引述。埃里克 · S. 雷蒙德在《新黑客字典》中总结这一现象时指出：“如果你有四个小组开发一个编译器，那你会得到一个四步编译器。”
+</code></pre><h3 id="1-证据"><a href="#1-证据" class="headerlink" title="1　证据"></a>1　证据</h3><pre><code>据说，当年康威将这个话题的论文提交给《哈佛商业评论》时被拒绝了，因为他们认为没有证据能够证明他的论点。但我认为它是正确的，因为我在许多不同的场景看到过这个理论被证实，但你不必相信我的话。自从康威的论文提交以来，人们在这一领域进行了大量的研究，探讨组织结构和他们创建的系统之间的关系。
+</code></pre><h4 id="1-1-松耦合组织和紧耦合组织"><a href="#1-1-松耦合组织和紧耦合组织" class="headerlink" title="1.1　松耦合组织和紧耦合组织"></a>1.1　松耦合组织和紧耦合组织</h4><pre><code>在Exploring the Duality Between Product and Organizational Architectures一书中，作者 Alan MacCormack、John Rusnak 和 Carliss Baldwin 研究了大量不同的软件系统，把创建这些系统的组织大致分为松耦合组织和紧耦合组织。紧耦合组织的一个例子是商业产品公司，他们的员工都在一起工作，并有着一致的愿景和目标；而松耦合组织的典型代表是分布式开源社区。
+
+
+
+在研究中，通过匹配不同类型组织中比较相似的产品，他们发现，组织的耦合度越低，其创建的系统的模块化就越好，耦合也越低；组织的耦合度越高，其创建的系统的模块化也越差。
+</code></pre><h4 id="1-2-Windows-Vista"><a href="#1-2-Windows-Vista" class="headerlink" title="1.2　Windows Vista"></a>1.2　Windows Vista</h4><pre><code>微软对它的一个特定产品 Windows Vista 进行了实证研究（http://research.microsoft.com/pubs/70535/tr-2008-11.pdf），观察其自身组织结构如何影响软件质量。具体而言，研究者通过查看多种因素来确定系统中什么样的组件容易出错。涉及的指标包括代码复杂度等常用的软件质量指标。从统计数据可以看出，与组织结构相关联的指标和软件质量的相关度最高。
+</code></pre><p>关于组织结构如何影响其创建的系统，还有另一个例子。</p>
+<h3 id="2-Netflix和Amazon"><a href="#2-Netflix和Amazon" class="headerlink" title="2　Netflix和Amazon"></a>2　Netflix和Amazon</h3><pre><code>组织和架构应该一致，信奉这个理念的两个典范是 Amazon 和 Netflix。在早期，Amazon 就开始理解了，团队对他们所管理系统的整个生命周期负责的好处。它想要团队共同拥有和运营其创建的系统，并管理整个生命周期。Amazon 也相信，小团队会比大团队的工作更有效。于是产生了著名的“两个比萨团队”，即没有一个团队应该大到两个比萨不够吃。帮助小团队对服务的整个生命周期负责，是驱动 Amazon 开发 AWS 的一个主要原因。团队需要一些工具来自助式地获取相应的计算资源等。
+
+
+
+Netflix 从这个例子中学到了很多，因此从一开始，它就确保其本身是由多个小而独立的团队组成，以保证他们创建的服务也能独立于彼此。这确保了系统的架构可以快速地优化。实际上，Netflix 为了想要的系统架构，才设系统的架构可以快速地优化。实际上，Netflix 为了想要的系统架构，才设计了这样的组织结构。
+</code></pre><h3 id="3-我们可以做什么"><a href="#3-我们可以做什么" class="headerlink" title="3　我们可以做什么"></a>3　我们可以做什么</h3><pre><code>这些证据、轶事和经验表明，组织结构对系统的性质和质量确实有着深刻的影响。这个理解对我们有什么帮助？让我们看看几种不同的组织情况，了解每种情况对我们的系统设计可能产生的影响。
+</code></pre><h3 id="4-适应沟通途径"><a href="#4-适应沟通途径" class="headerlink" title="4　适应沟通途径"></a>4　适应沟通途径</h3><pre><code>让我们首先单独考虑一个简单的团队。它负责系统设计与实现的各个方面。团队内可以进行频繁的、细粒度的沟通。想象一下，由这样的团队负责一个单一的服务，比如音乐商店的产品目录服务。服务的内部是大量细粒度的方法或函数调用。正如之前所讨论的，我们希望通过服务拆分，使得服务内变化的频度要远远高于服务间变化的频度。这个有着细粒度沟通能力的团队，能够与服务内部频繁讨论代码这个需求很好地匹配。
+
+
+
+这个团队发现，关于更改和重构的讨论更容易进行，而且团队成员通常都很有责任感。
+
+
+
+现在让我们来想象一个不同的场景。拥有我们产品目录服务的，不再是一个单一的、物理位置上在一起的团队，而是英国和印度的团队都在积极参与对服务的更改，也就是对服务拥有共同所有权。这里的地域和时区界限，使得团队之间非常难于进行细粒度的沟通。相反，他们依靠更多的粗粒度的沟通，比如视频会议和电子邮件。这种情况下，一个英国的团队成员，想要充满信心地去做一个简单的重构有多困难？异地分布式团队的沟通成本较高，因此协调变化的成本也比较高。
+
+
+
+当协调变化的成本增加后，有一件事情会发生：人们要么想方设法降低协调 / 沟通成本，要么停止更改。而后者正是导致我们最终产生庞大的、难以维护的代码库的原因。
+
+
+
+那么，在考虑服务如何演化设计方面，这个例子给了我们什么样的启示呢？我认为，参与创建系统的开发人员之间存在地理位置差异，是一个应该对服务进行分解的很明显的信号，一般来说，你应该分配单个服务的所有权给可以保持低成本变化的团队。
+
+
+
+也许你的公司决定，在另一个国家新开一间办公室，通过这种方式来增加项目的人数。这个时候，积极思考系统的哪部分可以移交给新团队。也许适应沟通途径这种方式，能够驱动你做出将某个接缝拆分出去的决定。
+</code></pre><h3 id="5-服务所有权"><a href="#5-服务所有权" class="headerlink" title="5　服务所有权"></a>5　服务所有权</h3><pre><code>服务所有权是什么意思呢？一般来说，它意味着拥有服务的团队负责对该服务进行更改。只要更改不破坏服务的消费者，团队就可以随时重新组织代码。对于许多团队而言，所有权延伸到服务的方方面面，从应用程序的需求、构建、部署到运维。这种模式在微服务的世界尤为普遍，一个小团队更容易负责一个小服务。所有权程度的增加会提高自治和交付速度。团队需要自己负责部署和维护应用程序，这会激励团队创建出易于部署的服务；也就是说，当没有人能够接受你扔出去的东西时，也就不用担心人们会犯“把东西扔出墙”这种错误了！
+</code></pre><h3 id="6-共享服务的原因"><a href="#6-共享服务的原因" class="headerlink" title="6　共享服务的原因"></a>6　共享服务的原因</h3><pre><code>我见过很多团队采用共享服务所有权的模式。不过我发现这种方式效果不佳，原因之前已经讨论过。然而，理解人们为何选用共享服务的原因是很重要的，尤其是当我们能够找到一些令人信服的替代模式，来解决人们潜在的担忧时。
+</code></pre><h4 id="6-1-难以分割"><a href="#6-1-难以分割" class="headerlink" title="6.1　难以分割"></a>6.1　难以分割</h4><pre><code>很显然，拆分服务的成本太高是多个团队负责单个服务的原因之一，你的组织或许看不到这一点。这常见于大型的单块系统中。如果这是你所面临的主要挑战，那么我希望第 5 章的一些建议可以帮到你。你也可以考虑将团队合并在一起，以更紧密地匹配架构本身。
+</code></pre><h4 id="6-2-特性团队"><a href="#6-2-特性团队" class="headerlink" title="6.2　特性团队"></a>6.2　特性团队</h4><pre><code>特性团队（即基于特性开发的团队）的想法，是一个小团队负责开发一系列特性需要的所有功能，即使这些功能需要跨越组件（甚至服务）的边界。特性团队的目标很合理。这种结构促使团队保持关注在最终的结果上，并确保工作是集成起来的，避免了跨多个不同的团队试图协调变化的挑战。
+
+
+
+在许多情况下，特性团队是对传统的 IT 组织中，团队结构围绕技术边界进行组织的一种修正。例如，你可能有一个团队专门负责用户界面，另一个团队负责应用程序逻辑，第三个团队负责处理数据库。这种环境下，特性团队迈出了一大步，它跨越所有层提供完整的功能。
+
+
+
+大范围地采用特性团队后，所有服务都是共享的。每个人都可以改变任意一个服务，任意一段代码。在这种情况下，服务守护者的角色如果还存在的话，会变得复杂得多。不幸的是，采用这种模式后我很少看到守护者，这会导致我们前面讨论的种种问题。
+
+
+
+但是，让我们再考虑一下什么是微服务：服务会根据业务领域，而不是技术进行建模。如果负责某个微服务的团队与业务领域相匹配，则它更容易保持对客户的关注，也更容易进行以特性为导向的开发，因为它对服务相关的所有技术有一个全面的了解并且拥有所有权。
+
+
+
+当然，也会出现横跨多个服务的特性，但由于我们避免技术导向的团队，这种可能性会大大降低。
+</code></pre><h3 id="7-内部开源"><a href="#7-内部开源" class="headerlink" title="7　内部开源"></a>7　内部开源</h3><pre><code>那么，如果我们已经尽了最大的努力，仍然无法找到方法来避免共享几个服务该怎么办？在这个时候，拥抱内部开源模式可能更合理。
+
+
+
+标准的开源项目中，一小部分人被认为是核心提交者，他们是代码的守护者。如果你想修改一个开源项目，要么让一个提交者帮你修改，要么你自己修改，然后提交给他们一个 pull 请求。核心的提交者对代码库负责，他们是代码库的所有者。
+
+
+
+在组织内部，这种模式也可以很好地工作。也许最初在服务上工作的人，不再跟团队在一起了，也许他们现在分散在组织的不同地方。好吧，如果他们仍然具备提交的权限，你可以找到他们并寻求帮助，或许跟他们结对，或者如果你有合适的工具，可以给他们发一个 pull 请求。
+</code></pre><h4 id="7-1-守护者的角色"><a href="#7-1-守护者的角色" class="headerlink" title="7.1　守护者的角色"></a>7.1　守护者的角色</h4><pre><code>我们仍然希望得到高质量的服务。我们想要体面的代码质量，服务代码的组织方式应该表现出某种一致性。我们也要确保现在的更改不会让未来计划中的更改变得更加困难。这意味着，我们在内部也要采用跟标准开源项目同样的模式。这需要分离出一组受信任的提交者（核心团队）和不受信任的提交者（团队外提交变更的人）。
+
+
+
+核心团队需要对更改有某种程度的审批。它需要确保所有的更改符合该代码库的惯例，也就是遵循跟代码库其他代码一致的编码准则。因此，做审批的人不得不花时间在提交者身上，以确保得到高质量的更改。
+
+
+
+好的守护者会花费大量的精力与提交者进行清晰的沟通，并对他们的工作方式进行引导。糟糕的守护者会以此为借口，向别人发号施令，或施加类似宗教战争般固执的技术决策。这两种行为我都见过，我可以明确告诉你一件事：无论使用哪种方式，都需要时间。当考虑允许不受信赖的提交者提交更改到你的代码库时，你必须做出决定，专门设置一个守护者的开销是否值得：核心团队是否可以把花费在审批更改上的时间，用在更有意义的事情上？
+</code></pre><h3 id="8-限界上下文和团队结构"><a href="#8-限界上下文和团队结构" class="headerlink" title="8　限界上下文和团队结构"></a>8　限界上下文和团队结构</h3><pre><code>如前文所述，我们以限界上下文来定义服务的边界。因此，我们希望团队也与限界上下文保持一致。这有很多好处。首先，团队会发现它在限界上下文内更容易掌握领域的概念，因为它们是相互关联的。其次，限界上下文中的服务更有可能发生交互，保持一致可以简化系统设计和发布的协调工作。最后，在交付团队与业务干系人进行交互方面，它有利于团队与此领域内的一两个专家创建良好的合作关系。
+</code></pre><p>摘自：《微服务设计》 — 〔美〕Sam Newman(著作权归原作者所有)</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/微服务/" rel="tag"># 微服务</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/28/谈谈微服务系统监控/" rel="next" title="谈谈微服务系统监控">
+                <i class="fa fa-chevron-left"></i> 谈谈微服务系统监控
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/24718752.gif"
+                alt="griabcrh" />
+            
+              <p class="site-author-name" itemprop="name">griabcrh</p>
+              <p class="site-description motion-element" itemprop="description">nice to meet you</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">67</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">46</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-证据"><span class="nav-number">1.</span> <span class="nav-text">1　证据</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-松耦合组织和紧耦合组织"><span class="nav-number">1.1.</span> <span class="nav-text">1.1　松耦合组织和紧耦合组织</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-Windows-Vista"><span class="nav-number">1.2.</span> <span class="nav-text">1.2　Windows Vista</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Netflix和Amazon"><span class="nav-number">2.</span> <span class="nav-text">2　Netflix和Amazon</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-我们可以做什么"><span class="nav-number">3.</span> <span class="nav-text">3　我们可以做什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-适应沟通途径"><span class="nav-number">4.</span> <span class="nav-text">4　适应沟通途径</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-服务所有权"><span class="nav-number">5.</span> <span class="nav-text">5　服务所有权</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-共享服务的原因"><span class="nav-number">6.</span> <span class="nav-text">6　共享服务的原因</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#6-1-难以分割"><span class="nav-number">6.1.</span> <span class="nav-text">6.1　难以分割</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-2-特性团队"><span class="nav-number">6.2.</span> <span class="nav-text">6.2　特性团队</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-内部开源"><span class="nav-number">7.</span> <span class="nav-text">7　内部开源</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#7-1-守护者的角色"><span class="nav-number">7.1.</span> <span class="nav-text">7.1　守护者的角色</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-限界上下文和团队结构"><span class="nav-number">8.</span> <span class="nav-text">8　限界上下文和团队结构</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">griabcrh</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+|<span id="busuanzi_container_site_uv">
+  本站访客数<span id="busuanzi_value_site_uv"></span>人次
+</span>
+|<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("8TpPOiYi4ReJYs5sYfMdFmSO-gzGzoHsz", "hX7JfGRvJG8zcMqMRAWNMNyk");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

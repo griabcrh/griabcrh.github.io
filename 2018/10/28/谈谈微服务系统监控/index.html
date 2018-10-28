@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<meta name="baidu-site-verification" content="cysG3IKyZB" />
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/griabcrh.gif?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="微服务," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="正如我之前所展示的，将系统拆分成更小的、细粒度的微服务会带来很多好处。然而，它也增加了生产系统的监控复杂性。在本文中，我将带大家看看细粒度的系统在系统监控和定位问题上所面临的挑战，同时还会介绍一些应对方法，让鱼和熊掌兼得！ 设想一下这样的场景：一个安静的周五下午，团队期待着早点开溜去酒吧，开始一个远离工作的周末。然而，突然收到一封邮件：网站工作异常！ Twitter 上到处都是关于贵公司网站出问题">
+<meta name="keywords" content="微服务">
+<meta property="og:type" content="article">
+<meta property="og:title" content="谈谈微服务系统监控">
+<meta property="og:url" content="https://griabcrh.github.io/2018/10/28/谈谈微服务系统监控/index.html">
+<meta property="og:site_name" content="Griabcrh&#39;s Blog">
+<meta property="og:description" content="正如我之前所展示的，将系统拆分成更小的、细粒度的微服务会带来很多好处。然而，它也增加了生产系统的监控复杂性。在本文中，我将带大家看看细粒度的系统在系统监控和定位问题上所面临的挑战，同时还会介绍一些应对方法，让鱼和熊掌兼得！ 设想一下这样的场景：一个安静的周五下午，团队期待着早点开溜去酒吧，开始一个远离工作的周末。然而，突然收到一封邮件：网站工作异常！ Twitter 上到处都是关于贵公司网站出问题">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://griabcrh.github.io/2018/10/28/谈谈微服务系统监控/images/微服务10.png">
+<meta property="og:image" content="https://griabcrh.github.io/2018/10/28/谈谈微服务系统监控/images/微服务11.png">
+<meta property="og:image" content="https://griabcrh.github.io/2018/10/28/谈谈微服务系统监控/images/微服务12.png">
+<meta property="og:image" content="https://griabcrh.github.io/2018/10/28/谈谈微服务系统监控/images/微服务13.png">
+<meta property="og:image" content="https://griabcrh.github.io/2018/10/28/谈谈微服务系统监控/images/微服务14.png">
+<meta property="og:updated_time" content="2018-10-28T07:57:34.198Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="谈谈微服务系统监控">
+<meta name="twitter:description" content="正如我之前所展示的，将系统拆分成更小的、细粒度的微服务会带来很多好处。然而，它也增加了生产系统的监控复杂性。在本文中，我将带大家看看细粒度的系统在系统监控和定位问题上所面临的挑战，同时还会介绍一些应对方法，让鱼和熊掌兼得！ 设想一下这样的场景：一个安静的周五下午，团队期待着早点开溜去酒吧，开始一个远离工作的周末。然而，突然收到一封邮件：网站工作异常！ Twitter 上到处都是关于贵公司网站出问题">
+<meta name="twitter:image" content="https://griabcrh.github.io/2018/10/28/谈谈微服务系统监控/images/微服务10.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://griabcrh.github.io/2018/10/28/谈谈微服务系统监控/"/>
+
+
+
+
+
+  <title>谈谈微服务系统监控 | Griabcrh's Blog</title>
+  
+
+
+
+
+
+<script>
+	var _hmt = _hmt || [];
+	(function() {
+	var hm = document.createElement("script");
+	hm.src = "https://hm.baidu.com/hm.js?91c85e96d8e34ae79347b17b0d41826f";
+	var s = document.getElementsByTagName("script")[0]; 
+	s.parentNode.insertBefore(hm, s);
+	})();
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Griabcrh's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">welcome</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/10/28/谈谈微服务系统监控/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="griabcrh">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/24718752.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Griabcrh's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">谈谈微服务系统监控</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+			  
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-28T15:52:27+08:00">
+                2018-10-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/10/28/谈谈微服务系统监控/" class="leancloud_visitors" data-flag-title="谈谈微服务系统监控">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>正如我之前所展示的，将系统拆分成更小的、细粒度的微服务会带来很多好处。然而，它也增加了生产系统的监控复杂性。在本文中，我将带大家看看细粒度的系统在系统监控和定位问题上所面临的挑战，同时还会介绍一些应对方法，让鱼和熊掌兼得！</p>
+<pre><code>设想一下这样的场景：一个安静的周五下午，团队期待着早点开溜去酒吧，开始一个远离工作的周末。然而，突然收到一封邮件：网站工作异常！ Twitter 上到处都是关于贵公司网站出问题的消息，而你的老板在旁边喋喋不休，一个安静的周末就这么没了。
+
+
+
+你需要了解的第一件事情是什么？问题到底出在哪里？
+
+
+
+在单块应用的世界里，我们至少要非常清楚该从哪里开始调查。网站慢？是单块应用的问题。网站有异常？是单块应用的问题。CPU 占用率 100% ？还是单块应用的问题。烧焦的气味？你懂的，单一的故障点会极大地简化对问题的调查！
+
+
+
+现在，让我们回到基于微服务的系统。我们提供给用户的功能，是由多个小的服务组合而成的，其中一些服务需要集成更多的服务来完成功能。这种方法有很多优点（这很好，否则这本书岂不是浪费时间？），但在监控的世界里，我们面临的是一个更为复杂的问题。
+
+
+
+我们现在有多个服务需要监控，有多个日志需要筛选，多个地方有可能因为网络延迟而出现问题。该如何应对呢？我们得好好梳理一下，否则很可能导致混乱，成为一团乱麻，而这是周五下午（或在任何时间！）我们最不想面对的情况。
+
+
+
+这里的答案很简单：监控小的服务，然后聚合起来看整体。我们从最简单的系统——一个节点，来展示该如何做。
+</code></pre><h3 id="1-单一服务，单一服务器"><a href="#1-单一服务，单一服务器" class="headerlink" title="1　单一服务，单一服务器"></a>1　单一服务，单一服务器</h3><pre><code>图 8-1 展示了一个非常简单的配置：一台主机，运行一个服务。现在我们需要对它进行监控，这样在出现问题时就能够及时发现，以便对它进行修复。那么我们要监控什么呢？
+</code></pre><p><img src="images/微服务10.png" alt=""></p>
+<pre><code>首先，我们希望监控主机本身。CPU、内存等所有这些主机的数据都有用。我们想知道，系统健康的时候它们应该是什么样子的，这样当它们超出边界值时，就可以发出警告。如果我们想运行自己的监控软件，可以使用 Nagios，或者使用像 New Relic 这样的托管服务来帮助我们监控主机。
+
+
+
+接下来，我们要查看服务器本身的日志。如果用户报告了一个错误，这些日志应该可以告诉我们，在何时何地发生了这个错误。这个时候，对于单台主机来说，只需要登录到主机上使用命令行工具扫描日志就可以了。我们甚至可以更进一步，使用logrotate帮助我们移除旧的日志，避免日志占满了磁盘空间。
+</code></pre><p>最后，我们可能还想要监控应用程序本身。最低限度是要监控服务的响应时间。你可以通过查看运行服务的 Web服务器，或者服务本身的日志做到这一点。如果我们想更进一步，可能还需要追踪报告中错误出现的次数。</p>
+<p>随着时间的推移，负载增加，我们发现系统需要扩容……</p>
+<h3 id="2-单一服务，多个服务器"><a href="#2-单一服务，多个服务器" class="headerlink" title="2　单一服务，多个服务器"></a>2　单一服务，多个服务器</h3><pre><code>现在我们服务的多个副本实例，运行在多个独立的主机上。如图 8-2 所示，通过负载均衡分发不同的请求到不同的服务实例。事情慢慢变得有点棘手。我们仍然需要监控与之前一样的内容，但为了定位问题，我们的做法会有所不同。
+
+
+
+当 CPU 占用率高时，如果这个问题发生在所有的主机上，那么可能是服务的问题，但如果只发生在一台主机上，那么可能是主机本身的问题，也许是一个流氓操作进程？
+</code></pre><p><img src="images/微服务11.png" alt=""></p>
+<pre><code>在这种情况下，我们依然想追踪有关主机的数据，根据它们来发出警告。但现在，除了要查看所有主机的数据，还要查看单个主机自己的数据。换句话说，我们既想把数据聚合起来，又想深入分析每台主机。Nagios 允许以这样的方式组织我们的主机，到目前为止一切还好。类似的方式也可以满足我们对应用程序的监控。
+
+
+
+接下来就是日志。我们的服务运行在多个服务器上，登录到每台服务器查看日志，可能会让我们感到厌倦。如果只有几个主机，我们还可以使用像 ssh-multiplexers 这样的工具，在多个主机上运行相同的命令。用一个大的显示屏，和一个grep &quot;Error&quot; app.log，我们就可以定位错误了。
+
+
+
+对于像响应时间这样的监控，我们可以在负载均衡器中进行追踪，很容易就能拿到聚合后的数据。不过负载均衡器本身也需要监控；如果它的行为异常，也会导致问题。对于服务本身的监控，我们可能更关心健康的服务是什么样的，这样当我们配置负载均衡器的时候，就可以从应用程序中移除不健康的节点。希望我们到这里的时候至少有一些想法了……
+</code></pre><h3 id="3-多个服务，多个服务器"><a href="#3-多个服务，多个服务器" class="headerlink" title="3　多个服务，多个服务器"></a>3　多个服务，多个服务器</h3><pre><code>在图 8-3 中，事情变得更有趣。多个服务合作为我们的用户提供功能，这些服务运行在多个物理的或虚拟的主机上。你如何在多个主机上的、成千上万行的日志中定位错误的原因？如何确定是一个服务器异常，还是一个系统性的问题？如何在多个主机间跟踪一个错误的调用链，找出引起这个错误的原因？
+</code></pre><p><img src="images/微服务12.png" alt=""></p>
+<p>答案是，从日志到应用程序指标，集中收集和聚合尽可能多的数据到我们的手上。</p>
+<h3 id="4-日志，日志，更多的日志"><a href="#4-日志，日志，更多的日志" class="headerlink" title="4　日志，日志，更多的日志"></a>4　日志，日志，更多的日志</h3><pre><code>现在，运行服务的主机数量成为一个挑战。现在再使用 SSH multiplexing 检索日志，已经无法缓解这个问题了，况且也没有一个足够大的屏幕显示每台主机的终端。我们希望用专门获取日志的子系统来代替它，让日志能够集中在一起方便使用。这方面的一个例子是 logstash（http://logstash.net），它可以解析多种日志文件格式，并将它们发送给下游系统进行进一步调查。
+
+
+
+Kibana（https://www.elastic.co/products/kibana）是一个基于 ElasticSearch 查看日志的系统， 如图 8-4 所示。你可以使用查询语法来搜索日志，它允许在查询时指定时间和日期范围，或使用正则表达式来查找匹配的字符串。Kibana 甚至可以把你发给它的日志生成图表，只需看一眼就能知道已经发生了多少错误。
+</code></pre><p><img src="images/微服务13.png" alt=""></p>
+<h3 id="5-多个服务的指标跟踪"><a href="#5-多个服务的指标跟踪" class="headerlink" title="5　多个服务的指标跟踪"></a>5　多个服务的指标跟踪</h3><pre><code>与查看不同主机上的日志遇到的挑战类似，我们也需要寻找更好的方式来收集和查看指标。当我们观察一个复杂系统的指标时，很难知道什么样是好的。我们的网站每秒会有大约 50 条 4XX 的 HTTP 错误状态码，这是个问题吗？午餐过后，产品目录服务的 CPU 负载增加了 20%，是有什么问题发生了吗？要想知道什么时候该紧张，什么时候该放松，秘诀是收集系统指标足够长的时间，直到有清晰的模式浮现。
+
+
+
+在更复杂的环境中，我们会频繁地重建服务的新实例，所以我们希望选择一个系统能够方便地从新的主机收集指标。我们希望能够看到整个系统聚合后的指标（例如，平均的 CPU 负载），但也会想要给定的一些服务实例聚合后的指标，甚至某单个服务实例的指标。这意味着，我们需要将指标的元数据关联，用来帮助推导出这样的结构。
+
+
+
+Graphite 就是一个让上述要求变得很容易的系统。它提供一个非常简单的 API，允许你实时发送指标数据给它。然后你可以通过查看这些指标生成的图表和其他展示方式来了解当前的情况。它处理容量的方式很有趣。通过有效地配置，它可以减少旧指标的精度，以确保容量不要太大。例如，最近的十分钟，每隔 10 秒记录一次主机 CPU 的指标，然后在过去的一天，以分钟为单位对数据进行聚合，而在过去的几年，减少到以 30 分钟为单位进行聚合。通过这种方式，你不需要大量的存储空间，就可以保存很长一段时间内的信息。
+
+
+
+Graphite 也允许你跨样本做聚合，或深入到某个部分，这样就可以查看整个系统、一组服务或一个单独实例的响应时间。如果由于一些原因，你不能使用 Graphite，在选择其他任何工具时，要确保这些工具具备跟 Graphite 类似的功能。另外，要确保你可以获得原始的数据，以便在需要之时生成自己的报告或仪表盘。
+
+
+
+了解趋势另一个重要的好处是帮助我们做容量规划。我们的系统到达极限了吗？多久之后需要更多的主机？在过去，当我们还在使用物理主机时，通常一年才会考虑一次这个问题。在供应商提供按需计算的 IaaS（Infrastructure as a Service，基础设施即服务）的新时代，我们可以在几分钟内（如果不是秒级的话）实现扩容和缩容。这意味着，如果了解我们的使用模式，就可以确保恰好有足够的基础设施来满足我们的需求。在跟踪趋势和理解应该如何使用这些数据方面，使用的方式越智能，我们的系统就越省钱，而且响应性也就越好。
+</code></pre><h3 id="6-服务指标"><a href="#6-服务指标" class="headerlink" title="6　服务指标"></a>6　服务指标</h3><pre><code>当你在 Linux 机器上安装 collectd 并让它指向 Graphite 时，会发现我们运行的操作系统会生成大量的指标。同样，像 Nginx 或 Varnish 这样的支撑子系统，也会暴露很多有用的信息，例如响应时间或缓存命中率。不过，我们自己的服务呢？
+
+
+
+我强烈建议你公开自己服务的基本指标。作为 Web 服务，最低限度应该暴露如响应时间和错误率这样的一些指标。如果你的服务器前面没有一个 Web 服务器来帮忙做的话，这一点就更重要了。但是你真的应该做得更多。例如，账户服务会想要暴露客户查看过往订单的次数，而网络商店可能希望知道过去的一天赚了多少钱。
+
+
+
+很多平台都存在一些库来帮助服务发送指标到一个标准系统中。Codahale 的 Metrics 库（http://metrics.codahale.com/）就是这样一个运行在 JVM 上的库。它允许你存储一些指标，例如计数器、计时器或计量表（gauge）; 支持带时间限制的指标（这样你就可以指定如“过去五分钟的订单数量”这样的指标）；它还为将数据发送到 Graphite 和其他汇总报告系统提供现成的支持。
+</code></pre><h3 id="7-综合监控"><a href="#7-综合监控" class="headerlink" title="7　综合监控"></a>7　综合监控</h3><pre><code>我们可以通过定义正常的 CPU 级别，或者可接受的响应时间，判断一个服务是否健康。如果我们的监控系统监测到实际值超出这些安全水平，就可以触发警告。类似像 Nagios 这样的工具，完全有能力做这个。
+
+
+
+然而，在许多方面，这些测量结果离我们真正关心的内容仍有一步之遥，即系统是否在正常工作？服务之间的交互越复杂，就越难回答这个问题。 如果我们的监控系统能像最终用户那样及时地发现并报告问题，那该多好！
+</code></pre><h3 id="8-关联标识"><a href="#8-关联标识" class="headerlink" title="8　关联标识"></a>8　关联标识</h3><pre><code>最终用户看到的任何功能都由大量的服务配合提供，一个初始调用最终会触发多个下游的服务调用。例如，考虑客户注册的例子。客户填写表单的所有信息，然后点击提交。界面背后，我们使用支付服务检查信用卡信息的有效性，告知邮寄服务在邮局寄送一个欢迎礼包，并调用我们的电子邮件服务发送欢迎邮件。现在，如果支付服务的调用发生了一个奇怪的错误，该如何处理呢？
+
+
+
+如果看一下日志，就会发现只有支付服务注册了一个错误。如果我们足够幸运，可以找到引发问题的请求，甚至可以看看当时调用的参数。但这只是简单的情况，更为复杂的初始请求有可能生成一个下游的调用链，并且以异步的方式处理触发的事件。我们如何才能重建请求流，以重现和解决这个问题呢？通常我们需要在初始调用更大的上下文中看待这个错误；换句话说，就像查看栈跟踪那样，我们也想查看调用链的上游。
+
+
+
+在这种情况下，一个非常有用的方法是使用关联标识（ID）。在触发第一个调用时，生成一个 GUID。然后把它传递给所有的后续调用，如图 8-5 所示。类似日志级别和日期，你也可以把关联标识以结构化的方式写入日志。使用合适的日志聚合工具，你能够对事件在系统中触发的所有调用进行跟踪：
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">15-02-2014 16:01:01 Web-Frontend INFO [abc-123] Register</span><br><span class="line"></span><br><span class="line">15-02-2014 16:01:02 RegisterService INFO [abc-123] RegisterCustomer ...</span><br><span class="line"></span><br><span class="line">15-02-2014 16:01:03 PostalSystem INFO [abc-123] SendWelcomePack ...</span><br><span class="line"></span><br><span class="line">15-02-2014 16:01:03 EmailSystem INFO [abc-123] SendWelcomeEmail ...</span><br><span class="line"></span><br><span class="line">15-02-2014 16:01:03 PaymentGateway ERROR [abc-123] ValidatePayment ...</span><br></pre></td></tr></table></figure>
+<p><img src="images/微服务14.png" alt=""></p>
+<pre><code>当然，你需要确保每个服务知道应该传递关联标识。此时你需要标准化，强制在系统中执行该标准。一旦这样做了，你就可以创建工具来跟踪各种交互。这样的工具可以用于跟踪事件风暴、不常发生的特殊场景，甚至识别出时间过长的事务，因为你能勾勒出整个级联的调用。
+
+
+
+像 Zipkin（http://twitter.github.io/zipkin/）这样的软件，也可以跨多个系统边界跟踪调用。基于 Google 自己的跟踪系统 Dapper 的创意，Zipkin 可以提供非常详细的服务间调用的追踪信息，还有一个界面帮助显示数据。我个人觉得 Zipkin 有点重量级，需要自定义客户端并且支持收集系统。既然因为其他目的，你已经把日志聚合，所以更简单的方式应该是重用已经收集的数据，而不是必须再附加一个数据源。也就是说，如果你发现需要一个更先进的工具跟踪服务间的调用，可能才需要 Zipkin 这样的软件。
+
+
+
+使用关联标识时，一个现实的问题是，你常常直至问题出现才知道需要它，而且只有在开始时就存在关联标识才可能诊断出问题！这个问题非常棘手，因为在后面很难加装关联标识；你需要以标准化的方式处理它们，这样才能够轻易重建调用链。虽然开始的时候它似乎是一些额外的工作，但我还是强烈建议你尽早考虑使用它，尤其是如果你的系统使用事件驱动的架构模式，因为这种模式会导致一些奇怪的意外行为。
+
+
+
+传递关联标识时需要保持一致性，这是使用共享的、薄客户端库的一个强烈的信号。团队达到一定规模时，很难保证每个人都以正确的方式调用下游服
+</code></pre><p>务以收集正确的数据。只需服务链中的某个服务忘记传递关联标识，你就会丢失重要的信息。如果你决定创建一个内部客户端库来标准化这样的工作，请确保它很薄且不依赖提供的任何特定服务。例如，如果你正在使用 HTTP 作为通信协议，只需包装标准的 HTTP 客户端库，添加代码确保在 HTTP 头传递关联标识即可。</p>
+<h3 id="9-级联"><a href="#9-级联" class="headerlink" title="9　级联"></a>9　级联</h3><pre><code>级联故障特别危险。想象这样一个情况，我们的音乐商店网站和产品目录服务之间的网络连接瘫痪了，服务本身是健康的，但它们之间无法交互。如果只查看某个服务的健康状态，我们不会知道已经出问题了。使用合成监控（例如，模拟客户搜索一首歌）会将问题暴露出来。但为了确定问题的原因，我们需要报告这一事实是一个服务无法访问另一个服务。
+
+
+
+因此，监控系统之间的集成点非常关键。每个服务的实例都应该追踪和显示其下游服务的健康状态，从数据库到其他合作服务。你也应该将这些信息汇总，以得到一个整合的画面。你会想了解下游服务调用的响应时间，并检测是否有错误。
+
+
+
+你可以使用库实现一个断路器网络调用，以帮助你更加优雅地处理级联故障和功能降级，我们在 11 章将讨论更多这方面的内容。一些库，例如 JVM 上的 Hystrix，便很好地提供了这些监控功能。
+</code></pre><h3 id="10-标准化"><a href="#10-标准化" class="headerlink" title="10　标准化"></a>10　标准化</h3><pre><code>正如我们前面提过的，一个需要持续做出的平衡，是仅规范单个服务，还是规范整个系统。在我看来，监控这个领域的标准化是至关重要的。服务之间使用多个接口，以很多不同的方式合作为用户提供功能，你需要以整体的视角查看系统。
+
+
+
+你应该尝试以标准格式的方式记录日志。你一定想把所有的指标放在一个地方，你可能需要为度量提供一个标准名称的列表；如果一个服务指标叫作
+</code></pre><p>ResponseTime，另一个叫作RspTimeSecs，而它们的意思是一样的，这会非常令人讨厌。</p>
+<pre><code>和以前一样，工具在标准化方面可以提供帮助。正如我之前说的，关键是让做正确的事情变得容易，所以为什么不提供预配置的虚拟机镜像，镜像内置 logstash 和 collectd，还有一个公用的应用程序库，使得与 Graphite 之间的交互变得非常容易？
+</code></pre><h3 id="11-考虑受众"><a href="#11-考虑受众" class="headerlink" title="11　考虑受众"></a>11　考虑受众</h3><pre><code>我们收集这些数据都是为了一个目的。更具体地说，我们为不同的人收集这些数据，帮助他们完成工作；这些数据会触发一些事件。有些数据会触发支持团队立即采取行动，比如我们的一个综合监控测试失败了。 其他数据，比如 CPU 负载在过去一周增加了 2%，我们在做容量规划的时候可能才会对其感兴趣。同样，你的老板可能想立即知道，上次发布后收入下降了 25%，但可能不需要知道，“Justin Bieber”搜索在最近一小时上涨了 5%。
+
+
+
+人们现在希望看到并立即处理的数据，与当进行深入分析时所需要的是不同的。因此，对于查看这些数据的不同类型的人来说，需考虑以下因素：
+</code></pre><p>他们现在需要知道什么</p>
+<p>他们之后想要什么</p>
+<p>他们如何消费数据</p>
+<pre><code>提醒他们现在需要知道的东西。在房间的某个角落放置一个大显示屏来显示此信息，并使得以后需要做深入分析数据时，他们也能够很方便地访问。花时间了解他们想要使用的数据。
+</code></pre><p>摘自：《微服务设计》 — 〔美〕Sam Newman(著作权归原作者所有)</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/微服务/" rel="tag"># 微服务</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/28/构建什么、如何构建以及如何部署-（下）/" rel="next" title="构建什么、如何构建以及如何部署?（下）">
+                <i class="fa fa-chevron-left"></i> 构建什么、如何构建以及如何部署?（下）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/10/28/康威定律—不得不了解的微服务架构理论基础/" rel="prev" title="康威定律—不得不了解的微服务架构理论基础">
+                康威定律—不得不了解的微服务架构理论基础 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/24718752.gif"
+                alt="griabcrh" />
+            
+              <p class="site-author-name" itemprop="name">griabcrh</p>
+              <p class="site-description motion-element" itemprop="description">nice to meet you</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">67</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">46</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-单一服务，单一服务器"><span class="nav-number">1.</span> <span class="nav-text">1　单一服务，单一服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-单一服务，多个服务器"><span class="nav-number">2.</span> <span class="nav-text">2　单一服务，多个服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-多个服务，多个服务器"><span class="nav-number">3.</span> <span class="nav-text">3　多个服务，多个服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-日志，日志，更多的日志"><span class="nav-number">4.</span> <span class="nav-text">4　日志，日志，更多的日志</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-多个服务的指标跟踪"><span class="nav-number">5.</span> <span class="nav-text">5　多个服务的指标跟踪</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-服务指标"><span class="nav-number">6.</span> <span class="nav-text">6　服务指标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-综合监控"><span class="nav-number">7.</span> <span class="nav-text">7　综合监控</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-关联标识"><span class="nav-number">8.</span> <span class="nav-text">8　关联标识</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-级联"><span class="nav-number">9.</span> <span class="nav-text">9　级联</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-标准化"><span class="nav-number">10.</span> <span class="nav-text">10　标准化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-考虑受众"><span class="nav-number">11.</span> <span class="nav-text">11　考虑受众</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">griabcrh</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+|<span id="busuanzi_container_site_uv">
+  本站访客数<span id="busuanzi_value_site_uv"></span>人次
+</span>
+|<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("8TpPOiYi4ReJYs5sYfMdFmSO-gzGzoHsz", "hX7JfGRvJG8zcMqMRAWNMNyk");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

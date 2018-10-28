@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<meta name="baidu-site-verification" content="cysG3IKyZB" />
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/griabcrh.gif?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="微服务," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="###6　定制化镜像 使用类似 Puppet、Chef 及 Ansible 这些自动化配置管理工具的一个问题 是，需要花费大量时间在机器上运行这些脚本。考虑这样一个例子：对服务器进行配置，使其能够部署 Java 应用程序。假设我的服务器在 AWS 上，使用的是标准的 Ubuntu 镜像。为了运行 Java 应用程序，需要做的第一件事情是安装 Oracle JVM。这个简单的过程可能就会花费五分钟，">
+<meta name="keywords" content="微服务">
+<meta property="og:type" content="article">
+<meta property="og:title" content="构建什么、如何构建以及如何部署?（下）">
+<meta property="og:url" content="https://griabcrh.github.io/2018/10/28/构建什么、如何构建以及如何部署-（下）/index.html">
+<meta property="og:site_name" content="Griabcrh&#39;s Blog">
+<meta property="og:description" content="###6　定制化镜像 使用类似 Puppet、Chef 及 Ansible 这些自动化配置管理工具的一个问题 是，需要花费大量时间在机器上运行这些脚本。考虑这样一个例子：对服务器进行配置，使其能够部署 Java 应用程序。假设我的服务器在 AWS 上，使用的是标准的 Ubuntu 镜像。为了运行 Java 应用程序，需要做的第一件事情是安装 Oracle JVM。这个简单的过程可能就会花费五分钟，">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://griabcrh.github.io/2018/10/28/构建什么、如何构建以及如何部署-（下）/images/微服务8.png">
+<meta property="og:image" content="https://griabcrh.github.io/2018/10/28/构建什么、如何构建以及如何部署-（下）/images/微服务9.png">
+<meta property="og:updated_time" content="2018-10-28T07:51:53.807Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="构建什么、如何构建以及如何部署?（下）">
+<meta name="twitter:description" content="###6　定制化镜像 使用类似 Puppet、Chef 及 Ansible 这些自动化配置管理工具的一个问题 是，需要花费大量时间在机器上运行这些脚本。考虑这样一个例子：对服务器进行配置，使其能够部署 Java 应用程序。假设我的服务器在 AWS 上，使用的是标准的 Ubuntu 镜像。为了运行 Java 应用程序，需要做的第一件事情是安装 Oracle JVM。这个简单的过程可能就会花费五分钟，">
+<meta name="twitter:image" content="https://griabcrh.github.io/2018/10/28/构建什么、如何构建以及如何部署-（下）/images/微服务8.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://griabcrh.github.io/2018/10/28/构建什么、如何构建以及如何部署-（下）/"/>
+
+
+
+
+
+  <title>构建什么、如何构建以及如何部署?（下） | Griabcrh's Blog</title>
+  
+
+
+
+
+
+<script>
+	var _hmt = _hmt || [];
+	(function() {
+	var hm = document.createElement("script");
+	hm.src = "https://hm.baidu.com/hm.js?91c85e96d8e34ae79347b17b0d41826f";
+	var s = document.getElementsByTagName("script")[0]; 
+	s.parentNode.insertBefore(hm, s);
+	})();
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Griabcrh's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">welcome</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/10/28/构建什么、如何构建以及如何部署-（下）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="griabcrh">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/24718752.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Griabcrh's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">构建什么、如何构建以及如何部署?（下）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+			  
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-28T15:44:53+08:00">
+                2018-10-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/10/28/构建什么、如何构建以及如何部署-（下）/" class="leancloud_visitors" data-flag-title="构建什么、如何构建以及如何部署?（下）">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>###6　定制化镜像</p>
+<pre><code>使用类似 Puppet、Chef 及 Ansible 这些自动化配置管理工具的一个问题
+</code></pre><p>是，需要花费大量时间在机器上运行这些脚本。考虑这样一个例子：对服务器进行配置，使其能够部署 Java 应用程序。假设我的服务器在 AWS 上，使用的是标准的 Ubuntu 镜像。为了运行 Java 应用程序，需要做的第一件事情是安装 Oracle JVM。这个简单的过程可能就会花费五分钟，其中一些时间用于启动机器上，剩下的则用于安装 JVM。然后我们才能开始考虑把软件放上去。</p>
+<pre><code>上面这个例子比较简单，实际情况下还需要安装其他常用软件。比如，可能需要使用 collectd 来收集操作系统的状态，使用 logstash 来做日志的聚合，还可能需要安装 nagios 来做监控。随着时间的推移，越来越多的东西被添加进来，所以自动化配置环境所需的时间也会越来越长。
+</code></pre><p>Puppet、Chef 和 Ansible 这类的工具，能够很智能地避免重复安装已安装的软件。但不幸的是，这并不意味着在已经存在的机器上运行这些脚本总会很快，因为仅仅是做这些检查就会花费很多时间。同时，我们也想避免一台机器运行的时间过长，因为这会引起配置漂移（后面会详细解释）。如果使用按需计算平台，那么可以每天（如果不是更频繁的话）按需关闭和启动新的实例，所以这些声明式的配置管理工具的使用可能会受到限制。</p>
+<pre><code>随着时间的推移，看着同样的工具被一遍遍重复安装，也是一种煎熬。如果在 CI 上运行这些脚本，那么也无法得到快速反馈。在进行部署时，服务停止的时间也会增加，因为你在等待软件的安装。类似于蓝 / 绿部署（第 7 章会详细讲解）的模式，可以帮助你缓解这个问题，因为它允许我们在老版本服务不下线的同时，去部署新版本的服务。
+
+
+
+一种减少启动时间的方法是创建一个虚拟机镜像，其中包含一些常用的依赖，如图 6-5 所示。我用过的所有虚拟化平台，都允许用户构建自己的镜像，而且现在的工具提供的便利程度，也远远超越了多年前的那些工具。使用这种方法之后事情就变得简单一些了。现在你可以把公共的工具安装在镜像上，然后在部署软件时，只需要根据该镜像创建一个实例，之后在其之上安装最新的服务版本即可。
+</code></pre><p><img src="images/微服务8.png" alt=""></p>
+<p>你只需要构建一次镜像，然后根据这些镜像启动虚拟机，不需要再花费时间来安装相应的依赖，因为它们已经在镜像中安装好了，这样就可以节省很多</p>
+<p>时间。如果你的核心依赖没有改变，那么新版本的服务就可以继续使用相同的基础镜像。</p>
+<pre><code>这个方法也有一些缺点。首先，构建镜像会花费大量的时间。这意味着，在开发环境中可能需要使用其他替代部署方案，避免花费很长时间去创建一个二进制部署物。其次，产生的镜像可能会很大。当你创建 VMWare 镜像时，这会是一个很大的问题。想象一下，在网络上传送一个 20GB 的镜像文件是怎样一个场景。后面会介绍一种容器技术：Docker，它可以避免上述的一些问题。
+</code></pre><p>由于历史原因，构建不同平台上的镜像所需的工具链是不一样的。构建 VMWare 镜像的方式就和构建 AWS AMI 的不同，更不用说我们还有 Vagrant 镜像、Rackspace 镜像等。如果你只使用一个平台，那么这就不是问题，但并不是所有的组织都这么走运。而且即使撇开这个因素，这个领域的工具通常也很难用，很难将其与其他做机器配置的工具结合在一起使用。Packer（<a href="http://www.packer.io/）可以用来简化这个创建过程。你可以选择自己喜欢的工具（Chef、Ansible、Puppet" target="_blank" rel="noopener">http://www.packer.io/）可以用来简化这个创建过程。你可以选择自己喜欢的工具（Chef、Ansible、Puppet</a> 或者其他）来从同一套配置中生成不同平台的镜像。该工具产生之初就为 VMWare、AWS、Rackspcace 云、Digital Ocean 和 Vagrant 提供了支持，而且我也见到此方法在 Linux 和 Windows 平台上的成功运用。这意味着，你可以在生产环境使用 AWS 来做部署，并使用 Vagrant 镜像做本地开发和测试，它们都源于同一套配置。</p>
+<h4 id="6-1-将镜像作为构建物"><a href="#6-1-将镜像作为构建物" class="headerlink" title="6.1　将镜像作为构建物"></a>6.1　将镜像作为构建物</h4><pre><code>现在已经做到了使用包含依赖的虚拟机镜像来加速反馈，那么为什么要止步于此呢？我们可以更进一步，把服务本身也包含在镜像中，这样就把镜像变成了构建物。现在当你启动镜像时，服务就已经就绪了。Netflix 就是因为这个快速启动的好处，把自己的服务内建在了 AWS AMI 中。就像使用 OS 特定软件包那样，可以认为这些 VM 镜像是对不同技术栈的一层抽象。我们不需要关心运行在镜像中的服务，所使用的语言是 Ruby 还是 Java，最终的构建物是 gem 还是 JAR 包，我们唯一需要关心的就是它是否工作。然后把精力放在镜像创建和部署的自动化上即可。这个简洁的方法有助于我们实现另一个部署概念：不可变服务器。
+</code></pre><h4 id="6-2-不可变服务器"><a href="#6-2-不可变服务器" class="headerlink" title="6.2　不可变服务器"></a>6.2　不可变服务器</h4><pre><code>通过把配置都存到版本控制中，我们可以自动化重建服务，甚至重建整个环境。但是如果部署完成后，有人登录到机器上修改了一些东西呢？这就会导致机器上的实际配置和源代码管理中的配置不再一致，这个问题叫作配置漂移。
+</code></pre><p>为了避免这个问题，可以禁止对任何运行的服务器做手动修改。相反，无论修改多么小，都需要经过构建流水线来创建新的机器。事实上，即使不使用镜像，你也可以实现类似的模式，但它是把镜像作为构建物的一个非常合理的扩展。你甚至可以在镜像的创建过程中禁止 SSH，以确保没有人能够登录到机器上做任何修改。</p>
+<pre><code>当然，在使用这个方法时，也需要考虑前面提到的周期时间这个因素。同时需要保证，机器上的持久化数据也被保存到了其他地方。尽管存在这些复杂性，但我看到很多团队使用这种模式之后，部署过程变得更容易理解，环境问题也更容易定位。前面我已经说过，任何能够简化工作的措施都值得尝试！
+</code></pre><h3 id="7-环境"><a href="#7-环境" class="headerlink" title="7　环境"></a>7　环境</h3><pre><code>当软件在 CD 流水线的不同阶段之间移动时，它也会被部署到不同的环境中。如果考虑图 6-4 中所示的构建流水线，其中起码存在 4 个环境：一个用来运行耗时测试，一个用来做 UAT，一个用来做性能测试，另一个用于生产环境。我们的微服务构建物从头到尾都是一样的，但环境不同。至少它们的主机是隔离的，配置也不一样。而事实上情况往往会复杂得多。举个例子，我们的生产环境可能会包括两个数据中心的多台主机，使用负载均衡来管理，而测试环境可能会把所有的服务运行在一台机器上。这些环境之间的不同可能会引起一些问题。
+
+
+
+不同环境中部署的服务是相同的，但是每个环境的用途却不一样。在我的开发机上，想要快速部署该服务来运行测试或者做一些手工测试，此时相关的依赖很有可能都是假的；而在生产环境中，需要把该服务部署到多台机器上并使用负载均衡来管理，甚至从持久性（durability）的角度考虑，还需要把这些机器放在不同的数据中心去。从笔记本到 UAT，最终再到生产环境，我们希望前面的那些环境能不断地靠近生产环境，这样就可以更快地捕获到由环境差异导致的问题。你需要持续地做权衡。有时候重建类生产环境所消耗的时间和代价会让人望而却步，所以你必须做出妥协。比如说，把软件部署到 AWS 上需要 25 分钟，而在本地的 Vagrant 实例中部署服务会快得多。
+
+
+
+类生产环境和快速反馈之间的平衡不是一成不变的。要持续关注将来产生的那些 bug 和反馈时间，然后按需去调节这个平衡。
+
+
+
+管理单块系统的环境很具有挑战性，尤其是当你对那些很容易自动化的系统没有访问权的时候。当你需要对每个微服务考虑多个环境时，事情会更加艰巨。后面会讲一些能够简化这些工作的部署平台。
+</code></pre><h3 id="8-服务配置"><a href="#8-服务配置" class="headerlink" title="8　服务配置"></a>8　服务配置</h3><pre><code>服务需要一些配置。理想情况下，这些配置的工作量应该很小，而且仅仅局限于环境间的不同之处，比如用来连接数据库的用户名和密码。应该最小化环境间配置的差异。如果你的配置修改了很多服务的基本行为，或者不同环境之间的配置差异很大，那么你可能就只能在一套环境中发现某个特定的问题，这是极其痛苦的事情。
+
+
+
+所以，如果存在不同环境之间的配置差异，应该如何在部署流程中对其进行处理呢？一种方法是对每个环境创建不同的构建物，并把配置内建在该构建物中。刚开始看这种方法好像挺有道理。配置已经被内建了，只需要简单的部署，它应该就能够正常工作了，对吧？其实这是有问题的。还记得持续交付的概念吗？我们想要创建一个构建物作为候选发布版本，并使其沿着流水线向前移动，最终确认它能够被发布到生产环境。想象一下，我构建了一个 Customer-Service-Test 构建物和 Customer-Service-Prod 构建物。如果 Customer-Service-Test 构建物通过了测试，但我真正要部署的构建物却是 Customer-Service-Prod，又要如何验证这个软件最终会真正运行在生产环境中呢？
+
+
+
+还有一些其他的挑战。首先，创建这些构建物比较耗时。其次，你需要在构建的时候知道存在哪些环境。你要如何处理敏感的配置数据？我可不想把生产环境的数据库密码提交到源代码中，但是如果在创建这些构建物时需要的话，通常这也是难以避免的。
+
+
+
+一个更好的方法是只创建一个构建物，并将配置单独管理。从形式上来说，这针对的可能是每个环境的一个属性文件，或者是传入到安装过程中的一些参数。
+</code></pre><h3 id="9-自动化"><a href="#9-自动化" class="headerlink" title="9　自动化"></a>9　自动化</h3><pre><code>我们提到的很多问题都可以使用自动化来解决。当机器数量比较少时，手动管理所有的事情是有可能的。我以前就这么做过。记得当时我管理了少量的生产环境机器，登录到机器上进行日志收集、软件部署、进程查看等工作。我的生产力似乎仅受能够打开的终端窗口的数量的限制，所以当我开始使用了第二个显示器时，生产力得到了很大的提高。但是这种方式很快就不适用了。
+</code></pre><p>单主机单服务的模式会引入很多主机，从而产生很多的管理开销。如果你手动做所有的事情，那么管理开销确实会很大，如果服务器的数量翻倍，你的工作量也会翻倍！但是如果我们将主机控制、服务部署等工作自动化，那么工作量肯定就不会随着主机数量的增加而线性增长。</p>
+<pre><code>但即使我们控制了主机的数量，还是会有很多服务。这就意味着有更多的部署要处理、更多的服务要监控、更多的日志要收集，所以自动化很关键。
+</code></pre><p>自动化还能够帮助开发人员保持工作效率。自助式配置单个服务或者一组服务的能力，会大大简化开发人员的工作。理想情况下，开发人员使用的工具链应该和部署生产环境时使用的完全一样，这样就可以及早发现问题。</p>
+<pre><code>使用支持自动化的技术非常重要。让我们从管理主机的工具开始考虑这个问题，你能否通过写一行代码来启动或者关闭一个虚拟机？你能否自动化部署写好的软件？你能否不需要手工干预就完成数据库的变更？想要游刃有余地应对复杂的微服务架构，自动化是必经之路。
+</code></pre><h3 id="10-从物理机到虚拟机"><a href="#10-从物理机到虚拟机" class="headerlink" title="10　从物理机到虚拟机"></a>10　从物理机到虚拟机</h3><pre><code>管理大量主机的关键之一是，找到一些方法把现有的物理机划分成小块。类似于 VMWare 这样的传统虚拟化技术或者 AWS，大大减少了管理主机的开销。在这个领域也出现了一些新的值得尝试的技术，它们会开启处理微服务架构的新的可能性。
+</code></pre><h4 id="10-1-传统的虚拟化技术"><a href="#10-1-传统的虚拟化技术" class="headerlink" title="10.1　传统的虚拟化技术"></a>10.1　传统的虚拟化技术</h4><pre><code>为什么拥有多台主机的成本会很高？如果你需要把每个服务部署在单台物理机上，那么答案是显而易见的。如果你所在的环境就是这样的，那么单主机多服务的模式可能更适合你。但是就像前面提到的，这可能会引入更多的限制。但是我怀疑你们中的大多数人，其实多多少少都使用了一些虚拟化技术。虚拟化技术允许我们把一台物理机分成多台独立的主机，每台主机可以运行不同的东西。所以如果我们想要把每个服务部署在独立的主机上，为什么不把物理设备划分成小块呢？
+
+
+
+对某些人来说，这么做是可行的。但是把机器划分成大量的 VM 并不是免费的。把物理机想象成一个装袜子的抽屉，如果你在抽屉里放置了很多木隔板，那么可存放袜子的总量是多还是少了？答案很明显是少了，因为隔板本身也占空间！管理抽屉是比较简单的，不仅仅是放袜子，你也可以把 T 恤放在某个隔间里面，但是更多的隔板意味着更少的总空间。
+
+
+
+虚拟化技术中也存在类似袜子抽屉中的隔板这样的东西。为了理解这些额外的开销是从哪里来的，让我们看看大多数虚拟化技术是怎么做的。图 6-9 展示了两种虚拟化技术的对比。左边叫作类型 2 虚拟化，其中包含了很多层，AWS、VMWare、VSphere、Xen 和 KVM 都属于这个类型（类型 1 虚拟化指的是只能运行在裸机之上，而不能运行在操作系统之上的技术）。在物理基础设施上存在一个主机的操作系统，在这个 OS 上运行一个叫作 hypervisor 的东西，它的任务主要有两个。第一，对 CPU 和内存等资源做从虚拟主机到物理主机的映射。第二，给我们提供一个控制虚拟机的层。
+</code></pre><p><img src="images/微服务9.png" alt=""></p>
+<pre><code>VM 中的不同主机看起来完全不同。在不同的虚拟机中可以安装不同的操作系统，并且有其各自的内核。你可以认为它们就是完全密封的机器，与底层的物理机和同一个 hypervisor 之上的其他虚拟机之间都是隔离的。
+
+
+
+这里的问题是，hypervisor 本身也需要一定的资源来完成自己的工作。它们会占用 CPU、I/O 和内存等。hypervisor 管理的主机越多，占用的资源就越多。在某个点上，这些额外的开销就会变成继续切分物理机的限制。在实际中，这意味着当你把物理机切分得越来越小时，能够得到的收益也就越有限，因为 hypervisor 占用了很多资源。
+</code></pre><h4 id="10-2-Vagrant"><a href="#10-2-Vagrant" class="headerlink" title="10.2　Vagrant"></a>10.2　Vagrant</h4><pre><code>Vagrant 是一个很有用的部署平台，通常在开发和测试环境时使用，而非生产环境。Vagrant 可以在你的笔记本上创建一个虚拟的云。它的底层使用的是标准的虚拟化系统（通常是 VirtualBox，但也可以使用其他平台）。你可以使用文本文件来定义一系列虚拟机，并且可以在其中定义网络配置及镜像等信息。可以把这个文本文件提交到代码库中，与团队的其他成员共享。
+
+
+
+这些工具能够帮助你在本地机器上轻松地创建出类生产环境。你可以同时创建多个 VM，通过关掉其中的几台来测试故障模式，并且可以把本地目录映射到虚拟机中，这样就可以在修改完代码之后立即看到效果。即使对于使用类似 AWS 这样的按需云平台的团队来说，使用 Vagrant 带来的快速反馈也能够给他们带来不少好处。
+
+
+
+但它的缺点是，开发机上会有很多额外的资源消耗。如果一个服务占用一台虚拟机，你可能就很难在本地机器上搭建起整个系统。结果就是为了让开发和测试有好的体验，可能需要把其中一些依赖打桩，从而让事情变得可控一些。
+</code></pre><h4 id="10-3-Docker"><a href="#10-3-Docker" class="headerlink" title="10.3　Docker"></a>10.3　Docker</h4><pre><code>Docker 是构建在轻量级容器之上的平台。它帮你处理了大多数与容器管理相关的事情。你可以在 Docker 中创建和部署应用，这些基于容器的应用与
+</code></pre><p>VM 世界中的镜像很类似。Docker 也能管理容器的配置，并帮你处理一些网络问题，甚至还提供了自己的 registry 概念，允许你存储 Docker 应用程序的版本。</p>
+<pre><code>Docker 应用抽象对我们来说非常有用，就像使用 VM 镜像技术时，底层实现服务的技术是不可见的一样。在服务的构建中可以创建出 Docker 应用程序，然后把它们存储在 Docker registry 中，那么就搞定了。
+
+
+
+Docker 还可以缓解运行过多服务进行本地开发和测试的问题。我们可以在 Vagrant 中启动单个 VM，然后在其中运行多个 Docker 实例，每个实例中包含一个服务，而非原来的一个 Vagrant虚拟机中包含一个服务。接下来，就可以使用 Vagrant 来创建和销毁 Docker 平台本身，并使用 Docker 来快速配置每个服务了。
+
+
+
+很多与 Docker 相关的技术，能够帮助我们更好地使用它。CoreOS 是一个专门为 Docker 设计的操作系统。它是一个经过裁剪的 Linux OS，仅提供了有限的功能以保证 Docker 的运行。这意味着，它比其他操作系统消耗的资源更少，从而可以把更多的资源留给容器。它甚至没有类似 debs 或 RPM 这样的包管理器，所有的软件都被装在一个独立的 Docker 应用程序中，并仅在各自的容器中运行。
+
+
+
+Docker 本身并不能解决所有的问题，它只是一个在单机上运行的简单的 PaaS。你还需要一些工具，来帮助你跨多台机器管理 Docker 实例上的服务。调度层的一个关键需求是，当你向其请求一个容器时会帮你找到相应的容器并运行它。在这个领域，Google 最近的开源工具 Kubernetes 和 CoreOS 集群技术能够提供一定的帮助，而且似乎每个月都有新的竞争者出现。另一个基于 Docker 的有趣的工具是 Deis（http://deis.io/），它试图在 Docker 之上，提供一个类似于 Heroku 那样的 PaaS。
+</code></pre><p>摘自：《微服务设计》 — 〔美〕Sam Newman</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/微服务/" rel="tag"># 微服务</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/28/构建什么、如何构建以及如何部署-（上）/" rel="next" title="构建什么、如何构建以及如何部署?（上）">
+                <i class="fa fa-chevron-left"></i> 构建什么、如何构建以及如何部署?（上）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/10/28/谈谈微服务系统监控/" rel="prev" title="谈谈微服务系统监控">
+                谈谈微服务系统监控 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/24718752.gif"
+                alt="griabcrh" />
+            
+              <p class="site-author-name" itemprop="name">griabcrh</p>
+              <p class="site-description motion-element" itemprop="description">nice to meet you</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">67</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">46</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#6-1-将镜像作为构建物"><span class="nav-number">1.</span> <span class="nav-text">6.1　将镜像作为构建物</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-2-不可变服务器"><span class="nav-number">2.</span> <span class="nav-text">6.2　不可变服务器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-环境"><span class="nav-number"></span> <span class="nav-text">7　环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-服务配置"><span class="nav-number"></span> <span class="nav-text">8　服务配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-自动化"><span class="nav-number"></span> <span class="nav-text">9　自动化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-从物理机到虚拟机"><span class="nav-number"></span> <span class="nav-text">10　从物理机到虚拟机</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#10-1-传统的虚拟化技术"><span class="nav-number">1.</span> <span class="nav-text">10.1　传统的虚拟化技术</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#10-2-Vagrant"><span class="nav-number">2.</span> <span class="nav-text">10.2　Vagrant</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#10-3-Docker"><span class="nav-number">3.</span> <span class="nav-text">10.3　Docker</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">griabcrh</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+|<span id="busuanzi_container_site_uv">
+  本站访客数<span id="busuanzi_value_site_uv"></span>人次
+</span>
+|<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("8TpPOiYi4ReJYs5sYfMdFmSO-gzGzoHsz", "hX7JfGRvJG8zcMqMRAWNMNyk");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

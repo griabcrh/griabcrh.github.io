@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<meta name="baidu-site-verification" content="cysG3IKyZB" />
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/griabcrh.gif?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="微服务," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="部署一个单块系统的流程非常简单。然而在众多相互依赖的微服务中，部署却是完全不同的情况。如果部署的方法不合适，那么其带来的复杂程度会让你很痛苦。本文会讲解一些技巧和技术，从而帮助我们在细粒度的架构中更好地部署微服务。 我会从持续集成和持续交付说起。这些概念与我们下面要讨论的主题并不相同，但又有所关联，了解它们可以帮助我们在考虑构建什么、如何构建以及如何部署时，做出更好的决定。 1　持续集成简介CI（">
+<meta name="keywords" content="微服务">
+<meta property="og:type" content="article">
+<meta property="og:title" content="构建什么、如何构建以及如何部署?（上）">
+<meta property="og:url" content="https://griabcrh.github.io/2018/10/28/构建什么、如何构建以及如何部署-（上）/index.html">
+<meta property="og:site_name" content="Griabcrh&#39;s Blog">
+<meta property="og:description" content="部署一个单块系统的流程非常简单。然而在众多相互依赖的微服务中，部署却是完全不同的情况。如果部署的方法不合适，那么其带来的复杂程度会让你很痛苦。本文会讲解一些技巧和技术，从而帮助我们在细粒度的架构中更好地部署微服务。 我会从持续集成和持续交付说起。这些概念与我们下面要讨论的主题并不相同，但又有所关联，了解它们可以帮助我们在考虑构建什么、如何构建以及如何部署时，做出更好的决定。 1　持续集成简介CI（">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://griabcrh.github.io/2018/10/28/构建什么、如何构建以及如何部署-（上）/images/微服务4.png">
+<meta property="og:image" content="https://griabcrh.github.io/2018/10/28/构建什么、如何构建以及如何部署-（上）/images/微服务5.png">
+<meta property="og:image" content="https://griabcrh.github.io/2018/10/28/构建什么、如何构建以及如何部署-（上）/images/微服务6.png">
+<meta property="og:image" content="https://griabcrh.github.io/2018/10/28/构建什么、如何构建以及如何部署-（上）/images/微服务7.png">
+<meta property="og:updated_time" content="2018-10-28T07:50:58.514Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="构建什么、如何构建以及如何部署?（上）">
+<meta name="twitter:description" content="部署一个单块系统的流程非常简单。然而在众多相互依赖的微服务中，部署却是完全不同的情况。如果部署的方法不合适，那么其带来的复杂程度会让你很痛苦。本文会讲解一些技巧和技术，从而帮助我们在细粒度的架构中更好地部署微服务。 我会从持续集成和持续交付说起。这些概念与我们下面要讨论的主题并不相同，但又有所关联，了解它们可以帮助我们在考虑构建什么、如何构建以及如何部署时，做出更好的决定。 1　持续集成简介CI（">
+<meta name="twitter:image" content="https://griabcrh.github.io/2018/10/28/构建什么、如何构建以及如何部署-（上）/images/微服务4.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://griabcrh.github.io/2018/10/28/构建什么、如何构建以及如何部署-（上）/"/>
+
+
+
+
+
+  <title>构建什么、如何构建以及如何部署?（上） | Griabcrh's Blog</title>
+  
+
+
+
+
+
+<script>
+	var _hmt = _hmt || [];
+	(function() {
+	var hm = document.createElement("script");
+	hm.src = "https://hm.baidu.com/hm.js?91c85e96d8e34ae79347b17b0d41826f";
+	var s = document.getElementsByTagName("script")[0]; 
+	s.parentNode.insertBefore(hm, s);
+	})();
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Griabcrh's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">welcome</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/10/28/构建什么、如何构建以及如何部署-（上）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="griabcrh">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/24718752.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Griabcrh's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">构建什么、如何构建以及如何部署?（上）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+			  
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-28T15:35:49+08:00">
+                2018-10-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/10/28/构建什么、如何构建以及如何部署-（上）/" class="leancloud_visitors" data-flag-title="构建什么、如何构建以及如何部署?（上）">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>部署一个单块系统的流程非常简单。然而在众多相互依赖的微服务中，部署却是完全不同的情况。如果部署的方法不合适，那么其带来的复杂程度会让你很痛苦。本文会讲解一些技巧和技术，从而帮助我们在细粒度的架构中更好地部署微服务。</p>
+<pre><code>我会从持续集成和持续交付说起。这些概念与我们下面要讨论的主题并不相同，但又有所关联，了解它们可以帮助我们在考虑构建什么、如何构建以及如何部署时，做出更好的决定。
+</code></pre><h3 id="1-持续集成简介"><a href="#1-持续集成简介" class="headerlink" title="1　持续集成简介"></a>1　持续集成简介</h3><pre><code>CI（Continuous Integration，持续集成）已经出现很多年了，但还是值得花点时间来好好复习一下它的基本用法，因为在微服务之间的映射、构建及代码库版本管理等方面，存在很多不同的选择。
+
+
+
+CI 能够保证新提交的代码与已有代码进行集成，从而让所有人保持同步。CI 服务器会检测到代码已提交并签出，然后花些时间来验证代码是否通过编译以及测试能否通过。
+
+
+
+作为这个流程的一部分，我们经常会生成一些构建物（artifact）以供后续验证使用，比如启动一个服务并对其运行测试。理想情况下，这些构建物应该只生成一次，然后在本次提交所对应的所有部署环节中使用。这不仅可以避免多次重复做一件事情，还可以保证部署上线的构建物与测试通过的那个是同一个。为了重用构建物，需要把它们放在某个仓储中。CI 本身会提供这样的仓储，你也可以使用一个独立系统来做这件事情。
+
+
+
+接下来会重点关注可用的构建物种类。
+
+CI 的好处有很多。通过它，我们能够得到关于代码质量的某种程度的快速反馈。CI 可以自动化生成二进制文件。用于生成这些构建物的所有代码都在版本的控制之下，所以如果需要的话，可以重新生成这个版本的构建物。通过 CI 我们能够从已部署的构建物回溯到相应的代码，有些 CI 工具，还可以使在这些代码和构建物上运行过的测试可视化。正是因为上述这些好处，CI 才会成为一项如此成功的实践。
+</code></pre><p><strong>你真的在做CI吗？</strong></p>
+<pre><code>我猜你很有可能正在组织内使用持续集成。如果没有的话，你应该开始这么做，因为这个关键实践允许我们更快速、更容易地修改代码。如果没有持续集成，向微服务架构进行转型就会非常痛苦。即便如此，很多宣称自己在做 CI 的团队并没有真正在做。他们认为使用了 CI 工具就算是采用了 CI 这个实践，事实上，只有工具是远远不够的。
+
+
+
+我很喜欢 Jez Humble 用来测试别人是否真正理解 CI 的三个问题。
+</code></pre><p><strong>你是否每天签入代码到主线？</strong></p>
+<pre><code>你应该保证代码能够与已有代码进行集成。如果你的代码和其他人的代码没被频繁地放在一起，那么将来的集成就会非常困难。即使你只使用生命周期很短的分支来管理这些修改，也要尽可能频繁地把代码检入到单个主线分支中。
+</code></pre><p><strong>你是否有一组测试来验证修改？</strong></p>
+<pre><code>如果没有测试，我们只能知道集成后没有语法错误，但无法知道系统的行为是否已经被破坏。没有对代码行为进行验证的 CI 不是真正的 CI。
+</code></pre><p><strong>当构建失败后，团队是否把修复CI当作第一优先级的事情来做？</strong></p>
+<pre><code>绿色的构建意味着，我们的修改已经安全地和已有代码集成在了一起。红色的构建意味着，最后一次修改很可能有问题，这时只能提交修复构建的代码。如果你允许别人在构建失败时提交更多的修改，用于修复构建的时间就会大大增加。我见过在一个团队中构建失败持续了好几天，最后花了很长时间才修复这个构建。
+</code></pre><h3 id="2-把持续集成映射到微服务"><a href="#2-把持续集成映射到微服务" class="headerlink" title="2　把持续集成映射到微服务"></a>2　把持续集成映射到微服务</h3><pre><code>当持续集成遇上微服务时，需要考虑如何把 CI 的构建和每个微服务映射起来。前面我已经提过很多次，每个服务应该能够独立于其他服务进行部署。所以如何在微服务、CI 构建及源代码三者之间，建立起合适的映射呢？
+
+
+
+如果从最简单的做法开始，我们可以先把所有东西放在一起。如图 6-1 所示，现在我们有一个巨大的代码库，其中包括所有的代码，并且只有一个构建。向该代码库任何一次的代码提交都会触发构建，在这个构建中我们会运行与所有微服务相关的验证，然后产生多个构建物，所有这些都在同一个构建中完成。
+</code></pre><p><img src="images/微服务4.png" alt=""></p>
+<pre><code>这种方法从表面上看比其他方法要简单得多：因为你需要关心的代码库比较少，而且从概念上来讲，这种构建也比较简单。开发者的工作也得到了简化：我只需要提交代码即可，如果需要同时在多个服务上工作的话，一个提交就能搞定。
+
+
+
+在同步发布（lock-step release）中，你需要一次性部署多个服务。如果你认为这不是个问题的话，那么上述模式就可以工作得很好。一般来讲，我们绝对应该避免这个模式，但在项目初期是个例外。当仅有一个团队在所有的服务上工作时，这种模式在短时间内是可接受的。
+
+
+
+这种模式存在很多明显的缺点。如果我仅仅修改了图 6-1 中用户服务中的一行代码，所有其他的服务都需要进行验证和构建，而事实上它们或许并不需要重新进行验证和构建，所以这里我们花费了不必要的时间。这会影响 CI 的周期时间，也会影响单个修改从开发到上线的速度。更糟糕的是，我不知道哪些构建物应该被重新部署，哪些不应该。我是否需要部署所有的服务来保证所有的修改都能生效？这就很难说清楚了。而且通过提交消息来猜测哪个服务真正被修改了，也是一件很困难的事情。使用这种方式的组织，往往都会退回到同时部 
+
+
+
+署所有代码的模式，而这也正是我们非常不想看到的。
+
+很不幸，如果这一行的修改导致构建失败，那么在构建得到修复之前，与其他服务相关的代码也无法提交。想象一下，如果有很多团队在共享一个巨大的构建，那么谁会对此负责？
+
+
+
+这种方法的一个变体是保留一个代码库，但是存在多个 CI 会分别映射到代码库的不同部分，如图 6-2 所示。如果代码库的目录结构定义得合理，就
+</code></pre><p>会很容易把其中一部分映射到一个构建中。总的来说我不太喜欢这个方法，因为这个模式可能是把双刃剑。一方面它会简化检出 / 检入的流程，但另一方面，它会让你觉得同时提交对多个服务的修改是一件很容易的事情，从而做出将多个服务耦合在一起的修改。但是相对于只有一个构建的多个服务来说，这个方法已经好很多了。</p>
+<p><img src="images/微服务5.png" alt=""></p>
+<pre><code>那么还有其他方法吗？我比较喜欢的方法是，每个微服务都有自己的
+</code></pre><p>CI，这样就可以在将该微服务部署到生产环境之前做一个快速的验证，如图 6-3 所示。这里的每个微服务都有自己的代码库，分别与相应的 CI 绑定。当对代码库进行修改时，可以只运行相关的构建以及其中的测试。我只会得到一个需要部署的构建物，代码库与团队所有权的匹配程度也更高了。如果你对一个服务负责，就应该同时对相关的代码库和构建负责。在这样的世界中，跨微服务做修改会更加困难，但是我认为，相比单块代码库和单块构建流程所带来的问题而言，这个问题更容易解决（比如使用命令行脚本）。</p>
+<p><img src="images/微服务6.png" alt=""></p>
+<pre><code>每个与微服务相关的测试也应该和其本身的代码放在一起，这样就很容易知道对于某个服务来说应该运行哪些测试。
+
+
+
+所以每个微服务都会有自己的代码库和构建流程。我们也会使用 CI 构建流程，全自动化地创建出用于部署的构建物。现在让我们看得更远一些，看看持续交付的概念如何与微服务进行结合。
+</code></pre><h3 id="3-构建流水线和持续交付"><a href="#3-构建流水线和持续交付" class="headerlink" title="3　构建流水线和持续交付"></a>3　构建流水线和持续交付</h3><pre><code>在早些年使用持续集成时，我们意识到了把一个构建分成多个阶段是很有价值的。比方说在测试中可能有很多运行很快、涉及范围很小的测试；还有一些比较耗时、涉及范围较大的测试，这些测试通常数量也比较少。如果所有测试一起运行的话，有可能一个快速测试已经失败了，但是因为需要等待那些耗时测试的完成，所以还是无法得到快速反馈。而且如果快速测试失败了，再接着运行剩下的耗时测试也是不合理的！解决这个问题的一个方案是，将构建分解成为多个阶段，从而得到我们熟知的构建流水线。在第一个阶段运行快速测
+</code></pre><p>试，在第二个阶段运行耗时测试。</p>
+<pre><code>构建流水线可以很好地跟踪软件构建进度：每完成一个阶段，就离终点更近一步。流水线也能够可视化本次构建物的软件质量。构建物会在整个构建的第一个环节生成，然后它会被用在整个流水线中。随着构建物通过不同的阶段，我们越来越能确定该软件能够在生产环境下正常工作。
+
+
+
+CD（Continuous Delivery，持续交付）基于上述的这些概念，并在此之上有所发展。正如 Jez Humble 和 Dave Farley 的同名著作中提到的，CD 能够检查每次提交是否达到了部署到生产环境的要求，并持续地把这些信息反馈给我们，它会把每次提交当成候选发布版本来对待。
+
+
+
+为了更好地理解这些概念，我们需要对从代码提交及部署到生产环境这个过程中，所需要经历的流程进行建模，并知道哪些版本的软件是可发布的。在 CD 中，我们会把多阶段构建流水线的概念进行扩展，从而覆盖软件通过的所有阶段，无论是手动的还是自动的。在图 6-4 中，我们可以看到一个熟悉的示例流水线。
+</code></pre><p><img src="images/微服务7.png" alt=""></p>
+<pre><code>我们需要一个真正重视 CD 概念的工具来辅助它的实施。我看过很多人尝试对 CI 工具进行扩展来做 CD，大多数情况下会得到一个复杂的系统，而这个系统，也不可能比一开始就为 CD 设计的工具好用。完全支持 CD 的工具能够定义和可视化这些流水线，并对发布到生产环境的整个过程进行建模。当某个版本的代码经过流水线时，如果它通过了某个自动验证的步骤，就会移动到下一阶段。有些阶段可能是手动的，举个例子，如果你有一个手动的 UAT（User Acceptance Testing，用户验收测试）流程，那么也应该可以使用 CD 工具来对其建模。应该可以在 CD 工具中看到下一个可用于部署到 UAT 环境的构建
+</code></pre><p>，并触发部署流程，如果通过了手动检查，就可以将该阶段标记为成功，这样它就能够移动到下一阶段了。</p>
+<pre><code>通过对整个软件上线过程进行建模，软件质量的可视化得到了极大改善，这可以大大减少发布之间的间隔，因为可以在一个集中的地方看到构建和发布
+</code></pre><p>流程，这也是可以引入改进的一个焦点。</p>
+<pre><code>在微服务的世界，我们想要保证服务之间可以独立于彼此进行部署，所以每个服务都有自己独立的 CI。在流水线中，构建物会沿着上线方向进行移动。构建物的大小和形态可能会有很大差别，后面会看到一些最常见的例子。
+</code></pre><p>不可避免的例外</p>
+<pre><code>所有好的规则都需要考虑例外。“每个微服务一个构建”的方法，基本上在大多数情况下都是合理的，那么是否有例外呢？当一个团队刚开始启动一个新项目时，尤其是什么都没有的情况下，你可能会花很多时间来识别出服务的边界。所以在你识别出稳定的领域之前，可以把初始服务都放在一起。
+</code></pre><p>在最开始的阶段，经常会发生跨服务边界的修改，所以时常会有些内容移入或者移出某个服务。在这个阶段，把所有服务都放在一个单独的构建中，可以减轻跨服务修改所带来的代价。</p>
+<pre><code>当然，在这个阶段你必须把所有服务打包发布，但这应该是一个过渡步骤。当服务的 API 稳定之后，就可以开始把它们移动到各自的构建中。如果几周（或者几个月）之后，你的服务边界还是不够稳定，那么再把它们合并回单块服务中（当然还可以在边界内部保持模块性），然后花些时间去了解领域。
+</code></pre><h3 id="4-平台特定的构建物"><a href="#4-平台特定的构建物" class="headerlink" title="4　平台特定的构建物"></a>4　平台特定的构建物</h3><pre><code>大多数技术栈都有相应的构建物类型，同时也有相关的工具来创建和安装这些构建物。Ruby 中有 gem，Java 中有 JAR 包和 WAR 包，Python 中有 egg。对某一种技术有经验的开发人员，都会比较了解与这些构建物相关的技术，如果他们也知道如何创建就更好了。
+
+
+
+但是从微服务部署的角度来看，在有些技术栈中只有构建物本身是不够的。虽然可以把 Java 的 JAR 包做成可执行文件，并在其中运行一个嵌入式的 HTTP 进程，但对于类似于 Ruby 和 Python 这样的应用程序来说，你需要使用一个运行在 Apache 或者 Nginx 中的进程管理器。所以为了部署和启动这些构建物，需要安装和配置一些其他软件，然后再启动这些构建物。类似于Puppet 和 Chef 这样的自动化配置管理工具，就可以很好地解决这个问题。
+
+
+
+另一个问题是，不同技术栈生成的构建物各不相同，所以混合不同的构建物进行部署就会很复杂。可以尝试从某人想要同时部署多个服务的角度来考虑，比如，某个开发或者测试人员想要测试一些功能，或者做一次生产环境的部署。现在想象一下，所要部署的服务使用了三种完全不同的部署机制，比如 Ruby 的 Gem、JAR 包和 Node.js 的 NPM 包，你会有什么感觉？
+</code></pre><p>自动化可以对不同构建物的底层部署机制进行屏蔽。Chef、Puppet 及 Ansible 都支持一些通用技术栈的构建物部署。但有一些构建物的部署会非常简单。</p>
+<h3 id="5-操作系统构建物"><a href="#5-操作系统构建物" class="headerlink" title="5　操作系统构建物"></a>5　操作系统构建物</h3><pre><code>有一种方法可以避免多种技术栈下的构建物所带来的问题，那就是使用操作系统支持的构建物。举个例子，对基于 RedHat 或者 CentOS 的系统来说，可以使用 RPM；对 Ubuntu 来说，可以使用 deb 包；对 Windows 来说，可以使用 MSI。
+
+
+
+使用 OS 特定构建物的好处是，在做部署时不需要考虑底层使用的是什么技术。只需要简单使用内置的工具就可以完成软件的安装。这些操作系统工具也可以进行软件的卸载及查询，甚至还可以把 CI 生成的构建物推送到软件包仓库中。OS 包管理工具，可以帮你完成很多原本需要使用 Chef 或者 Puppet 来完成的工作。举个例子，在我用过的所有 Linux 平台上，你都可以定义软件包所依赖的其他软件包，然后 OS 就会自动帮你完成这些工具的安装。
+</code></pre><p>其缺点是，刚开始编写构建脚本的过程可能会比较困难。对于 Linux 来说，FPM 包管理工具（<a href="https://github.com/jordansissel/fpm/wiki）为创建" target="_blank" rel="noopener">https://github.com/jordansissel/fpm/wiki）为创建</a> Linux 操作系统软件包提供了很好的抽象，所以能自然地从基于 tarball 的部署过渡到基于 OS 的部署。在 Windows 的世界，这件事情就有些棘手了。相比 Linux 能够提供的功能来说，类似 MSI 这样的原生打包系统缺失了很多功能。NuGet 软件包系统对此做出了一定的改善，至少它简化了开发库的依赖管理。</p>
+<pre><code>当然这会产生另一个缺点，即如果你需要部署到多种操作系统的话，维护不同版本构建物的开销就会很大。如果你创建的软件包是用来给别人进行安装的，那么就别无选择。但如果软件是部署在你可控的机器上，那么我建议，尽量减少需要维护的操作系统的数量，最好只维护一种。它可以大大减少不同机器之间可能存在的不同之处，并减小部署和维护的工作量。
+</code></pre><p>由于本文篇幅较长，会在下一篇文章中继续讲解</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/微服务/" rel="tag"># 微服务</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/28/微服务部署：蓝绿部署、滚动部署、灰度发布-金丝雀发布-1/" rel="next" title="微服务部署：蓝绿部署、滚动部署、灰度发布/金丝雀发布">
+                <i class="fa fa-chevron-left"></i> 微服务部署：蓝绿部署、滚动部署、灰度发布/金丝雀发布
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/10/28/构建什么、如何构建以及如何部署-（下）/" rel="prev" title="构建什么、如何构建以及如何部署?（下）">
+                构建什么、如何构建以及如何部署?（下） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/24718752.gif"
+                alt="griabcrh" />
+            
+              <p class="site-author-name" itemprop="name">griabcrh</p>
+              <p class="site-description motion-element" itemprop="description">nice to meet you</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">67</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">46</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-持续集成简介"><span class="nav-number">1.</span> <span class="nav-text">1　持续集成简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-把持续集成映射到微服务"><span class="nav-number">2.</span> <span class="nav-text">2　把持续集成映射到微服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-构建流水线和持续交付"><span class="nav-number">3.</span> <span class="nav-text">3　构建流水线和持续交付</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-平台特定的构建物"><span class="nav-number">4.</span> <span class="nav-text">4　平台特定的构建物</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-操作系统构建物"><span class="nav-number">5.</span> <span class="nav-text">5　操作系统构建物</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">griabcrh</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+|<span id="busuanzi_container_site_uv">
+  本站访客数<span id="busuanzi_value_site_uv"></span>人次
+</span>
+|<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("8TpPOiYi4ReJYs5sYfMdFmSO-gzGzoHsz", "hX7JfGRvJG8zcMqMRAWNMNyk");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
