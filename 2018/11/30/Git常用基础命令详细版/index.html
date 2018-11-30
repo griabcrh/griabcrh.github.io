@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<meta name="baidu-site-verification" content="cysG3IKyZB" />
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/griabcrh.gif?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Git," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="git客户端客户端安装参考说明文档。(git+图形化管理界面) TortoiseGit SourceTree 拉取代码,建立本地仓库配置git提交用户名和邮箱，定义别名方便区分12git config --global user.name &amp;quot;你的姓名&amp;quot;git config --global user.email &amp;quot;you@example.com&amp;quot; 克隆仓库">
+<meta name="keywords" content="Git">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git常用基础命令详细版">
+<meta property="og:url" content="https://griabcrh.github.io/2018/11/30/Git常用基础命令详细版/index.html">
+<meta property="og:site_name" content="Griabcrh&#39;s Blog">
+<meta property="og:description" content="git客户端客户端安装参考说明文档。(git+图形化管理界面) TortoiseGit SourceTree 拉取代码,建立本地仓库配置git提交用户名和邮箱，定义别名方便区分12git config --global user.name &amp;quot;你的姓名&amp;quot;git config --global user.email &amp;quot;you@example.com&amp;quot; 克隆仓库">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://griabcrh.github.io/images/git21.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/git22.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/git23.png">
+<meta property="og:updated_time" content="2018-11-30T03:05:13.045Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Git常用基础命令详细版">
+<meta name="twitter:description" content="git客户端客户端安装参考说明文档。(git+图形化管理界面) TortoiseGit SourceTree 拉取代码,建立本地仓库配置git提交用户名和邮箱，定义别名方便区分12git config --global user.name &amp;quot;你的姓名&amp;quot;git config --global user.email &amp;quot;you@example.com&amp;quot; 克隆仓库">
+<meta name="twitter:image" content="https://griabcrh.github.io/images/git21.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://griabcrh.github.io/2018/11/30/Git常用基础命令详细版/"/>
+
+
+
+
+
+  <title>Git常用基础命令详细版 | Griabcrh's Blog</title>
+  
+
+
+
+
+
+<script>
+	var _hmt = _hmt || [];
+	(function() {
+	var hm = document.createElement("script");
+	hm.src = "https://hm.baidu.com/hm.js?91c85e96d8e34ae79347b17b0d41826f";
+	var s = document.getElementsByTagName("script")[0]; 
+	s.parentNode.insertBefore(hm, s);
+	})();
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Griabcrh's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">welcome</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/11/30/Git常用基础命令详细版/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="griabcrh">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/24718752.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Griabcrh's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Git常用基础命令详细版</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+			  
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-30T10:54:22+08:00">
+                2018-11-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/11/30/Git常用基础命令详细版/" class="leancloud_visitors" data-flag-title="Git常用基础命令详细版">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="/images/git21.png" alt=""></p>
+<h3 id="git客户端"><a href="#git客户端" class="headerlink" title="git客户端"></a>git客户端</h3><p>客户端安装参考说明文档。(git+图形化管理界面)</p>
+<p>TortoiseGit</p>
+<p>SourceTree</p>
+<h3 id="拉取代码-建立本地仓库"><a href="#拉取代码-建立本地仓库" class="headerlink" title="拉取代码,建立本地仓库"></a>拉取代码,建立本地仓库</h3><p>配置git提交用户名和邮箱，定义别名方便区分<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;你的姓名&quot;</span><br><span class="line">git config --global user.email &quot;you@example.com&quot;</span><br></pre></td></tr></table></figure></p>
+<p><strong>克隆仓库</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone 仓库url</span><br></pre></td></tr></table></figure>
+<h3 id="git常用命令"><a href="#git常用命令" class="headerlink" title="git常用命令"></a>git常用命令</h3><h5 id="符号约定"><a href="#符号约定" class="headerlink" title="符号约定"></a>符号约定</h5><p>-自定义内容<br>-[xxx] 可选内容<br>-[]自定义可选内容</p>
+<h5 id="初始设置"><a href="#初始设置" class="headerlink" title="初始设置"></a>初始设置</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;&lt;用户名&gt;&quot; #设置用户名</span><br><span class="line">git config --global user.email &quot;&lt;电子邮件&gt;&quot; #设置电子邮件</span><br></pre></td></tr></table></figure>
+<h5 id="本地操作"><a href="#本地操作" class="headerlink" title="本地操作"></a>本地操作</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add [-i] #保存更新，-i为逐个确认。</span><br><span class="line">git status #检查更新。</span><br><span class="line">git commit [-a] -m &quot;&lt;更新说明&gt;&quot; #提交更新，-a为包含内容修改和增删，-m为说明信息，也可以使用 -am。</span><br></pre></td></tr></table></figure>
+<h5 id="远端操作"><a href="#远端操作" class="headerlink" title="远端操作"></a>远端操作</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">git clone &lt;git地址&gt; #克隆到本地。</span><br><span class="line">git fetch #远端抓取。</span><br><span class="line">git merge #与本地当前分支合并。</span><br><span class="line">git pull [&lt;远端别名&gt;] [&lt;远端branch&gt;] #抓取并合并,相当于第2、3步</span><br><span class="line">git push [-f] [&lt;远端别名&gt;] [&lt;远端branch&gt;] #推送到远端，-f为强制覆盖</span><br><span class="line">git remote add &lt;别名&gt; &lt;git地址&gt; #设置远端别名</span><br><span class="line">git remote [-v] #列出远端，-v为详细信息</span><br><span class="line">git remote show &lt;远端别名&gt; #查看远端信息</span><br><span class="line">git remote rename &lt;远端别名&gt; &lt;新远端别名&gt; #重命名远端</span><br><span class="line">git remote rm &lt;远端别名&gt; #删除远端</span><br><span class="line">git remote update [&lt;远端别名&gt;] #更新分支列表</span><br></pre></td></tr></table></figure>
+<h5 id="分支相关"><a href="#分支相关" class="headerlink" title="分支相关"></a>分支相关</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">git branch [-r] [-a] #列出分支，-r远端 ,-a全部</span><br><span class="line">git branch &lt;分支名&gt; #新建分支</span><br><span class="line">git branch -b &lt;分支名&gt; #新建并切换分支</span><br><span class="line">git branch -d &lt;分支名&gt; #删除分支</span><br><span class="line">git checkout &lt;分支名&gt; #切换到分支</span><br><span class="line">git checkout -b &lt;本地branch&gt; [-t &lt;远端别名&gt;/&lt;远端分支&gt;] #-b新建本地分支并切换到分支, -t绑定远端分支</span><br><span class="line">git merge &lt;分支名&gt; #合并某分支到当前分支</span><br></pre></td></tr></table></figure>
+<p><img src="/images/git22.png" alt=""></p>
+<p>workspace: 本地的工作目录。（记作A）<br>index：缓存区域，临时保存本地改动。（记作B）<br>local repository: 本地仓库，只想最后一次提交HEAD。（记作C）<br>remote repository：远程仓库。（记作D）</p>
+<p>以下所有的命令的功能说明，都采用上述的标记的A、B、C、D的方式来阐述。</p>
+<p>(1)初始化<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git init //创建</span><br><span class="line">git clone /path/to/repository //检出</span><br><span class="line">git config --global user.email &quot;you@example.com&quot; //配置email</span><br><span class="line">git config --global user.name &quot;Name&quot; //配置用户名</span><br></pre></td></tr></table></figure></p>
+<p>(2)操作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">git add &lt;file&gt; // 文件添加，A → B</span><br><span class="line">git add . // 所有文件添加，A → B</span><br><span class="line"></span><br><span class="line">git commit -m &quot;代码提交信息&quot; //文件提交，B → C</span><br><span class="line">git commit --amend //与上次commit合并, *B → C</span><br><span class="line"></span><br><span class="line">git push origin master //推送至master分支, C → D</span><br><span class="line">git pull //更新本地仓库至最新改动， D → A</span><br><span class="line">git fetch //抓取远程仓库更新， D → C</span><br><span class="line"></span><br><span class="line">git log //查看提交记录</span><br><span class="line">git status //查看修改状态</span><br><span class="line">git diff//查看详细修改内容</span><br><span class="line">git show//显示某次提交的内容</span><br></pre></td></tr></table></figure></p>
+<p>(3)撤销操作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">git reset &lt;file&gt;//某个文件索引会回滚到最后一次提交， C → B</span><br><span class="line">git reset//索引会回滚到最后一次提交， C → B</span><br><span class="line">git reset --hard // 索引会回滚到最后一次提交， C → B → A</span><br><span class="line"></span><br><span class="line">git checkout // 从index复制到workspace， B → A</span><br><span class="line">git checkout -- files // 文件从index复制到workspace， B → A</span><br><span class="line">git checkout HEAD -- files // 文件从local repository复制到workspace， C → A</span><br></pre></td></tr></table></figure></p>
+<p>(4)分支相关<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b branch_name //创建名叫“branch_name”的分支，并切换过去</span><br><span class="line">git checkout master //切换回主分支</span><br><span class="line">git branch -d branch_name // 删除名叫“branch_name”的分支</span><br><span class="line">git push origin branch_name //推送分支到远端仓库</span><br><span class="line">git merge branch_name // 合并分支branch_name到当前分支(如master)</span><br><span class="line">git rebase //衍合，线性化的自动， D → A</span><br></pre></td></tr></table></figure></p>
+<p>(5)冲突处理<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git diff //对比workspace与index</span><br><span class="line">git diff HEAD //对于workspace与最后一次commit</span><br><span class="line">git diff &lt;source_branch&gt; &lt;target_branch&gt; //对比差异</span><br><span class="line">git add &lt;filename&gt; //修改完冲突，需要add以标记合并成功</span><br></pre></td></tr></table></figure></p>
+<p>(6)其他<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">gitk //图形化git</span><br><span class="line">git config color.ui true //彩色的 git 输出</span><br><span class="line">git config format.pretty oneline //显示历史记录时，每个提交的信息只显示一行</span><br><span class="line">git add -i //交互式添加文件到暂存区</span><br></pre></td></tr></table></figure></p>
+<h5 id="Git使用规范"><a href="#Git使用规范" class="headerlink" title="Git使用规范"></a>Git使用规范</h5><p>扩展阅读：</p>
+<p>Git 使用规范流程(<a href="http://www.ruanyifeng.com/blog/2015/08/git-use-process.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2015/08/git-use-process.html</a>)</p>
+<p>Git使用规范提醒</p>
+<p>使用Git过程中，必须通过创建分支进行开发，坚决禁止在主干分支上直接开发。review的同事有责任检查其他同事是否遵循分支规范。<br>在Git中，默认是不会提交空目录的，如果想提交某个空目录到版本库中，需要在该目录下新建一个 .gitignore 的空白文件，就可以提交了<br>把外部文件纳入到自己的 Git 分支来的时候一定要记得是先比对，确认所有修改都是自己修改的，然后再纳入。不然，容易出现代码回溯<br>多人协作时，不要各自在自己的 Git 分支开发，然后发文件合并。正确的方法应该是开一个远程分支，然后一起在远程分支里协作。不然，容易出现代码回溯（即别人的代码被覆盖的情况）<br>每个人提交代码是一定要 git diff 看提交的东西是不是都是自己修改的。如果有不是自己修改的内容，很可能就是代码回溯<br>review 代码的时候如果看到有被删除掉的代码，一定要确实是否是写代码的同事自己删除的。如果不是，很可能就是代码回溯</p>
+<h3 id="附录"><a href="#附录" class="headerlink" title="附录:"></a>附录:</h3><p><img src="/images/git23.png" alt=""></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Git/" rel="tag"># Git</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/23/不兼容的类型-HttpServletRequest无法转换为javax-servlet-http-HttpServletRequest/" rel="next" title="不兼容的类型:HttpServletRequest无法转换为javax.servlet.http.HttpServletRequest">
+                <i class="fa fa-chevron-left"></i> 不兼容的类型:HttpServletRequest无法转换为javax.servlet.http.HttpServletRequest
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/24718752.gif"
+                alt="griabcrh" />
+            
+              <p class="site-author-name" itemprop="name">griabcrh</p>
+              <p class="site-description motion-element" itemprop="description">nice to meet you</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">69</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#git客户端"><span class="nav-number">1.</span> <span class="nav-text">git客户端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#拉取代码-建立本地仓库"><span class="nav-number">2.</span> <span class="nav-text">拉取代码,建立本地仓库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#git常用命令"><span class="nav-number">3.</span> <span class="nav-text">git常用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#符号约定"><span class="nav-number">3.0.1.</span> <span class="nav-text">符号约定</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#初始设置"><span class="nav-number">3.0.2.</span> <span class="nav-text">初始设置</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#本地操作"><span class="nav-number">3.0.3.</span> <span class="nav-text">本地操作</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#远端操作"><span class="nav-number">3.0.4.</span> <span class="nav-text">远端操作</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#分支相关"><span class="nav-number">3.0.5.</span> <span class="nav-text">分支相关</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Git使用规范"><span class="nav-number">3.0.6.</span> <span class="nav-text">Git使用规范</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#附录"><span class="nav-number">4.</span> <span class="nav-text">附录:</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">griabcrh</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+|<span id="busuanzi_container_site_uv">
+  本站访客数<span id="busuanzi_value_site_uv"></span>人次
+</span>
+|<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("8TpPOiYi4ReJYs5sYfMdFmSO-gzGzoHsz", "hX7JfGRvJG8zcMqMRAWNMNyk");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
