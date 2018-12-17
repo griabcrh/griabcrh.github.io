@@ -79,13 +79,13 @@
 
 
 
-<meta name="description" content="本文将讲解Linux系统中怎么安装Oracle， 本文设计的系统为阿里云的CentOS 7.3系统 ， Oracle为oracle 12g   环境  Yum安装环境  1234567891011121314yum install -y binutils* yum install -y compat-libstdc* yum install -y elfutils-libelf* yum inst">
+<meta name="description" content="本文将讲解Linux系统中怎么安装Oracle， 本文设计的系统为阿里云的CentOS 7.3系统 ， Oracle为oracle 12g  1. 环境Yum安装环境  1234567891011121314yum install -y binutils* yum install -y compat-libstdc* yum install -y elfutils-libelf* yum inst">
 <meta name="keywords" content="Oracle">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux系统中安装Oracle">
 <meta property="og:url" content="https://griabcrh.github.io/2018/12/14/Linux系统中安装Oracle/index.html">
 <meta property="og:site_name" content="Griabcrh&#39;s Blog">
-<meta property="og:description" content="本文将讲解Linux系统中怎么安装Oracle， 本文设计的系统为阿里云的CentOS 7.3系统 ， Oracle为oracle 12g   环境  Yum安装环境  1234567891011121314yum install -y binutils* yum install -y compat-libstdc* yum install -y elfutils-libelf* yum inst">
+<meta property="og:description" content="本文将讲解Linux系统中怎么安装Oracle， 本文设计的系统为阿里云的CentOS 7.3系统 ， Oracle为oracle 12g  1. 环境Yum安装环境  1234567891011121314yum install -y binutils* yum install -y compat-libstdc* yum install -y elfutils-libelf* yum inst">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://griabcrh.github.io/images/oracle3.png">
 <meta property="og:image" content="https://griabcrh.github.io/images/oracle4.jpg">
@@ -124,10 +124,10 @@
 <meta property="og:image" content="https://griabcrh.github.io/images/oracle36.png">
 <meta property="og:image" content="https://griabcrh.github.io/images/oracle37.png">
 <meta property="og:image" content="https://griabcrh.github.io/images/oracle38.png">
-<meta property="og:updated_time" content="2018-12-17T12:31:25.739Z">
+<meta property="og:updated_time" content="2018-12-17T12:41:56.751Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux系统中安装Oracle">
-<meta name="twitter:description" content="本文将讲解Linux系统中怎么安装Oracle， 本文设计的系统为阿里云的CentOS 7.3系统 ， Oracle为oracle 12g   环境  Yum安装环境  1234567891011121314yum install -y binutils* yum install -y compat-libstdc* yum install -y elfutils-libelf* yum inst">
+<meta name="twitter:description" content="本文将讲解Linux系统中怎么安装Oracle， 本文设计的系统为阿里云的CentOS 7.3系统 ， Oracle为oracle 12g  1. 环境Yum安装环境  1234567891011121314yum install -y binutils* yum install -y compat-libstdc* yum install -y elfutils-libelf* yum inst">
 <meta name="twitter:image" content="https://griabcrh.github.io/images/oracle3.png">
 
 
@@ -402,61 +402,37 @@
 
       
         <p>本文将讲解Linux系统中怎么安装Oracle， 本文设计的系统为阿里云的CentOS 7.3系统 ， Oracle为oracle 12g </p>
-<ol>
-<li>环境</li>
-</ol>
-<p><strong>Yum安装环境</strong> </p>
+<h3 id="1-环境"><a href="#1-环境" class="headerlink" title="1. 环境"></a>1. 环境</h3><p><strong>Yum安装环境</strong> </p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">yum install -y binutils* </span><br><span class="line">yum install -y compat-libstdc* </span><br><span class="line">yum install -y elfutils-libelf* </span><br><span class="line">yum install -y gcc* </span><br><span class="line">yum install -y glibc* </span><br><span class="line">yum install -y ksh* </span><br><span class="line">yum install -y libaio* </span><br><span class="line">yum install -y libgcc* </span><br><span class="line">yum install -y libstdc* </span><br><span class="line">yum install -y make* </span><br><span class="line">yum install -y sysstat* </span><br><span class="line">yum install -y libXp* </span><br><span class="line">yum install -y glibc-kernheaders* </span><br><span class="line">yum install -y unixODBC*</span><br></pre></td></tr></table></figure>
 <p>32位下载</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum install -y libgcc-4.8.5-36.el7.i686</span><br><span class="line">yum install -y glibc-devel-2.17-260.el7.i686</span><br><span class="line">yum install -y unixODBC-devel-2.3.1-11.el7.i686</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>创建用户</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># groupadd oinstall </span><br><span class="line"># groupadd dba </span><br><span class="line"># useradd -g oinstall -G dba -d /home/oracle oracle </span><br><span class="line"># id oracle</span><br></pre></td></tr></table></figure>
+<h3 id="2-创建用户"><a href="#2-创建用户" class="headerlink" title="2. 创建用户"></a>2. 创建用户</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># groupadd oinstall </span><br><span class="line"># groupadd dba </span><br><span class="line"># useradd -g oinstall -G dba -d /home/oracle oracle </span><br><span class="line"># id oracle</span><br></pre></td></tr></table></figure>
 <p>出现uid=500(oracle) gid=500(oinstall) 组=500(oinstall),501(dba) </p>
 <p>修改密码</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#passwd oracle</span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li>修改用户配置文件（环境变量） </li>
-</ol>
-<h1 id="vi-bash-profile"><a href="#vi-bash-profile" class="headerlink" title="vi .bash_profile"></a>vi .bash_profile</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">export PATH</span><br><span class="line"> </span><br><span class="line">export ORACLE_BASE=/data-1/app/oracle</span><br><span class="line">export TMP=/tmp</span><br><span class="line">export ORACLE_HOME=$ORACLE_BASE/product/12.1.0/db_1</span><br><span class="line">export ORACLE_SID= orcl</span><br><span class="line">export PATH=$ORACLE_HOME/bin:$PATH</span><br><span class="line">export TNS_ADMIN=$ORACLE_HOME/network/admin</span><br><span class="line">export NLS_LANG=&quot;Simplified Chinese_china.ZHS16GBK&quot;</span><br><span class="line">export LANG=C export TMPDIR=$TMP</span><br><span class="line">export PATH=$PATH:/sbin/:/usr/local/bin:/usr/bin:/opt/oracle/product/12.1.0/crs/bin</span><br><span class="line">export PATH=$PATH:$ORACLE_HOME/bin:/opt/oracle/crs/bin</span><br><span class="line">export ORACLE_TERM=xterm</span><br><span class="line">export LD_LIBRARY_PATH=$ORACLE_HOME/lib:/lib:/usr/lib:/usr/local/lib</span><br><span class="line">umask 022</span><br></pre></td></tr></table></figure>
-<p><strong>注意：</strong> ORACLE_SID改成你自己的一般为orcl或xe  ， ORACLE_HOME的地址改成你自己的安装地址{例如oracle 11g（$ORACLE_BASE/product/11.2.0/db_1） ， oracle 12g （$ORACLE_BASE/product/12.1.0/db_1），}</p>
+<h3 id="3-修改用户配置文件（环境变量）"><a href="#3-修改用户配置文件（环境变量）" class="headerlink" title="3. 修改用户配置文件（环境变量）"></a>3. 修改用户配置文件（环境变量）</h3><p>vi .bash_profile </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">export PATH</span><br><span class="line"> </span><br><span class="line">export ORACLE_BASE=/data-1/app/oracle</span><br><span class="line">export TMP=/tmp</span><br><span class="line">export ORACLE_HOME=$ORACLE_BASE/product/12.1.0/db_1</span><br><span class="line">export ORACLE_SID= orcl</span><br><span class="line">export PATH=$ORACLE_HOME/bin:$PATH</span><br><span class="line">export TNS_ADMIN=$ORACLE_HOME/network/admin</span><br><span class="line">export NLS_LANG=&quot;Simplified Chinese_china.ZHS16GBK&quot;</span><br><span class="line">export LANG=C export TMPDIR=$TMP</span><br><span class="line">export PATH=$PATH:/sbin/:/usr/local/bin:/usr/bin:/opt/oracle/product/12.1.0/crs/bin</span><br><span class="line">export PATH=$PATH:$ORACLE_HOME/bin:/opt/oracle/crs/bin</span><br><span class="line">export ORACLE_TERM=xterm</span><br><span class="line">export LD_LIBRARY_PATH=$ORACLE_HOME/lib:/lib:/usr/lib:/usr/local/lib</span><br><span class="line">umask 022</span><br></pre></td></tr></table></figure>
+<p><strong>注意：</strong> ORACLE_SID改成你自己的一般为orcl或xe  ， ORACLE_HOME的地址改成你自己的安装地址<br>{例如oracle 11g（$ORACLE_BASE/product/11.2.0/db_1） ， oracle 12g （$ORACLE_BASE/product/12.1.0/db_1），}</p>
 <p>source .bash_profile  –使修改生效</p>
-<ol start="4">
-<li>创建相关目录 </li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># mkdir -p /data-1/app/oracle </span><br><span class="line"># mkdir -p /data-1/app/oracle/product/11.2.0/db_1 </span><br><span class="line"># chown -R oracle:oinstall /data-1/app/ </span><br><span class="line"># chmod -R 755 /data-1/app/</span><br></pre></td></tr></table></figure>
-<ol start="5">
-<li>修改内核参数</li>
-</ol>
-<h1 id="vi-etc-sysctl-conf"><a href="#vi-etc-sysctl-conf" class="headerlink" title="vi /etc/sysctl.conf"></a>vi /etc/sysctl.conf</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">fs.aio-max-nr= 1048576</span><br><span class="line">fs.file-max = 6815744</span><br><span class="line">kernel.shmall=16777216</span><br><span class="line">kernel.shmmax=61847529062</span><br><span class="line">kernel.shmmni=4096</span><br><span class="line">kernel.sem = 250 32000 100 128</span><br><span class="line">net.ipv4.ip_local_port_range = 9000 65500</span><br><span class="line">net.core.rmem_default = 262144</span><br><span class="line">net.core.rmem_max = 4194304</span><br><span class="line">net.core.wmem_default = 262144</span><br><span class="line">net.core.wmem_max = 1048586</span><br></pre></td></tr></table></figure>
-<h1 id="sysctl-p-–-使修改生效"><a href="#sysctl-p-–-使修改生效" class="headerlink" title="sysctl -p   – 使修改生效"></a>sysctl -p   – 使修改生效</h1><ol start="6">
-<li>修改ssh限制 </li>
-</ol>
-<h1 id="vi-etc-security-limits-conf"><a href="#vi-etc-security-limits-conf" class="headerlink" title="vi /etc/security/limits.conf"></a>vi /etc/security/limits.conf</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">oracle soft nofile 131072</span><br><span class="line">oracle hard nofile 131072</span><br><span class="line">oracle soft nproc 131072</span><br><span class="line">oracle hard nproc 131072</span><br><span class="line">oracle soft core unlimited</span><br><span class="line">oracle hard core unlimited</span><br><span class="line">oracle soft memlock 50000000</span><br><span class="line">oracle hard memlock 50000000</span><br></pre></td></tr></table></figure>
-<ol start="7">
-<li>解压数据库压缩⽂件 </li>
-</ol>
-<p>如果没有unzip ，就使用命令 yum install -y unzip 下载</p>
-<p>#unzip linuxamd64_12102_database_1of2.zip &amp;&amp; linuxamd64_12102_database_2of2.zip</p>
-<h1 id="mv-database-data-1-oracle"><a href="#mv-database-data-1-oracle" class="headerlink" title="mv database/  /data-1/oracle"></a>mv database/  /data-1/oracle</h1><h1 id="chown-R-oracle-oinstall-data-1-oracle"><a href="#chown-R-oracle-oinstall-data-1-oracle" class="headerlink" title="chown -R oracle:oinstall /data-1/oracle"></a>chown -R oracle:oinstall /data-1/oracle</h1><h1 id="chmod-R-755-data-1-oracle"><a href="#chmod-R-755-data-1-oracle" class="headerlink" title="chmod -R 755 /data-1/oracle"></a>chmod -R 755 /data-1/oracle</h1><ol start="8">
-<li>安装</li>
-</ol>
-<p>su到oracle用户下，开始安装（如果报错，可以在图形化界面中使用oracle用户登录） </p>
+<h3 id="4-创建相关目录"><a href="#4-创建相关目录" class="headerlink" title="4. 创建相关目录"></a>4. 创建相关目录</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># mkdir -p /data-1/app/oracle </span><br><span class="line"># mkdir -p /data-1/app/oracle/product/11.2.0/db_1 </span><br><span class="line"># chown -R oracle:oinstall /data-1/app/ </span><br><span class="line"># chmod -R 755 /data-1/app/</span><br></pre></td></tr></table></figure>
+<h3 id="5-修改内核参数"><a href="#5-修改内核参数" class="headerlink" title="5. 修改内核参数"></a>5. 修改内核参数</h3><p>vi /etc/sysctl.conf </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">fs.aio-max-nr= 1048576</span><br><span class="line">fs.file-max = 6815744</span><br><span class="line">kernel.shmall=16777216</span><br><span class="line">kernel.shmmax=61847529062</span><br><span class="line">kernel.shmmni=4096</span><br><span class="line">kernel.sem = 250 32000 100 128</span><br><span class="line">net.ipv4.ip_local_port_range = 9000 65500</span><br><span class="line">net.core.rmem_default = 262144</span><br><span class="line">net.core.rmem_max = 4194304</span><br><span class="line">net.core.wmem_default = 262144</span><br><span class="line">net.core.wmem_max = 1048586</span><br></pre></td></tr></table></figure>
+<p>sysctl -p   – 使修改生效</p>
+<h3 id="6-修改ssh限制"><a href="#6-修改ssh限制" class="headerlink" title="6. 修改ssh限制"></a>6. 修改ssh限制</h3><p>vi /etc/security/limits.conf </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">oracle soft nofile 131072</span><br><span class="line">oracle hard nofile 131072</span><br><span class="line">oracle soft nproc 131072</span><br><span class="line">oracle hard nproc 131072</span><br><span class="line">oracle soft core unlimited</span><br><span class="line">oracle hard core unlimited</span><br><span class="line">oracle soft memlock 50000000</span><br><span class="line">oracle hard memlock 50000000</span><br></pre></td></tr></table></figure>
+<h3 id="7-解压数据库压缩⽂件"><a href="#7-解压数据库压缩⽂件" class="headerlink" title="7. 解压数据库压缩⽂件"></a>7. 解压数据库压缩⽂件</h3><p>如果没有unzip ，就使用命令 yum install -y unzip 下载</p>
+<p>unzip linuxamd64_12102_database_1of2.zip &amp;&amp; linuxamd64_12102_database_2of2.zip</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># mv database/  /data-1/oracle </span><br><span class="line"># chown -R oracle:oinstall /data-1/oracle </span><br><span class="line"># chmod -R 755 /data-1/oracle</span><br></pre></td></tr></table></figure>
+<h3 id="8-安装"><a href="#8-安装" class="headerlink" title="8. 安装"></a>8. 安装</h3><p>su到oracle用户下，开始安装（如果报错，可以在图形化界面中使用oracle用户登录） </p>
 <p>cd /data-1/oracle/<br>./runInstaller</p>
 <p>如果到这里没有报错的话说明一切顺利，如果报错了先看看有哪些错</p>
-<p>(1) Checking swap space: 0 MB available, 150 MB required. Failed &lt;&lt;&lt;&lt;</p>
-<p><strong>解决办法：</strong></p>
-<p>1、检查 Swap 空间在设置 Swap 文件之前，有必要先检查一下系统里有没有既存的 Swap 文件。运行以下命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">swapon -s</span><br></pre></td></tr></table></figure>
+<h4 id="1-Checking-swap-space-0-MB-available-150-MB-required-Failed-lt-lt-lt-lt"><a href="#1-Checking-swap-space-0-MB-available-150-MB-required-Failed-lt-lt-lt-lt" class="headerlink" title="(1) Checking swap space: 0 MB available, 150 MB required. Failed &lt;&lt;&lt;&lt;"></a>(1) Checking swap space: 0 MB available, 150 MB required. Failed &lt;&lt;&lt;&lt;</h4><p><strong>解决办法：</strong></p>
+<h5 id="1、检查-Swap-空间在设置-Swap-文件之前，有必要先检查一下系统里有没有既存的-Swap-文件。运行以下命令："><a href="#1、检查-Swap-空间在设置-Swap-文件之前，有必要先检查一下系统里有没有既存的-Swap-文件。运行以下命令：" class="headerlink" title="1、检查 Swap 空间在设置 Swap 文件之前，有必要先检查一下系统里有没有既存的 Swap 文件。运行以下命令："></a>1、检查 Swap 空间在设置 Swap 文件之前，有必要先检查一下系统里有没有既存的 Swap 文件。运行以下命令：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">swapon -s</span><br></pre></td></tr></table></figure>
 <p>如果返回的信息概要是空的，则表示 Swap 文件不存在。</p>
-<p>2、检查文件系统在设置 Swap 文件之前，同样有必要检查一下文件系统，看看是否有足够的硬盘空间来设置 Swap 。运行以下命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df -hal</span><br></pre></td></tr></table></figure>
-<p>3、创建并允许 Swap 文件下面使用 dd 命令来创建 Swap 文件。检查返回的信息，还剩余足够的硬盘空间即可。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dd if=/dev/zero of=/swapfile bs=6144 count=3072k</span><br></pre></td></tr></table></figure>
+<h5 id="2、检查文件系统在设置-Swap-文件之前，同样有必要检查一下文件系统，看看是否有足够的硬盘空间来设置-Swap-。运行以下命令："><a href="#2、检查文件系统在设置-Swap-文件之前，同样有必要检查一下文件系统，看看是否有足够的硬盘空间来设置-Swap-。运行以下命令：" class="headerlink" title="2、检查文件系统在设置 Swap 文件之前，同样有必要检查一下文件系统，看看是否有足够的硬盘空间来设置 Swap 。运行以下命令："></a>2、检查文件系统在设置 Swap 文件之前，同样有必要检查一下文件系统，看看是否有足够的硬盘空间来设置 Swap 。运行以下命令：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df -hal</span><br></pre></td></tr></table></figure>
+<h5 id="3、创建并允许-Swap-文件下面使用-dd-命令来创建-Swap-文件。检查返回的信息，还剩余足够的硬盘空间即可。"><a href="#3、创建并允许-Swap-文件下面使用-dd-命令来创建-Swap-文件。检查返回的信息，还剩余足够的硬盘空间即可。" class="headerlink" title="3、创建并允许 Swap 文件下面使用 dd 命令来创建 Swap 文件。检查返回的信息，还剩余足够的硬盘空间即可。"></a>3、创建并允许 Swap 文件下面使用 dd 命令来创建 Swap 文件。检查返回的信息，还剩余足够的硬盘空间即可。</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dd if=/dev/zero of=/swapfile bs=6144 count=3072k</span><br></pre></td></tr></table></figure>
 <p>参数解读：if=文件名：输入文件名，缺省为标准输入。即指定源文件。&lt; if=input file &gt;of=文件名：输出文件名，缺省为标准输出。即指定目的文件。&lt; of=output file &gt;bs=bytes：同时设置读入/输出的块大小为bytes个字节count=blocks：仅拷贝blocks个块，块大小等于bs指定的字节数。</p>
-<p>4、格式化并激活 Swap 文件上面已经创建好 Swap 文件，还需要格式化后才能使用。运行命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkswap /swapfile</span><br></pre></td></tr></table></figure>
+<h5 id="4、格式化并激活-Swap-文件上面已经创建好-Swap-文件，还需要格式化后才能使用。运行命令："><a href="#4、格式化并激活-Swap-文件上面已经创建好-Swap-文件，还需要格式化后才能使用。运行命令：" class="headerlink" title="4、格式化并激活 Swap 文件上面已经创建好 Swap 文件，还需要格式化后才能使用。运行命令："></a>4、格式化并激活 Swap 文件上面已经创建好 Swap 文件，还需要格式化后才能使用。运行命令：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkswap /swapfile</span><br></pre></td></tr></table></figure>
 <p>激活 Swap ，运行命令：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">swapon /swapfile</span><br></pre></td></tr></table></figure>
 <p>以上步骤做完，再次运行命令：</p>
@@ -467,9 +443,8 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/swapfile          swap            swap    defaults        0 0</span><br></pre></td></tr></table></figure>
 <p>最后，赋予 Swap 文件适当的权限：</p>
 <p>chown root:root /swapfile<br>chmod 0600 /swapfile</p>
-<p>(2) Could not execute auto check for display colors using command /usr/bin/xdpyinfo. Check if the DISPLAY variable is set.    Failed &lt;&lt;&lt;&lt;</p>
-<p><strong>解决办法：</strong></p>
-<p>1、使用root用户执行xhost +操作;</p>
+<h4 id="2-Could-not-execute-auto-check-for-display-colors-using-command-usr-bin-xdpyinfo-Check-if-the-DISPLAY-variable-is-set-Failed-lt-lt-lt-lt"><a href="#2-Could-not-execute-auto-check-for-display-colors-using-command-usr-bin-xdpyinfo-Check-if-the-DISPLAY-variable-is-set-Failed-lt-lt-lt-lt" class="headerlink" title="(2) Could not execute auto check for display colors using command /usr/bin/xdpyinfo. Check if the DISPLAY variable is set.    Failed &lt;&lt;&lt;&lt;"></a>(2) Could not execute auto check for display colors using command /usr/bin/xdpyinfo. Check if the DISPLAY variable is set.    Failed &lt;&lt;&lt;&lt;</h4><p><strong>解决办法：</strong></p>
+<p>使用root用户执行xhost +操作;</p>
 <p><img src="/images/oracle3.png" alt=""></p>
 <p>出现如上图所示,解决办法：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum whatprovides &quot;*/xhost&quot;</span><br></pre></td></tr></table></figure>
@@ -543,10 +518,7 @@
 <p><img src="/images/oracle15.png" alt=""></p>
 <p><strong>一定要用root执⾏这两个脚本！！！</strong></p>
 <p>至此安装完成。</p>
-<ol start="9">
-<li>配置数据库 执行netca创建监听</li>
-</ol>
-<p>安装成功后如果打不开sqlplus或者netca ，在oracle用户下看看.bash_profile文件文件中是否配置了$ORACLE_BASE和$ORACLE_HOME, 如果没有的话，就把之前的添加内容再在这里添加一下</p>
+<h3 id="9-配置数据库-执行netca创建监听"><a href="#9-配置数据库-执行netca创建监听" class="headerlink" title="9. 配置数据库 执行netca创建监听"></a>9. 配置数据库 执行netca创建监听</h3><p>安装成功后如果打不开sqlplus或者netca ，在oracle用户下看看.bash_profile文件文件中是否配置了$ORACLE_BASE和$ORACLE_HOME, 如果没有的话，就把之前的添加内容再在这里添加一下</p>
 <p><img src="/images/oracle16.png" alt=""></p>
 <p><img src="/images/oracle17.png" alt=""></p>
 <p><img src="/images/oracle18.png" alt=""></p>
@@ -554,10 +526,7 @@
 <p><img src="/images/oracle20.png" alt=""></p>
 <p><img src="/images/oracle21.png" alt=""></p>
 <p><img src="/images/oracle22.png" alt=""></p>
-<ol start="10">
-<li>执行dbca开始配置数据库</li>
-</ol>
-<p><img src="/images/oracle23.png" alt=""></p>
+<h3 id="10-执行dbca开始配置数据库"><a href="#10-执行dbca开始配置数据库" class="headerlink" title="10. 执行dbca开始配置数据库"></a>10. 执行dbca开始配置数据库</h3><p><img src="/images/oracle23.png" alt=""></p>
 <p><img src="/images/oracle24.png" alt=""></p>
 <p><img src="/images/oracle25.png" alt=""></p>
 <p><img src="/images/oracle26.png" alt=""></p>
@@ -578,10 +547,7 @@
 <p><img src="/images/oracle38.png" alt=""></p>
 <p>至此配置结束！</p>
 <p>安装成功后如果打不开sqlplus ，在oracle用户下看看.bash_profile文件文件中是否配置了$ORACLE_BASE和$ORACLE_HOME, 如果没有的话，就把之前的添加内容再在这里添加一下</p>
-<ol start="11">
-<li>创建用户</li>
-</ol>
-<p>输入sqlplus命令进行登录，如果登录不进去则在oracle用户下执行startup ， </p>
+<h3 id="11-创建用户"><a href="#11-创建用户" class="headerlink" title="11. 创建用户"></a>11. 创建用户</h3><p>输入sqlplus命令进行登录，如果登录不进去则在oracle用户下执行startup ， </p>
 <p>[oracle@localhost oracle]#startup</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">ORACLE 例程已经启动。</span><br><span class="line"></span><br><span class="line">Total System Global Area  535662592 bytes</span><br><span class="line"></span><br><span class="line">Fixed Size                 1375792 bytes</span><br><span class="line"></span><br><span class="line">VariableSize            293601744 bytes</span><br><span class="line"></span><br><span class="line">Database Buffers         234881024 bytes</span><br><span class="line"></span><br><span class="line">RedoBuffers               5804032 bytes</span><br></pre></td></tr></table></figure>
 <p>数据库装载完毕。</p>
@@ -758,7 +724,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#vi-bash-profile"><span class="nav-number">1.</span> <span class="nav-text">vi .bash_profile</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#vi-etc-sysctl-conf"><span class="nav-number">2.</span> <span class="nav-text">vi /etc/sysctl.conf</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#sysctl-p-–-使修改生效"><span class="nav-number">3.</span> <span class="nav-text">sysctl -p   – 使修改生效</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#vi-etc-security-limits-conf"><span class="nav-number">4.</span> <span class="nav-text">vi /etc/security/limits.conf</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#mv-database-data-1-oracle"><span class="nav-number">5.</span> <span class="nav-text">mv database/  /data-1/oracle</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#chown-R-oracle-oinstall-data-1-oracle"><span class="nav-number">6.</span> <span class="nav-text">chown -R oracle:oinstall /data-1/oracle</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#chmod-R-755-data-1-oracle"><span class="nav-number">7.</span> <span class="nav-text">chmod -R 755 /data-1/oracle</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#附件："><span class="nav-number">7.0.1.</span> <span class="nav-text">附件：</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-环境"><span class="nav-number">1.</span> <span class="nav-text">1. 环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-创建用户"><span class="nav-number">2.</span> <span class="nav-text">2. 创建用户</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-修改用户配置文件（环境变量）"><span class="nav-number">3.</span> <span class="nav-text">3. 修改用户配置文件（环境变量）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-创建相关目录"><span class="nav-number">4.</span> <span class="nav-text">4. 创建相关目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-修改内核参数"><span class="nav-number">5.</span> <span class="nav-text">5. 修改内核参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-修改ssh限制"><span class="nav-number">6.</span> <span class="nav-text">6. 修改ssh限制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-解压数据库压缩⽂件"><span class="nav-number">7.</span> <span class="nav-text">7. 解压数据库压缩⽂件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-安装"><span class="nav-number">8.</span> <span class="nav-text">8. 安装</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-Checking-swap-space-0-MB-available-150-MB-required-Failed-lt-lt-lt-lt"><span class="nav-number">8.1.</span> <span class="nav-text">(1) Checking swap space: 0 MB available, 150 MB required. Failed &lt;&lt;&lt;&lt;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、检查-Swap-空间在设置-Swap-文件之前，有必要先检查一下系统里有没有既存的-Swap-文件。运行以下命令："><span class="nav-number">8.1.1.</span> <span class="nav-text">1、检查 Swap 空间在设置 Swap 文件之前，有必要先检查一下系统里有没有既存的 Swap 文件。运行以下命令：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、检查文件系统在设置-Swap-文件之前，同样有必要检查一下文件系统，看看是否有足够的硬盘空间来设置-Swap-。运行以下命令："><span class="nav-number">8.1.2.</span> <span class="nav-text">2、检查文件系统在设置 Swap 文件之前，同样有必要检查一下文件系统，看看是否有足够的硬盘空间来设置 Swap 。运行以下命令：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、创建并允许-Swap-文件下面使用-dd-命令来创建-Swap-文件。检查返回的信息，还剩余足够的硬盘空间即可。"><span class="nav-number">8.1.3.</span> <span class="nav-text">3、创建并允许 Swap 文件下面使用 dd 命令来创建 Swap 文件。检查返回的信息，还剩余足够的硬盘空间即可。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4、格式化并激活-Swap-文件上面已经创建好-Swap-文件，还需要格式化后才能使用。运行命令："><span class="nav-number">8.1.4.</span> <span class="nav-text">4、格式化并激活 Swap 文件上面已经创建好 Swap 文件，还需要格式化后才能使用。运行命令：</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-Could-not-execute-auto-check-for-display-colors-using-command-usr-bin-xdpyinfo-Check-if-the-DISPLAY-variable-is-set-Failed-lt-lt-lt-lt"><span class="nav-number">8.2.</span> <span class="nav-text">(2) Could not execute auto check for display colors using command /usr/bin/xdpyinfo. Check if the DISPLAY variable is set.    Failed &lt;&lt;&lt;&lt;</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-配置数据库-执行netca创建监听"><span class="nav-number">9.</span> <span class="nav-text">9. 配置数据库 执行netca创建监听</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-执行dbca开始配置数据库"><span class="nav-number">10.</span> <span class="nav-text">10. 执行dbca开始配置数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-创建用户"><span class="nav-number">11.</span> <span class="nav-text">11. 创建用户</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#附件："><span class="nav-number">12.</span> <span class="nav-text">附件：</span></a></li></ol></div>
             
 
           </div>
