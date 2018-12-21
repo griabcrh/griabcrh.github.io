@@ -79,19 +79,19 @@
 
 
 
-<meta name="description" content="1、什么是Sql注入攻击SQL注入攻击通过构建特殊的输入作为参数传入Web应用程序，而这些输入大都是SQL语法里的一些组合，通过执行SQL语句进而执行攻击者所要的操作，它目前是黑客对数据库进行攻击的最常用手段之一。  本课程将带你从介绍 Web 应用运行原理开始，一步一步理解 Sql 注入的由来、原理和攻击方式。 2、Web程序三层架构三层架构(3-tier architecture) 通常意义上">
+<meta name="description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 1、什么是Sql注入攻击SQL注入攻击通过构建特殊的输入作为参数传入Web应用程序，而这些输入大都是SQL语法里的一些组合，通过执行SQL语句进而执行攻击者所要的操作，它目前是黑客对数据库进行攻击的最常用手段之一。  本课程将带你从介绍 Web 应用运行原理开始，一步一步理解 Sql 注入的由来、原理和攻击方式。 2、We">
 <meta name="keywords" content="Sql">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Sql注入基本原理">
 <meta property="og:url" content="https://griabcrh.github.io/2018/07/12/Sql注入基本原理/index.html">
 <meta property="og:site_name" content="Griabcrh&#39;s Blog">
-<meta property="og:description" content="1、什么是Sql注入攻击SQL注入攻击通过构建特殊的输入作为参数传入Web应用程序，而这些输入大都是SQL语法里的一些组合，通过执行SQL语句进而执行攻击者所要的操作，它目前是黑客对数据库进行攻击的最常用手段之一。  本课程将带你从介绍 Web 应用运行原理开始，一步一步理解 Sql 注入的由来、原理和攻击方式。 2、Web程序三层架构三层架构(3-tier architecture) 通常意义上">
+<meta property="og:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 1、什么是Sql注入攻击SQL注入攻击通过构建特殊的输入作为参数传入Web应用程序，而这些输入大都是SQL语法里的一些组合，通过执行SQL语句进而执行攻击者所要的操作，它目前是黑客对数据库进行攻击的最常用手段之一。  本课程将带你从介绍 Web 应用运行原理开始，一步一步理解 Sql 注入的由来、原理和攻击方式。 2、We">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://griabcrh.github.io/images/sqlinjection1.png">
-<meta property="og:updated_time" content="2018-07-14T11:58:57.492Z">
+<meta property="og:updated_time" content="2018-12-18T06:45:08.334Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Sql注入基本原理">
-<meta name="twitter:description" content="1、什么是Sql注入攻击SQL注入攻击通过构建特殊的输入作为参数传入Web应用程序，而这些输入大都是SQL语法里的一些组合，通过执行SQL语句进而执行攻击者所要的操作，它目前是黑客对数据库进行攻击的最常用手段之一。  本课程将带你从介绍 Web 应用运行原理开始，一步一步理解 Sql 注入的由来、原理和攻击方式。 2、Web程序三层架构三层架构(3-tier architecture) 通常意义上">
+<meta name="twitter:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 1、什么是Sql注入攻击SQL注入攻击通过构建特殊的输入作为参数传入Web应用程序，而这些输入大都是SQL语法里的一些组合，通过执行SQL语句进而执行攻击者所要的操作，它目前是黑客对数据库进行攻击的最常用手段之一。  本课程将带你从介绍 Web 应用运行原理开始，一步一步理解 Sql 注入的由来、原理和攻击方式。 2、We">
 <meta name="twitter:image" content="https://griabcrh.github.io/images/sqlinjection1.png">
 
 
@@ -365,7 +365,8 @@
       
 
       
-        <h3 id="1、什么是Sql注入攻击"><a href="#1、什么是Sql注入攻击" class="headerlink" title="1、什么是Sql注入攻击"></a>1、什么是Sql注入攻击</h3><p>SQL注入攻击通过构建特殊的输入作为参数传入Web应用程序，而这些输入大都是SQL语法里的一些组合，通过执行SQL语句进而执行攻击者所要的操作，它目前是黑客对数据库进行攻击的最常用手段之一。 </p>
+        <p>如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！</p>
+<h3 id="1、什么是Sql注入攻击"><a href="#1、什么是Sql注入攻击" class="headerlink" title="1、什么是Sql注入攻击"></a>1、什么是Sql注入攻击</h3><p>SQL注入攻击通过构建特殊的输入作为参数传入Web应用程序，而这些输入大都是SQL语法里的一些组合，通过执行SQL语句进而执行攻击者所要的操作，它目前是黑客对数据库进行攻击的最常用手段之一。 </p>
 <p>本课程将带你从介绍 Web 应用运行原理开始，一步一步理解 Sql 注入的由来、原理和攻击方式。</p>
 <h3 id="2、Web程序三层架构"><a href="#2、Web程序三层架构" class="headerlink" title="2、Web程序三层架构"></a>2、Web程序三层架构</h3><p>三层架构(3-tier architecture) 通常意义上就是将整个业务应用划分为：</p>
 <p>界面层（User Interface layer）</p>
@@ -525,7 +526,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">71</span>
+                  <span class="site-state-item-count">72</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -538,7 +539,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-count">50</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

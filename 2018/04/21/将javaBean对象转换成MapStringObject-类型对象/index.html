@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="思路是采用反射机制，直接获取对象所有字段，遍历的时候在map里put进每个字段的值 123456789public static void transformBeanToMap(Object object,Map&amp;lt;String, Object&amp;gt;map)        throws IllegalArgumentException, IllegalAccessException &amp;#12">
+<meta name="description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 思路是采用反射机制，直接获取对象所有字段，遍历的时候在map里put进每个字段的值 123456789public static void transformBeanToMap(Object object,Map&amp;lt;String, Object&amp;gt;map)        throws IllegalArgument">
 <meta name="keywords" content="Java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="将javaBean对象转换成MapString,Object类型对象">
 <meta property="og:url" content="https://griabcrh.github.io/2018/04/21/将javaBean对象转换成MapStringObject-类型对象/index.html">
 <meta property="og:site_name" content="Griabcrh&#39;s Blog">
-<meta property="og:description" content="思路是采用反射机制，直接获取对象所有字段，遍历的时候在map里put进每个字段的值 123456789public static void transformBeanToMap(Object object,Map&amp;lt;String, Object&amp;gt;map)        throws IllegalArgumentException, IllegalAccessException &amp;#12">
+<meta property="og:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 思路是采用反射机制，直接获取对象所有字段，遍历的时候在map里put进每个字段的值 123456789public static void transformBeanToMap(Object object,Map&amp;lt;String, Object&amp;gt;map)        throws IllegalArgument">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-04-21T12:03:56.200Z">
+<meta property="og:updated_time" content="2018-12-18T06:46:26.561Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="将javaBean对象转换成MapString,Object类型对象">
-<meta name="twitter:description" content="思路是采用反射机制，直接获取对象所有字段，遍历的时候在map里put进每个字段的值 123456789public static void transformBeanToMap(Object object,Map&amp;lt;String, Object&amp;gt;map)        throws IllegalArgumentException, IllegalAccessException &amp;#12">
+<meta name="twitter:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 思路是采用反射机制，直接获取对象所有字段，遍历的时候在map里put进每个字段的值 123456789public static void transformBeanToMap(Object object,Map&amp;lt;String, Object&amp;gt;map)        throws IllegalArgument">
 
 
 
@@ -363,7 +363,8 @@
       
 
       
-        <p>思路是采用反射机制，直接获取对象所有字段，遍历的时候在map里put进每个字段的值</p>
+        <p>如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！</p>
+<p>思路是采用反射机制，直接获取对象所有字段，遍历的时候在map里put进每个字段的值</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public static void transformBeanToMap(Object object,Map&lt;String, Object&gt;map) </span><br><span class="line">       throws IllegalArgumentException, IllegalAccessException &#123;</span><br><span class="line">       Field[] declaredFields = object.getClass().getDeclaredFields();</span><br><span class="line">       <span class="keyword">for</span>(Field field:declaredFields)&#123;</span><br><span class="line">           field.setAccessible(<span class="literal">true</span>);</span><br><span class="line">           Object value = field.get(object);</span><br><span class="line">           map.put(field.getName(), value);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
 <p>Field[] declaredFields = object.getClass().getDeclaredFields();</p>
 <p>这行代表获取对象所有自己定义的字段，包括被private修饰的字段，如果实现了序列化接口，还会多一个serialVersionUID字段。</p>
@@ -484,7 +485,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">71</span>
+                  <span class="site-state-item-count">72</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -497,7 +498,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-count">50</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="序列化," />
+  <meta name="keywords" content="package.json," />
 
 
 
@@ -79,20 +79,18 @@
 
 
 
-<meta name="description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 在写代码时，我们都会碰到Serializable字段，可我们对Serializable又了解多少呢，对序列化和反序列化了解多少呢？">
-<meta name="keywords" content="序列化">
+<meta name="description" content="dependencies和devDependencies 具体代码如下123456789101112131415161718192021&amp;quot;name&amp;quot;: &amp;quot;webpack-react-express&amp;quot;,  &amp;quot;version&amp;quot;: &amp;quot;0.2.0&amp;quot;,  &amp;quot;private&amp;quot;: true,  &amp;quot;dep">
+<meta name="keywords" content="package.json">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java对象的序列化与反序列化">
-<meta property="og:url" content="https://griabcrh.github.io/2018/04/21/Java对象的序列化与反序列化/index.html">
+<meta property="og:title" content="浅析package.json中的devdependencies 和 dependencies">
+<meta property="og:url" content="https://griabcrh.github.io/2018/12/20/浅析package-json中的devdependencies-和-dependencies/index.html">
 <meta property="og:site_name" content="Griabcrh&#39;s Blog">
-<meta property="og:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 在写代码时，我们都会碰到Serializable字段，可我们对Serializable又了解多少呢，对序列化和反序列化了解多少呢？">
+<meta property="og:description" content="dependencies和devDependencies 具体代码如下123456789101112131415161718192021&amp;quot;name&amp;quot;: &amp;quot;webpack-react-express&amp;quot;,  &amp;quot;version&amp;quot;: &amp;quot;0.2.0&amp;quot;,  &amp;quot;private&amp;quot;: true,  &amp;quot;dep">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://griabcrh.github.io/images/Java对象的序列化与反序列化.png">
-<meta property="og:updated_time" content="2018-12-18T06:47:31.850Z">
+<meta property="og:updated_time" content="2018-12-20T05:49:59.033Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Java对象的序列化与反序列化">
-<meta name="twitter:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 在写代码时，我们都会碰到Serializable字段，可我们对Serializable又了解多少呢，对序列化和反序列化了解多少呢？">
-<meta name="twitter:image" content="https://griabcrh.github.io/images/Java对象的序列化与反序列化.png">
+<meta name="twitter:title" content="浅析package.json中的devdependencies 和 dependencies">
+<meta name="twitter:description" content="dependencies和devDependencies 具体代码如下123456789101112131415161718192021&amp;quot;name&amp;quot;: &amp;quot;webpack-react-express&amp;quot;,  &amp;quot;version&amp;quot;: &amp;quot;0.2.0&amp;quot;,  &amp;quot;private&amp;quot;: true,  &amp;quot;dep">
 
 
 
@@ -122,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="https://griabcrh.github.io/2018/04/21/Java对象的序列化与反序列化/"/>
+  <link rel="canonical" href="https://griabcrh.github.io/2018/12/20/浅析package-json中的devdependencies-和-dependencies/"/>
 
 
 
 
 
-  <title>Java对象的序列化与反序列化 | Griabcrh's Blog</title>
+  <title>浅析package.json中的devdependencies 和 dependencies | Griabcrh's Blog</title>
   
 
 
@@ -286,7 +284,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/04/21/Java对象的序列化与反序列化/">
+    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2018/12/20/浅析package-json中的devdependencies-和-dependencies/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="griabcrh">
@@ -303,7 +301,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Java对象的序列化与反序列化</h1>
+          <h1 class="post-title" itemprop="name headline">浅析package.json中的devdependencies 和 dependencies</h1>
         
 
         <div class="post-meta">
@@ -316,8 +314,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-21T19:35:54+08:00">
-                2018-04-21
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-20T13:46:12+08:00">
+                2018-12-20
               </time>
             
 
@@ -334,7 +332,7 @@
 
           
           
-             <span id="/2018/04/21/Java对象的序列化与反序列化/" class="leancloud_visitors" data-flag-title="Java对象的序列化与反序列化">
+             <span id="/2018/12/20/浅析package-json中的devdependencies-和-dependencies/" class="leancloud_visitors" data-flag-title="浅析package.json中的devdependencies 和 dependencies">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -365,9 +363,21 @@
       
 
       
-        <p>如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！</p>
-<p>在写代码时，我们都会碰到Serializable字段，可我们对Serializable又了解多少呢，对序列化和反序列化了解多少呢？</p>
-<p><img src="/images/Java对象的序列化与反序列化.png" alt=""></p>
+        <h3 id="dependencies和devDependencies-具体代码如下"><a href="#dependencies和devDependencies-具体代码如下" class="headerlink" title="dependencies和devDependencies 具体代码如下"></a>dependencies和devDependencies 具体代码如下</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&quot;name&quot;: &quot;webpack-react-express&quot;,</span><br><span class="line">  &quot;version&quot;: &quot;0.2.0&quot;,</span><br><span class="line">  &quot;private&quot;: true,</span><br><span class="line">  &quot;dependencies&quot;: &#123;</span><br><span class="line">    &quot;antd&quot;: &quot;^2.13.11&quot;,</span><br><span class="line">    &quot;babel-polyfill&quot;: &quot;^6.26.0&quot;,</span><br><span class="line">    &quot;base-64&quot;: &quot;^0.1.0&quot;,</span><br><span class="line">    &quot;bluebird&quot;: &quot;^3.5.1&quot;,</span><br><span class="line">    &quot;css-loader&quot;: &quot;^0.28.7&quot;,</span><br><span class="line">    &quot;echarts&quot;: &quot;^3.7.2&quot;,</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;devDependencies&quot;: &#123;</span><br><span class="line">    &quot;babel-core&quot;: &quot;^6.26.0&quot;,</span><br><span class="line">    &quot;babel-loader&quot;: &quot;^6.4.1&quot;,</span><br><span class="line">    &quot;babel-plugin-transform-class-properties&quot;: &quot;^6.24.1&quot;,</span><br><span class="line">    &quot;babel-plugin-transform-runtime&quot;: &quot;^6.23.0&quot;,</span><br><span class="line">    &quot;babel-polyfill&quot;: &quot;^6.26.0&quot;,</span><br><span class="line">    &quot;babel-preset-es2015&quot;: &quot;^6.24.1&quot;,</span><br><span class="line">    &quot;webpack&quot;: &quot;^1.12.13&quot;,</span><br><span class="line">    &quot;webpack-hot-middleware&quot;: &quot;^2.21.0&quot;</span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
+<h3 id="devDependencies"><a href="#devDependencies" class="headerlink" title="devDependencies"></a>devDependencies</h3><p>(1)内容：是一个对象，配置模块依赖的模块列表，key是模块名称，value是版本范围<br>(2)作用：该模块中所列举的插件属于开发环境的依赖（比如：测试或者文档框架等）<br>(3)部署来源：通过你npm install进行依赖安装时加上-save-dev，devDependencies对象中便会增加echarts安装配置，实例安装echarts依赖代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install echarts -save-dev</span><br></pre></td></tr></table></figure>
+<h3 id="dependencies"><a href="#dependencies" class="headerlink" title="dependencies"></a>dependencies</h3><p>(1)内容：是一个对象，配置模块依赖的模块列表，key是模块名称，value是版本范围<br>(2)作用：该模块中所列举的插件属于生产环境的依赖（程序正常运行需要加载的依赖）<br>(3)部署来源：通过你npm install进行依赖安装时加上-save，dependencies对象中便会增加echarts安装配置，实例安装echarts依赖代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install echarts -save</span><br></pre></td></tr></table></figure>
+<h3 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h3><p>(1)如果拿到别人的项目，需要安装之前package.json中devdependencies 和 dependencies两个模块下所列举的依赖，可以通过执行以下命令实现<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install</span><br></pre></td></tr></table></figure></p>
+<p>(2)如果拿到别人的项目，只需要安装之前package.json中dependencies 模块下所列举的依赖，可以通过执行以下命令实现<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install packagename</span><br></pre></td></tr></table></figure></p>
+<p>(3)如果拿到别人的项目，只需要安装之前package.json中devdependencies 模块下所列举的依赖，可以通过执行以下命令实现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install packagename -dev</span><br></pre></td></tr></table></figure>
+<h3 id="npm-uninstall-删除依赖"><a href="#npm-uninstall-删除依赖" class="headerlink" title="npm uninstall-删除依赖"></a>npm uninstall-删除依赖</h3><p>（1）npm uninstall “依赖名称”：删除依赖，但不会删除package.json的配置（即通过npm install依然可以安装该依赖），删除echarts依赖实例代码如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm uninstall echarts</span><br></pre></td></tr></table></figure></p>
+<p>（2）npm uninstall “依赖名称”  –save-dev：删除依赖，同时删除package.json中devdependencies 的配置,删除echarts依赖实例代码如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm uninstall echarts  --save-dev</span><br></pre></td></tr></table></figure></p>
+<p>（3）npm uninstall “依赖名称”  –save：删除依赖，同时删除package.json中dependencies 的配置,删除echarts依赖实例代码如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm uninstall echarts --save</span><br></pre></td></tr></table></figure></p>
+<h3 id="友情提示"><a href="#友情提示" class="headerlink" title="友情提示"></a>友情提示</h3><p>(1)编程中，如果自己需要某一依赖，在安装时一定要使用npm install echarts -save或npm install echarts -save-dev，即将依赖配置到package.json中对应的对象中，而非简单使用npm install echarts命令（可以正常安装依赖，但不会配置到package.json文件中），因为如果是协作编程，package.json中没有相关配置，其他协作人员的项目不能正常运行后不能通过npm install正确安装依赖，别人也并不知道你安装了什么依赖，这样就会大大影响协作编程的效率</p>
+<hr>
+<p>作者：只如初见0706<br>来源：CSDN<br>原文：<a href="https://blog.csdn.net/zrcj0706/article/details/79178371" target="_blank" rel="noopener">https://blog.csdn.net/zrcj0706/article/details/79178371</a> </p>
 
       
     </div>
@@ -385,7 +395,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/序列化/" rel="tag"># 序列化</a>
+            <a href="/tags/package-json/" rel="tag"># package.json</a>
           
         </div>
       
@@ -398,8 +408,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/04/21/以吃货的角度理解IaaS，PaaS，SaaS是什么？/" rel="next" title="以吃货的角度理解IaaS，PaaS，SaaS是什么？">
-                <i class="fa fa-chevron-left"></i> 以吃货的角度理解IaaS，PaaS，SaaS是什么？
+              <a href="/2018/12/14/Linux系统中安装Oracle/" rel="next" title="Linux系统中安装Oracle">
+                <i class="fa fa-chevron-left"></i> Linux系统中安装Oracle
               </a>
             
           </div>
@@ -407,10 +417,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/04/21/从零开始-使用React-WebPack-NodeJs快速构建项目/" rel="prev" title="从零开始-使用React+WebPack+NodeJs快速构建项目">
-                从零开始-使用React+WebPack+NodeJs快速构建项目 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -462,8 +468,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -518,6 +533,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#dependencies和devDependencies-具体代码如下"><span class="nav-number">1.</span> <span class="nav-text">dependencies和devDependencies 具体代码如下</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#devDependencies"><span class="nav-number">2.</span> <span class="nav-text">devDependencies</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dependencies"><span class="nav-number">3.</span> <span class="nav-text">dependencies</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装依赖"><span class="nav-number">4.</span> <span class="nav-text">安装依赖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#npm-uninstall-删除依赖"><span class="nav-number">5.</span> <span class="nav-text">npm uninstall-删除依赖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#友情提示"><span class="nav-number">6.</span> <span class="nav-text">友情提示</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

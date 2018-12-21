@@ -79,21 +79,21 @@
 
 
 
-<meta name="description" content="1集群简介集群就是指一组（若干）相互独立的计算机，利用高速通信网络组成的一个较大的计算机服务系统，每个集群结点都是运行各自服务的独立服务器。这些服务器之间可以彼此通信，协同向用户提供应用程序、系统资源和数据，并以单一系统的模式加以管理。当客户机请求集群系统时，集群给用户的感觉就是一个单一独立的服务器，而实际上用户请求的是一组集群服务器。 若用一句话描述集群，即一堆服务器合作做同一件事，这些机器可能">
+<meta name="description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 1集群简介集群就是指一组（若干）相互独立的计算机，利用高速通信网络组成的一个较大的计算机服务系统，每个集群结点都是运行各自服务的独立服务器。这些服务器之间可以彼此通信，协同向用户提供应用程序、系统资源和数据，并以单一系统的模式加以管理。当客户机请求集群系统时，集群给用户的感觉就是一个单一独立的服务器，而实际上用户请求的是一">
 <meta name="keywords" content="Nginx">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Nginx反向代理和负载均衡系列一">
 <meta property="og:url" content="https://griabcrh.github.io/2018/04/21/Nginx反向代理和负载均衡系列一/index.html">
 <meta property="og:site_name" content="Griabcrh&#39;s Blog">
-<meta property="og:description" content="1集群简介集群就是指一组（若干）相互独立的计算机，利用高速通信网络组成的一个较大的计算机服务系统，每个集群结点都是运行各自服务的独立服务器。这些服务器之间可以彼此通信，协同向用户提供应用程序、系统资源和数据，并以单一系统的模式加以管理。当客户机请求集群系统时，集群给用户的感觉就是一个单一独立的服务器，而实际上用户请求的是一组集群服务器。 若用一句话描述集群，即一堆服务器合作做同一件事，这些机器可能">
+<meta property="og:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 1集群简介集群就是指一组（若干）相互独立的计算机，利用高速通信网络组成的一个较大的计算机服务系统，每个集群结点都是运行各自服务的独立服务器。这些服务器之间可以彼此通信，协同向用户提供应用程序、系统资源和数据，并以单一系统的模式加以管理。当客户机请求集群系统时，集群给用户的感觉就是一个单一独立的服务器，而实际上用户请求的是一">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://griabcrh.github.io/images/nginx1.png">
 <meta property="og:image" content="https://griabcrh.github.io/images/nginx2.png">
 <meta property="og:image" content="https://griabcrh.github.io/images/nginx3.png">
-<meta property="og:updated_time" content="2018-04-21T11:13:17.609Z">
+<meta property="og:updated_time" content="2018-12-18T06:48:25.627Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Nginx反向代理和负载均衡系列一">
-<meta name="twitter:description" content="1集群简介集群就是指一组（若干）相互独立的计算机，利用高速通信网络组成的一个较大的计算机服务系统，每个集群结点都是运行各自服务的独立服务器。这些服务器之间可以彼此通信，协同向用户提供应用程序、系统资源和数据，并以单一系统的模式加以管理。当客户机请求集群系统时，集群给用户的感觉就是一个单一独立的服务器，而实际上用户请求的是一组集群服务器。 若用一句话描述集群，即一堆服务器合作做同一件事，这些机器可能">
+<meta name="twitter:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 1集群简介集群就是指一组（若干）相互独立的计算机，利用高速通信网络组成的一个较大的计算机服务系统，每个集群结点都是运行各自服务的独立服务器。这些服务器之间可以彼此通信，协同向用户提供应用程序、系统资源和数据，并以单一系统的模式加以管理。当客户机请求集群系统时，集群给用户的感觉就是一个单一独立的服务器，而实际上用户请求的是一">
 <meta name="twitter:image" content="https://griabcrh.github.io/images/nginx1.png">
 
 
@@ -367,7 +367,8 @@
       
 
       
-        <h3 id="1集群简介"><a href="#1集群简介" class="headerlink" title="1集群简介"></a>1集群简介</h3><p>集群就是指一组（若干）相互独立的计算机，利用高速通信网络组成的一个较大的计算机服务系统，每个集群结点都是运行各自服务的独立服务器。这些服务器之间可以彼此通信，协同向用户提供应用程序、系统资源和数据，并以单一系统的模式加以管理。<br>当客户机请求集群系统时，集群给用户的感觉就是一个单一独立的服务器，而实际上用户请求的是一组集群服务器。</p>
+        <p>如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！</p>
+<h3 id="1集群简介"><a href="#1集群简介" class="headerlink" title="1集群简介"></a>1集群简介</h3><p>集群就是指一组（若干）相互独立的计算机，利用高速通信网络组成的一个较大的计算机服务系统，每个集群结点都是运行各自服务的独立服务器。这些服务器之间可以彼此通信，协同向用户提供应用程序、系统资源和数据，并以单一系统的模式加以管理。<br>当客户机请求集群系统时，集群给用户的感觉就是一个单一独立的服务器，而实际上用户请求的是一组集群服务器。</p>
 <p>若用一句话描述集群，即一堆服务器合作做同一件事，这些机器可能需要整个技术团队架构、设计和统一协调管理；可能分布在一个机房，也可能分布在全国各地。</p>
 <h3 id="2为什么要使用集群"><a href="#2为什么要使用集群" class="headerlink" title="2为什么要使用集群"></a>2为什么要使用集群</h3><h6 id="高性能（Performance）"><a href="#高性能（Performance）" class="headerlink" title="高性能（Performance）"></a>高性能（Performance）</h6><p>大型网站谷歌、淘宝、百度等，都不是几台大型机可以构建的，都是上万台服务器组成的高性能集群，分布于不同的地点。</p>
 <p>只有当并发或总请求数量超过单台服务器的承受能力时，服务器集群的优势才会体现出来。</p>
@@ -618,7 +619,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">71</span>
+                  <span class="site-state-item-count">72</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -631,7 +632,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-count">50</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

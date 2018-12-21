@@ -79,19 +79,19 @@
 
 
 
-<meta name="description" content="后台程序开发及上线时，一般都会用到Log信息打印及Log日志记录，开发时通过Log信息打印可以快速的定位问题所在，帮助我们快捷开发。程序上线后如遇到Bug或错误，此时则需要日志记录来查找发现问题所在。 Spring Boot 可以集成很多不同的日志系统，其中最常用的Apache Log4j，而Log4j 2是Log4j的升级版本，Log4j 2相对于Log4j 1.x 有了很多显著的改善。所以这篇">
+<meta name="description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 后台程序开发及上线时，一般都会用到Log信息打印及Log日志记录，开发时通过Log信息打印可以快速的定位问题所在，帮助我们快捷开发。程序上线后如遇到Bug或错误，此时则需要日志记录来查找发现问题所在。 Spring Boot 可以集成很多不同的日志系统，其中最常用的Apache Log4j，而Log4j 2是Log4j的升">
 <meta name="keywords" content="SpringBoot">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SpringBoot系列之日志log4j2">
 <meta property="og:url" content="https://griabcrh.github.io/2018/04/21/SpringBoot系列之日志log4j2/index.html">
 <meta property="og:site_name" content="Griabcrh&#39;s Blog">
-<meta property="og:description" content="后台程序开发及上线时，一般都会用到Log信息打印及Log日志记录，开发时通过Log信息打印可以快速的定位问题所在，帮助我们快捷开发。程序上线后如遇到Bug或错误，此时则需要日志记录来查找发现问题所在。 Spring Boot 可以集成很多不同的日志系统，其中最常用的Apache Log4j，而Log4j 2是Log4j的升级版本，Log4j 2相对于Log4j 1.x 有了很多显著的改善。所以这篇">
+<meta property="og:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 后台程序开发及上线时，一般都会用到Log信息打印及Log日志记录，开发时通过Log信息打印可以快速的定位问题所在，帮助我们快捷开发。程序上线后如遇到Bug或错误，此时则需要日志记录来查找发现问题所在。 Spring Boot 可以集成很多不同的日志系统，其中最常用的Apache Log4j，而Log4j 2是Log4j的升">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://griabcrh.github.io/images/log.png">
-<meta property="og:updated_time" content="2018-04-21T11:10:29.079Z">
+<meta property="og:updated_time" content="2018-12-18T06:48:41.055Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SpringBoot系列之日志log4j2">
-<meta name="twitter:description" content="后台程序开发及上线时，一般都会用到Log信息打印及Log日志记录，开发时通过Log信息打印可以快速的定位问题所在，帮助我们快捷开发。程序上线后如遇到Bug或错误，此时则需要日志记录来查找发现问题所在。 Spring Boot 可以集成很多不同的日志系统，其中最常用的Apache Log4j，而Log4j 2是Log4j的升级版本，Log4j 2相对于Log4j 1.x 有了很多显著的改善。所以这篇">
+<meta name="twitter:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 后台程序开发及上线时，一般都会用到Log信息打印及Log日志记录，开发时通过Log信息打印可以快速的定位问题所在，帮助我们快捷开发。程序上线后如遇到Bug或错误，此时则需要日志记录来查找发现问题所在。 Spring Boot 可以集成很多不同的日志系统，其中最常用的Apache Log4j，而Log4j 2是Log4j的升">
 <meta name="twitter:image" content="https://griabcrh.github.io/images/log.png">
 
 
@@ -365,7 +365,8 @@
       
 
       
-        <p>后台程序开发及上线时，一般都会用到Log信息打印及Log日志记录，开发时通过Log信息打印可以快速的定位问题所在，帮助我们快捷开发。程序上线后如遇到Bug或错误，此时则需要日志记录来查找发现问题所在。</p>
+        <p>如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！</p>
+<p>后台程序开发及上线时，一般都会用到Log信息打印及Log日志记录，开发时通过Log信息打印可以快速的定位问题所在，帮助我们快捷开发。程序上线后如遇到Bug或错误，此时则需要日志记录来查找发现问题所在。</p>
 <p>Spring Boot 可以集成很多不同的日志系统，其中最常用的Apache Log4j，而Log4j 2是Log4j的升级版本，Log4j 2相对于Log4j 1.x 有了很多显著的改善。所以这篇博客就直接来说说Spring Boot如何集成并配置使用Log4j2.</p>
 <h3 id="1-在pom-xml里添加log4j的jar包"><a href="#1-在pom-xml里添加log4j的jar包" class="headerlink" title="1.在pom.xml里添加log4j的jar包"></a>1.在pom.xml里添加log4j的jar包</h3><a id="more"></a>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">	&lt;exclusions&gt;</span><br><span class="line">		&lt;exclusion&gt;</span><br><span class="line">			&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;spring-boot-starter-logging&lt;/artifactId&gt;</span><br><span class="line">		&lt;/exclusion&gt;</span><br><span class="line">	&lt;/exclusions&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;!-- 引入Log4j2 --&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.apache.logging.log4j&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;log4j-api&lt;/artifactId&gt;</span><br><span class="line">	&lt;version&gt;2.8&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.apache.logging.log4j&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;log4j-core&lt;/artifactId&gt;</span><br><span class="line">	&lt;version&gt;2.8&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;com.lmax&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;disruptor&lt;/artifactId&gt;</span><br><span class="line">	&lt;version&gt;3.3.6&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;!-- 解决slf4j和log4j2冲突--&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.apache.logging.log4j&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;log4j-slf4j-impl&lt;/artifactId&gt;</span><br><span class="line">	&lt;version&gt;2.6.2&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
@@ -500,7 +501,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">71</span>
+                  <span class="site-state-item-count">72</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -513,7 +514,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-count">50</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

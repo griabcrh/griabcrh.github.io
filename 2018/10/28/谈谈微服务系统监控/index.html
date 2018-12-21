@@ -79,23 +79,23 @@
 
 
 
-<meta name="description" content="正如我之前所展示的，将系统拆分成更小的、细粒度的微服务会带来很多好处。然而，它也增加了生产系统的监控复杂性。在本文中，我将带大家看看细粒度的系统在系统监控和定位问题上所面临的挑战，同时还会介绍一些应对方法，让鱼和熊掌兼得！ 设想一下这样的场景：一个安静的周五下午，团队期待着早点开溜去酒吧，开始一个远离工作的周末。然而，突然收到一封邮件：网站工作异常！ Twitter 上到处都是关于贵公司网站出问题">
+<meta name="description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 正如我之前所展示的，将系统拆分成更小的、细粒度的微服务会带来很多好处。然而，它也增加了生产系统的监控复杂性。在本文中，我将带大家看看细粒度的系统在系统监控和定位问题上所面临的挑战，同时还会介绍一些应对方法，让鱼和熊掌兼得！ 设想一下这样的场景：一个安静的周五下午，团队期待着早点开溜去酒吧，开始一个远离工作的周末。然而，突然">
 <meta name="keywords" content="微服务">
 <meta property="og:type" content="article">
 <meta property="og:title" content="谈谈微服务系统监控">
 <meta property="og:url" content="https://griabcrh.github.io/2018/10/28/谈谈微服务系统监控/index.html">
 <meta property="og:site_name" content="Griabcrh&#39;s Blog">
-<meta property="og:description" content="正如我之前所展示的，将系统拆分成更小的、细粒度的微服务会带来很多好处。然而，它也增加了生产系统的监控复杂性。在本文中，我将带大家看看细粒度的系统在系统监控和定位问题上所面临的挑战，同时还会介绍一些应对方法，让鱼和熊掌兼得！ 设想一下这样的场景：一个安静的周五下午，团队期待着早点开溜去酒吧，开始一个远离工作的周末。然而，突然收到一封邮件：网站工作异常！ Twitter 上到处都是关于贵公司网站出问题">
+<meta property="og:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 正如我之前所展示的，将系统拆分成更小的、细粒度的微服务会带来很多好处。然而，它也增加了生产系统的监控复杂性。在本文中，我将带大家看看细粒度的系统在系统监控和定位问题上所面临的挑战，同时还会介绍一些应对方法，让鱼和熊掌兼得！ 设想一下这样的场景：一个安静的周五下午，团队期待着早点开溜去酒吧，开始一个远离工作的周末。然而，突然">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://griabcrh.github.io/2018/10/28/谈谈微服务系统监控/images/微服务10.png">
 <meta property="og:image" content="https://griabcrh.github.io/2018/10/28/谈谈微服务系统监控/images/微服务11.png">
 <meta property="og:image" content="https://griabcrh.github.io/2018/10/28/谈谈微服务系统监控/images/微服务12.png">
 <meta property="og:image" content="https://griabcrh.github.io/2018/10/28/谈谈微服务系统监控/images/微服务13.png">
 <meta property="og:image" content="https://griabcrh.github.io/2018/10/28/谈谈微服务系统监控/images/微服务14.png">
-<meta property="og:updated_time" content="2018-10-28T07:57:34.198Z">
+<meta property="og:updated_time" content="2018-12-18T06:41:48.484Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="谈谈微服务系统监控">
-<meta name="twitter:description" content="正如我之前所展示的，将系统拆分成更小的、细粒度的微服务会带来很多好处。然而，它也增加了生产系统的监控复杂性。在本文中，我将带大家看看细粒度的系统在系统监控和定位问题上所面临的挑战，同时还会介绍一些应对方法，让鱼和熊掌兼得！ 设想一下这样的场景：一个安静的周五下午，团队期待着早点开溜去酒吧，开始一个远离工作的周末。然而，突然收到一封邮件：网站工作异常！ Twitter 上到处都是关于贵公司网站出问题">
+<meta name="twitter:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 正如我之前所展示的，将系统拆分成更小的、细粒度的微服务会带来很多好处。然而，它也增加了生产系统的监控复杂性。在本文中，我将带大家看看细粒度的系统在系统监控和定位问题上所面临的挑战，同时还会介绍一些应对方法，让鱼和熊掌兼得！ 设想一下这样的场景：一个安静的周五下午，团队期待着早点开溜去酒吧，开始一个远离工作的周末。然而，突然">
 <meta name="twitter:image" content="https://griabcrh.github.io/2018/10/28/谈谈微服务系统监控/images/微服务10.png">
 
 
@@ -369,7 +369,8 @@
       
 
       
-        <p>正如我之前所展示的，将系统拆分成更小的、细粒度的微服务会带来很多好处。然而，它也增加了生产系统的监控复杂性。在本文中，我将带大家看看细粒度的系统在系统监控和定位问题上所面临的挑战，同时还会介绍一些应对方法，让鱼和熊掌兼得！</p>
+        <p>如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！</p>
+<p>正如我之前所展示的，将系统拆分成更小的、细粒度的微服务会带来很多好处。然而，它也增加了生产系统的监控复杂性。在本文中，我将带大家看看细粒度的系统在系统监控和定位问题上所面临的挑战，同时还会介绍一些应对方法，让鱼和熊掌兼得！</p>
 <pre><code>设想一下这样的场景：一个安静的周五下午，团队期待着早点开溜去酒吧，开始一个远离工作的周末。然而，突然收到一封邮件：网站工作异常！ Twitter 上到处都是关于贵公司网站出问题的消息，而你的老板在旁边喋喋不休，一个安静的周末就这么没了。
 
 
@@ -629,7 +630,7 @@ Graphite 也允许你跨样本做聚合，或深入到某个部分，这样就�
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">71</span>
+                  <span class="site-state-item-count">72</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -642,7 +643,7 @@ Graphite 也允许你跨样本做聚合，或深入到某个部分，这样就�
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-count">50</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

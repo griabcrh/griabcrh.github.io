@@ -79,20 +79,20 @@
 
 
 
-<meta name="description" content="1 问题描述登录后刷新页面，会重新调用action方法,比如：1&amp;lt;form method=&quot;post&quot; action=&quot;&amp;lt;%=request.getContextPath() %&amp;gt;/login/login&quot;&amp;gt; 这里的action调用的/login/login方法。 当登录成功跳转后的页面，url为：http://localhost:8080/myWeb/login/logi">
+<meta name="description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 1 问题描述登录后刷新页面，会重新调用action方法,比如：1&amp;lt;form method=&quot;post&quot; action=&quot;&amp;lt;%=request.getContextPath() %&amp;gt;/login/login&quot;&amp;gt; 这里的action调用的/login/login方法。 当登录成功跳转后的页面，url为：">
 <meta name="keywords" content="Form">
 <meta property="og:type" content="article">
 <meta property="og:title" content="解决表单重新提交问题">
 <meta property="og:url" content="https://griabcrh.github.io/2018/04/21/解决表单重新提交问题/index.html">
 <meta property="og:site_name" content="Griabcrh&#39;s Blog">
-<meta property="og:description" content="1 问题描述登录后刷新页面，会重新调用action方法,比如：1&amp;lt;form method=&quot;post&quot; action=&quot;&amp;lt;%=request.getContextPath() %&amp;gt;/login/login&quot;&amp;gt; 这里的action调用的/login/login方法。 当登录成功跳转后的页面，url为：http://localhost:8080/myWeb/login/logi">
+<meta property="og:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 1 问题描述登录后刷新页面，会重新调用action方法,比如：1&amp;lt;form method=&quot;post&quot; action=&quot;&amp;lt;%=request.getContextPath() %&amp;gt;/login/login&quot;&amp;gt; 这里的action调用的/login/login方法。 当登录成功跳转后的页面，url为：">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://griabcrh.github.io/images/form1.png">
 <meta property="og:image" content="https://griabcrh.github.io/images/form2.png">
-<meta property="og:updated_time" content="2018-04-21T11:58:19.479Z">
+<meta property="og:updated_time" content="2018-12-18T06:46:33.742Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="解决表单重新提交问题">
-<meta name="twitter:description" content="1 问题描述登录后刷新页面，会重新调用action方法,比如：1&amp;lt;form method=&quot;post&quot; action=&quot;&amp;lt;%=request.getContextPath() %&amp;gt;/login/login&quot;&amp;gt; 这里的action调用的/login/login方法。 当登录成功跳转后的页面，url为：http://localhost:8080/myWeb/login/logi">
+<meta name="twitter:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 1 问题描述登录后刷新页面，会重新调用action方法,比如：1&amp;lt;form method=&quot;post&quot; action=&quot;&amp;lt;%=request.getContextPath() %&amp;gt;/login/login&quot;&amp;gt; 这里的action调用的/login/login方法。 当登录成功跳转后的页面，url为：">
 <meta name="twitter:image" content="https://griabcrh.github.io/images/form1.png">
 
 
@@ -366,7 +366,8 @@
       
 
       
-        <h4 id="1-问题描述"><a href="#1-问题描述" class="headerlink" title="1 问题描述"></a>1 问题描述</h4><p>登录后刷新页面，会重新调用action方法,比如：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;form method=<span class="string">"post"</span> action=<span class="string">"&lt;%=request.getContextPath() %&gt;/login/login"</span>&gt;</span><br></pre></td></tr></table></figure></p>
+        <p>如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！</p>
+<h4 id="1-问题描述"><a href="#1-问题描述" class="headerlink" title="1 问题描述"></a>1 问题描述</h4><p>登录后刷新页面，会重新调用action方法,比如：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;form method=<span class="string">"post"</span> action=<span class="string">"&lt;%=request.getContextPath() %&gt;/login/login"</span>&gt;</span><br></pre></td></tr></table></figure></p>
 <p>这里的action调用的/login/login方法。</p>
 <p>当登录成功跳转后的页面，url为：<br><a href="http://localhost:8080/myWeb/login/login" target="_blank" rel="noopener">http://localhost:8080/myWeb/login/login</a></p>
 <p>这个时候刷新，则会重新调用一次/login/login方法，但是之前是有表单提交数据，而这个页面刷新会提示：<br>您所查找的方法要使用已输入的信息，返回此页可能要重复已进行的所有操作。点击确认则重新调用login方法，跳回当前页面，<br>但是这样每次刷新弹框觉得不太好，怎么可以解决，还有就是，这个时候如果直接地址栏enter键刷新，因为没有参数数据，则又跳回登录页面了。如下图：</p>
@@ -507,7 +508,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">71</span>
+                  <span class="site-state-item-count">72</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -520,7 +521,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-count">50</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

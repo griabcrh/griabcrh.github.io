@@ -79,13 +79,13 @@
 
 
 
-<meta name="description" content="1.序言今天来聊一聊https 安全传输的原理。 在开始之前，我们来虚构两个人物， 一个是位于中国的张大胖（怎么又是你？！）， 还有一个是位于米国的Bill (怎么还是你？！)。 这俩哥们隔着千山万水，通过网络联系上了， 两个人臭味相投，聊得火热。 此时正值米国大选， 张大胖亲切地“致电”Bill, 对米国总统大选的情况表示强烈地关注。 Bill则回电说谢谢关心米国人的事情我们米国人自己做主，不用">
+<meta name="description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 1.序言今天来聊一聊https 安全传输的原理。 在开始之前，我们来虚构两个人物， 一个是位于中国的张大胖（怎么又是你？！）， 还有一个是位于米国的Bill (怎么还是你？！)。 这俩哥们隔着千山万水，通过网络联系上了， 两个人臭味相投，聊得火热。 此时正值米国大选， 张大胖亲切地“致电”Bill, 对米国总统大选的情况表">
 <meta name="keywords" content="Https">
 <meta property="og:type" content="article">
 <meta property="og:title" content="一个故事讲完https">
 <meta property="og:url" content="https://griabcrh.github.io/2018/04/21/一个故事讲完https/index.html">
 <meta property="og:site_name" content="Griabcrh&#39;s Blog">
-<meta property="og:description" content="1.序言今天来聊一聊https 安全传输的原理。 在开始之前，我们来虚构两个人物， 一个是位于中国的张大胖（怎么又是你？！）， 还有一个是位于米国的Bill (怎么还是你？！)。 这俩哥们隔着千山万水，通过网络联系上了， 两个人臭味相投，聊得火热。 此时正值米国大选， 张大胖亲切地“致电”Bill, 对米国总统大选的情况表示强烈地关注。 Bill则回电说谢谢关心米国人的事情我们米国人自己做主，不用">
+<meta property="og:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 1.序言今天来聊一聊https 安全传输的原理。 在开始之前，我们来虚构两个人物， 一个是位于中国的张大胖（怎么又是你？！）， 还有一个是位于米国的Bill (怎么还是你？！)。 这俩哥们隔着千山万水，通过网络联系上了， 两个人臭味相投，聊得火热。 此时正值米国大选， 张大胖亲切地“致电”Bill, 对米国总统大选的情况表">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://griabcrh.github.io/images/https1.webp">
 <meta property="og:image" content="https://griabcrh.github.io/images/https2.webp">
@@ -96,10 +96,10 @@
 <meta property="og:image" content="https://griabcrh.github.io/images/https7.webp">
 <meta property="og:image" content="https://griabcrh.github.io/images/https8.webp">
 <meta property="og:image" content="https://griabcrh.github.io/images/https9.webp">
-<meta property="og:updated_time" content="2018-04-21T11:16:42.765Z">
+<meta property="og:updated_time" content="2018-12-18T06:48:09.653Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一个故事讲完https">
-<meta name="twitter:description" content="1.序言今天来聊一聊https 安全传输的原理。 在开始之前，我们来虚构两个人物， 一个是位于中国的张大胖（怎么又是你？！）， 还有一个是位于米国的Bill (怎么还是你？！)。 这俩哥们隔着千山万水，通过网络联系上了， 两个人臭味相投，聊得火热。 此时正值米国大选， 张大胖亲切地“致电”Bill, 对米国总统大选的情况表示强烈地关注。 Bill则回电说谢谢关心米国人的事情我们米国人自己做主，不用">
+<meta name="twitter:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 1.序言今天来聊一聊https 安全传输的原理。 在开始之前，我们来虚构两个人物， 一个是位于中国的张大胖（怎么又是你？！）， 还有一个是位于米国的Bill (怎么还是你？！)。 这俩哥们隔着千山万水，通过网络联系上了， 两个人臭味相投，聊得火热。 此时正值米国大选， 张大胖亲切地“致电”Bill, 对米国总统大选的情况表">
 <meta name="twitter:image" content="https://griabcrh.github.io/images/https1.webp">
 
 
@@ -373,7 +373,8 @@
       
 
       
-        <h3 id="1-序言"><a href="#1-序言" class="headerlink" title="1.序言"></a>1.序言</h3><p>今天来聊一聊https 安全传输的原理。</p>
+        <p>如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！</p>
+<h3 id="1-序言"><a href="#1-序言" class="headerlink" title="1.序言"></a>1.序言</h3><p>今天来聊一聊https 安全传输的原理。</p>
 <p>在开始之前，我们来虚构两个人物， 一个是位于中国的张大胖（怎么又是你？！）， 还有一个是位于米国的Bill (怎么还是你？！)。</p>
 <p>这俩哥们隔着千山万水，通过网络联系上了， 两个人臭味相投，聊得火热。</p>
 <p>此时正值米国大选， 张大胖亲切地“致电”Bill, 对米国总统大选的情况表示强烈地关注。 Bill则回电说谢谢关心米国人的事情我们米国人自己做主，不用你们歪果仁瞎操心……</p>
@@ -563,7 +564,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">71</span>
+                  <span class="site-state-item-count">72</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -576,7 +577,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-count">50</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

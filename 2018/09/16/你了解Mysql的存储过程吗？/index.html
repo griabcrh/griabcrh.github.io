@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="程序员们去IBM面试的时候，几乎每个面试官问到数据库的时候都要问用没用过存储过程，烦人不？大家去面的程序员，又不是 DBA，以前的项目都没有用到存储，不照样运行的好好的？ 存储过程真的那么重要吗，它到底有什么好处呢？ 1、什么是mysql存储例程?存储例程是存储在数据库服务器中的一组sql语句，通过在查询中调用一个指定的名称来执行这些sql语句命令。 2、为什么要使用mysql存储过程？我们都知道">
+<meta name="description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 程序员们去IBM面试的时候，几乎每个面试官问到数据库的时候都要问用没用过存储过程，烦人不？大家去面的程序员，又不是 DBA，以前的项目都没有用到存储，不照样运行的好好的？ 存储过程真的那么重要吗，它到底有什么好处呢？ 1、什么是mysql存储例程?存储例程是存储在数据库服务器中的一组sql语句，通过在查询中调用一个指定的名">
 <meta name="keywords" content="Mysql">
 <meta property="og:type" content="article">
 <meta property="og:title" content="你了解Mysql的存储过程吗？">
 <meta property="og:url" content="https://griabcrh.github.io/2018/09/16/你了解Mysql的存储过程吗？/index.html">
 <meta property="og:site_name" content="Griabcrh&#39;s Blog">
-<meta property="og:description" content="程序员们去IBM面试的时候，几乎每个面试官问到数据库的时候都要问用没用过存储过程，烦人不？大家去面的程序员，又不是 DBA，以前的项目都没有用到存储，不照样运行的好好的？ 存储过程真的那么重要吗，它到底有什么好处呢？ 1、什么是mysql存储例程?存储例程是存储在数据库服务器中的一组sql语句，通过在查询中调用一个指定的名称来执行这些sql语句命令。 2、为什么要使用mysql存储过程？我们都知道">
+<meta property="og:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 程序员们去IBM面试的时候，几乎每个面试官问到数据库的时候都要问用没用过存储过程，烦人不？大家去面的程序员，又不是 DBA，以前的项目都没有用到存储，不照样运行的好好的？ 存储过程真的那么重要吗，它到底有什么好处呢？ 1、什么是mysql存储例程?存储例程是存储在数据库服务器中的一组sql语句，通过在查询中调用一个指定的名">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-09-16T03:45:27.529Z">
+<meta property="og:updated_time" content="2018-12-18T06:43:50.765Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="你了解Mysql的存储过程吗？">
-<meta name="twitter:description" content="程序员们去IBM面试的时候，几乎每个面试官问到数据库的时候都要问用没用过存储过程，烦人不？大家去面的程序员，又不是 DBA，以前的项目都没有用到存储，不照样运行的好好的？ 存储过程真的那么重要吗，它到底有什么好处呢？ 1、什么是mysql存储例程?存储例程是存储在数据库服务器中的一组sql语句，通过在查询中调用一个指定的名称来执行这些sql语句命令。 2、为什么要使用mysql存储过程？我们都知道">
+<meta name="twitter:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 程序员们去IBM面试的时候，几乎每个面试官问到数据库的时候都要问用没用过存储过程，烦人不？大家去面的程序员，又不是 DBA，以前的项目都没有用到存储，不照样运行的好好的？ 存储过程真的那么重要吗，它到底有什么好处呢？ 1、什么是mysql存储例程?存储例程是存储在数据库服务器中的一组sql语句，通过在查询中调用一个指定的名">
 
 
 
@@ -363,7 +363,8 @@
       
 
       
-        <p>程序员们去IBM面试的时候，几乎每个面试官问到数据库的时候都要问用没用过存储过程，烦人不？大家去面的程序员，又不是 DBA，以前的项目都没有用到存储，不照样运行的好好的？</p>
+        <p>如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！</p>
+<p>程序员们去IBM面试的时候，几乎每个面试官问到数据库的时候都要问用没用过存储过程，烦人不？大家去面的程序员，又不是 DBA，以前的项目都没有用到存储，不照样运行的好好的？</p>
 <p>存储过程真的那么重要吗，它到底有什么好处呢？</p>
 <h3 id="1、什么是mysql存储例程"><a href="#1、什么是mysql存储例程" class="headerlink" title="1、什么是mysql存储例程?"></a>1、什么是mysql存储例程?</h3><p>存储例程是存储在数据库服务器中的一组sql语句，通过在查询中调用一个指定的名称来执行这些sql语句命令。</p>
 <h3 id="2、为什么要使用mysql存储过程？"><a href="#2、为什么要使用mysql存储过程？" class="headerlink" title="2、为什么要使用mysql存储过程？"></a>2、为什么要使用mysql存储过程？</h3><p>我们都知道应用程序分为两种，一种是基于web，一种是基于桌面，他们都和数据库进行交互来完成数据的存取工作。假设现在有一种应用程序包含了这两种，现在要修改其中的一个查询sql语句，那么我们可能要同时修改他们中对应的查询sql语句，当我们的应用程序很庞大很复杂的时候问题就出现了，不易维 护！另外把sql查询语句放在我们的web程序或桌面中很容易遭到sql注入的破坏。而存储例程正好可以帮我们解决这些问题。</p>
@@ -542,7 +543,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">71</span>
+                  <span class="site-state-item-count">72</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -555,7 +556,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-count">50</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

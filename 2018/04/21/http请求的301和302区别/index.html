@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="官方的比较简洁的说明：301  ， 302  都是 HTTP  状态的编码，都代表着某个URL发生了转移，不同之处在于：    301 redirect: 301 代表永久性转移(Permanently Moved)    302 redirect: 302 代表暂时性转移(Temporarily Moved )    ps:这里也顺带记住了两个比较相近的英语单词（permanently、temp">
+<meta name="description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 官方的比较简洁的说明：301  ， 302  都是 HTTP  状态的编码，都代表着某个URL发生了转移，不同之处在于：    301 redirect: 301 代表永久性转移(Permanently Moved)    302 redirect: 302 代表暂时性转移(Temporarily Moved )    p">
 <meta name="keywords" content="Http">
 <meta property="og:type" content="article">
 <meta property="og:title" content="http请求的301和302区别">
 <meta property="og:url" content="https://griabcrh.github.io/2018/04/21/http请求的301和302区别/index.html">
 <meta property="og:site_name" content="Griabcrh&#39;s Blog">
-<meta property="og:description" content="官方的比较简洁的说明：301  ， 302  都是 HTTP  状态的编码，都代表着某个URL发生了转移，不同之处在于：    301 redirect: 301 代表永久性转移(Permanently Moved)    302 redirect: 302 代表暂时性转移(Temporarily Moved )    ps:这里也顺带记住了两个比较相近的英语单词（permanently、temp">
+<meta property="og:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 官方的比较简洁的说明：301  ， 302  都是 HTTP  状态的编码，都代表着某个URL发生了转移，不同之处在于：    301 redirect: 301 代表永久性转移(Permanently Moved)    302 redirect: 302 代表暂时性转移(Temporarily Moved )    p">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-04-21T11:56:17.667Z">
+<meta property="og:updated_time" content="2018-12-18T06:46:43.780Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="http请求的301和302区别">
-<meta name="twitter:description" content="官方的比较简洁的说明：301  ， 302  都是 HTTP  状态的编码，都代表着某个URL发生了转移，不同之处在于：    301 redirect: 301 代表永久性转移(Permanently Moved)    302 redirect: 302 代表暂时性转移(Temporarily Moved )    ps:这里也顺带记住了两个比较相近的英语单词（permanently、temp">
+<meta name="twitter:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 官方的比较简洁的说明：301  ， 302  都是 HTTP  状态的编码，都代表着某个URL发生了转移，不同之处在于：    301 redirect: 301 代表永久性转移(Permanently Moved)    302 redirect: 302 代表暂时性转移(Temporarily Moved )    p">
 
 
 
@@ -363,7 +363,8 @@
       
 
       
-        <h4 id="官方的比较简洁的说明："><a href="#官方的比较简洁的说明：" class="headerlink" title="官方的比较简洁的说明："></a>官方的比较简洁的说明：</h4><p>301  ， 302  都是 HTTP  状态的编码，都代表着某个URL发生了转移，不同之处在于：<br>    301 redirect: 301 代表永久性转移(Permanently Moved)<br>    302 redirect: 302 代表暂时性转移(Temporarily Moved )<br>    ps:这里也顺带记住了两个比较相近的英语单词（permanently、temporarily），嘻哈！</p>
+        <p>如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！</p>
+<h4 id="官方的比较简洁的说明："><a href="#官方的比较简洁的说明：" class="headerlink" title="官方的比较简洁的说明："></a>官方的比较简洁的说明：</h4><p>301  ， 302  都是 HTTP  状态的编码，都代表着某个URL发生了转移，不同之处在于：<br>    301 redirect: 301 代表永久性转移(Permanently Moved)<br>    302 redirect: 302 代表暂时性转移(Temporarily Moved )<br>    ps:这里也顺带记住了两个比较相近的英语单词（permanently、temporarily），嘻哈！</p>
 <p>详细来说，301和302状态码都表示重定向，就是说浏览器在拿到服务器返回的这个状态码后会自动跳转到一个新的URL地址，这个地址可以从响应的Location首部中获取（用户看到的效果就是他输入的地址A瞬间变成了另一个地址B）——这是它们的共同点。他们的不同在于。301表示旧地址A的资源已经被永久地移除了（这个资源不可访问了），搜索引擎在抓取新内容的同时也将旧的网址交换为重定向之后的网址；302表示旧地址A的资源还在（仍然可以访问），这个重定向只是临时地从旧地址A跳转到地址B，搜索引擎会抓取新的内容而保存旧的网址。</p>
 <pre><code>这里开启傻瓜自问自答模式（自己可能想到的疑问）：
 </code></pre><h4 id="什么是重定向啊？"><a href="#什么是重定向啊？" class="headerlink" title="什么是重定向啊？"></a>什么是重定向啊？</h4><p>就是地址A跳转到地址B啦。百度百科的解释：重定向(Redirect)就是通过各种方法将各种网络请求重新定个方向转到其它位置（如：网页重定向、域名的重定向、路由选择的变化也是对数据报文经由路径的一种重定向）。</p>
@@ -502,7 +503,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">71</span>
+                  <span class="site-state-item-count">72</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -515,7 +516,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-count">50</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
