@@ -79,13 +79,13 @@
 
 
 
-<meta name="description" content="私服是架设在局域网的一种特殊的远程仓库，目的是代理远程仓库及部署第三方构件。有了私服之后，当 Maven 需要下载构件时，直接请求私服，私服上存在则下载到本地仓库；否则，私服请求外部的远程仓库，将构件下载到私服，再提供给本地仓库下载。   我们可以使用专门的 Maven 仓库管理软件来搭建私服，比如：Apache Archiva，Artifactory，Sonatype Nexus。这里我们使用">
+<meta name="description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 私服是架设在局域网的一种特殊的远程仓库，目的是代理远程仓库及部署第三方构件。有了私服之后，当 Maven 需要下载构件时，直接请求私服，私服上存在则下载到本地仓库；否则，私服请求外部的远程仓库，将构件下载到私服，再提供给本地仓库下载。   我们可以使用专门的 Maven 仓库管理软件来搭建私服，比如：Apache Arch">
 <meta name="keywords" content="Nexus">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Windows系统下Nexus搭建Maven和NPM私服">
 <meta property="og:url" content="https://griabcrh.github.io/2019/01/08/Windows系统下Nexus搭建Maven和NPM私服/index.html">
 <meta property="og:site_name" content="Griabcrh&#39;s Blog">
-<meta property="og:description" content="私服是架设在局域网的一种特殊的远程仓库，目的是代理远程仓库及部署第三方构件。有了私服之后，当 Maven 需要下载构件时，直接请求私服，私服上存在则下载到本地仓库；否则，私服请求外部的远程仓库，将构件下载到私服，再提供给本地仓库下载。   我们可以使用专门的 Maven 仓库管理软件来搭建私服，比如：Apache Archiva，Artifactory，Sonatype Nexus。这里我们使用">
+<meta property="og:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 私服是架设在局域网的一种特殊的远程仓库，目的是代理远程仓库及部署第三方构件。有了私服之后，当 Maven 需要下载构件时，直接请求私服，私服上存在则下载到本地仓库；否则，私服请求外部的远程仓库，将构件下载到私服，再提供给本地仓库下载。   我们可以使用专门的 Maven 仓库管理软件来搭建私服，比如：Apache Arch">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://griabcrh.github.io/images/nexus1.png">
 <meta property="og:image" content="https://griabcrh.github.io/images/nexus2.png">
@@ -95,10 +95,10 @@
 <meta property="og:image" content="https://griabcrh.github.io/images/nexus6.png">
 <meta property="og:image" content="https://griabcrh.github.io/images/nexus7.png">
 <meta property="og:image" content="https://griabcrh.github.io/2019/01/08/Windows系统下Nexus搭建Maven和NPM私服/images/nexus8.png">
-<meta property="og:updated_time" content="2019-01-09T06:10:30.428Z">
+<meta property="og:updated_time" content="2019-01-10T06:16:55.820Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Windows系统下Nexus搭建Maven和NPM私服">
-<meta name="twitter:description" content="私服是架设在局域网的一种特殊的远程仓库，目的是代理远程仓库及部署第三方构件。有了私服之后，当 Maven 需要下载构件时，直接请求私服，私服上存在则下载到本地仓库；否则，私服请求外部的远程仓库，将构件下载到私服，再提供给本地仓库下载。   我们可以使用专门的 Maven 仓库管理软件来搭建私服，比如：Apache Archiva，Artifactory，Sonatype Nexus。这里我们使用">
+<meta name="twitter:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 私服是架设在局域网的一种特殊的远程仓库，目的是代理远程仓库及部署第三方构件。有了私服之后，当 Maven 需要下载构件时，直接请求私服，私服上存在则下载到本地仓库；否则，私服请求外部的远程仓库，将构件下载到私服，再提供给本地仓库下载。   我们可以使用专门的 Maven 仓库管理软件来搭建私服，比如：Apache Arch">
 <meta name="twitter:image" content="https://griabcrh.github.io/images/nexus1.png">
 
 
@@ -372,7 +372,8 @@
       
 
       
-        <p>私服是架设在局域网的一种特殊的远程仓库，目的是代理远程仓库及部署第三方构件。有了私服之后，当 Maven 需要下载构件时，直接请求私服，私服上存在则下载到本地仓库；否则，私服请求外部的远程仓库，将构件下载到私服，再提供给本地仓库下载。</p>
+        <p>如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！</p>
+<p>私服是架设在局域网的一种特殊的远程仓库，目的是代理远程仓库及部署第三方构件。有了私服之后，当 Maven 需要下载构件时，直接请求私服，私服上存在则下载到本地仓库；否则，私服请求外部的远程仓库，将构件下载到私服，再提供给本地仓库下载。</p>
 <p><img src="/images/nexus1.png" alt=""></p>
 <p><img src="/images/nexus2.png" alt=""></p>
 <p>我们可以使用专门的 Maven 仓库管理软件来搭建私服，比如：Apache Archiva，Artifactory，Sonatype Nexus。这里我们使用 Sonatype Nexus。</p>
@@ -475,6 +476,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2019/01/28/ES6中的Promise、async、await用法/" rel="prev" title="ES6中的Promise、async、await用法">
+                ES6中的Promise、async、await用法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -554,7 +559,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">76</span>
+                  <span class="site-state-item-count">77</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -567,7 +572,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">53</span>
+                  <span class="site-state-item-count">54</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
