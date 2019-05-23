@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<meta name="baidu-site-verification" content="cysG3IKyZB" />
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/griabcrh.gif?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="monaco-editor," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="写在前面 欢迎关注公众号：java开发高级进阶, 有不会的可以直接公众号留言提问 monaco-editor不提供全局搜索，只提供单个文件内的搜索，那么如何实现全局搜索呢？ 环境：Nodejs + React + Dva + monaco-editor + react-monaco-editor + antd 一、绑定快捷键调用editor.addCommand方法绑定快捷键，通过monaco.K">
+<meta name="keywords" content="monaco-editor">
+<meta property="og:type" content="article">
+<meta property="og:title" content="monaco-editor实现全局内容和文件搜索">
+<meta property="og:url" content="https://griabcrh.github.io/2019/05/23/monaco-editor实现全局内容和文件搜索/index.html">
+<meta property="og:site_name" content="Griabcrh&#39;s Blog">
+<meta property="og:description" content="写在前面 欢迎关注公众号：java开发高级进阶, 有不会的可以直接公众号留言提问 monaco-editor不提供全局搜索，只提供单个文件内的搜索，那么如何实现全局搜索呢？ 环境：Nodejs + React + Dva + monaco-editor + react-monaco-editor + antd 一、绑定快捷键调用editor.addCommand方法绑定快捷键，通过monaco.K">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://griabcrh.github.io/images/monaco-editor1.png">
+<meta property="og:image" content="https://griabcrh.github.io/image/海报.jpg">
+<meta property="og:updated_time" content="2019-05-23T10:31:54.606Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="monaco-editor实现全局内容和文件搜索">
+<meta name="twitter:description" content="写在前面 欢迎关注公众号：java开发高级进阶, 有不会的可以直接公众号留言提问 monaco-editor不提供全局搜索，只提供单个文件内的搜索，那么如何实现全局搜索呢？ 环境：Nodejs + React + Dva + monaco-editor + react-monaco-editor + antd 一、绑定快捷键调用editor.addCommand方法绑定快捷键，通过monaco.K">
+<meta name="twitter:image" content="https://griabcrh.github.io/images/monaco-editor1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://griabcrh.github.io/2019/05/23/monaco-editor实现全局内容和文件搜索/"/>
+
+
+
+
+
+  <title>monaco-editor实现全局内容和文件搜索 | Griabcrh's Blog</title>
+  
+
+
+
+
+
+<script>
+	var _hmt = _hmt || [];
+	(function() {
+	var hm = document.createElement("script");
+	hm.src = "https://hm.baidu.com/hm.js?91c85e96d8e34ae79347b17b0d41826f";
+	var s = document.getElementsByTagName("script")[0]; 
+	s.parentNode.insertBefore(hm, s);
+	})();
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Griabcrh's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">welcome</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2019/05/23/monaco-editor实现全局内容和文件搜索/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="griabcrh">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/24718752.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Griabcrh's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">monaco-editor实现全局内容和文件搜索</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+			  
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-23T16:32:27+08:00">
+                2019-05-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/05/23/monaco-editor实现全局内容和文件搜索/" class="leancloud_visitors" data-flag-title="monaco-editor实现全局内容和文件搜索">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>写在前面</strong> 欢迎关注公众号：java开发高级进阶, 有不会的可以直接公众号留言提问</p>
+<p>monaco-editor不提供全局搜索，只提供单个文件内的搜索，那么如何实现全局搜索呢？</p>
+<p><strong>环境</strong>：Nodejs + React + Dva + monaco-editor + react-monaco-editor + antd</p>
+<h3 id="一、绑定快捷键"><a href="#一、绑定快捷键" class="headerlink" title="一、绑定快捷键"></a>一、绑定快捷键</h3><p>调用editor.addCommand方法绑定快捷键，通过monaco.KeyMod和monaco.KeyCode选择快捷键</p>
+<p>快捷键要在编辑器创建完成时创建，故这段代码要写在editorDidMount里面</p>
+<p>全局搜索要有一个搜索框供输入关键字，故在触发快捷键的时候让搜索框显示，默认是不显示。代码如下：</p>
+<figure class="highlight plain"><figcaption><span>(type)</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">editorDidMount = (editor, monaco) =&gt; &#123;</span><br><span class="line">	editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KEY_F, () =&gt; &#123;</span><br><span class="line">		// 显现全局搜索框</span><br><span class="line">		this.setState(&#123;</span><br><span class="line">			showModel: true</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;);</span><br><span class="line"></span><br><span class="line">	editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KEY_N, () =&gt; &#123;</span><br><span class="line">		// 显现文件搜索框</span><br><span class="line">		this.setState(&#123;</span><br><span class="line">			showFileModel: true</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;);</span><br><span class="line">	editor.focus();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="二、搜索框实现"><a href="#二、搜索框实现" class="headerlink" title="二、搜索框实现"></a>二、搜索框实现</h3><p>搜索框样式主要看自己的需求，我这里只写个简单的搜索框</p>
+<p>如何实现搜索框根据内容多少滚动显示列表是我们要考虑的一个问题，经过一番搜索，我锁定了react-infinite-scroller，通过InfiniteScroll API实现滚动下拉效果。代码如下：</p>
+<figure class="highlight plain"><figcaption><span>(type)</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;div style=&#123;&#123;height:&apos;400px&apos;, overflow:&apos;auto&apos;&#125;&#125;&gt;</span><br><span class="line">	&lt;InfiniteScroll</span><br><span class="line">			pageStart=&#123;0&#125;</span><br><span class="line">			loadMore=&#123;true&#125;</span><br><span class="line">			hasMore=&#123;true || false&#125;</span><br><span class="line">			loader=&#123;null&#125;</span><br><span class="line">			useWindow=&#123;false&#125;</span><br><span class="line">	&gt;</span><br><span class="line">		&#123;rowsList&#125;</span><br><span class="line">	&lt;/InfiniteScroll&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="三、关键字搜索功能"><a href="#三、关键字搜索功能" class="headerlink" title="三、关键字搜索功能"></a>三、关键字搜索功能</h3><p>monaco-editor不提供全局搜索功能，如果要在monaco-editor基础上实现全局搜索，我们可以借助单个文件的搜索功能，然后遍历业务系统的所有文件，对每个文件的搜索结果进行汇总实现全局搜索。</p>
+<p><strong>这里需要考虑几个问题：</strong></p>
+<p><strong>(1)</strong> monaco-editor单个文件搜索是基于创建model的基础上，而通过编辑器点击打开某个文件时才会创建model，我们怎么能获取业务系统所有文件的model？<br><strong>(2)</strong> 业务系统有.git，node_modules等不需要遍历的文件，还有文件夹里的子文件夹及子文件，那么如何实现遍历？</p>
+<p><strong>首先针对第一个问题做出解答：</strong></p>
+<p>如果对monaco-editor没有经过一番研究可能不会发现这个规律，通过查看官网的api，发现monaco-editor提供createModel方法，我们可以手动创建model</p>
+<p><strong>针对第二个问题做出解答</strong></p>
+<p>其实.git ,node_modules文件很好排除，只要遍历的时候加个if判断就行；</p>
+<p>遍历到文件夹时，我们可以通过nodejs提供的fs.Stats类里面的isDirectory()方法判断，如果是文件夹，就进入文件夹里继续遍历，这里用到递归遍历</p>
+<p>在单个文件中搜索关键字可以使用model.findMatches(keyword)实现</p>
+<p>再建一个全局的变量用于保存遍历到的结果就行。</p>
+<p>代码如下：</p>
+<figure class="highlight plain"><figcaption><span>(type)</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">let result =  new Map();</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 业务系统文件遍历</span><br><span class="line"> * @param projectPath</span><br><span class="line"> * @param searchText</span><br><span class="line"> */</span><br><span class="line">getProjectFileListInfo = (projectPath, searchText) =&gt; &#123;</span><br><span class="line"></span><br><span class="line">	let pa = window.fs.readdirSync(projectPath);</span><br><span class="line">	let that = this;</span><br><span class="line">	pa.forEach(function(ele,index)&#123;</span><br><span class="line">		let info = window.fs.statSync(projectPath+&quot;/&quot;+ele);</span><br><span class="line">		if(ele == &apos;node_modules&apos; || ele == &apos;.git&apos; ) &#123;</span><br><span class="line"></span><br><span class="line">		&#125; else if(info.isDirectory())&#123;</span><br><span class="line">			that.getProjectFileListInfo(projectPath + &quot;/&quot;+ ele , searchText)</span><br><span class="line"></span><br><span class="line">		&#125;else&#123;</span><br><span class="line">			// 读取文件内容</span><br><span class="line">			const fileInfo = window.fs.readFileSync(projectPath+&apos;/&apos;+ele, &apos;utf-8&apos;);</span><br><span class="line">			// 根据文件名后缀判断应该创建哪种model</span><br><span class="line">			// 分离后缀</span><br><span class="line">			let suffix = ele.split(&apos;.&apos;)[1];</span><br><span class="line">			switch (suffix) &#123;</span><br><span class="line">				case &apos;js&apos;:</span><br><span class="line"></span><br><span class="line">					let tempModel1 = monaco.editor.createModel(fileInfo, &apos;javascript&apos;);</span><br><span class="line">					that.findMatches(tempModel1, searchText, projectPath + &quot;/&quot;+ ele, ele);</span><br><span class="line">					break;</span><br><span class="line">				case &apos;html&apos;:</span><br><span class="line"></span><br><span class="line">					let tempModel2 = monaco.editor.createModel(fileInfo, &apos;html&apos;);</span><br><span class="line">					that.findMatches(tempModel2, searchText, projectPath + &quot;/&quot;+ ele, ele);</span><br><span class="line">					break;</span><br><span class="line">				case &apos;json&apos;:</span><br><span class="line"></span><br><span class="line">					let tempModel3 = monaco.editor.createModel(fileInfo, &apos;javascript&apos;);</span><br><span class="line">					that.findMatches(tempModel3, searchText, projectPath + &quot;/&quot;+ ele, ele);</span><br><span class="line">					break;</span><br><span class="line">				case &apos;java&apos;:</span><br><span class="line"></span><br><span class="line">					let tempModel4 = monaco.editor.createModel(fileInfo, &apos;java&apos;);</span><br><span class="line">					that.findMatches(tempModel4, searchText, projectPath + &quot;/&quot;+ ele, ele);</span><br><span class="line">					break;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;)</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 根据关键字匹配单个文件</span><br><span class="line"> * @param model</span><br><span class="line"> * @param searchText</span><br><span class="line"> * @param filePath</span><br><span class="line"> * @param fileName</span><br><span class="line"> */</span><br><span class="line">findMatches = (model, searchText, filePath, fileName) =&gt; &#123;</span><br><span class="line">	let arr = [];</span><br><span class="line">	for (let match of model.findMatches(searchText)) &#123;</span><br><span class="line">		arr.push(&#123;</span><br><span class="line">			text:model.getLineContent(match.range.startLineNumber),</span><br><span class="line">			range: match.range,</span><br><span class="line">			model: model,</span><br><span class="line">			filePath: filePath,</span><br><span class="line">			fileName: fileName</span><br><span class="line">		&#125;);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	result.set(model.uri.toString(),arr);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="四、搜索结果列表展示"><a href="#四、搜索结果列表展示" class="headerlink" title="四、搜索结果列表展示"></a>四、搜索结果列表展示</h3><p>先看效果图</p>
+<p><img src="/images/monaco-editor1.png" alt=""></p>
+<p>在展示列表中，我们希望看到关键字所在的文件名，行号，甚至是路径，只要我们保存展示结果时将这些信息都保存进去，然后react渲染时渲染出来，代码如上面arr变量所示</p>
+<h3 id="五、关键字高亮显示"><a href="#五、关键字高亮显示" class="headerlink" title="五、关键字高亮显示"></a>五、关键字高亮显示</h3><p>在上图我们可以看到展示结果中所有的登录关键字都是黄色背景显示的，这里调用antd的Typography 实现高亮。</p>
+<p>代码如下：</p>
+<figure class="highlight plain"><figcaption><span>(type)</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">// ev为result，全局搜索的结果</span><br><span class="line">let i=0;</span><br><span class="line">let rowsList = [];</span><br><span class="line">ev.forEach((values,key) =&gt;&#123;</span><br><span class="line">	values.forEach((row) =&gt; &#123;</span><br><span class="line">		i++;</span><br><span class="line">		let rowReplace = row.text.replace(keyword,&apos;&lt;Text mark&gt;&apos;+keyword+&apos;&lt;/Text&gt;&apos;);</span><br><span class="line">		// 关键字字符串截取，添加高亮</span><br><span class="line">		let preV = row.text.substring(0,row.range.startColumn - 1);</span><br><span class="line">		let nextV = row.text.substring(row.range.endColumn - 1, row.text.length);</span><br><span class="line">		rowsList.push(&lt;List.Item className=&quot;SelectInfo-listItem&quot; key=&#123;i&#125; onClick=&#123;() =&gt; goto(row.range, row.model, row.filePath, row.fileName)&#125;&gt;</span><br><span class="line">			&lt;div&gt;&#123;preV&#125;&lt;Text mark&gt;&#123;keyword&#125;&lt;/Text&gt;&#123;nextV&#125;&lt;/div&gt;</span><br><span class="line">			&lt;List.Item.Meta/&gt;</span><br><span class="line">			&lt;div className=&quot;SelectInfo-foot&quot;&gt;&#123;row.fileName&#125;: &#123;row.range.startLineNumber&#125;&lt;/div&gt;</span><br><span class="line">			&lt;/List.Item&gt;);</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>从代码中可以看出，我这里使用的是字符串截取找到关键字然后给关键字添加<text mark="">。可以看出我给展示添加了文件名和所在行属性。</text></p>
+<h3 id="六、goto点击跳转"><a href="#六、goto点击跳转" class="headerlink" title="六、goto点击跳转"></a>六、goto点击跳转</h3><p>实现差不多了，怎么能少掉点击展示列跳转到对应文件即编辑器打开对应文件</p>
+<p>从标题五可以看出，我给每一行加了onClick点击调用goto方法。</p>
+<p>代码如下：</p>
+<figure class="highlight plain"><figcaption><span>(type)</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">//这里range和model，对应findAllMatches返回结果集合里面对象的range和model属性</span><br><span class="line">goto = (range, model, filePath, fileName) =&gt; &#123;</span><br><span class="line">	this.openFileEditor(filePath, fileName);</span><br><span class="line">	this.setState(&#123;</span><br><span class="line">		showModel: false</span><br><span class="line">	&#125;);</span><br><span class="line">	this.setState(&#123;</span><br><span class="line">		showFileModel: false</span><br><span class="line">	&#125;)</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">openFileEditor = (file, fileName) =&gt; &#123;</span><br><span class="line"></span><br><span class="line">	const &#123; dispatch &#125; = this.props;</span><br><span class="line">	dispatch(&#123;</span><br><span class="line">		type: &apos;project/openTab&apos;,</span><br><span class="line">		payload: &#123;</span><br><span class="line">			key: fileName, title: fileName, model: &#123; filePath: file, fileName: fileName &#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><figcaption><span>(type)</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * TAB:&#123;</span><br><span class="line"> *       key:&apos;&apos;, 标签页唯一标识</span><br><span class="line"> *       title:&apos;&apos;, 标签页标题</span><br><span class="line"> *       isDirty: false, 标识模型数据是否发生变化， 关闭标签页前判断isDirty是否true，如果是，则需要触发保存的方法</span><br><span class="line"> *       model: &#123;</span><br><span class="line"> *       &#125;</span><br><span class="line"> * &#125;</span><br><span class="line"> * @param &#123;*&#125; state </span><br><span class="line"> * @param &#123;*&#125; action </span><br><span class="line"> */</span><br><span class="line">openTab(state, &#123;payload&#125;) &#123;</span><br><span class="line">	let openTabs = state.openTabs.concat([]);</span><br><span class="line">	const openFile = &#123;</span><br><span class="line">		key: payload.key,</span><br><span class="line">		title: payload.title,</span><br><span class="line">		extension: payload.extension,</span><br><span class="line">		model: payload.model</span><br><span class="line">	&#125;;</span><br><span class="line">	</span><br><span class="line">	openFile.isDirty = false;</span><br><span class="line">	const index = openTabs.findIndex(file =&gt; file.key == openFile.key);</span><br><span class="line">	if (index == -1) &#123;</span><br><span class="line">		openTabs.push(openFile);</span><br><span class="line">	&#125;</span><br><span class="line">	return &#123;...state, openTabs, selectTabPane: openFile.key, lastSelectedPane: state.selectTabPane&#125;</span><br><span class="line">&#125;,</span><br><span class="line">// 通过openTab收集所有打开的文件保存在openTabs里，方便后续的操作</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><figcaption><span>(type)</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 打开的文件</span><br><span class="line"> */</span><br><span class="line">let openTabs = this.props.openTabs.map(tab =&gt; &#123;</span><br><span class="line">	const title = (tab.isDirty ? &quot;* &quot; : &apos;&apos; ) + tab.title;</span><br><span class="line">	return &lt;TabPane style=&#123;&#123;height: &apos;100%&apos;&#125;&#125; closable=&#123;true&#125; tab=&#123;title&#125; key=&#123; tab.key &#125;&gt; &#123;pluginInject.openDynamicTab(tab)&#125; &lt;/TabPane&gt;</span><br><span class="line">&#125;);</span><br><span class="line">panels = panels.concat(openTabs);</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line">通过&#123;</span><br><span class="line">		panels</span><br><span class="line">	&#125;将面板显示出来</span><br><span class="line">*/</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><figcaption><span>(type)</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 打开标签页面板</span><br><span class="line"> */</span><br><span class="line">openDynamicTab(tab) &#123;</span><br><span class="line">	const &#123; key &#125; = tab;</span><br><span class="line">	//如果传入的参数没有extension， 则通过key取得</span><br><span class="line">	const extension = tab.extension ? tab.extension : key.split(&apos;.&apos;)[1];</span><br><span class="line">	const editor = this.getEditorPlugin(extension);</span><br><span class="line">	if (editor) &#123;</span><br><span class="line">		return this.getEditorPlugin(extension).getTabPanel(tab, extension);</span><br><span class="line">	&#125;</span><br><span class="line">	return &lt;div&gt;未找到[&#123;extension&#125;]类型的编辑器&lt;/div&gt;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<h3 id="七-全局文件搜索"><a href="#七-全局文件搜索" class="headerlink" title="七 全局文件搜索"></a>七 全局文件搜索</h3><p>文件搜索比关键字搜索简单一点，在遍历业务系统时遍历所有文件，将和关键字匹配的所有文件保存到result中， 其他的操作一样</p>
+<h3 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h3><p>:blush:到这里就结束了，恭喜你学会了怎么实现全局搜索，如果觉得本问对你有帮助，欢迎关注公众号：java开发高级进阶，get到跟多知识。</p>
+<p><img src="/image/海报.jpg" alt=""></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/monaco-editor/" rel="tag"># monaco-editor</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/28/git-clone或者push提示用户或者密码错误，但是不弹出输入框解决办法/" rel="next" title="git clone或者push提示用户或者密码错误，但是不弹出输入框解决办法">
+                <i class="fa fa-chevron-left"></i> git clone或者push提示用户或者密码错误，但是不弹出输入框解决办法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/24718752.gif"
+                alt="griabcrh" />
+            
+              <p class="site-author-name" itemprop="name">griabcrh</p>
+              <p class="site-description motion-element" itemprop="description">nice to meet you</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">83</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">56</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://griabcrh.github.io/about/" title="欢迎关注公众号" target="_blank">欢迎关注公众号</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://jemgeek.com/" title="Kylin's Blog" target="_blank">Kylin's Blog</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、绑定快捷键"><span class="nav-number">1.</span> <span class="nav-text">一、绑定快捷键</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、搜索框实现"><span class="nav-number">2.</span> <span class="nav-text">二、搜索框实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、关键字搜索功能"><span class="nav-number">3.</span> <span class="nav-text">三、关键字搜索功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、搜索结果列表展示"><span class="nav-number">4.</span> <span class="nav-text">四、搜索结果列表展示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五、关键字高亮显示"><span class="nav-number">5.</span> <span class="nav-text">五、关键字高亮显示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#六、goto点击跳转"><span class="nav-number">6.</span> <span class="nav-text">六、goto点击跳转</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#七-全局文件搜索"><span class="nav-number">7.</span> <span class="nav-text">七 全局文件搜索</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结束"><span class="nav-number">8.</span> <span class="nav-text">结束</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">griabcrh</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+|<span id="busuanzi_container_site_uv">
+  本站访客数<span id="busuanzi_value_site_uv"></span>人次
+</span>
+|<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("8TpPOiYi4ReJYs5sYfMdFmSO-gzGzoHsz", "hX7JfGRvJG8zcMqMRAWNMNyk");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
