@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<meta name="baidu-site-verification" content="cysG3IKyZB" />
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/griabcrh.gif?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="vscode," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="最终呈现样式如下：  首先需要在packge.json中定义命令command， 定义view，代码如下： 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777">
+<meta name="keywords" content="vscode">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vscode树形菜单栏实现">
+<meta property="og:url" content="https://griabcrh.github.io/2019/09/19/vscode树形菜单栏实现/index.html">
+<meta property="og:site_name" content="Griabcrh&#39;s Blog">
+<meta property="og:description" content="最终呈现样式如下：  首先需要在packge.json中定义命令command， 定义view，代码如下： 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://griabcrh.github.io/images/vscode.png">
+<meta property="og:updated_time" content="2019-09-19T01:34:41.080Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="vscode树形菜单栏实现">
+<meta name="twitter:description" content="最终呈现样式如下：  首先需要在packge.json中定义命令command， 定义view，代码如下： 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777">
+<meta name="twitter:image" content="https://griabcrh.github.io/images/vscode.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://griabcrh.github.io/2019/09/19/vscode树形菜单栏实现/"/>
+
+
+
+
+
+  <title>vscode树形菜单栏实现 | Griabcrh's Blog</title>
+  
+
+
+
+
+
+<script>
+	var _hmt = _hmt || [];
+	(function() {
+	var hm = document.createElement("script");
+	hm.src = "https://hm.baidu.com/hm.js?91c85e96d8e34ae79347b17b0d41826f";
+	var s = document.getElementsByTagName("script")[0]; 
+	s.parentNode.insertBefore(hm, s);
+	})();
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Griabcrh's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">welcome</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2019/09/19/vscode树形菜单栏实现/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="griabcrh">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/24718752.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Griabcrh's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">vscode树形菜单栏实现</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+			  
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-19T09:05:16+08:00">
+                2019-09-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/09/19/vscode树形菜单栏实现/" class="leancloud_visitors" data-flag-title="vscode树形菜单栏实现">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最终呈现样式如下：</p>
+<p><img src="/images/vscode.png" alt=""></p>
+<p>首先需要在packge.json中定义命令command， 定义view，代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br></pre></td><td class="code"><pre><span class="line">&quot;contributes&quot;: &#123;</span><br><span class="line">    &quot;commands&quot;: [</span><br><span class="line">	  &#123;</span><br><span class="line">        &quot;command&quot;: &quot;datadic-auth&quot;,</span><br><span class="line">        &quot;title&quot;: &quot;当前管理用户设置&quot;,</span><br><span class="line">        &quot;category&quot;: &quot;DHC&quot;</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        &quot;command&quot;: &quot;datadicmanager-table-insert&quot;,</span><br><span class="line">        &quot;title&quot;: &quot;数据表字典新增&quot;,</span><br><span class="line">        &quot;category&quot;: &quot;DHC&quot;</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        &quot;command&quot;: &quot;datadicmanager-table-search&quot;,</span><br><span class="line">        &quot;title&quot;: &quot;数据表字典查询&quot;,</span><br><span class="line">        &quot;category&quot;: &quot;DHC&quot;</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        &quot;command&quot;: &quot;datadicmanager-view-insert&quot;,</span><br><span class="line">        &quot;title&quot;: &quot;视图字典新增&quot;,</span><br><span class="line">        &quot;category&quot;: &quot;DHC&quot;</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        &quot;command&quot;: &quot;datadicmanager-view-search&quot;,</span><br><span class="line">        &quot;title&quot;: &quot;视图字典查询&quot;,</span><br><span class="line">        &quot;category&quot;: &quot;DHC&quot;</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        &quot;command&quot;: &quot;datadicmanager-view-columninsert&quot;,</span><br><span class="line">        &quot;title&quot;: &quot;字段关联视图新增&quot;,</span><br><span class="line">        &quot;category&quot;: &quot;DHC&quot;</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        &quot;command&quot;: &quot;datadicmanager-view-columnsearch&quot;,</span><br><span class="line">        &quot;title&quot;: &quot;字段关联视图查询&quot;,</span><br><span class="line">        &quot;category&quot;: &quot;DHC&quot;</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        &quot;command&quot;: &quot;datadicmanager-seq-insert&quot;,</span><br><span class="line">        &quot;title&quot;: &quot;序列新增&quot;,</span><br><span class="line">        &quot;category&quot;: &quot;DHC&quot;</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        &quot;command&quot;: &quot;datadicmanager-seq-search&quot;,</span><br><span class="line">        &quot;title&quot;: &quot;序列查询&quot;,</span><br><span class="line">        &quot;category&quot;: &quot;DHC&quot;</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        &quot;command&quot;: &quot;datadicmanager-imp&quot;,</span><br><span class="line">        &quot;title&quot;: &quot;数据字典导入&quot;,</span><br><span class="line">        &quot;category&quot;: &quot;DHC&quot;</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        &quot;command&quot;: &quot;datadicmanager-exp&quot;,</span><br><span class="line">        &quot;title&quot;: &quot;数据字典导出&quot;,</span><br><span class="line">        &quot;category&quot;: &quot;DHC&quot;</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        &quot;command&quot;: &quot;usermanager-insert&quot;,</span><br><span class="line">        &quot;title&quot;: &quot;数据字典用户新增&quot;,</span><br><span class="line">        &quot;category&quot;: &quot;DHC&quot;</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        &quot;command&quot;: &quot;usermanager-search&quot;,</span><br><span class="line">        &quot;title&quot;: &quot;数据字典用户查询&quot;,</span><br><span class="line">        &quot;category&quot;: &quot;DHC&quot;</span><br><span class="line">      &#125;</span><br><span class="line">	  ],</span><br><span class="line">    &quot;viewsContainers&quot;: &#123;</span><br><span class="line">      &quot;activitybar&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">          &quot;id&quot;: &quot;package-explorer&quot;,</span><br><span class="line">          &quot;title&quot;: &quot;辅助插件&quot;,</span><br><span class="line">          &quot;icon&quot;: &quot;images/activebar3.svg&quot;</span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;views&quot;: &#123;</span><br><span class="line">      &quot;package-explorer&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">          &quot;id&quot;: &quot;nodeDependencies&quot;,</span><br><span class="line">          &quot;name&quot;: &quot;系统配置模块&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          &quot;id&quot;: &quot;dataDictionary&quot;,</span><br><span class="line">          &quot;name&quot;: &quot;数据字典系统&quot;</span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;,</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">在extension.ts文件中注册实现</span><br><span class="line"></span><br><span class="line">![](/images/vscode1.png)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">require(&apos;./webview/datadic/index&apos;)(context);的代码如下</span><br></pre></td></tr></table></figure>
+<p>import { ExtensionContext } from ‘vscode’;</p>
+<p>module.exports = function(context: ExtensionContext) {<br>    // 加载数据字典菜单列表<br>    require(‘./auth’)(context);<br>    require(‘./datadicExp’)(context);<br>    require(‘./datadicImp’)(context);<br>    require(‘./seqInsert’)(context);<br>    require(‘./seqSearch’)(context);<br>    require(‘./tableInsert’)(context);<br>    require(‘./tableSearch’)(context);<br>    require(‘./usermanagerInsert’)(context);<br>    require(‘./usermanagerSearch’)(context);<br>    require(‘./viewColumnInsert’)(context);<br>    require(‘./viewColumnSearch’)(context);<br>    require(‘./viewInsert’)(context);<br>    require(‘./viewSearch’)(context);<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">initTreeList代码实现如下：</span><br></pre></td></tr></table></figure></p>
+<p>import <em> as vscode from ‘vscode’;<br>import </em> as path from ‘path’;</p>
+<p>export class DatadicMenuItemProvider implements vscode.TreeDataProvider<dependency> {<br>    private _onDidChangeTreeData: vscode.EventEmitter<dependency |="" undefined=""> = new vscode.EventEmitter<dependency |="" undefined="">();<br>    readonly onDidChangeTreeData: vscode.Event<dependency |="" undefined=""> = this._onDidChangeTreeData.event;</dependency></dependency></dependency></dependency></p>
+<pre><code>public static tree: Dependency[] = [];
+public static mrConnect: myTreeFilesNode[] = [{ fileName: &quot;当前管理用户设置&quot;, command: {command: &apos;datadic-auth&apos;, title: &apos;当前管理用户设置&apos;} }];
+public static mrDataDic: myTreeFilesNode[] = [{ fileName: &quot;数据表维护&quot; }, { fileName: &quot;数据视图维护&quot; }, { fileName: &quot;序列(sequence)维护&quot; }, { fileName: &quot;数据字典导入导出&quot; }];
+public static mrUsers: myTreeFilesNode[] = [{ fileName: &quot;数据字典用户新增&quot;, command: {command: &apos;usermanager-insert&apos;, title: &apos;数据字典用户新增&apos;} }, { fileName: &quot;数据字典用户查询&quot;, command: {command: &apos;usermanager-search&apos;, title: &apos;数据字典用户查询&apos;} }];
+public static mrTables: myTreeFilesNode[] = [{ fileName: &quot;数据表字典新增&quot;, command: {command: &apos;datadicmanager-table-insert&apos;, title: &apos;数据表字典新增&apos;} }, { fileName: &quot;数据表字典查询&quot;, command: {command: &apos;datadicmanager-table-search&apos;, title: &apos;datadicmanager-table-search&apos;} }];
+public static mrViews: myTreeFilesNode[] = [{ fileName: &quot;视图字典新增&quot;, command: {command: &apos;datadicmanager-view-insert&apos;, title: &apos;视图字典新增&apos;} }, { fileName: &quot;视图字典查询&quot;, command: {command: &apos;datadicmanager-view-search&apos;, title: &apos;视图字典查询&apos;} }, { fileName: &quot;字段关联视图新增&quot;, command: {command: &apos;datadicmanager-view-columninsert&apos;, title: &apos;字段关联视图新增&apos;} }, { fileName: &quot;字段关联视图查询&quot;, command: {command: &apos;datadicmanager-view-columnsearch&apos;, title: &apos;字段关联视图查询&apos;} }];
+public static mrSeq: myTreeFilesNode[] = [{ fileName: &quot;序列新增&quot;, command: {command: &apos;datadicmanager-seq-insert&apos;, title: &apos;序列新增&apos;} }, { fileName: &quot;序列查询&quot;, command: {command: &apos;datadicmanager-seq-search&apos;, title: &apos;序列查询&apos;} }];
+public static mrImpOrExp: myTreeFilesNode[] = [{ fileName: &quot;数据字典导入&quot;, command: {command: &apos;datadicmanager-imp&apos;, title: &apos;数据字典导入&apos;} }, { fileName: &quot;数据字典导出&quot;, command: {command: &apos;datadicmanager-exp&apos;, title: &apos;数据字典导出&apos;} }];
+
+constructor() {
+}
+
+public static initTreeList() {
+    let datadicMenuItemProvider = new DatadicMenuItemProvider();
+    vscode.window.registerTreeDataProvider(&apos;dataDictionary&apos;, datadicMenuItemProvider);
+    DatadicMenuItemProvider.tree.push(new Dependency(&quot;连接管理&quot;, myTreeKind.MR,DatadicMenuItemProvider.mrConnect, vscode.TreeItemCollapsibleState.Collapsed, undefined),
+    new Dependency(&quot;数据字典维护&quot;, myTreeKind.MR,DatadicMenuItemProvider.mrDataDic, vscode.TreeItemCollapsibleState.Collapsed, undefined),
+    new Dependency(&quot;数据字典用户管理&quot;, myTreeKind.MR,DatadicMenuItemProvider.mrUsers, vscode.TreeItemCollapsibleState.Collapsed, undefined)
+    );
+
+}
+
+refresh(): void {
+    this._onDidChangeTreeData.fire();
+}
+
+getTreeItem(element: Dependency): vscode.TreeItem {
+    return element;
+}
+
+getChildren(element?: Dependency): Thenable&lt;Dependency[]&gt; {
+    let trees: Dependency[] = [];
+    if(element == undefined) {
+        if(DatadicMenuItemProvider.tree != undefined) {
+            for(let i=0; i&lt; DatadicMenuItemProvider.tree.length; i++) {
+                let currentElement = DatadicMenuItemProvider.tree[i];
+                if(currentElement.label == &apos;连接管理&apos;) {
+                    let temp: Dependency = new Dependency(currentElement.label, myTreeKind.MR,DatadicMenuItemProvider.mrConnect, vscode.TreeItemCollapsibleState.Collapsed, undefined);
+                    temp.contextValue = &apos;connectTreeNode&apos;;
+                    temp.tooltip = &apos;connectTreeNode&apos;;
+                    temp.iconPath = currentElement.iconPath;
+                    trees.push(temp);
+                }
+                if(currentElement.label == &apos;数据字典维护&apos;) {
+                    let temp: Dependency = new Dependency(currentElement.label, myTreeKind.MR,DatadicMenuItemProvider.mrDataDic, vscode.TreeItemCollapsibleState.Collapsed, undefined);
+                    temp.contextValue = &apos;datadicManagerTreeNode&apos;;
+                    temp.tooltip = &apos;datadicManagerTreeNode&apos;;
+                    temp.iconPath = currentElement.iconPath;
+                    trees.push(temp);
+                }
+                if(currentElement.label == &apos;数据字典用户管理&apos;) {
+                    let temp: Dependency = new Dependency(currentElement.label, myTreeKind.MR,DatadicMenuItemProvider.mrUsers, vscode.TreeItemCollapsibleState.Collapsed, undefined);
+                    temp.contextValue = &apos;datadicUserManagerTreeNode&apos;;
+                    temp.tooltip = &apos;datadicUserManagerTreeNode&apos;;
+                    temp.iconPath = currentElement.iconPath;
+                    trees.push(temp);
+                }
+            }
+        }
+    } else {
+        if(element.label == &apos;连接管理&apos;) {
+            if (element.kind == myTreeKind.MR) {
+                for (let i = 0;i &lt; element.mrFiles.length; i++) {
+                    let currentElement = element.mrFiles[i];
+                    let mrreviewnode: Dependency = new Dependency(currentElement.fileName, myTreeKind.file,[], vscode.TreeItemCollapsibleState.None, currentElement.command);
+                    trees.push(mrreviewnode);
+                }
+            }
+        }
+        if(element.label == &apos;数据字典维护&apos;) {
+            if (element.kind == myTreeKind.MR) {
+                for (let i = 0;i &lt; element.mrFiles.length; i++) {
+                    let currentElement = element.mrFiles[i];
+                    if(currentElement.fileName == &apos;数据表维护&apos;) {
+                        let mrreviewnode: Dependency = new Dependency(currentElement.fileName, myTreeKind.MR, DatadicMenuItemProvider.mrTables, vscode.TreeItemCollapsibleState.Collapsed, undefined);
+                        trees.push(mrreviewnode);
+                    }
+                    if(currentElement.fileName == &apos;数据视图维护&apos;) {
+                        let mrreviewnode: Dependency = new Dependency(currentElement.fileName, myTreeKind.MR, DatadicMenuItemProvider.mrViews, vscode.TreeItemCollapsibleState.Collapsed, undefined);
+                        trees.push(mrreviewnode);
+                    }
+                    if(currentElement.fileName == &apos;序列(sequence)维护&apos;) {
+                        let mrreviewnode: Dependency = new Dependency(currentElement.fileName, myTreeKind.MR, DatadicMenuItemProvider.mrSeq, vscode.TreeItemCollapsibleState.Collapsed, undefined);
+                        trees.push(mrreviewnode);
+                    }
+                    if(currentElement.fileName == &apos;数据字典导入导出&apos;) {
+                        let mrreviewnode: Dependency = new Dependency(currentElement.fileName, myTreeKind.MR, DatadicMenuItemProvider.mrImpOrExp, vscode.TreeItemCollapsibleState.Collapsed, undefined);
+                        trees.push(mrreviewnode);
+                    }
+
+                }
+            }
+        }
+        if(element.label == &apos;数据字典用户管理&apos;) {
+            if (element.kind == myTreeKind.MR) {
+                for (let i = 0;i &lt; element.mrFiles.length; i++) {
+                    let currentElement = element.mrFiles[i];
+                    let mrreviewnode: Dependency = new Dependency(currentElement.fileName, myTreeKind.file,[], vscode.TreeItemCollapsibleState.None, currentElement.command);
+                    trees.push(mrreviewnode);
+                }
+            }
+        }
+        if(element.label == &apos;数据表维护&apos;) {
+            if (element.kind == myTreeKind.MR) {
+                for (let i = 0;i &lt; element.mrFiles.length; i++) {
+                    let currentElement = element.mrFiles[i];
+                    let mrreviewnode: Dependency = new Dependency(currentElement.fileName, myTreeKind.file,[], vscode.TreeItemCollapsibleState.None, currentElement.command);
+                    trees.push(mrreviewnode);
+                }
+            }
+        }
+        if(element.label == &apos;数据视图维护&apos;) {
+            if (element.kind == myTreeKind.MR) {
+                for (let i = 0;i &lt; element.mrFiles.length; i++) {
+                    let currentElement = element.mrFiles[i];
+                    let mrreviewnode: Dependency = new Dependency(currentElement.fileName, myTreeKind.file,[], vscode.TreeItemCollapsibleState.None, currentElement.command);
+                    trees.push(mrreviewnode);
+                }
+            }
+        }
+        if(element.label == &apos;序列(sequence)维护&apos;) {
+            if (element.kind == myTreeKind.MR) {
+                for (let i = 0;i &lt; element.mrFiles.length; i++) {
+                    let currentElement = element.mrFiles[i];
+                    let mrreviewnode: Dependency = new Dependency(currentElement.fileName, myTreeKind.file,[], vscode.TreeItemCollapsibleState.None, currentElement.command);
+                    trees.push(mrreviewnode);
+                }
+            }
+        }
+        if(element.label == &apos;数据字典导入导出&apos;) {
+            if (element.kind == myTreeKind.MR) {
+                for (let i = 0;i &lt; element.mrFiles.length; i++) {
+                    let currentElement = element.mrFiles[i];
+                    let mrreviewnode: Dependency = new Dependency(currentElement.fileName, myTreeKind.file,[], vscode.TreeItemCollapsibleState.None, currentElement.command);
+                    trees.push(mrreviewnode);
+                }
+            }
+        }
+
+    }
+    return new Promise(resolve =&gt; {
+        return resolve(trees);
+    })
+}
+</code></pre><p>}</p>
+<p>export interface myTreeFilesNode {<br>    fileName: string;<br>    command?: vscode.Command<br>}</p>
+<p>export enum myTreeKind {<br>    MR,<br>    file,<br>    comment,<br>    catatory,<br>    issue<br>}</p>
+<p>export class Dependency extends vscode.TreeItem {</p>
+<pre><code>constructor(
+    public readonly label: string,
+    public readonly kind: myTreeKind,
+    public readonly mrFiles: myTreeFilesNode[],
+    public readonly collapsibleState: vscode.TreeItemCollapsibleState,
+    public readonly command?: vscode.Command
+) {
+    super(label, collapsibleState);
+}
+
+iconPath = {
+    light: path.join(__filename, &apos;..&apos;, &apos;images&apos;, &apos;light&apos;, &apos;activebar.svg&apos;),
+    dark: path.join(__filename, &apos;..&apos;, &apos;..&apos;, &apos;images&apos;, &apos;dark&apos;, &apos;dependency.svg&apos;)
+};
+</code></pre><p>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">单个webview（例如：Auth.js 文件）实现如下：</span><br></pre></td></tr></table></figure></p>
+<p>import * as path from ‘path’;<br>import { ExtensionContext, WebviewPanel, commands, window, ViewColumn, Uri } from ‘vscode’;</p>
+<p>function loadScript(context: ExtensionContext, path: string) {<br>  //console.log(Uri.file(context.asAbsolutePath(path)).with({ scheme: ‘vscode-resource’}).toString())<br>  return <code>&lt;script src=&quot;${Uri.file(context.asAbsolutePath(path)).with({ scheme: &#39;vscode-resource&#39; }).toString()}&quot;&gt;&lt;/script&gt;</code>;<br>}<br>function loadCssFile(context: ExtensionContext, path: string) {<br>  //console.log(Uri.file(context.asAbsolutePath(path)).with({ scheme: ‘vscode-resource’}).toString())<br>  return <code>&lt;link href=&quot;${Uri.file(context.asAbsolutePath(path)).with({ scheme: &#39;vscode-resource&#39; }).toString()}&quot; rel=&quot;stylesheet&quot;&gt;</code>;<br>}</p>
+<p>/**</p>
+<ul>
+<li>取能被Webview加载的HTML内容</li>
+<li>@param context 上下文</li>
+<li><p>@param name<br>*/<br>function getWebViewContent(context: ExtensionContext, name: string) {<br>return `<br>   &lt;!DOCTYPE html&gt;<br>   <html lang="en"><br>   <head></head></html></p>
+<pre><code>&lt;meta charset=&quot;utf-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1, shrink-to-fit=no&quot;&gt;
+&lt;style type=&quot;text/css&quot;&gt;
+  .Resizer {
+    background: #000;
+    opacity: .2;
+    z-index: 1;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding;
+    background-clip: padding-box;
+  }
+  .Resizer:hover {
+    -webkit-transition: all 2s ease;
+    transition: all 2s ease;
+  }
+  .Resizer.horizontal {
+    height: 5px;
+    margin: -5px 0;
+    border-top: 5px solid rgba(255, 255, 255, 0);
+    border-bottom: 5px solid rgba(255, 255, 255, 0);
+    cursor: row-resize;
+    width: 100%;
+  }
+  .Resizer.horizontal:hover {
+    border-top: 5px solid rgba(0, 0, 0, 0.5);
+    border-bottom: 5px solid rgba(0, 0, 0, 0.5);
+  }
+  .Resizer.vertical {
+    width: 5px;
+    margin: 0 -5px;
+    border-left: 5px solid rgba(255, 255, 255, 0);
+    border-right: 5px solid rgba(255, 255, 255, 0);
+    cursor: col-resize;
+  }
+  .Resizer.vertical:hover {
+    border-left: 5px solid rgba(0, 0, 0, 0.5);
+    border-right: 5px solid rgba(0, 0, 0, 0.5);
+  }
+  .Resizer.disabled {
+    cursor: not-allowed;
+  }
+  .Resizer.disabled:hover {
+    border-color: transparent;
+  }
+  #container {
+    height: 100%
+  }
+  .noselect {
+    moz-user-select: -moz-none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  .vddl-list, .vddl-draggable {
+    position: relative;
+    margin-right: 1px;
+    margin-bottom: 2px;
+  }
+
+  .vddl-dragging-source {
+    display: none;
+  }
+
+  input, button, select, textarea {
+    outline: none;
+  }
+
+  textarea {
+    resize: none;
+  }
+
+  .inactive {
+    outline: 1px dashed #080808
+  }
+&lt;/style&gt;
+${loadCssFile(context, `out/${name}/bundle.css`)}
+${loadCssFile(context, `out/${name}/vendor.css`)}
+&lt;script&gt;
+  try {
+    window.vscode = acquireVsCodeApi();
+
+  } catch (e) {
+    console.error(e);
+  }
+&lt;/script&gt;
+</code></pre><p>   <br>   <body unselectable="on"></body></p>
+<pre><code>&lt;div id=&quot;root&quot;&gt;资源加载中.....&lt;/div&gt;
+${loadScript(context, `out/${name}/auth.js`)}
+${loadScript(context, `out/${name}/vendor.js`)}
+</code></pre><p>   <br>   <br> `<br>}</p>
+</li>
+</ul>
+<p>module.exports = function(context: ExtensionContext) {<br>    let datadicPanel: WebviewPanel | undefined = undefined;</p>
+<pre><code>context.subscriptions.push(
+    commands.registerCommand(&apos;datadic-auth&apos;, (uri) =&gt; {
+      const columnToShowIn = window.activeTextEditor
+        ? window.activeTextEditor.viewColumn
+        : undefined;
+      if (datadicPanel) {
+        // If we already have a panel, show it in the target column
+        datadicPanel.reveal(columnToShowIn);
+      } else {
+        datadicPanel = window.createWebviewPanel(&apos;Antd&apos;, &apos;当前管理用户设置&apos;, ViewColumn.Active, {
+          enableScripts: true,
+          retainContextWhenHidden: true,
+          localResourceRoots: [Uri.file(path.join(context.extensionPath, &apos;out&apos;))]
+        });
+        datadicPanel.webview.html = getWebViewContent(context, &apos;datadic&apos;);
+        datadicPanel.webview.onDidReceiveMessage(message =&gt; {
+
+        }, undefined, context.subscriptions)
+      }
+      datadicPanel.onDidDispose(
+        () =&gt; {
+          datadicPanel = undefined;
+        },
+        null,
+        context.subscriptions
+      );
+    })
+  );
+</code></pre><p>}<br><code>`</code> </p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/vscode/" rel="tag"># vscode</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/26/Docker-push出现requested-access-to-the-resource-is-denied/" rel="next" title="Docker push出现requested access to the resource is denied">
+                <i class="fa fa-chevron-left"></i> Docker push出现requested access to the resource is denied
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/03/10/使用bpmn-js实现activiti的流程设计器/" rel="prev" title="使用bpmn-js实现activiti的流程设计器">
+                使用bpmn-js实现activiti的流程设计器 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/24718752.gif"
+                alt="griabcrh" />
+            
+              <p class="site-author-name" itemprop="name">griabcrh</p>
+              <p class="site-description motion-element" itemprop="description">nice to meet you</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">86</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">57</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://griabcrh.github.io/about/" title="欢迎关注公众号" target="_blank">欢迎关注公众号</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://jemgeek.com/" title="Kylin's Blog" target="_blank">Kylin's Blog</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">griabcrh</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+|<span id="busuanzi_container_site_uv">
+  本站访客数<span id="busuanzi_value_site_uv"></span>人次
+</span>
+|<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("8TpPOiYi4ReJYs5sYfMdFmSO-gzGzoHsz", "hX7JfGRvJG8zcMqMRAWNMNyk");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

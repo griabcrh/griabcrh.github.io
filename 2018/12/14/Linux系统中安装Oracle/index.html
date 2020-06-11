@@ -126,7 +126,7 @@
 <meta property="og:image" content="https://griabcrh.github.io/images/oracle40.png">
 <meta property="og:image" content="https://griabcrh.github.io/images/oracle37.png">
 <meta property="og:image" content="https://griabcrh.github.io/images/oracle38.png">
-<meta property="og:updated_time" content="2018-12-18T06:41:03.671Z">
+<meta property="og:updated_time" content="2019-08-02T05:29:04.715Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux系统中安装Oracle">
 <meta name="twitter:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 本文将讲解Linux系统中怎么安装Oracle， 本文设计的系统为阿里云的CentOS 7.3系统 ， Oracle为oracle 12g  1. 环境Yum安装环境  1234567891011121314yum install -y binutils* yum install -y compat-libstdc* yu">
@@ -556,7 +556,7 @@
 <p>[oracle@localhost oracle]#startup</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">ORACLE 例程已经启动。</span><br><span class="line"></span><br><span class="line">Total System Global Area  535662592 bytes</span><br><span class="line"></span><br><span class="line">Fixed Size                 1375792 bytes</span><br><span class="line"></span><br><span class="line">VariableSize            293601744 bytes</span><br><span class="line"></span><br><span class="line">Database Buffers         234881024 bytes</span><br><span class="line"></span><br><span class="line">RedoBuffers               5804032 bytes</span><br></pre></td></tr></table></figure>
 <p>数据库装载完毕。</p>
-<p><strong>创建用户：必须以sysplus / as sysdba 登录</strong></p>
+<p><strong>创建用户：必须以sqlplus / as sysdba 登录</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create user glsdb identified by glsdb;</span><br></pre></td></tr></table></figure>
 <p>创建用户怕没创建成功可以使用命令查看用户是否存在（请看附件）</p>
 <p>创建表空间：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create tablespace glsdb_data datafile &apos;/home/oracle/oradata/glsdb_data.dbf&apos; size 1500M autoextend on next 5M maxsize 3000M;</span><br></pre></td></tr></table></figure></p>
@@ -687,7 +687,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">83</span>
+                  <span class="site-state-item-count">86</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -700,7 +700,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">56</span>
+                  <span class="site-state-item-count">57</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -771,7 +771,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<meta name="baidu-site-verification" content="cysG3IKyZB" />
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/griabcrh.gif?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Activiti," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前端：vue+bpmn-js实现activiti的流程设计器，后端Springboot+Activiti开发工作流 前端：vue + bpmn-js项目，实现activiti设计器， 后端： springboot + activiti   关于流程校验请看这篇文章：https://github.com/griabcrh/bpmn-js-bpmnlint 鉴于广大程序员们开发设计器苦不堪言以及后端不">
+<meta name="keywords" content="Activiti">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用bpmn-js实现activiti的流程设计器">
+<meta property="og:url" content="https://griabcrh.github.io/2020/03/10/使用bpmn-js实现activiti的流程设计器/index.html">
+<meta property="og:site_name" content="Griabcrh&#39;s Blog">
+<meta property="og:description" content="前端：vue+bpmn-js实现activiti的流程设计器，后端Springboot+Activiti开发工作流 前端：vue + bpmn-js项目，实现activiti设计器， 后端： springboot + activiti   关于流程校验请看这篇文章：https://github.com/griabcrh/bpmn-js-bpmnlint 鉴于广大程序员们开发设计器苦不堪言以及后端不">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://github.com/griabcrh/vue-activiti-demo/blob/master/vue-activiti-demo/static/process-design1.png">
+<meta property="og:image" content="https://github.com/griabcrh/vue-activiti-demo/blob/master/vue-activiti-demo/static/process-design2.png">
+<meta property="og:image" content="https://github.com/griabcrh/vue-activiti-demo/blob/master/vue-activiti-demo/static/process-design.png">
+<meta property="og:image" content="https://github.com/griabcrh/vue-activiti-demo/blob/master/vue-activiti-demo/static/process-design3.png">
+<meta property="og:image" content="https://github.com/griabcrh/vue-activiti-demo/blob/master/vue-activiti-demo/static/process-design4.png">
+<meta property="og:image" content="https://github.com/griabcrh/vue-activiti-demo/tree/master/vue-activiti-service-demo">
+<meta property="og:updated_time" content="2020-06-11T09:18:30.525Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用bpmn-js实现activiti的流程设计器">
+<meta name="twitter:description" content="前端：vue+bpmn-js实现activiti的流程设计器，后端Springboot+Activiti开发工作流 前端：vue + bpmn-js项目，实现activiti设计器， 后端： springboot + activiti   关于流程校验请看这篇文章：https://github.com/griabcrh/bpmn-js-bpmnlint 鉴于广大程序员们开发设计器苦不堪言以及后端不">
+<meta name="twitter:image" content="https://github.com/griabcrh/vue-activiti-demo/blob/master/vue-activiti-demo/static/process-design1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://griabcrh.github.io/2020/03/10/使用bpmn-js实现activiti的流程设计器/"/>
+
+
+
+
+
+  <title>使用bpmn-js实现activiti的流程设计器 | Griabcrh's Blog</title>
+  
+
+
+
+
+
+<script>
+	var _hmt = _hmt || [];
+	(function() {
+	var hm = document.createElement("script");
+	hm.src = "https://hm.baidu.com/hm.js?91c85e96d8e34ae79347b17b0d41826f";
+	var s = document.getElementsByTagName("script")[0]; 
+	s.parentNode.insertBefore(hm, s);
+	})();
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Griabcrh's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">welcome</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2020/03/10/使用bpmn-js实现activiti的流程设计器/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="griabcrh">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/24718752.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Griabcrh's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">使用bpmn-js实现activiti的流程设计器</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+			  
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-10T10:17:00+08:00">
+                2020-03-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2020/03/10/使用bpmn-js实现activiti的流程设计器/" class="leancloud_visitors" data-flag-title="使用bpmn-js实现activiti的流程设计器">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="前端：vue-bpmn-js实现activiti的流程设计器，后端Springboot-Activiti开发工作流"><a href="#前端：vue-bpmn-js实现activiti的流程设计器，后端Springboot-Activiti开发工作流" class="headerlink" title="前端：vue+bpmn-js实现activiti的流程设计器，后端Springboot+Activiti开发工作流"></a>前端：vue+bpmn-js实现activiti的流程设计器，后端Springboot+Activiti开发工作流</h1><blockquote>
+<p>前端：vue + bpmn-js项目，实现activiti设计器， 后端： springboot + activiti </p>
+</blockquote>
+<p>关于流程校验请看这篇文章：<a href="https://github.com/griabcrh/bpmn-js-bpmnlint" target="_blank" rel="noopener">https://github.com/griabcrh/bpmn-js-bpmnlint</a></p>
+<p>鉴于广大程序员们开发设计器苦不堪言以及后端不知道怎么解析自定义属性，于是我就开发了这个基础版本的demo，供广大程序员们学习用，如果有问题请在issue中提问👏👏👏</p>
+<p>项目中有什么问题欢迎指出，也欢迎👏👏👏大家帮我一起完善demo</p>
+<p>看我这么辛苦为你们整理demo，不给个star你们肯定都不好意思😄😄😄</p>
+<p>如果你是后端开发，请从最后面开始往上看😄</p>
+<p><img src="https://github.com/griabcrh/vue-activiti-demo/blob/master/vue-activiti-demo/static/process-design1.png" alt="流程图"></p>
+<h2 id="一-前端启动项目🌟"><a href="#一-前端启动项目🌟" class="headerlink" title="一 前端启动项目🌟"></a>一 前端启动项目🌟</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># install dependencies</span></span><br><span class="line">npm install</span><br><span class="line"></span><br><span class="line"><span class="comment"># serve with hot reload at localhost:8080</span></span><br><span class="line">npm run dev</span><br></pre></td></tr></table></figure>
+<h2 id="二-详细介绍🌟"><a href="#二-详细介绍🌟" class="headerlink" title="二 详细介绍🌟"></a>二 详细介绍🌟</h2><p>可以结合这篇文章进行阅读 ：<a href="https://juejin.im/post/5e7330c36fb9a07cd248ef00" target="_blank" rel="noopener">https://juejin.im/post/5e7330c36fb9a07cd248ef00</a></p>
+<p>关于bpmn-js如何使用建议搭建去github上面搜索，这里贴上官网地址： <a href="https://github.com/bpmn-io/bpmn-js" target="_blank" rel="noopener">https://github.com/bpmn-io/bpmn-js</a></p>
+<p>官网案例地址：<a href="https://github.com/bpmn-io/bpmn-js-examples" target="_blank" rel="noopener">https://github.com/bpmn-io/bpmn-js-examples</a></p>
+<p>由于bpmn-js官方是适配camunda的，所以对activiti存在不兼容的地方，为了让bpmn-js能使用activiti，我们需要在BpmnModeler中扩展activiti 主要代码如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import activitiModdleDescriptor from <span class="string">'../js/activiti.json'</span>;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">this.bpmnModeler = new BpmnModeler(&#123;</span><br><span class="line">  container: canvas,</span><br><span class="line">  //添加属性面板，添加翻译模块</span><br><span class="line">  additionalModules: [</span><br><span class="line">      customTranslateModule,</span><br><span class="line">      customControlsModule  </span><br><span class="line">  ],</span><br><span class="line">  //模块拓展，拓展activiti的描述</span><br><span class="line">  moddleExtensions: &#123;</span><br><span class="line">      activiti: activitiModdleDescriptor</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="1-关于activiti-json文件怎么配置🌟"><a href="#1-关于activiti-json文件怎么配置🌟" class="headerlink" title="1 关于activiti.json文件怎么配置🌟"></a>1 关于activiti.json文件怎么配置🌟</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">"name"</span>: <span class="string">"Activiti"</span>, // 标识是activiti</span><br><span class="line">  <span class="string">"uri"</span>: <span class="string">"http://activiti.org/bpmn"</span>, // 添加activiti的命名空间</span><br><span class="line">  <span class="string">"prefix"</span>: <span class="string">"activiti"</span>, // 属性前缀</span><br><span class="line">  <span class="string">"xml"</span>: &#123;</span><br><span class="line">    <span class="string">"tagAlias"</span>: <span class="string">"lowerCase"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">"associations"</span>: [],</span><br><span class="line">  <span class="string">"types"</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">"name"</span>: <span class="string">"Process"</span>, // &lt;bpmn2:process&gt; 标签</span><br><span class="line">      <span class="string">"isAbstract"</span>: <span class="literal">true</span>, </span><br><span class="line">      <span class="string">"extends"</span>: [</span><br><span class="line">        <span class="string">"bpmn:Process"</span> // 继承自&lt;bpmn2:process&gt;</span><br><span class="line">      ],</span><br><span class="line">      <span class="string">"properties"</span>: [ // 这个标签的属性</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="string">"name"</span>: <span class="string">"candidateStarterGroups"</span>, // 属性名</span><br><span class="line">          <span class="string">"isAttr"</span>: <span class="literal">true</span>,  // 是否是属性</span><br><span class="line">          <span class="string">"type"</span>: <span class="string">"String"</span> // 属性类型</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="string">"name"</span>: <span class="string">"candidateStarterUsers"</span>,</span><br><span class="line">          <span class="string">"isAttr"</span>: <span class="literal">true</span>,</span><br><span class="line">          <span class="string">"type"</span>: <span class="string">"String"</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="string">"name"</span>: <span class="string">"versionTag"</span>,</span><br><span class="line">          <span class="string">"isAttr"</span>: <span class="literal">true</span>,</span><br><span class="line">          <span class="string">"type"</span>: <span class="string">"String"</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="string">"name"</span>: <span class="string">"historyTimeToLive"</span>,</span><br><span class="line">          <span class="string">"isAttr"</span>: <span class="literal">true</span>,</span><br><span class="line">          <span class="string">"type"</span>: <span class="string">"String"</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="string">"name"</span>: <span class="string">"isStartableInTasklist"</span>,</span><br><span class="line">          <span class="string">"isAttr"</span>: <span class="literal">true</span>,</span><br><span class="line">          <span class="string">"type"</span>: <span class="string">"Boolean"</span>,</span><br><span class="line">          <span class="string">"default"</span>: <span class="literal">true</span> // 给属性添加默认值，但这个默认值没有写入xml中</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="string">"name"</span>:<span class="string">"executionListener"</span>, // 监听器属性</span><br><span class="line">          <span class="string">"isAbstract"</span>: <span class="literal">true</span>, // 抽象</span><br><span class="line">          <span class="string">"type"</span>:<span class="string">"Expression"</span> // 类型是表达式</span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;,</span><br><span class="line">    // 在这里接着加其他节点</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">  ],</span><br><span class="line">  <span class="string">"emumerations"</span>: [ ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>例子</strong>： 我的项目中需要给用户任务添加自定义的属性 nodeType(节点类型)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">"name"</span>: <span class="string">"UserTask"</span>,</span><br><span class="line">  <span class="string">"isAbstract"</span>: <span class="literal">true</span>, </span><br><span class="line">  <span class="string">"extends"</span>: [</span><br><span class="line">    <span class="string">"bpmn:UserTask"</span></span><br><span class="line">  ],</span><br><span class="line">  <span class="string">"properties"</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">"name"</span>: <span class="string">"nodeType"</span>,</span><br><span class="line">      <span class="string">"isAttr"</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="string">"type"</span>: <span class="string">"String"</span></span><br><span class="line">    &#125;,</span><br><span class="line">  ] </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-关于部分扩展和完全自定义🌟"><a href="#2-关于部分扩展和完全自定义🌟" class="headerlink" title="2 关于部分扩展和完全自定义🌟"></a>2 关于部分扩展和完全自定义🌟</h3><p>拿左侧工具栏来说，前端vue-activiti-demo项目：src/edit-modeler/js/customController/CustomPalette.js文件</p>
+<p><strong>问：</strong></p>
+<p>可以看到我自定义了用户任务和调用活动节点，其他的节点我用bpmn-js自带的；<br>那如果我不想用bpmn-js自带的怎么办呢？</p>
+<p><strong>解答</strong>：</p>
+<p>src/edit-modeler/js/customController/index.js文件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">import CustomContextPad from <span class="string">'./CustomContextPad'</span>;</span><br><span class="line">import CustomPalette from <span class="string">'./CustomPalette'</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> default &#123;</span><br><span class="line">    __init__: [ <span class="string">'customContextPad'</span>, <span class="string">'customPalette'</span> ],</span><br><span class="line">    customContextPad: [ <span class="string">'type'</span>, CustomContextPad ],</span><br><span class="line">    customPalette: [ <span class="string">'type'</span>, CustomPalette ]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>这里用的是customPalette，如果要完全自定义则换成paletteProvider;</p>
+<p><strong>同理</strong>：完全自定义contextPad用contextPadProvider,完全自定义属性面板用propertiesProvider</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">import CustomContextPad from <span class="string">'./CustomContextPad'</span>;</span><br><span class="line">import CustomPalette from <span class="string">'./CustomPalette'</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> default &#123;</span><br><span class="line">    __init__: [ <span class="string">'contextPadProvider'</span>, <span class="string">'paletteProvider'</span> ],</span><br><span class="line">    contextPadProvider: [ <span class="string">'type'</span>, CustomContextPad ],</span><br><span class="line">    paletteProvider: [ <span class="string">'type'</span>, CustomPalette ]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="3-关于属性前缀🌟"><a href="#3-关于属性前缀🌟" class="headerlink" title="3 关于属性前缀🌟"></a>3 关于属性前缀🌟</h3><p><strong>问：</strong></p>
+<p>我们都知道，bpmn-js生成的xml文件属性前缀都是camunda，那如何换成我们需要的前缀呢？</p>
+<p><strong>答：</strong></p>
+<p><strong>有两种方法</strong></p>
+<p>一种是扩展json文件，例如我们需要activiti前缀就扩展了activiti.json</p>
+<p>第二种就是直接修改初始化xml文件，我们打开设计器时会importXML一个空节点的xml，我们需要在这个xml中加。<br>例如：我需要加一个normal的前缀，生成属性后为：normal:nodeType;我们在xml中加上这句话：xmlns:normal=”<a href="http://flowable.org/bpmn/normal&quot;；以此类推" target="_blank" rel="noopener">http://flowable.org/bpmn/normal&quot;；以此类推</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span>?&gt;</span><br><span class="line">&lt;bpmn2:definitions xmlns:xsi=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span> </span><br><span class="line">xmlns:bpmn2=<span class="string">"http://www.omg.org/spec/BPMN/20100524/MODEL"</span> </span><br><span class="line">xmlns:bpmndi=<span class="string">"http://www.omg.org/spec/BPMN/20100524/DI"</span> </span><br><span class="line">xmlns:dc=<span class="string">"http://www.omg.org/spec/DD/20100524/DC"</span> </span><br><span class="line">xmlns:di=<span class="string">"http://www.omg.org/spec/DD/20100524/DI"</span> </span><br><span class="line">xmlns:normal=<span class="string">"http://flowable.org/bpmn/normal"</span> </span><br><span class="line">xsi:schemaLocation=<span class="string">"http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd"</span> </span><br><span class="line">id=<span class="string">"sample-diagram"</span> targetNamespace=<span class="string">"http://activiti.org/bpmn"</span>&gt;</span><br><span class="line">&lt;bpmn2:process id=<span class="string">"Process_1"</span> isExecutable=<span class="string">"true"</span>&gt;</span><br><span class="line">&lt;/bpmn2:process&gt;</span><br><span class="line">&lt;bpmndi:BPMNDiagram id=<span class="string">"BPMNDiagram_1"</span>&gt;</span><br><span class="line">&lt;bpmndi:BPMNPlane id=<span class="string">"BPMNPlane_1"</span> bpmnElement=<span class="string">"Process_1"</span>&gt;</span><br><span class="line">&lt;/bpmndi:BPMNPlane&gt;</span><br><span class="line">&lt;/bpmndi:BPMNDiagram&gt;</span><br><span class="line">&lt;/bpmn2:definitions&gt;</span><br></pre></td></tr></table></figure>
+<p>xml中加上后，设计器生成的属性如何加？</p>
+<p>其实很简单，我们updateProperties时可以加上前缀，例如：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">modeling.updateProperties(element, &#123;</span><br><span class="line">  <span class="string">'normal:nodeType'</span>: <span class="string">'nodeType'</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<h3 id="4-由于属性面板是自定义的，修改了属性面板的属性值，如何同步到xml中；以及我在图形上修改了属性如何同步属性面板🌟"><a href="#4-由于属性面板是自定义的，修改了属性面板的属性值，如何同步到xml中；以及我在图形上修改了属性如何同步属性面板🌟" class="headerlink" title="4 由于属性面板是自定义的，修改了属性面板的属性值，如何同步到xml中；以及我在图形上修改了属性如何同步属性面板🌟"></a>4 由于属性面板是自定义的，修改了属性面板的属性值，如何同步到xml中；以及我在图形上修改了属性如何同步属性面板🌟</h3><p>项目是vue架构，那就充分发挥vue的优势: <strong>监听</strong></p>
+<p>部分代码如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">watch: &#123;</span><br><span class="line">  id (newVal, oldVal) &#123;</span><br><span class="line">    const bpmnModeler = this.bpmnModeler();</span><br><span class="line">    const modeling = bpmnModeler.get(<span class="string">'modeling'</span>);</span><br><span class="line">    modeling.updateProperties(this.element,&#123;<span class="string">'id'</span>:newVal&#125;);</span><br><span class="line">  &#125;,</span><br><span class="line">  name(newVal, oldVal)&#123;</span><br><span class="line">    const bpmnModeler = this.bpmnModeler();</span><br><span class="line">    const modeling = bpmnModeler.get(<span class="string">'modeling'</span>);</span><br><span class="line">    modeling.updateProperties(this.element,&#123;<span class="string">'name'</span>:newVal&#125;); </span><br><span class="line">  &#125;,</span><br><span class="line">  // 监控element值，当发生改变时获取响应的属性</span><br><span class="line">  element: &#123;</span><br><span class="line">    deep: <span class="literal">true</span>,</span><br><span class="line">    immediate: <span class="literal">true</span>,</span><br><span class="line">    handler(newVal, oldVal) &#123;</span><br><span class="line">      <span class="keyword">if</span>(newVal) &#123;</span><br><span class="line">        const bpmnModeler = this.bpmnModeler(); // 我这里由于项目原因用的是方法获取bpmnModeler</span><br><span class="line">        this.id = newVal.businessObject.get(<span class="string">'id'</span>);</span><br><span class="line">        this.name = newVal.businessObject.get(<span class="string">'name'</span>);</span><br><span class="line">        // 初始化赋值</span><br><span class="line">        const modeling = bpmnModeler.get(<span class="string">'modeling'</span>);</span><br><span class="line">        modeling.updateProperties(this.element,&#123;<span class="string">'name'</span>:this.name&#125;);</span><br><span class="line">        modeling.updateProperties(this.element,&#123;<span class="string">'process_namespace'</span>:this.process_namespace&#125;);</span><br><span class="line">        modeling.updateProperties(this.element,&#123;<span class="string">'process_id'</span>:this.id&#125;);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>由于element是一个复杂的类型，所以深度监听一定要打开。</p>
+<p>同步xml：用的是modeling.updateProperties方法，也可以使用newVal.businessObject.$attrs[‘name’] = this.name修改</p>
+<p>修改图形属性同步属性面板：由于深度监听了element，所以修改了图形属性就等于修改了element，所以这里会监听到</p>
+<h3 id="5-如何添加监听器🌟"><a href="#5-如何添加监听器🌟" class="headerlink" title="5 如何添加监听器🌟"></a>5 如何添加监听器🌟</h3><p>可以查看vue-activiti-demo\src\edit-modeler\components\CommonProps.vue这个文件</p>
+<h3 id="6-如何添加自定义的标签🌟"><a href="#6-如何添加自定义的标签🌟" class="headerlink" title="6 如何添加自定义的标签🌟"></a>6 如何添加自定义的标签🌟</h3><p>我建议你看：<a href="https://github.com/bpmn-io/bpmn-js-examples/tree/master/custom-meta-model" target="_blank" rel="noopener">自定义元模型示例</a></p>
+<h3 id="7-如何添加多实例🌟"><a href="#7-如何添加多实例🌟" class="headerlink" title="7 如何添加多实例🌟"></a>7 如何添加多实例🌟</h3><p>这里提供代码添加的方法，可以直接在图形中点击扳手设置多实例</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">const moddle = bpmnModeler.get(<span class="string">'moddle'</span>);</span><br><span class="line">loopCharacteristics = moddle.create(<span class="string">'bpmn:MultiInstanceLoopCharacteristics'</span>);</span><br><span class="line">loopCharacteristics[<span class="string">'collection'</span>] = <span class="string">'flow_assignee'</span>;</span><br><span class="line">loopCharacteristics[<span class="string">'elementVariable'</span>] = <span class="string">'flow_assignee'</span>;</span><br><span class="line"><span class="built_in">let</span> completionCondition = elementsHelper.createElement(<span class="string">'bpmn:FormalExpression'</span>, &#123; body: <span class="string">'$&#123;mulitiInstance.completeTask(execution,passResult,mulitiActivityId)&#125;'</span> &#125;, loopCharacteristics, bpmnFactory);</span><br><span class="line"></span><br><span class="line">loopCharacteristics[<span class="string">'completionCondition'</span>] = completionCondition;</span><br><span class="line">modeling.updateProperties(element, &#123; loopCharacteristics: loopCharacteristics &#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="8-获取全部节点和根节点"><a href="#8-获取全部节点和根节点" class="headerlink" title="8 获取全部节点和根节点"></a>8 获取全部节点和根节点</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 获取全部节点，也可以用来获取根节点</span><br><span class="line">bpmnModeler._definitions.rootElements[0]</span><br><span class="line">// 根节点</span><br><span class="line">bpmnModeler.get(<span class="string">'canvas'</span>).getRootElement()</span><br></pre></td></tr></table></figure>
+<h3 id="9-如何给节点的同级添加节点"><a href="#9-如何给节点的同级添加节点" class="headerlink" title="9 如何给节点的同级添加节点"></a>9 如何给节点的同级添加节点</h3><p><strong>例如：</strong><br><img src="https://github.com/griabcrh/vue-activiti-demo/blob/master/vue-activiti-demo/static/process-design2.png" alt=""></p>
+<p>给SequenceFlow的同级添加了BoundaryEvent,只要获取根节点下的所有节点然后push进入你添加的节点就行了<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bpmnModeler._definitions.rootElements[0].flowElements.push(boundaryEvent);</span><br></pre></td></tr></table></figure></p>
+<h3 id="10-默认导入的空xml，给标签的id赋动态值报：没有可展示的流程-协作"><a href="#10-默认导入的空xml，给标签的id赋动态值报：没有可展示的流程-协作" class="headerlink" title="10 默认导入的空xml，给标签的id赋动态值报：没有可展示的流程/协作"></a>10 默认导入的空xml，给标签的id赋动态值报：没有可展示的流程/协作</h3><p><img src="https://github.com/griabcrh/vue-activiti-demo/blob/master/vue-activiti-demo/static/process-design.png" alt=""></p>
+<p>我的默认空xml如下：<br><img src="https://github.com/griabcrh/vue-activiti-demo/blob/master/vue-activiti-demo/static/process-design3.png" alt=""></p>
+<p>最后生成的xml如下：<br><img src="https://github.com/griabcrh/vue-activiti-demo/blob/master/vue-activiti-demo/static/process-design4.png" alt=""></p>
+<p>可以看到上图中id是以数字开头的， 就是这里导致的😂😂😂</p>
+<p>只要开头是字母就没事了，例如：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id = `T-<span class="variable">$&#123;uuidv4()&#125;</span>`</span><br></pre></td></tr></table></figure></p>
+<p>此处应有掌声👏👏👏</p>
+<h3 id="11-BpmnViewer流程追踪展示流程图，但是流程图被遮挡🌟"><a href="#11-BpmnViewer流程追踪展示流程图，但是流程图被遮挡🌟" class="headerlink" title="11 BpmnViewer流程追踪展示流程图，但是流程图被遮挡🌟"></a>11 BpmnViewer流程追踪展示流程图，但是流程图被遮挡🌟</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">const currentViewbox = this.bpmnViewer.get(&apos;canvas&apos;).viewbox()      </span><br><span class="line">const widthWindow = window.outerWidth;      </span><br><span class="line">const heightWindow = window.outerHeight;      </span><br><span class="line">const elementMid = &#123;        </span><br><span class="line">x: widthWindow / 2,        </span><br><span class="line">y: heightWindow / 2      </span><br><span class="line">&#125;      </span><br><span class="line">this.bpmnViewer.get(&apos;canvas&apos;).viewbox(&#123;        </span><br><span class="line">x: elementMid.x - currentViewbox.width / 2,        </span><br><span class="line">y: elementMid.y - currentViewbox.height / 2,        </span><br><span class="line">width: currentViewbox.width,        </span><br><span class="line">height: currentViewbox.height      </span><br><span class="line">&#125;)      </span><br><span class="line">const width = document.getElementById(&apos;canvas&apos;).offsetWidth      </span><br><span class="line">this.bpmnViewer.get(&apos;canvas&apos;).zoom(width / this.width)</span><br></pre></td></tr></table></figure>
+<h3 id="怼回去🤔️🤔️🤔️"><a href="#怼回去🤔️🤔️🤔️" class="headerlink" title="怼回去🤔️🤔️🤔️"></a>怼回去🤔️🤔️🤔️</h3><p>如果后端传给前端的是json文件，不是xml；请大胆的怼回去🤔️🤔️🤔️</p>
+<h3 id="结语🌟"><a href="#结语🌟" class="headerlink" title="结语🌟"></a>结语🌟</h3><p>如果你有好的解决方案欢迎私我，让我学习学习🤔️</p>
+<p>针对后端开发程序员们，我也真整理了后端springboot + activiti的demo；其中介绍了如何解析自定义的属性、如何扩展解析器📒，地址：<img src="https://github.com/griabcrh/vue-activiti-demo/tree/master/vue-activiti-service-demo" alt="后端demo"></p>
+<p>针对react + bpmn-js + flowable,请移步：<a href="https://github.com/griabcrh/react_bpmnjs" target="_blank" rel="noopener">https://github.com/griabcrh/react_bpmnjs</a></p>
+<p>针对前后端没有分离，可以参考我之前写的activiti项目请移步：<a href="https://github.com/griabcrh/ActivitiDemo" target="_blank" rel="noopener">https://github.com/griabcrh/ActivitiDemo</a></p>
+<p>加油呀💪💪💪💪</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Activiti/" rel="tag"># Activiti</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/19/vscode树形菜单栏实现/" rel="next" title="vscode树形菜单栏实现">
+                <i class="fa fa-chevron-left"></i> vscode树形菜单栏实现
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/24718752.gif"
+                alt="griabcrh" />
+            
+              <p class="site-author-name" itemprop="name">griabcrh</p>
+              <p class="site-description motion-element" itemprop="description">nice to meet you</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">86</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">57</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://griabcrh.github.io/about/" title="欢迎关注公众号" target="_blank">欢迎关注公众号</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://jemgeek.com/" title="Kylin's Blog" target="_blank">Kylin's Blog</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前端：vue-bpmn-js实现activiti的流程设计器，后端Springboot-Activiti开发工作流"><span class="nav-number">1.</span> <span class="nav-text">前端：vue+bpmn-js实现activiti的流程设计器，后端Springboot+Activiti开发工作流</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一-前端启动项目🌟"><span class="nav-number">1.1.</span> <span class="nav-text">一 前端启动项目🌟</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二-详细介绍🌟"><span class="nav-number">1.2.</span> <span class="nav-text">二 详细介绍🌟</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-关于activiti-json文件怎么配置🌟"><span class="nav-number">1.2.1.</span> <span class="nav-text">1 关于activiti.json文件怎么配置🌟</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-关于部分扩展和完全自定义🌟"><span class="nav-number">1.2.2.</span> <span class="nav-text">2 关于部分扩展和完全自定义🌟</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-关于属性前缀🌟"><span class="nav-number">1.2.3.</span> <span class="nav-text">3 关于属性前缀🌟</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-由于属性面板是自定义的，修改了属性面板的属性值，如何同步到xml中；以及我在图形上修改了属性如何同步属性面板🌟"><span class="nav-number">1.2.4.</span> <span class="nav-text">4 由于属性面板是自定义的，修改了属性面板的属性值，如何同步到xml中；以及我在图形上修改了属性如何同步属性面板🌟</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-如何添加监听器🌟"><span class="nav-number">1.2.5.</span> <span class="nav-text">5 如何添加监听器🌟</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-如何添加自定义的标签🌟"><span class="nav-number">1.2.6.</span> <span class="nav-text">6 如何添加自定义的标签🌟</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-如何添加多实例🌟"><span class="nav-number">1.2.7.</span> <span class="nav-text">7 如何添加多实例🌟</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-获取全部节点和根节点"><span class="nav-number">1.2.8.</span> <span class="nav-text">8 获取全部节点和根节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-如何给节点的同级添加节点"><span class="nav-number">1.2.9.</span> <span class="nav-text">9 如何给节点的同级添加节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-默认导入的空xml，给标签的id赋动态值报：没有可展示的流程-协作"><span class="nav-number">1.2.10.</span> <span class="nav-text">10 默认导入的空xml，给标签的id赋动态值报：没有可展示的流程/协作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-BpmnViewer流程追踪展示流程图，但是流程图被遮挡🌟"><span class="nav-number">1.2.11.</span> <span class="nav-text">11 BpmnViewer流程追踪展示流程图，但是流程图被遮挡🌟</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#怼回去🤔️🤔️🤔️"><span class="nav-number">1.2.12.</span> <span class="nav-text">怼回去🤔️🤔️🤔️</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结语🌟"><span class="nav-number">1.2.13.</span> <span class="nav-text">结语🌟</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">griabcrh</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+|<span id="busuanzi_container_site_uv">
+  本站访客数<span id="busuanzi_value_site_uv"></span>人次
+</span>
+|<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("8TpPOiYi4ReJYs5sYfMdFmSO-gzGzoHsz", "hX7JfGRvJG8zcMqMRAWNMNyk");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
