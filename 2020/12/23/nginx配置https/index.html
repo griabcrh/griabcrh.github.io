@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<meta name="baidu-site-verification" content="cysG3IKyZB" />
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/griabcrh.gif?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Nginx," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="基础知识SSL: Secure Socket Layer, 安全套接字层，它位于TCP层与Application层之间。提供对Application数据的加密保护（密文），完整性保护（不被篡改）等安全服务，它缺省工作在TCP 443端口，一般对HTTP加密，即HTTPS。 SSL双向认证具体过程 浏览器发送一个连接请求给安全服务器。 服务器将自己的证书以及同证书相关的信息发送给客户端浏览器。 客户">
+<meta name="keywords" content="Nginx">
+<meta property="og:type" content="article">
+<meta property="og:title" content="nginx配置https">
+<meta property="og:url" content="https://griabcrh.github.io/2020/12/23/nginx配置https/index.html">
+<meta property="og:site_name" content="Griabcrh&#39;s Blog">
+<meta property="og:description" content="基础知识SSL: Secure Socket Layer, 安全套接字层，它位于TCP层与Application层之间。提供对Application数据的加密保护（密文），完整性保护（不被篡改）等安全服务，它缺省工作在TCP 443端口，一般对HTTP加密，即HTTPS。 SSL双向认证具体过程 浏览器发送一个连接请求给安全服务器。 服务器将自己的证书以及同证书相关的信息发送给客户端浏览器。 客户">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-12-23T06:40:17.542Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="nginx配置https">
+<meta name="twitter:description" content="基础知识SSL: Secure Socket Layer, 安全套接字层，它位于TCP层与Application层之间。提供对Application数据的加密保护（密文），完整性保护（不被篡改）等安全服务，它缺省工作在TCP 443端口，一般对HTTP加密，即HTTPS。 SSL双向认证具体过程 浏览器发送一个连接请求给安全服务器。 服务器将自己的证书以及同证书相关的信息发送给客户端浏览器。 客户">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://griabcrh.github.io/2020/12/23/nginx配置https/"/>
+
+
+
+
+
+  <title>nginx配置https | Griabcrh's Blog</title>
+  
+
+
+
+
+
+<script>
+	var _hmt = _hmt || [];
+	(function() {
+	var hm = document.createElement("script");
+	hm.src = "https://hm.baidu.com/hm.js?91c85e96d8e34ae79347b17b0d41826f";
+	var s = document.getElementsByTagName("script")[0]; 
+	s.parentNode.insertBefore(hm, s);
+	})();
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Griabcrh's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">welcome</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2020/12/23/nginx配置https/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="griabcrh">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/24718752.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Griabcrh's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">nginx配置https</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+			  
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-12-23T10:15:32+08:00">
+                2020-12-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2020/12/23/nginx配置https/" class="leancloud_visitors" data-flag-title="nginx配置https">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h1><p><strong>SSL</strong>: Secure Socket Layer, 安全套接字层，它位于TCP层与Application层之间。提供对Application数据的加密保护（密文），完整性保护（不被篡改）等安全服务，它缺省工作在TCP 443端口，一般对HTTP加密，即HTTPS。</p>
+<h2 id="SSL双向认证具体过程"><a href="#SSL双向认证具体过程" class="headerlink" title="SSL双向认证具体过程"></a>SSL双向认证具体过程</h2><ol>
+<li>浏览器发送一个连接请求给安全服务器。</li>
+<li>服务器将自己的证书以及同证书相关的信息发送给客户端浏览器。</li>
+<li>客户端浏览器检查服务器发送过来的证书是否是由自己信赖的CA机构所签发；如果是，就继续执行协议；如果不是，客户浏览器就给客户一个警告消息：警告客户这个证书不是可以信赖的，询问客户是否需要继续。</li>
+<li>接着客户浏览器比较证书里的消息，例如域名和公钥，与服务器刚刚发送的相关消息是否一致，如果一致的，客户浏览器认可这个服务器的合法身份。</li>
+<li>服务器要求客户发送自己的证书。收到后，服务器验证客户的证书，如果没有通过验证，拒绝连接；如果通过验证，服务器获得用户的公钥。</li>
+<li>客户浏览器告诉服务器自己所能够支持的通讯对称密码方案。</li>
+<li>服务器从客户发送过来的密码方案中，选择一种加密程度最高的密码方案，用客户的公钥加密后通知浏览器。</li>
+<li>浏览器针对这个密码方案，选择一个童话密钥，接着用服务器的公钥加密后发送给服务器。</li>
+<li>服务器接收到浏览器发送过来的消息，用自己的私钥解密，获得童话密钥。</li>
+<li>服务器、浏览器接下来的通讯都是用对称密码方案，对称密钥是加密过的。</li>
+</ol>
+<h1 id="制作根证书"><a href="#制作根证书" class="headerlink" title="制作根证书"></a>制作根证书</h1><ol>
+<li>生成CA私钥：ca.key (这个是信任的起点，所有其他的证书都要经过CA的私钥签名)</li>
+</ol>
+<blockquote>
+<p>openssl genrsa -des3 -out ca.key 2048</p>
+</blockquote>
+<ol start="2">
+<li>生成CA根证书的公钥：ca.crt</li>
+</ol>
+<blockquote>
+<p>openssl req -new -x509 -days 3650 -key ca.key -out ca.crt</p>
+</blockquote>
+<h1 id="制作服务端证书"><a href="#制作服务端证书" class="headerlink" title="制作服务端证书"></a>制作服务端证书</h1><ol>
+<li>生成证服务端书私钥:server.pem</li>
+</ol>
+<blockquote>
+<p>openssl genrsa -des3 -out server.pem 2048</p>
+</blockquote>
+<ol start="2">
+<li>生成无密码的服务端私钥:server.key</li>
+</ol>
+<blockquote>
+<p>openssl rsa -in server.pem -out server.key</p>
+</blockquote>
+<ol start="3">
+<li>生成服务端签发请求：server.csr</li>
+</ol>
+<blockquote>
+<p>openssl req -new -key server.pem -out server.csr</p>
+</blockquote>
+<ol start="4">
+<li>最后用CA证书给服务端证书进行签名</li>
+</ol>
+<blockquote>
+<p>openssl x509 -req -sha256 -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -days 3650 -out server.crt</p>
+</blockquote>
+<p>把ca.crt的内容追加到server.crt后面，因为有些浏览器似乎不支持</p>
+<p>cat ca.crt &gt;&gt; server.crt</p>
+<h1 id="制作客户端证书-（和制作服务端证书步骤一样）"><a href="#制作客户端证书-（和制作服务端证书步骤一样）" class="headerlink" title="制作客户端证书 （和制作服务端证书步骤一样）"></a>制作客户端证书 （和制作服务端证书步骤一样）</h1><ol>
+<li><p>生成客户端证书私钥</p>
+<blockquote>
+<p>openssl genrsa -des3 -out client.pem 2048</p>
+</blockquote>
+</li>
+<li><p>生成客户端证书签发请求</p>
+<blockquote>
+<p>openssl req -new -key client.pem -out client-req.csr</p>
+</blockquote>
+</li>
+<li><p>用CA证书给客户端证书进行签名</p>
+<blockquote>
+<p>openssl x509 -req -sha256 -in client-req.csr -CA ca.crt -CAkey ca.key -CAcreateserial -days 3650 -out client.crt</p>
+</blockquote>
+</li>
+<li><p>客户端证书crt转换为PKCS #12格式（全称应该叫做 Personal Information Exchange，通常以 p12作为后缀）</p>
+</li>
+</ol>
+<blockquote>
+<p>openssl pkcs12 -export -clcerts -in client.crt -inkey client.pem -out crh.p12</p>
+</blockquote>
+<ol start="5">
+<li>将crh.p12安装到浏览器的可信任的根证书里</li>
+</ol>
+<h1 id="nginx配置"><a href="#nginx配置" class="headerlink" title="nginx配置"></a>nginx配置</h1><h2 id="一、-Nginx安装"><a href="#一、-Nginx安装" class="headerlink" title="一、 Nginx安装"></a>一、 Nginx安装</h2><h3 id="1-安装编译工具及库文件"><a href="#1-安装编译工具及库文件" class="headerlink" title="1. 安装编译工具及库文件"></a>1. 安装编译工具及库文件</h3><blockquote>
+<p>yum -y install make zlib zlib-devel gcc-c++ libtool  openssl openssl-devel</p>
+</blockquote>
+<h3 id="2-首先要安装PCRE"><a href="#2-首先要安装PCRE" class="headerlink" title="2. 首先要安装PCRE"></a>2. 首先要安装PCRE</h3><p>PCRE 作用是让 Nginx 支持 Rewrite 功能。</p>
+<ol>
+<li><p>下载PCRE安装包</p>
+<blockquote>
+<p>wget <a href="http://downloads.sourceforge.net/project/pcre/pcre/8.35/pcre-8.35.tar.gz" target="_blank" rel="noopener">http://downloads.sourceforge.net/project/pcre/pcre/8.35/pcre-8.35.tar.gz</a></p>
+</blockquote>
+</li>
+<li><p>解压安装包</p>
+<blockquote>
+<p>tar zxvf pcre-8.35.tar.gz</p>
+</blockquote>
+</li>
+<li><p>进入安装包目录</p>
+<blockquote>
+<p>cd pcre-8.35</p>
+</blockquote>
+</li>
+<li><p>编译安装</p>
+</li>
+</ol>
+<blockquote>
+<p>./configure<br>make &amp;&amp; make install</p>
+</blockquote>
+<ol start="5">
+<li>查看pcre版本</li>
+</ol>
+<blockquote>
+<p>pcre-config –version</p>
+</blockquote>
+<h3 id="安装nginx"><a href="#安装nginx" class="headerlink" title="安装nginx"></a>安装nginx</h3><ol>
+<li>下载 Nginx,下载地址：<a href="https://nginx.org/en/download.html" target="_blank" rel="noopener">https://nginx.org/en/download.html</a></li>
+</ol>
+<blockquote>
+<p>wget <a href="http://nginx.org/download/nginx-1.18.0.tar.gz" target="_blank" rel="noopener">http://nginx.org/download/nginx-1.18.0.tar.gz</a></p>
+</blockquote>
+<ol start="2">
+<li>解压安装包</li>
+</ol>
+<blockquote>
+<p>tar zxvf nginx-1.18.0.tar.gz</p>
+</blockquote>
+<ol start="3">
+<li>进入安装包目录</li>
+</ol>
+<blockquote>
+<p>cd nginx-1.18.0</p>
+</blockquote>
+<ol start="4">
+<li>编译安装</li>
+</ol>
+<blockquote>
+<p>./configure –prefix=/usr/local/webserver/nginx –with-http_stub_status_module –with-http_ssl_module –with-pcre=/usr/local/src/pcre-8.35</p>
+</blockquote>
+<p>注意：–with-pcre的值为刚刚你安装pcre的地址</p>
+<blockquote>
+<p>make &amp;&amp; make install</p>
+</blockquote>
+<ol start="5">
+<li>查看nginx版本</li>
+</ol>
+<blockquote>
+<p>/usr/local/webserver/nginx/sbin/nginx -V</p>
+</blockquote>
+<p>注意：此命令必须在nginx源码路径下执行</p>
+<h2 id="二、配置nginx"><a href="#二、配置nginx" class="headerlink" title="二、配置nginx"></a>二、配置nginx</h2> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"> server &#123;</span><br><span class="line">    listen       9443 ssl; # 开启ssl</span><br><span class="line">    server_name  113.31.117.241; # 域名或者本机ip</span><br><span class="line">    ssl_certificate      /usr/local/webserver/nginx/conf/cert/server.crt; # 服务端证书</span><br><span class="line">    ssl_certificate_key  /usr/local/webserver/nginx/conf/cert/server.key; # 服务端私钥</span><br><span class="line"></span><br><span class="line">    ssl_session_cache    shared:SSL:1m; # 配置共享会话缓存大小</span><br><span class="line">    ssl_session_timeout  5m; # session有效期5分钟</span><br><span class="line">    ssl_protocols  SSLv2 SSLv3 TLSv1 TLSv1.1 TLSv1.2; #启用指定的协议</span><br><span class="line">    ssl_ciphers  ALL:!DH:!EXPORT:!RC4:+HIGH:+MEDIUM:-LOW:!aNULL:!eNULL; #加密算法</span><br><span class="line">    ssl_prefer_server_ciphers  on; # 优先采取服务器算法</span><br><span class="line">    ssl_verify_client optional_no_ca;# 开启客户端证书校验</span><br><span class="line">    ssl_client_certificate  /usr/local/webserver/nginx/conf/cert/ca.crt; # CA证书用于验证客户端证书的合法性</span><br><span class="line">    ssl_verify_depth 6; # 校验深度</span><br><span class="line">    ssl_trusted_certificate /usr/local/webserver/nginx/conf/cert/ca.crt; # 将CA证书设为受信任的证书</span><br><span class="line">    # 减少点击劫持</span><br><span class="line">    add_header  X-Frame-Options DENY;</span><br><span class="line">    # 禁止服务器自动解析资源类型</span><br><span class="line">    add_header  X-Content-Type-Options  nosniff;</span><br><span class="line">    # 防止XSS攻击</span><br><span class="line">    add_header  X-Xss-Protection 1;</span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">      # start  防止跨域问题</span><br><span class="line">      add_header Access-Control-Allow-Origin *;</span><br><span class="line">      add_header Access-Control-Allow-Methods &apos;GET, POST, OPTIONS&apos;;</span><br><span class="line">      add_header Access-Control-Allow-Headers &apos;DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization&apos;;</span><br><span class="line">      </span><br><span class="line">      if ($request_method = &apos;OPTIONS&apos;) &#123;</span><br><span class="line">          return 204;</span><br><span class="line">      &#125;</span><br><span class="line">      # end</span><br><span class="line">      root   /home/ljcw/micro/;</span><br><span class="line">      index  index.html index.htm;</span><br><span class="line">		  try_files $uri $uri/ /index.html;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">  ....</span><br><span class="line">   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="问题记录"><a href="#问题记录" class="headerlink" title="问题记录"></a>问题记录</h1><h2 id="1-配置ssl后启动nginx报the-quot-ssl-quot-parameter-requires-ngx-http-ssl-module"><a href="#1-配置ssl后启动nginx报the-quot-ssl-quot-parameter-requires-ngx-http-ssl-module" class="headerlink" title="1. 配置ssl后启动nginx报the &quot;ssl&quot; parameter requires ngx_http_ssl_module"></a>1. 配置ssl后启动nginx报<code>the &quot;ssl&quot; parameter requires ngx_http_ssl_module</code></h2><p> 原因：安装nginx时，没有安装http_ssl_module模块，现在我的nginx已经安装过了，怎么添加模块呢？</p>
+<p> 解决：</p>
+<ol>
+<li><p>切换到源码包：</p>
+<blockquote>
+<p>cd /root/nginx-1.18.0</p>
+</blockquote>
+</li>
+<li><p>查看nginx原有模块</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> [root@10-23-54-102 nginx-1.18.0]# /usr/local/webserver/nginx/sbin/nginx -V</span><br><span class="line">nginx version: nginx/1.18.0</span><br><span class="line">built by gcc 8.3.1 20191121 (Red Hat 8.3.1-5) (GCC) </span><br><span class="line">configure arguments: --prefix=/usr/local/webserver/nginx</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在configure arguments:后面显示的原有的configure参数如下</p>
+<p>configure arguments: –prefix=/usr/local/webserver/nginx</p>
+<p>那么我们的新配置信息应该这样写：</p>
+<p>./configure –prefix=/usr/local/webserver/nginx –with-http_stub_status_module –with-http_ssl_module</p>
+</li>
+</ol>
+<ol start="4">
+<li><p>配置完成后，运行命令make</p>
+<p>这里不要进行make install，否则就是覆盖安装</p>
+</li>
+<li><p>然后备份原有已安装好的nginx</p>
+</li>
+</ol>
+<blockquote>
+<p>cp /usr/local/webserver/nginx/sbin/nginx /usr/local/webserver/nginx/sbin/nginx.bak</p>
+</blockquote>
+<ol start="6">
+<li>将刚刚编译好的nginx覆盖掉原有的nginx（这个时候nginx要停止状态）</li>
+</ol>
+<blockquote>
+<p>cp ./objs/nginx /usr/local/webserver/nginx/sbin/</p>
+</blockquote>
+<ol start="7">
+<li>然后启动nginx，仍可以通过命令查看是否已经加入成功</li>
+</ol>
+<blockquote>
+<p>/usr/local/nginx/sbin/nginx -V　</p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Nginx/" rel="tag"># Nginx</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/11/01/springboot-druid连接池配置信息错误一直重试连接/" rel="next" title="springboot druid连接池配置信息错误一直重试连接">
+                <i class="fa fa-chevron-left"></i> springboot druid连接池配置信息错误一直重试连接
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/24718752.gif"
+                alt="griabcrh" />
+            
+              <p class="site-author-name" itemprop="name">griabcrh</p>
+              <p class="site-description motion-element" itemprop="description">nice to meet you</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">89</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">58</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://griabcrh.github.io/about/" title="欢迎关注公众号" target="_blank">欢迎关注公众号</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://jemgeek.com/" title="Kylin's Blog" target="_blank">Kylin's Blog</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基础知识"><span class="nav-number">1.</span> <span class="nav-text">基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#SSL双向认证具体过程"><span class="nav-number">1.1.</span> <span class="nav-text">SSL双向认证具体过程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#制作根证书"><span class="nav-number">2.</span> <span class="nav-text">制作根证书</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#制作服务端证书"><span class="nav-number">3.</span> <span class="nav-text">制作服务端证书</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#制作客户端证书-（和制作服务端证书步骤一样）"><span class="nav-number">4.</span> <span class="nav-text">制作客户端证书 （和制作服务端证书步骤一样）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#nginx配置"><span class="nav-number">5.</span> <span class="nav-text">nginx配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、-Nginx安装"><span class="nav-number">5.1.</span> <span class="nav-text">一、 Nginx安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-安装编译工具及库文件"><span class="nav-number">5.1.1.</span> <span class="nav-text">1. 安装编译工具及库文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-首先要安装PCRE"><span class="nav-number">5.1.2.</span> <span class="nav-text">2. 首先要安装PCRE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装nginx"><span class="nav-number">5.1.3.</span> <span class="nav-text">安装nginx</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、配置nginx"><span class="nav-number">5.2.</span> <span class="nav-text">二、配置nginx</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#问题记录"><span class="nav-number">6.</span> <span class="nav-text">问题记录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-配置ssl后启动nginx报the-quot-ssl-quot-parameter-requires-ngx-http-ssl-module"><span class="nav-number">6.1.</span> <span class="nav-text">1. 配置ssl后启动nginx报the &quot;ssl&quot; parameter requires ngx_http_ssl_module</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">griabcrh</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+|<span id="busuanzi_container_site_uv">
+  本站访客数<span id="busuanzi_value_site_uv"></span>人次
+</span>
+|<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("8TpPOiYi4ReJYs5sYfMdFmSO-gzGzoHsz", "hX7JfGRvJG8zcMqMRAWNMNyk");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
