@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<meta name="baidu-site-verification" content="cysG3IKyZB" />
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/griabcrh.gif?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="JDK," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="java tomcat 搭建SSL双向认证以及httpclient代码 一、生成密钥库和证书可参考以下密钥生成脚本，根据实际情况做必要的修改，其中需要注意的是：服务端的密钥库参数“CN”必须与服务端的IP地址相同，否则会报错，客户端的任意。key.script 1 、生成服务器证书库 keytool -validity 365 -genkey -v -alias server -keyalg RS">
+<meta name="keywords" content="JDK">
+<meta property="og:type" content="article">
+<meta property="og:title" content="通过jdk自制https证书并配置到nginx中">
+<meta property="og:url" content="https://griabcrh.github.io/2020/12/23/通过jdk自制https证书并配置到nginx中/index.html">
+<meta property="og:site_name" content="Griabcrh&#39;s Blog">
+<meta property="og:description" content="java tomcat 搭建SSL双向认证以及httpclient代码 一、生成密钥库和证书可参考以下密钥生成脚本，根据实际情况做必要的修改，其中需要注意的是：服务端的密钥库参数“CN”必须与服务端的IP地址相同，否则会报错，客户端的任意。key.script 1 、生成服务器证书库 keytool -validity 365 -genkey -v -alias server -keyalg RS">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://griabcrh.github.io/imasges/jdk1.png">
+<meta property="og:image" content="https://griabcrh.github.io/imasges/jdk2.png">
+<meta property="og:image" content="https://griabcrh.github.io/imasges/jdk3.png">
+<meta property="og:image" content="https://griabcrh.github.io/imasges/jdk4.png">
+<meta property="og:image" content="https://griabcrh.github.io/imasges/jdk5.png">
+<meta property="og:image" content="https://griabcrh.github.io/imasges/jdk6.png">
+<meta property="og:image" content="https://griabcrh.github.io/imasges/jdk7.png">
+<meta property="og:updated_time" content="2021-01-02T03:03:05.054Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="通过jdk自制https证书并配置到nginx中">
+<meta name="twitter:description" content="java tomcat 搭建SSL双向认证以及httpclient代码 一、生成密钥库和证书可参考以下密钥生成脚本，根据实际情况做必要的修改，其中需要注意的是：服务端的密钥库参数“CN”必须与服务端的IP地址相同，否则会报错，客户端的任意。key.script 1 、生成服务器证书库 keytool -validity 365 -genkey -v -alias server -keyalg RS">
+<meta name="twitter:image" content="https://griabcrh.github.io/imasges/jdk1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://griabcrh.github.io/2020/12/23/通过jdk自制https证书并配置到nginx中/"/>
+
+
+
+
+
+  <title>通过jdk自制https证书并配置到nginx中 | Griabcrh's Blog</title>
+  
+
+
+
+
+
+<script>
+	var _hmt = _hmt || [];
+	(function() {
+	var hm = document.createElement("script");
+	hm.src = "https://hm.baidu.com/hm.js?91c85e96d8e34ae79347b17b0d41826f";
+	var s = document.getElementsByTagName("script")[0]; 
+	s.parentNode.insertBefore(hm, s);
+	})();
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Griabcrh's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">welcome</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2020/12/23/通过jdk自制https证书并配置到nginx中/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="griabcrh">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/24718752.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Griabcrh's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">通过jdk自制https证书并配置到nginx中</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+			  
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-12-23T15:17:44+08:00">
+                2020-12-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2020/12/23/通过jdk自制https证书并配置到nginx中/" class="leancloud_visitors" data-flag-title="通过jdk自制https证书并配置到nginx中">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>java tomcat 搭建SSL双向认证以及httpclient代码</p>
+<h1 id="一、生成密钥库和证书"><a href="#一、生成密钥库和证书" class="headerlink" title="一、生成密钥库和证书"></a>一、生成密钥库和证书</h1><p>可参考以下密钥生成脚本，根据实际情况做必要的修改，其中需要注意的是：服务端的密钥库参数“CN”必须与服务端的IP地址相同，否则会报错，客户端的任意。<br>key.script</p>
+<h2 id="1-、生成服务器证书库"><a href="#1-、生成服务器证书库" class="headerlink" title="1 、生成服务器证书库"></a>1 、生成服务器证书库</h2><blockquote>
+<p>keytool -validity 365 -genkey -v -alias server -keyalg RSA -keystore /opt/web/ssl/server.keystore -dname “CN=localhost,OU=sumscope,O=sumscope,L=Pudong,ST=Shanghai,c=com” -storepass 111111 -keypass 111111</p>
+</blockquote>
+<h2 id="2-、生成客户端证书库"><a href="#2-、生成客户端证书库" class="headerlink" title="2 、生成客户端证书库"></a>2 、生成客户端证书库</h2><blockquote>
+<p>keytool -validity 365 -genkeypair -v -alias client -keyalg RSA -storetype PKCS12 -keystore /opt/web/ssl/client.p12 -dname “CN=client,OU=sumscope,O=sumscope,L=Pudong,ST=Shanghai,c=com” -storepass 222222 -keypass 222222</p>
+</blockquote>
+<h2 id="3-、从客户端证书库中导出客户端证书"><a href="#3-、从客户端证书库中导出客户端证书" class="headerlink" title="3 、从客户端证书库中导出客户端证书"></a>3 、从客户端证书库中导出客户端证书</h2><blockquote>
+<p>keytool -export -v -alias client -keystore /opt/web/ssl/client.p12 -storetype PKCS12 -storepass 222222 -rfc -file /opt/web/ssl/client.cer</p>
+</blockquote>
+<h2 id="4-、从服务器证书库中导出服务器证书"><a href="#4-、从服务器证书库中导出服务器证书" class="headerlink" title="4 、从服务器证书库中导出服务器证书"></a>4 、从服务器证书库中导出服务器证书</h2><blockquote>
+<p>keytool -export -v -alias server -keystore /opt/web/ssl/server.keystore -storepass 111111 -rfc -file /opt/web/ssl/server.cer</p>
+</blockquote>
+<h2 id="5-、生成客户端信任证书库-由服务端证书生成的证书库"><a href="#5-、生成客户端信任证书库-由服务端证书生成的证书库" class="headerlink" title="5 、生成客户端信任证书库(由服务端证书生成的证书库)"></a>5 、生成客户端信任证书库(由服务端证书生成的证书库)</h2><blockquote>
+<p>keytool -import -v -alias server -file /opt/web/ssl/server.cer -keystore /opt/web/ssl/client.truststore -storepass 222222</p>
+</blockquote>
+<h2 id="6-、将客户端证书导入到服务器证书库-使得服务器信任客户端证书"><a href="#6-、将客户端证书导入到服务器证书库-使得服务器信任客户端证书" class="headerlink" title="6 、将客户端证书导入到服务器证书库(使得服务器信任客户端证书)"></a>6 、将客户端证书导入到服务器证书库(使得服务器信任客户端证书)</h2><blockquote>
+<p>keytool -import -v -alias client -file /opt/web/ssl/client.cer -keystore /opt/web/ssl/server.keystore -storepass 111111</p>
+</blockquote>
+<h2 id="7-、查看证书库中的全部证书"><a href="#7-、查看证书库中的全部证书" class="headerlink" title="7 、查看证书库中的全部证书"></a>7 、查看证书库中的全部证书</h2><blockquote>
+<p>keytool -list -keystore /opt/web/ssl/server.keystore -storepass 111111</p>
+</blockquote>
+<h1 id="二、Tomat配置"><a href="#二、Tomat配置" class="headerlink" title="二、Tomat配置"></a>二、Tomat配置</h1><p>使用文本编辑器编辑${catalina.base}/conf/server.xml<br>找到Connector port=”8443”的标签，取消注释，并修改成如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;Connector port=&quot;8443&quot; protocol=&quot;HTTP/1.1&quot; SSLEnabled=&quot;true&quot;</span><br><span class="line">maxThreads=&quot;150&quot; scheme=&quot;https&quot; secure=&quot;true&quot;</span><br><span class="line">clientAuth=&quot;true&quot; sslProtocol=&quot;SSL&quot;</span><br><span class="line">keystoreFile=&quot;/opt/web/ssl/server.keystore&quot; keystorePass=&quot;111111&quot;</span><br><span class="line">truststoreFile=&quot;/opt/web/ssl/server.keystore&quot; truststorePass=&quot;111111&quot; /&gt;</span><br></pre></td></tr></table></figure>
+<p><code>备注：</code><br>keystoreFile：指定服务器密钥库，可以配置成绝对路径，如“/opt/web/ssl/server.keystore”。<br>keystorePass：密钥库生成时的密码<br>truststoreFile：受信任密钥库，和密钥库相同即可<br>truststorePass：受信任密钥库密码</p>
+<h1 id="三、建立演示项目"><a href="#三、建立演示项目" class="headerlink" title="三、建立演示项目"></a>三、建立演示项目</h1><p>项目结构图：<br>项目名称：SSL（随意）</p>
+<h2 id="1-SSLServlet-java"><a href="#1-SSLServlet-java" class="headerlink" title="1. SSLServlet.java"></a>1. SSLServlet.java</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> ian.wang.ssl.servlet;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.servlet.ServletException;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServlet;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletRequest;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletResponse;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.PrintWriter;</span><br><span class="line"><span class="keyword">import</span> java.security.cert.X509Certificate;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SSLServlet</span> <span class="keyword">extends</span> <span class="title">HttpServlet</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String ATTR_CER = <span class="string">"javax.servlet.request.X509Certificate"</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String CONTENT_TYPE = <span class="string">"text/plain;charset=UTF-8"</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String DEFAULT_ENCODING = <span class="string">"UTF-8"</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String SCHEME_HTTPS = <span class="string">"https"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doGet</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">        response.setContentType(CONTENT_TYPE);</span><br><span class="line">        response.setCharacterEncoding(DEFAULT_ENCODING);</span><br><span class="line">        PrintWriter out = response.getWriter();</span><br><span class="line">        out.println(<span class="string">"cmd=["</span>+request.getParameter(<span class="string">"cmd"</span>)+<span class="string">"], data=["</span>+request.getParameter(<span class="string">"data"</span>)+<span class="string">"]"</span>);</span><br><span class="line">        X509Certificate[] certs = (X509Certificate[]) request.getAttribute(ATTR_CER);</span><br><span class="line">        <span class="keyword">if</span> (certs != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">int</span> count = certs.length;</span><br><span class="line">            out.println(<span class="string">"共检测到["</span> + count + <span class="string">"]个客户端证书"</span>);</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; count; i++) &#123;</span><br><span class="line">                out.println(<span class="string">"客户端证书 ["</span> + (++i) + <span class="string">"]： "</span>);</span><br><span class="line">                out.println(<span class="string">"校验结果："</span> + verifyCertificate(certs[--i]));</span><br><span class="line">                out.println(<span class="string">"证书详细：\r"</span> + certs[i].toString());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (SCHEME_HTTPS.equalsIgnoreCase(request.getScheme())) &#123;</span><br><span class="line">                out.println(<span class="string">"这是一个HTTPS请求，但是没有可用的客户端证书"</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                out.println(<span class="string">"这不是一个HTTPS请求，因此无法获得客户端证书列表 "</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        out.close();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doPost</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">        doGet(request, response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">verifyCertificate</span><span class="params">(X509Certificate certificate)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">boolean</span> valid = <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            certificate.checkValidity();</span><br><span class="line">            valid=<span class="keyword">true</span>;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> valid;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="2-web-xml"><a href="#2-web-xml" class="headerlink" title="2. web.xml"></a>2. web.xml</h2><p>说明：该演示项目强制使用了SSL，即普通的HTTP请求也会强制重定向为HTTPS请求，配置在最下面，可以去除，这样HTTP和HTTPS都可以访问。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">web-app</span> <span class="attr">version</span>=<span class="string">"2.5"</span> <span class="attr">xmlns</span>=<span class="string">"http://java.sun.com/xml/ns/javaee"</span> <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span> <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://java.sun.com/xml/ns/javaee</span></span></span><br><span class="line"><span class="tag"><span class="string"> http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">session-config</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">session-timeout</span>&gt;</span>30<span class="tag">&lt;/<span class="name">session-timeout</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">session-config</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>SSLServlet<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>ian.wang.ssl.servlet.SSLServlet<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">servlet</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>SSLServlet<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/sslServlet<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 强制SSL配置，即普通的请求也会重定向为SSL请求 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">security-constraint</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">web-resource-collection</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">web-resource-name</span>&gt;</span>SSL<span class="tag">&lt;/<span class="name">web-resource-name</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/*<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span> <span class="comment">&lt;!-- 全站使用SSL --&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">web-resource-collection</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">user-data-constraint</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">description</span>&gt;</span>SSL required<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line">            <span class="comment">&lt;!-- CONFIDENTIAL: 要保证服务器和客户端之间传输的数据不能够被修改，且不能被第三方查看到 --&gt;</span></span><br><span class="line">            <span class="comment">&lt;!-- INTEGRAL: 要保证服务器和client之间传输的数据不能够被修改 --&gt;</span></span><br><span class="line">            <span class="comment">&lt;!-- NONE: 指示容器必须能够在任一的连接上提供数据。（即用HTTP或HTTPS，由客户端来决定） --&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">transport-guarantee</span>&gt;</span>CONFIDENTIAL<span class="tag">&lt;/<span class="name">transport-guarantee</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">user-data-constraint</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">security-constraint</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">web-app</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="3-index-jsp"><a href="#3-index-jsp" class="headerlink" title="3. index.jsp"></a>3. index.jsp</h2><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page language=<span class="string">"java"</span> pageEncoding=<span class="string">"UTF-8"</span>%&gt;</span><br><span class="line">&lt;!doctype html&gt;</span><br><span class="line">&lt;html lang=<span class="string">"zh-cn"</span>&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">  &lt;title&gt;客户端证书上传&lt;/title&gt;</span><br><span class="line">  &lt;meta http-equiv=<span class="string">"pragma"</span> content=<span class="string">"no-cache"</span>&gt;</span><br><span class="line">  &lt;meta http-equiv=<span class="string">"cache-control"</span> content=<span class="string">"no-cache"</span>&gt;</span><br><span class="line">  &lt;meta http-equiv=<span class="string">"expires"</span> content=<span class="string">"0"</span>&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;form action=<span class="string">"sslServlet"</span> method=<span class="string">"post"</span>&gt;</span><br><span class="line">  &lt;input type=<span class="string">"submit"</span> value=<span class="string">"提交证书"</span>/&gt;</span><br><span class="line">&lt;/form&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<h1 id="四、演示及配置"><a href="#四、演示及配置" class="headerlink" title="四、演示及配置"></a>四、演示及配置</h1><p>发布演示项目，通过浏览器访问： <a href="http://127.0.0.1:8080/SSL" target="_blank" rel="noopener">http://127.0.0.1:8080/SSL</a> 或 <a href="https://127.0.0.1:8443/SSL" target="_blank" rel="noopener">https://127.0.0.1:8443/SSL</a> ，提示无法访问，需要导入客户端SSL证书：<br>双击“client.p12”或在浏览器的工具，输入生成密钥时的客户端密码“222222”,刷新浏览器即可正常访问了。</p>
+<h1 id="五、HttpClient模拟SSL-Post请求"><a href="#五、HttpClient模拟SSL-Post请求" class="headerlink" title="五、HttpClient模拟SSL Post请求"></a>五、HttpClient模拟SSL Post请求</h1><h2 id="1-HttpClientUtil-java"><a href="#1-HttpClientUtil-java" class="headerlink" title="1. HttpClientUtil.java"></a>1. HttpClientUtil.java</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> ian.wang.ssl.util;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.apache.http.HttpEntity;</span><br><span class="line"><span class="keyword">import</span> org.apache.http.HttpResponse;</span><br><span class="line"><span class="keyword">import</span> org.apache.http.NameValuePair;</span><br><span class="line"><span class="keyword">import</span> org.apache.http.client.HttpClient;</span><br><span class="line"><span class="keyword">import</span> org.apache.http.client.entity.UrlEncodedFormEntity;</span><br><span class="line"><span class="keyword">import</span> org.apache.http.client.methods.HttpPost;</span><br><span class="line"><span class="keyword">import</span> org.apache.http.conn.scheme.Scheme;</span><br><span class="line"><span class="keyword">import</span> org.apache.http.conn.ssl.SSLSocketFactory;</span><br><span class="line"><span class="keyword">import</span> org.apache.http.impl.client.DefaultHttpClient;</span><br><span class="line"><span class="keyword">import</span> org.apache.http.message.BasicNameValuePair;</span><br><span class="line"><span class="keyword">import</span> org.apache.http.util.EntityUtils;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.File;</span><br><span class="line"><span class="keyword">import</span> java.io.FileInputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStream;</span><br><span class="line"><span class="keyword">import</span> java.security.KeyStore;</span><br><span class="line"><span class="keyword">import</span> java.util.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HttpClientUtil</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String KEY_STORE_TYPE_JKS = <span class="string">"jks"</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String KEY_STORE_TYPE_P12 = <span class="string">"PKCS12"</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String SCHEME_HTTPS = <span class="string">"https"</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> HTTPS_PORT = <span class="number">8443</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String HTTPS_URL = <span class="string">"https://localhost:8443/sslServlet"</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String KEY_STORE_CLIENT_PATH = <span class="string">"/opt/web/ssl/client.p12"</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String KEY_STORE_TRUST_PATH = <span class="string">"/opt/web/ssl/client.truststore"</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String KEY_STORE_PASSWORD = <span class="string">"222222"</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String KEY_STORE_TRUST_PASSWORD = <span class="string">"222222"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        String url=HTTPS_URL;</span><br><span class="line">        Map params=<span class="keyword">new</span> HashMap();</span><br><span class="line">        params.put(<span class="string">"cmd"</span>,<span class="string">"test"</span>);</span><br><span class="line">        params.put(<span class="string">"data"</span>,<span class="string">"证书1"</span>);</span><br><span class="line">        String charset=<span class="string">"utf-8"</span>;</span><br><span class="line">        doSSLPost( url, params,  charset);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">doSSLPost</span><span class="params">(String url, Map&lt;String, String&gt; map, String charset)</span> </span>&#123;</span><br><span class="line">        HttpClient httpClient = <span class="keyword">new</span> DefaultHttpClient();</span><br><span class="line">        String result = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            KeyStore keyStore = KeyStore.getInstance(KEY_STORE_TYPE_P12);</span><br><span class="line">            KeyStore trustStore = KeyStore.getInstance(KEY_STORE_TYPE_JKS);</span><br><span class="line">            InputStream ksIn = <span class="keyword">new</span> FileInputStream(KEY_STORE_CLIENT_PATH);</span><br><span class="line">            InputStream tsIn = <span class="keyword">new</span> FileInputStream(<span class="keyword">new</span> File(KEY_STORE_TRUST_PATH));</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                keyStore.load(ksIn, KEY_STORE_PASSWORD.toCharArray());</span><br><span class="line">                trustStore.load(tsIn, KEY_STORE_TRUST_PASSWORD.toCharArray());</span><br><span class="line">            &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    ksIn.close();</span><br><span class="line">                &#125; <span class="keyword">catch</span> (Exception ignore) &#123;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    tsIn.close();</span><br><span class="line">                &#125; <span class="keyword">catch</span> (Exception ignore) &#123;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            SSLSocketFactory socketFactory = <span class="keyword">new</span> SSLSocketFactory(keyStore, KEY_STORE_PASSWORD, trustStore);</span><br><span class="line">            Scheme sch = <span class="keyword">new</span> Scheme(SCHEME_HTTPS, HTTPS_PORT, socketFactory);</span><br><span class="line">            httpClient.getConnectionManager().getSchemeRegistry().register(sch);</span><br><span class="line">            HttpPost httpPost = <span class="keyword">new</span> HttpPost(url);</span><br><span class="line">            <span class="comment">//设置参数</span></span><br><span class="line">            <span class="keyword">if</span> (map != <span class="keyword">null</span>) &#123;</span><br><span class="line">                List&lt;NameValuePair&gt; list = <span class="keyword">new</span> ArrayList&lt;NameValuePair&gt;();</span><br><span class="line">                Iterator iterator = map.entrySet().iterator();</span><br><span class="line">                <span class="keyword">while</span> (iterator.hasNext()) &#123;</span><br><span class="line">                    Map.Entry&lt;String, String&gt; elem = (Map.Entry&lt;String, String&gt;) iterator.next();</span><br><span class="line">                    list.add(<span class="keyword">new</span> BasicNameValuePair(elem.getKey(), elem.getValue()));</span><br><span class="line">                &#125;</span><br><span class="line">                httpPost.setEntity(<span class="keyword">new</span> UrlEncodedFormEntity(list, charset));</span><br><span class="line">            &#125;</span><br><span class="line">            HttpResponse response = httpClient.execute(httpPost);</span><br><span class="line">            <span class="keyword">if</span> (response != <span class="keyword">null</span>) &#123;</span><br><span class="line">                HttpEntity resEntity = response.getEntity();</span><br><span class="line">                <span class="keyword">if</span> (resEntity != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    result = EntityUtils.toString(resEntity, charset);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.println(<span class="string">"result=&#123;"</span> + result + <span class="string">"&#125;"</span>);</span><br><span class="line">        &#125;<span class="keyword">catch</span>(Exception e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            httpClient.getConnectionManager().shutdown();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="六、使用浏览器访问-https应用截图"><a href="#六、使用浏览器访问-https应用截图" class="headerlink" title="六、使用浏览器访问 https应用截图"></a>六、使用浏览器访问 https应用截图</h1><h2 id="1-打开浏览器，访问测试网址：https-101-231-124-155-8443-ssl"><a href="#1-打开浏览器，访问测试网址：https-101-231-124-155-8443-ssl" class="headerlink" title="1. 打开浏览器，访问测试网址：https://101.231.124.155:8443/ssl"></a>1. 打开浏览器，访问测试网址：<a href="https://101.231.124.155:8443/ssl" target="_blank" rel="noopener">https://101.231.124.155:8443/ssl</a></h2><p>于该应用配置了 Tomcat SSL双向认证，需要客户端提供证书文件导入成功了，才能正常访问。在Firefox 浏览器中，导入客户端证书, 在 Firefox 选项 - 高级 - 证书 中， 点击 查看证书。</p>
+<p><img src="/imasges/jdk1.png" alt=""></p>
+<p><img src="/imasges/jdk2.png" alt=""></p>
+<h2 id="2-点击“导入”，-选择客户端证书文件-client-p12"><a href="#2-点击“导入”，-选择客户端证书文件-client-p12" class="headerlink" title="2. 点击“导入”， 选择客户端证书文件  client.p12"></a>2. 点击“导入”， 选择客户端证书文件  client.p12</h2><p><img src="/imasges/jdk3.png" alt=""></p>
+<h2 id="3-输入客户端证书密码"><a href="#3-输入客户端证书密码" class="headerlink" title="3. 输入客户端证书密码"></a>3. 输入客户端证书密码</h2><p><img src="/imasges/jdk4.png" alt=""></p>
+<h2 id="4-客户端证书验证成功后，显示证书如下"><a href="#4-客户端证书验证成功后，显示证书如下" class="headerlink" title="4. 客户端证书验证成功后，显示证书如下"></a>4. 客户端证书验证成功后，显示证书如下</h2><p><img src="/imasges/jdk5.png" alt=""></p>
+<h2 id="5-打开网址，输入：-https-101-231-124-155-8443-，浏览器会提示-选择已安装的证书，点击“确认”。"><a href="#5-打开网址，输入：-https-101-231-124-155-8443-，浏览器会提示-选择已安装的证书，点击“确认”。" class="headerlink" title="5. 打开网址，输入： https://101.231.124.155:8443 ，浏览器会提示 选择已安装的证书，点击“确认”。"></a>5. 打开网址，输入： <a href="https://101.231.124.155:8443" target="_blank" rel="noopener">https://101.231.124.155:8443</a> ，浏览器会提示 选择已安装的证书，点击“确认”。</h2><p><img src="/imasges/jdk6.png" alt=""></p>
+<h2 id="6-显示如下，则表示SSL证书导入成功，-测试页面正常显示了。"><a href="#6-显示如下，则表示SSL证书导入成功，-测试页面正常显示了。" class="headerlink" title="6. 显示如下，则表示SSL证书导入成功， 测试页面正常显示了。"></a>6. 显示如下，则表示SSL证书导入成功， 测试页面正常显示了。</h2><p><img src="/imasges/jdk7.png" alt=""></p>
+<h1 id="七、通过jdk自制https证书并配置到nginx中"><a href="#七、通过jdk自制https证书并配置到nginx中" class="headerlink" title="七、通过jdk自制https证书并配置到nginx中"></a>七、通过jdk自制https证书并配置到nginx中</h1><h2 id="1、转换证书"><a href="#1、转换证书" class="headerlink" title="1、转换证书"></a>1、转换证书</h2><p>常用证书格式：JKS(.keystore), 微软(.pfx), OPSSL之PEM(.key + .crt) , 其中tomcat使用JKS格式，nginx使用PEM格式。</p>
+<p>由于生成的证书是jks格式，nginx不能直接使用，需要转换成PEM格式，这要用到jks2pfx工具进行转换。</p>
+<p>jks2pfx的命令格式：</p>
+<blockquote>
+<p>jks2pfx.bat keystore password alias exportname</p>
+</blockquote>
+<p>keystore: KeyStore文件绝对路径<br>password： KeyStore文件对应的密码<br>password： KeyStore文件对应的密码<br>alias：生成证书CSR时，所起的ALias别名<br>exportname：准备导出的文件名称（不要带扩展名）</p>
+<p>例如：</p>
+<blockquote>
+<p>JKS2PFX.bat d:\lgy.com.keystore 123456 lgy.com exportfile</p>
+</blockquote>
+<p>该命令将server.jks中别名为lgy.com的SSL证书导出，运行后将在jks2pfx的按照目录产生3个文件：<br>exportfile.key、exportfile.crt、exportfile.pfx；</p>
+<h2 id="2、-nginx配置"><a href="#2、-nginx配置" class="headerlink" title="2、 nginx配置"></a>2、 nginx配置</h2><p>nginx配置请参照<a href="https://griabcrh.github.io/2020/12/23/nginx%E9%85%8D%E7%BD%AEhttps/">nginx配置https</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JDK/" rel="tag"># JDK</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/12/23/nginx配置https双向认证/" rel="next" title="nginx配置https双向认证">
+                <i class="fa fa-chevron-left"></i> nginx配置https双向认证
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/24718752.gif"
+                alt="griabcrh" />
+            
+              <p class="site-author-name" itemprop="name">griabcrh</p>
+              <p class="site-description motion-element" itemprop="description">nice to meet you</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">90</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">59</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://griabcrh.github.io/about/" title="欢迎关注公众号" target="_blank">欢迎关注公众号</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://jemgeek.com/" title="Kylin's Blog" target="_blank">Kylin's Blog</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、生成密钥库和证书"><span class="nav-number">1.</span> <span class="nav-text">一、生成密钥库和证书</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-、生成服务器证书库"><span class="nav-number">1.1.</span> <span class="nav-text">1 、生成服务器证书库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-、生成客户端证书库"><span class="nav-number">1.2.</span> <span class="nav-text">2 、生成客户端证书库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-、从客户端证书库中导出客户端证书"><span class="nav-number">1.3.</span> <span class="nav-text">3 、从客户端证书库中导出客户端证书</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-、从服务器证书库中导出服务器证书"><span class="nav-number">1.4.</span> <span class="nav-text">4 、从服务器证书库中导出服务器证书</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-、生成客户端信任证书库-由服务端证书生成的证书库"><span class="nav-number">1.5.</span> <span class="nav-text">5 、生成客户端信任证书库(由服务端证书生成的证书库)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-、将客户端证书导入到服务器证书库-使得服务器信任客户端证书"><span class="nav-number">1.6.</span> <span class="nav-text">6 、将客户端证书导入到服务器证书库(使得服务器信任客户端证书)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-、查看证书库中的全部证书"><span class="nav-number">1.7.</span> <span class="nav-text">7 、查看证书库中的全部证书</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、Tomat配置"><span class="nav-number">2.</span> <span class="nav-text">二、Tomat配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、建立演示项目"><span class="nav-number">3.</span> <span class="nav-text">三、建立演示项目</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-SSLServlet-java"><span class="nav-number">3.1.</span> <span class="nav-text">1. SSLServlet.java</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-web-xml"><span class="nav-number">3.2.</span> <span class="nav-text">2. web.xml</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-index-jsp"><span class="nav-number">3.3.</span> <span class="nav-text">3. index.jsp</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四、演示及配置"><span class="nav-number">4.</span> <span class="nav-text">四、演示及配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五、HttpClient模拟SSL-Post请求"><span class="nav-number">5.</span> <span class="nav-text">五、HttpClient模拟SSL Post请求</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-HttpClientUtil-java"><span class="nav-number">5.1.</span> <span class="nav-text">1. HttpClientUtil.java</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#六、使用浏览器访问-https应用截图"><span class="nav-number">6.</span> <span class="nav-text">六、使用浏览器访问 https应用截图</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-打开浏览器，访问测试网址：https-101-231-124-155-8443-ssl"><span class="nav-number">6.1.</span> <span class="nav-text">1. 打开浏览器，访问测试网址：https://101.231.124.155:8443/ssl</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-点击“导入”，-选择客户端证书文件-client-p12"><span class="nav-number">6.2.</span> <span class="nav-text">2. 点击“导入”， 选择客户端证书文件  client.p12</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-输入客户端证书密码"><span class="nav-number">6.3.</span> <span class="nav-text">3. 输入客户端证书密码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-客户端证书验证成功后，显示证书如下"><span class="nav-number">6.4.</span> <span class="nav-text">4. 客户端证书验证成功后，显示证书如下</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-打开网址，输入：-https-101-231-124-155-8443-，浏览器会提示-选择已安装的证书，点击“确认”。"><span class="nav-number">6.5.</span> <span class="nav-text">5. 打开网址，输入： https://101.231.124.155:8443 ，浏览器会提示 选择已安装的证书，点击“确认”。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-显示如下，则表示SSL证书导入成功，-测试页面正常显示了。"><span class="nav-number">6.6.</span> <span class="nav-text">6. 显示如下，则表示SSL证书导入成功， 测试页面正常显示了。</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#七、通过jdk自制https证书并配置到nginx中"><span class="nav-number">7.</span> <span class="nav-text">七、通过jdk自制https证书并配置到nginx中</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、转换证书"><span class="nav-number">7.1.</span> <span class="nav-text">1、转换证书</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、-nginx配置"><span class="nav-number">7.2.</span> <span class="nav-text">2、 nginx配置</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">griabcrh</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+|<span id="busuanzi_container_site_uv">
+  本站访客数<span id="busuanzi_value_site_uv"></span>人次
+</span>
+|<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("8TpPOiYi4ReJYs5sYfMdFmSO-gzGzoHsz", "hX7JfGRvJG8zcMqMRAWNMNyk");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
