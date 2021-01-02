@@ -82,14 +82,14 @@
 <meta name="description" content="基础知识SSL: Secure Socket Layer, 安全套接字层，它位于TCP层与Application层之间。提供对Application数据的加密保护（密文），完整性保护（不被篡改）等安全服务，它缺省工作在TCP 443端口，一般对HTTP加密，即HTTPS。 SSL双向认证具体过程 浏览器发送一个连接请求给安全服务器。 服务器将自己的证书以及同证书相关的信息发送给客户端浏览器。 客户">
 <meta name="keywords" content="Nginx">
 <meta property="og:type" content="article">
-<meta property="og:title" content="nginx配置https">
-<meta property="og:url" content="https://griabcrh.github.io/2020/12/23/nginx配置https/index.html">
+<meta property="og:title" content="nginx配置https双向认证">
+<meta property="og:url" content="https://griabcrh.github.io/2020/12/23/nginx配置https双向认证/index.html">
 <meta property="og:site_name" content="Griabcrh&#39;s Blog">
 <meta property="og:description" content="基础知识SSL: Secure Socket Layer, 安全套接字层，它位于TCP层与Application层之间。提供对Application数据的加密保护（密文），完整性保护（不被篡改）等安全服务，它缺省工作在TCP 443端口，一般对HTTP加密，即HTTPS。 SSL双向认证具体过程 浏览器发送一个连接请求给安全服务器。 服务器将自己的证书以及同证书相关的信息发送给客户端浏览器。 客户">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-12-23T06:40:17.542Z">
+<meta property="og:updated_time" content="2020-12-24T01:01:25.845Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="nginx配置https">
+<meta name="twitter:title" content="nginx配置https双向认证">
 <meta name="twitter:description" content="基础知识SSL: Secure Socket Layer, 安全套接字层，它位于TCP层与Application层之间。提供对Application数据的加密保护（密文），完整性保护（不被篡改）等安全服务，它缺省工作在TCP 443端口，一般对HTTP加密，即HTTPS。 SSL双向认证具体过程 浏览器发送一个连接请求给安全服务器。 服务器将自己的证书以及同证书相关的信息发送给客户端浏览器。 客户">
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="https://griabcrh.github.io/2020/12/23/nginx配置https/"/>
+  <link rel="canonical" href="https://griabcrh.github.io/2020/12/23/nginx配置https双向认证/"/>
 
 
 
 
 
-  <title>nginx配置https | Griabcrh's Blog</title>
+  <title>nginx配置https双向认证 | Griabcrh's Blog</title>
   
 
 
@@ -284,7 +284,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2020/12/23/nginx配置https/">
+    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2020/12/23/nginx配置https双向认证/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="griabcrh">
@@ -301,7 +301,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">nginx配置https</h1>
+          <h1 class="post-title" itemprop="name headline">nginx配置https双向认证</h1>
         
 
         <div class="post-meta">
@@ -332,7 +332,7 @@
 
           
           
-             <span id="/2020/12/23/nginx配置https/" class="leancloud_visitors" data-flag-title="nginx配置https">
+             <span id="/2020/12/23/nginx配置https双向认证/" class="leancloud_visitors" data-flag-title="nginx配置https双向认证">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -413,7 +413,9 @@
 <p>openssl x509 -req -sha256 -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -days 3650 -out server.crt</p>
 </blockquote>
 <p>把ca.crt的内容追加到server.crt后面，因为有些浏览器似乎不支持</p>
+<blockquote>
 <p>cat ca.crt &gt;&gt; server.crt</p>
+</blockquote>
 <h1 id="制作客户端证书-（和制作服务端证书步骤一样）"><a href="#制作客户端证书-（和制作服务端证书步骤一样）" class="headerlink" title="制作客户端证书 （和制作服务端证书步骤一样）"></a>制作客户端证书 （和制作服务端证书步骤一样）</h1><ol>
 <li><p>生成客户端证书私钥</p>
 <blockquote>
@@ -749,7 +751,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
