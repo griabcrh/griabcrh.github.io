@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<meta name="baidu-site-verification" content="cysG3IKyZB" />
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/griabcrh.gif?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/griabcrh.gif?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Seata," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Seata简介Seata(Simple Extensible Autonomous Transaction Architecture) 是阿里巴巴开源的分布式事务中间件，以高效并且对业务0侵入的方式，解决微服务场景下面临的分布式事务问题。 附上项目github连接：  https://github.com/seata  中文文档连接：http://seata.io/zh-cn/docs/overv">
+<meta name="keywords" content="Seata">
+<meta property="og:type" content="article">
+<meta property="og:title" content="seata分布式事务介绍与搭建">
+<meta property="og:url" content="https://griabcrh.github.io/2021/02/09/seata分布式事务介绍与搭建/index.html">
+<meta property="og:site_name" content="Griabcrh&#39;s Blog">
+<meta property="og:description" content="Seata简介Seata(Simple Extensible Autonomous Transaction Architecture) 是阿里巴巴开源的分布式事务中间件，以高效并且对业务0侵入的方式，解决微服务场景下面临的分布式事务问题。 附上项目github连接：  https://github.com/seata  中文文档连接：http://seata.io/zh-cn/docs/overv">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://griabcrh.github.io/images/seata1.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/seata2.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/seata3.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/seata4.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/seata5.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/seata6.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/seata7.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/seata8.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/seata9.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/seata10.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/seata11.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/seata12.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/seata13.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/seata14.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/seata15.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/seata16.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/seata17.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/seata18.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/seata19.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/seata20.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/seata21.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/seata22.png">
+<meta property="og:image" content="https://griabcrh.github.io/images/seata23.png">
+<meta property="og:updated_time" content="2021-02-09T05:25:42.679Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="seata分布式事务介绍与搭建">
+<meta name="twitter:description" content="Seata简介Seata(Simple Extensible Autonomous Transaction Architecture) 是阿里巴巴开源的分布式事务中间件，以高效并且对业务0侵入的方式，解决微服务场景下面临的分布式事务问题。 附上项目github连接：  https://github.com/seata  中文文档连接：http://seata.io/zh-cn/docs/overv">
+<meta name="twitter:image" content="https://griabcrh.github.io/images/seata1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://griabcrh.github.io/2021/02/09/seata分布式事务介绍与搭建/"/>
+
+
+
+
+
+  <title>seata分布式事务介绍与搭建 | Griabcrh's Blog</title>
+  
+
+
+
+
+
+<script>
+	var _hmt = _hmt || [];
+	(function() {
+	var hm = document.createElement("script");
+	hm.src = "https://hm.baidu.com/hm.js?91c85e96d8e34ae79347b17b0d41826f";
+	var s = document.getElementsByTagName("script")[0]; 
+	s.parentNode.insertBefore(hm, s);
+	})();
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Griabcrh's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">welcome</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://griabcrh.github.io/2021/02/09/seata分布式事务介绍与搭建/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="griabcrh">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/24718752.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Griabcrh's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">seata分布式事务介绍与搭建</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+			  
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-02-09T10:46:03+08:00">
+                2021-02-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2021/02/09/seata分布式事务介绍与搭建/" class="leancloud_visitors" data-flag-title="seata分布式事务介绍与搭建">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Seata简介"><a href="#Seata简介" class="headerlink" title="Seata简介"></a>Seata简介</h1><p>Seata(Simple Extensible Autonomous Transaction Architecture) 是阿里巴巴开源的分布式事务中间件，以高效并且对业务0侵入的方式，解决微服务场景下面临的分布式事务问题。</p>
+<p>附上项目github连接：</p>
+<blockquote>
+<p><a href="https://github.com/seata" target="_blank" rel="noopener">https://github.com/seata</a></p>
+</blockquote>
+<p>中文文档连接：<a href="http://seata.io/zh-cn/docs/overview/what-is-seata.html" target="_blank" rel="noopener">http://seata.io/zh-cn/docs/overview/what-is-seata.html</a></p>
+<h1 id="分布式事务产生背景"><a href="#分布式事务产生背景" class="headerlink" title="分布式事务产生背景"></a>分布式事务产生背景</h1><p>讲到事务，又得搬出经典的银行转账问题了，下面以实例说明</p>
+<p>假设银行(bank)中有两个客户(name)张三和李四<br>我们需要将张三的1000元存款(sal)转到李四的账户上</p>
+<p>目标就是张三账户减1000，李四账户加1000，不能出现中间步骤(张三减1000，李四没加)</p>
+<p><img src="/images/seata1.png" alt=""></p>
+<p>假设dao层代码如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public interface BankMapper &#123;</span><br><span class="line">    /**</span><br><span class="line">     * @param userName 用户名</span><br><span class="line">     * @param changeSal 余额变动值</span><br><span class="line">     */</span><br><span class="line">    public void updateSal(String userName,int changeSal);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>对应xml中sql如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;update id=&quot;updateSal&quot;&gt;</span><br><span class="line">        update bank SET sal = sal+#&#123;changeSal&#125;  WHERE name = #&#123;userName&#125;</span><br><span class="line"> &lt;/update&gt;</span><br></pre></td></tr></table></figure></p>
+<p>如果两个用户对应的银行存款数据在一个数据源中，即一个数据库中，那么service层代码可以如下编写<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">     * @param fromUserName 转账人</span><br><span class="line">     * @param toUserName 被转账人</span><br><span class="line">     * @param changeSal 转账额度</span><br><span class="line">     */</span><br><span class="line">    @Transactional(rollbackFor = Exception.class)</span><br><span class="line">    public void changeSal(String fromUserName,String toUserName,int changeSal) &#123;</span><br><span class="line">        bankMapper.updateSal(fromUserName, -1 * changeSal);</span><br><span class="line">        bankMapper.updateSal(toUserName, changeSal);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>通过spring框架下的@Transactional注解来保证单一数据源增删改查的一致性</p>
+<p>但是随着业务的不断扩大，用户数在不断变多，几百万几千万用户时数据可以存一个库甚至一个表里，假设有10个亿的用户？</p>
+<p><strong>数据库的水平分割</strong><br>为了解决数据库上的瓶颈，分库是很常见的解决方案，不同用户就可能落在不同的数据库里，原来一个库里的事务操作，现在变成了跨数据库的事务操作。</p>
+<p><img src="/images/seata2.png" alt=""></p>
+<p>此时@Transactional注解就失效了，这就是跨数据库分布式事务问题</p>
+<p><strong>微服务化</strong><br>当然，更多的情形是随着业务不断增长，将业务中不同模块服务拆分成微服务后，同时调用多个微服务所产生的</p>
+<p>微服务化的银行转账情景往往是这样的</p>
+<p>调用交易系统服务创建交易订单；<br>调用支付系统记录支付明细；<br>调用账务系统执行 A 扣钱；<br>调用账务系统执行 B 加钱;</p>
+<p><img src="/images/seata3.png" alt=""></p>
+<p>如图所示，每个系统都对应一个独立的数据源，且可能位于不同机房，同时调用多个系统的服务很难保证同时成功，这就是跨服务分布式事务问题</p>
+<p><strong>分布式事务理论基础</strong><br>两阶段提交(2pc)<br>两阶段提交协议(Two Phase Commitment Protocol)中，涉及到两种角色</p>
+<p>一个事务协调者（coordinator）：负责协调多个参与者进行事务投票及提交(回滚)<br>多个事务参与者（participants）：即本地事务执行者</p>
+<p>总共处理步骤有两个<br>（1）投票阶段（voting phase）：协调者将通知事务参与者准备提交或取消事务，然后进入表决过程。参与者将告知协调者自己的决策：同意（事务参与者本地事务执行成功，但未提交）或取消（本地事务执行故障）；<br>（2）提交阶段（commit phase）：收到参与者的通知后，协调者再向参与者发出通知，根据反馈情况决定各参与者是否要提交还是回滚；</p>
+<p>如果所示 1-2为第一阶段，2-3为第二阶段</p>
+<p>如果任一资源管理器在第一阶段返回准备失败，那么事务管理器会要求所有资源管理器在第二阶段执行回滚操作。通过事务管理器的两阶段协调，最终所有资源管理器要么全部提交，要么全部回滚，最终状态都是一致的</p>
+<p><img src="/images/seata4.png" alt=""></p>
+<h2 id="TCC"><a href="#TCC" class="headerlink" title="TCC"></a>TCC</h2><h3 id="基本原理"><a href="#基本原理" class="headerlink" title="基本原理"></a>基本原理</h3><p>TCC 将事务提交分为 Try - Confirm - Cancel 3个操作。其和两阶段提交有点类似，Try为第一阶段，Confirm - Cancel为第二阶段，是一种应用层面侵入业务的两阶段提交。</p>
+<p>操作方法    含义<br>Try    预留业务资源/数据效验<br>Confirm    确认执行业务操作，实际提交数据，不做任何业务检查，try成功，confirm必定成功，需保证幂等<br>Cancel    取消执行业务操作，实际回滚数据，需保证幂等<br>其核心在于将业务分为两个操作步骤完成。不依赖 RM 对分布式事务的支持，而是通过对业务逻辑的分解来实现分布式事务。</p>
+<p>下面还是以银行转账例子来说明</p>
+<p>假设用户user表中有两个字段：可用余额(available_money)、冻结余额(frozen_money)<br>A扣钱对应服务A(ServiceA)<br>B加钱对应服务B(ServiceB)<br>转账订单服务(OrderService)<br>业务转账方法服务(BusinessService)</p>
+<p>ServiceA，ServiceB，OrderService都需分别实现try()，confirm()，cancle()方法，方法对应业务逻辑如下</p>
+<p>ServiceA    ServiceB    OrderService<br>try()    校验余额(并发控制)<br>冻结余额+1000<br>余额-1000    冻结余额+1000    创建转账订单，状态待转账<br>confirm()    冻结余额-1000    余额+1000<br>冻结余额-1000    状态变为转账成功<br>cancle()    冻结余额-1000<br>余额+1000    冻结余额-1000    状态变为转账失败<br>其中业务调用方BusinessService中就需要调用<br>ServiceA.try()<br>ServiceB.try()<br>OrderService.try()</p>
+<p>1、当所有try()方法均执行成功时，对全局事物进行提交，即由事物管理器调用每个微服务的confirm()方法<br>2、 当任意一个方法try()失败(预留资源不足，抑或网络异常，代码异常等任何异常)，由事物管理器调用每个微服务的cancle()方法对全局事务进行回滚</p>
+<p>引用网上一张TCC原理的参考图片</p>
+<p><img src="/images/seata5.png" alt=""></p>
+<h3 id="幂等控制"><a href="#幂等控制" class="headerlink" title="幂等控制"></a>幂等控制</h3><p>使用TCC时要注意Try - Confirm - Cancel 3个操作的幂等控制，网络原因，或者重试操作都有可能导致这几个操作的重复执行</p>
+<p><img src="/images/seata6.png" alt=""></p>
+<p>业务实现过程中需重点关注幂等实现，讲到幂等，以上述TCC转账例子中confirm()方法来说明</p>
+<p>在confirm()方法中<br>余额-1000，冻结余额-1000，这一步是实现幂等性的关键，你会怎么做？</p>
+<p>大家在自己系统里操作资金账户时，为了防止并发情况下数据不一致的出现，肯定会避免出现这种代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//根据userId查到账户</span><br><span class="line">Account account = accountMapper.selectById(userId);</span><br><span class="line">//取出当前资金</span><br><span class="line">int availableMoney = account.getAvailableMoney();</span><br><span class="line">account.setAvailableMoney(availableMoney-1000);</span><br><span class="line">//更新剩余资金</span><br><span class="line">accountMapper.update(account);</span><br></pre></td></tr></table></figure></p>
+<p>因为这本质上是一个 读-改-写的过程，不是原子的，在并发情况下会出现数据不一致问题</p>
+<p>所以最简单的做法是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">update account set available_money = available_money-1000 where user_id=#&#123;userId&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这利用了数据库行锁特性解决了并发情况下的数据不一致问题，但是TCC中，单纯使用这个方法适用么？</p>
+<p>答案是不行的，该方法能解决并发单次操作下的扣减余额问题，但是不能解决多次操作带来的多次扣减问题，假设我执行了两次，按这种方案，用户账户就少了2000块</p>
+<p>那么具体怎么做？上诉转账例子中，可以引入转账订单状态来做判断，若订单状态为已支付，则直接return</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">if( order!=null &amp;&amp; order.getStatus().equals(&quot;转账成功&quot;))&#123;</span><br><span class="line">	return;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当然，新建一张去重表，用订单id做唯一建，若插入报错返回也是可以的，不管怎么样，核心就是保证，操作幂等性</p>
+<h3 id="空回滚"><a href="#空回滚" class="headerlink" title="空回滚"></a>空回滚</h3><p>如下图所示，事务协调器在调用TCC服务的一阶段Try操作时，可能会出现因为丢包而导致的网络超时，此时事务协调器会触发二阶段回滚，调用TCC服务的Cancel操作；</p>
+<p>TCC服务在未收到Try请求的情况下收到Cancel请求，这种场景被称为空回滚；TCC服务在实现时应当允许空回滚的执行；</p>
+<p><img src="/images/seata7.png" alt=""></p>
+<p>那么具体代码里怎么做呢？<br>分析下，如果try()方法没执行，那么订单一定没创建，所以cancle方法里可以加一个判断，如果上下文中订单编号orderNo不存在或者订单不存在，直接return<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">if(orderNo==null || order==null)&#123;</span><br><span class="line">	return;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>核心思想就是 回滚请求处理时，如果对应的具体业务数据为空，则返回成功</p>
+<p>当然这种问题也可以通过中间件层面来实现，如，在第一阶段try()执行完后，向一张事务表中插入一条数据(包含事务id，分支id)，cancle()执行时，判断如果没有事务记录则直接返回，但是现在还不支持</p>
+<h3 id="防悬挂"><a href="#防悬挂" class="headerlink" title="防悬挂"></a>防悬挂</h3><p>如下图所示，事务协调器在调用TCC服务的一阶段Try操作时，可能会出现因网络拥堵而导致的超时，此时事务协调器会触发二阶段回滚，调用TCC服务的Cancel操作；在此之后，拥堵在网络上的一阶段Try数据包被TCC服务收到，出现了二阶段Cancel请求比一阶段Try请求先执行的情况；</p>
+<p><img src="/images/seata8.png" alt=""></p>
+<p>用户在实现TCC服务时，应当允许空回滚，但是要拒绝执行空回滚之后到来的一阶段Try请求；<br>在这里插入图片描述<br>这里又怎么做呢？</p>
+<p>可以在二阶段执行时插入一条事务控制记录，状态为已回滚，这样当一阶段执行时，先读取该记录，如果记录存在，就认为二阶段回滚操作已经执行，不再执行try方法；</p>
+<h3 id="事务消息"><a href="#事务消息" class="headerlink" title="事务消息"></a>事务消息</h3><p>事务消息更倾向于达成分布式事务的最终一致性，适用于分布式事务的提交或回滚只取决于事务发起方的业务需求，如A给B打了款并且成功了，那么下游业务B一定需要加钱这种场景，或许下了单，用户积分一定得增加这种场景。RocketMQ4.3中已经开源了事务消息，具体设计思路分析及demo演示，大家有兴趣可以看下我写的这篇文章</p>
+<p><a href="https://blog.csdn.net/hosaos/article/details/90050276" target="_blank" rel="noopener">https://blog.csdn.net/hosaos/article/details/90050276</a></p>
+<h1 id="Demo上手-AT模式Dubbo集成Seata"><a href="#Demo上手-AT模式Dubbo集成Seata" class="headerlink" title="Demo上手-AT模式Dubbo集成Seata"></a>Demo上手-AT模式Dubbo集成Seata</h1><p>Demo的github项目名称是seata-samples，链接如下</p>
+<p><a href="https://github.com/seata/seata-samples" target="_blank" rel="noopener">https://github.com/seata/seata-samples</a></p>
+<p>要跑demo例子，首先需要下载上述链接官方demo，我下面以IDEA为例子演示demo中dubbo的分布式事务例子，另外还需要一个seata-server，我下的版本是1.4.1，链接如下</p>
+<p><a href="https://github.com/seata/seata/releases" target="_blank" rel="noopener">https://github.com/seata/seata/releases</a></p>
+<p>先看下seata-example的项目结构</p>
+<p><img src="/images/seata9.png" alt=""></p>
+<p>其中dubbo模块就是dubbo的demo</p>
+<h3 id="配置修改"><a href="#配置修改" class="headerlink" title="配置修改"></a>配置修改</h3><p>由于我本地启动了Zookeeper服务端做dubbo注册中心，所以我修改了4个dubbo配置文件中的注册中心为zk，官方默认的是用的广播，没有Zk用广播或者Redis做注册中心都可以</p>
+<p><img src="/images/seata10.png" alt=""></p>
+<p>数据库地址，由于我们是针对Rpc远程服务做分布式事务测试，所以数据库用一个也能达到测试效果，本地启动Mysql服务，并新建名为fescar的数据库</p>
+<p><img src="/images/seata11.png" alt=""></p>
+<p>再执行dubbo_biz.sql中的建表语句，创建storage_tbl，order_tbl，account_tbl 3个业务表<br>再执行undo_log.sql 创建seata所需记录undolog的回滚日志表</p>
+<p>并配置数据库连接地址</p>
+<p><img src="/images/seata12.png" alt=""></p>
+<p>启动测试<br>先启动seata-server，启动方式<br>linux：</p>
+<blockquote>
+<p>sh fescar-server.sh $LISTEN_PORT $PATH_FOR_PERSISTENT_DATA</p>
+</blockquote>
+<p>参数有两个，LISTEN_PORT代表端口号，PATH_FOR_PERSISTENT_DATA表示Seata持久化数据存放路径</p>
+<p>将安装包解压后cd到bin目录下，我这里指定端口号为8091，data路径为我自己创建的一个目录</p>
+<blockquote>
+<p>sh fescar-server.sh 8091 /Users/chenyin/fescar/data</p>
+</blockquote>
+<p>windows:<br>直接点击：bin/seata-server.bat </p>
+<p>启动成功效果图如下</p>
+<p><img src="/images/seata13.png" alt=""></p>
+<p>回到项目代码中</p>
+<p>先启动DubboAccountServiceStarter，其初始化时向account_tbl表中插入一个用户编号为<br>U100001的用户，初始金额为999</p>
+<p>再启动DubboOrderServiceStarter，DubboStorageServiceStarter，DubboStorageServiceStarter中默认初始化一个商品编号为C00321的商品，初始库存100</p>
+<p>看下BusinessService业务处理类，里面调用了库存类(StorageService)扣减库存，调用订单类(OrderService)下单，其中手动抛出RuntimeException模拟分布式事务中的异常情况<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@GlobalTransactional(timeoutMills = 300000, name = &quot;dubbo-demo-tx&quot;)</span><br><span class="line">    public void purchase(String userId, String commodityCode, int orderCount) &#123;</span><br><span class="line">        LOGGER.info(&quot;purchase begin ... xid: &quot; + RootContext.getXID());</span><br><span class="line">        storageService.deduct(commodityCode, orderCount);</span><br><span class="line">        orderService.create(userId, commodityCode, orderCount);</span><br><span class="line">        throw new RuntimeException(&quot;xxx&quot;);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>如果没有throw new RuntimeException(“xxx”); 正确的业务操作结果是用户账户余额减400变成599，库存减2变成98，具体为什么是余额-400，库存-2大家看下demo中具体业务类的代码就知道，不多说。异常的情况，也就是分布式事务回滚的情况，应该是余额还是999，库存还是100</p>
+<p>先看下有抛出异常的情况，启动业务类，DubboBusinessTester，执行结果如下</p>
+<p><img src="/images/seata14.png" alt=""></p>
+<p>检查下数据库中数据是否正确，有没发生数据未回滚的情况。</p>
+<p>数据正确无误，证明数据正确的回滚了。上面介绍过了，Seata是根据undolog中记录来回滚的，但是异常回滚后undolog表却为空？怎么回事，这是因为undolog日志被删除了，想要看到undolog表中记录，我们打断点来看，在异常还没抛出时打断点，看下数据库undolog表中数据情况。</p>
+<p>断点处触发后，查看undolog表，可以看到3条记录，3个branch_id对应3个rpc分支事务，也就对应3个业务表的回滚日志，一个xid标识这3个分支事务处于一个全局分布式事务中</p>
+<p><img src="/images/seata15.png" alt=""></p>
+<p>其中rollbackinfo字段是bytes类型，看不到具体数据，怎么办？我们把数据导成txt格式</p>
+<p><img src="/images/seata16.png" alt=""></p>
+<p>数据内容如下，可以看到是BASE64加密过的，进行解密</p>
+<p><img src="/images/seata17.png" alt=""></p>
+<p>最终内容如下，我只贴出第一行数据中的rollback_info，可以看到其中记录了数据操作前后的镜像数据beforeImage，afterImage，如果发生回滚，可以通过xid，branchid定位到undolog中的rollback_info，并将beforeImage中内容反解析成sql来达到回滚目的的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;branchId&quot;: 2008522332,</span><br><span class="line">  &quot;sqlUndoLogs&quot;: [</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;afterImage&quot;: &#123;</span><br><span class="line">        &quot;rows&quot;: [</span><br><span class="line">          &#123;</span><br><span class="line">            &quot;fields&quot;: [</span><br><span class="line">              &#123;</span><br><span class="line">                &quot;keyType&quot;: &quot;PrimaryKey&quot;,</span><br><span class="line">                &quot;name&quot;: &quot;id&quot;,</span><br><span class="line">                &quot;type&quot;: 4,</span><br><span class="line">                &quot;value&quot;: 3</span><br><span class="line">              &#125;,</span><br><span class="line">              &#123;</span><br><span class="line">                &quot;keyType&quot;: &quot;NULL&quot;,</span><br><span class="line">                &quot;name&quot;: &quot;count&quot;,</span><br><span class="line">                &quot;type&quot;: 4,</span><br><span class="line">                &quot;value&quot;: 98</span><br><span class="line">              &#125;</span><br><span class="line">            ]</span><br><span class="line">          &#125;</span><br><span class="line">        ],</span><br><span class="line">        &quot;tableName&quot;: &quot;storage_tbl&quot;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;beforeImage&quot;: &#123;</span><br><span class="line">        &quot;rows&quot;: [</span><br><span class="line">          &#123;</span><br><span class="line">            &quot;fields&quot;: [</span><br><span class="line">              &#123;</span><br><span class="line">                &quot;keyType&quot;: &quot;PrimaryKey&quot;,</span><br><span class="line">                &quot;name&quot;: &quot;id&quot;,</span><br><span class="line">                &quot;type&quot;: 4,</span><br><span class="line">                &quot;value&quot;: 3</span><br><span class="line">              &#125;,</span><br><span class="line">              &#123;</span><br><span class="line">                &quot;keyType&quot;: &quot;NULL&quot;,</span><br><span class="line">                &quot;name&quot;: &quot;count&quot;,</span><br><span class="line">                &quot;type&quot;: 4,</span><br><span class="line">                &quot;value&quot;: 100</span><br><span class="line">              &#125;</span><br><span class="line">            ]</span><br><span class="line">          &#125;</span><br><span class="line">        ],</span><br><span class="line">        &quot;tableName&quot;: &quot;storage_tbl&quot;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;sqlType&quot;: &quot;UPDATE&quot;,</span><br><span class="line">      &quot;tableName&quot;: &quot;storage_tbl&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  &quot;xid&quot;: &quot;192.168.202.197:8091:2008522331&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="Demo上手-TCC模式Dubbo集成Seata"><a href="#Demo上手-TCC模式Dubbo集成Seata" class="headerlink" title="Demo上手-TCC模式Dubbo集成Seata"></a>Demo上手-TCC模式Dubbo集成Seata</h1><p>tcc模块下有个transfer-tcc-sample项目，不过数据库不是Mysql的，下面进行部分修改并演示</p>
+<p>先看下代码结构</p>
+<p><img src="/images/seata18.png" alt=""></p>
+<p>核心是action包下的2个类，都暴露成了dubbo服务，同时使用注解标记为TCC服务，并实现try-commit-cancle方法<br>FirsetAction-对应扣钱service<br>SecondAction-对应加钱service</p>
+<p>看下FirsetAction源码，@TwoPhaseBusinessAction是TCC服务参与者必须加的注解，指定服务名称，提交方法commitMethod及回滚方法rollbackMethod，SecondAction同理<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">public interface FirstTccAction &#123;</span><br><span class="line">	</span><br><span class="line">	/**</span><br><span class="line">     * 一阶段方法</span><br><span class="line">     * </span><br><span class="line">     * @param businessActionContext</span><br><span class="line">     * @param accountNo</span><br><span class="line">     * @param amount</span><br><span class="line">     */</span><br><span class="line">    @TwoPhaseBusinessAction(name = &quot;firstTccAction&quot;, commitMethod = &quot;commit&quot;, rollbackMethod = &quot;rollback&quot;)</span><br><span class="line">    public boolean prepareMinus(BusinessActionContext businessActionContext,</span><br><span class="line">                                @BusinessActionContextParameter(paramName = &quot;accountNo&quot;) String accountNo,</span><br><span class="line">                                @BusinessActionContextParameter(paramName = &quot;amount&quot;) double amount);</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 二阶段提交</span><br><span class="line">     * @param businessActionContext</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public boolean commit(BusinessActionContext businessActionContext);</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 二阶段回滚</span><br><span class="line">     * @param businessActionContext</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public boolean rollback(BusinessActionContext businessActionContext);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>transfer包下TransferService是具体业务实现类(即转账操作类)</p>
+<p>看下TransferServiceImpl源码，转账方法上加了 @GlobalTransactional 将方法纳入事务管理器管理范围<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">public class TransferServiceImpl implements TransferService &#123;</span><br><span class="line"></span><br><span class="line">    private FirstTccAction firstTccAction;</span><br><span class="line"></span><br><span class="line">    private SecondTccAction secondTccAction;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 转账操作</span><br><span class="line">     * @param from  扣钱账户</span><br><span class="line">     * @param to  加钱账户</span><br><span class="line">     * @param amount  转账金额</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    @Override</span><br><span class="line">    @GlobalTransactional</span><br><span class="line">    public boolean transfer(final String from, final String to, final double amount) &#123;</span><br><span class="line">        //扣钱参与者，一阶段执行</span><br><span class="line">        boolean ret = firstTccAction.prepareMinus(null, from, amount);</span><br><span class="line"></span><br><span class="line">        if(!ret)&#123;</span><br><span class="line">            //扣钱参与者，一阶段失败; 回滚本地事务和分布式事务</span><br><span class="line">            throw new RuntimeException(&quot;账号:[&quot;+from+&quot;] 预扣款失败&quot;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //加钱参与者，一阶段执行</span><br><span class="line">        ret = secondTccAction.prepareAdd(null, to, amount);</span><br><span class="line"></span><br><span class="line">        if(!ret)&#123;</span><br><span class="line">            throw new RuntimeException(&quot;账号:[&quot;+to+&quot;] 预收款失败&quot;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        System.out.println(String.format(&quot;transfer amount[%s] from [%s] to [%s] finish.&quot;, String.valueOf(amount), from, to));</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setFirstTccAction(FirstTccAction firstTccAction) &#123;</span><br><span class="line">        this.firstTccAction = firstTccAction;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setSecondTccAction(SecondTccAction secondTccAction) &#123;</span><br><span class="line">        this.secondTccAction = secondTccAction;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="配置修改-1"><a href="#配置修改-1" class="headerlink" title="配置修改"></a>配置修改</h3><p>由于我本地启动的Mysql服务，而demo是以h2Database为例，所以pom中引入mysql相关包<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;mysql&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;</span><br><span class="line"> &lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
+<p>修改from-datasource-bean.xml，from-datasource-bean.xml中数据源配置，我这里转出账户对应xa1数据库，转入账户对应xa2数据库<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&lt;bean id=&quot;fromAccountDataSource&quot;  class=&quot;org.apache.commons.dbcp.BasicDataSource&quot; destroy-method=&quot;close&quot;&gt;</span><br><span class="line">        &lt;property name=&quot;driverClassName&quot;&gt;</span><br><span class="line">            &lt;value&gt;com.mysql.jdbc.Driver&lt;/value&gt;</span><br><span class="line">        &lt;/property&gt;</span><br><span class="line">        &lt;property name=&quot;url&quot;&gt;</span><br><span class="line">            &lt;value&gt;jdbc:mysql://localhost:3306/xa1&lt;/value&gt;</span><br><span class="line">        &lt;/property&gt;</span><br><span class="line">        &lt;property name=&quot;username&quot;&gt;</span><br><span class="line">            &lt;value&gt;root&lt;/value&gt;</span><br><span class="line">        &lt;/property&gt;</span><br><span class="line">        &lt;property name=&quot;password&quot;&gt;</span><br><span class="line">            &lt;value&gt;123456&lt;/value&gt;</span><br><span class="line">        &lt;/property&gt;</span><br><span class="line">    &lt;/bean&gt;</span><br><span class="line">    &lt;bean id=&quot;toAccountDataSource&quot;  class=&quot;org.apache.commons.dbcp.BasicDataSource&quot; destroy-method=&quot;close&quot;&gt;</span><br><span class="line">        &lt;property name=&quot;driverClassName&quot;&gt;</span><br><span class="line">            &lt;value&gt;com.mysql.jdbc.Driver&lt;/value&gt;</span><br><span class="line">        &lt;/property&gt;</span><br><span class="line">        &lt;property name=&quot;url&quot;&gt;</span><br><span class="line">            &lt;value&gt;jdbc:mysql://localhost:3306/xa2&lt;/value&gt;</span><br><span class="line">        &lt;/property&gt;</span><br><span class="line">        &lt;property name=&quot;username&quot;&gt;</span><br><span class="line">            &lt;value&gt;root&lt;/value&gt;</span><br><span class="line">        &lt;/property&gt;</span><br><span class="line">        &lt;property name=&quot;password&quot;&gt;</span><br><span class="line">            &lt;value&gt;123456&lt;/value&gt;</span><br><span class="line">        &lt;/property&gt;</span><br><span class="line">    &lt;/bean&gt;</span><br></pre></td></tr></table></figure></p>
+<h3 id="启动测试"><a href="#启动测试" class="headerlink" title="启动测试"></a>启动测试</h3><p>1、配置修改完毕，先在本地启动seata-server</p>
+<p>2、然后启动 TransferProviderStarter 暴露dubbo服务并初始化数据库，数据库初始化完后，数据如下</p>
+<p>xa1库account表<br><img src="/images/seata19.png" alt=""></p>
+<p>xa2库account表<br><img src="/images/seata20.png" alt=""></p>
+<p>3、启动TransferApplication，其main方法执行2个子方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">    * 执行转账成功 demo</span><br><span class="line">    *</span><br><span class="line">    * @param initAmount 初始化余额</span><br><span class="line">    * @param transferAmount  转账余额</span><br><span class="line">    */</span><br><span class="line">   private static void doTransferSuccess(double initAmount, double transferAmount) throws SQLException &#123;</span><br><span class="line">       //执行转账操作</span><br><span class="line">       doTransfer(&quot;A&quot;, &quot;C&quot;, transferAmount);</span><br><span class="line"></span><br><span class="line">       //校验A账户余额：initAmount - transferAmount</span><br><span class="line">       checkAmount(fromAccountDAO, &quot;A&quot;, initAmount - transferAmount);</span><br><span class="line"></span><br><span class="line">       //校验C账户余额：initAmount + transferAmount</span><br><span class="line">       checkAmount(toAccountDAO, &quot;C&quot;, initAmount + transferAmount);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   /**</span><br><span class="line">    * 执行转账 失败 demo， &apos;B&apos; 向未知用户 &apos;XXX&apos; 转账，转账失败分布式事务回滚</span><br><span class="line">    * @param initAmount 初始化余额</span><br><span class="line">    * @param transferAmount  转账余额</span><br><span class="line">    */</span><br><span class="line">   private static void doTransferFailed(int initAmount, int transferAmount) throws SQLException &#123;</span><br><span class="line">       // &apos;B&apos; 向未知用户 &apos;XXX&apos; 转账，转账失败分布式事务回滚</span><br><span class="line">       try&#123;</span><br><span class="line">           doTransfer(&quot;B&quot;, &quot;XXX&quot;, transferAmount);</span><br><span class="line">       &#125;catch (Throwable t)&#123;</span><br><span class="line">           System.out.println(&quot;从账户B向未知账号XXX转账失败.&quot;);</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       //校验A2账户余额：initAmount</span><br><span class="line">       checkAmount(fromAccountDAO, &quot;B&quot;, initAmount);</span><br><span class="line"></span><br><span class="line">       //账户XXX 不存在，无需校验</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p>执行结果应该是doTransferSuccess()执行成功，A账户变成90，C账户变成110<br>doTransferFailed()执行失败(secondTccAction的try方法中有对转账接收账户做校验，账户不存在，抛异常)，B账户数据还是100</p>
+<p>执行下看下结果<br><img src="/images/seata21.png" alt=""></p>
+<p>xa1库数据如下<br><img src="/images/seata22.png" alt=""><br>xa2库数据如下<br><img src="/images/seata23.png" alt=""></p>
+<p>说明TCC分布式事务生效，如果不是微服务带来的分布式事务问题，而是本地分库操作带来的事务问题，可以看下local-tcc-sample例子</p>
+<p>该demo中并未对3个方法做幂等控制，实际业务实现中需多加注意</p>
+<p>最后贴上Seata中AT、TCC模式源码的分析，有兴趣的可以看一下哦<br><a href="https://blog.csdn.net/hosaos/article/details/89403552" target="_blank" rel="noopener">Seata实战-AT模式源码分析</a><br><a href="https://blog.csdn.net/hosaos/article/details/89847554" target="_blank" rel="noopener">Seata实战-TCC模式源码分析</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Seata/" rel="tag"># Seata</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/12/23/通过jdk自制https证书并配置到nginx中/" rel="next" title="通过jdk自制https证书并配置到nginx中">
+                <i class="fa fa-chevron-left"></i> 通过jdk自制https证书并配置到nginx中
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/03/24/Truncate用法详解及注意事项/" rel="prev" title="Truncate用法详解及注意事项">
+                Truncate用法详解及注意事项 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/24718752.gif"
+                alt="griabcrh" />
+            
+              <p class="site-author-name" itemprop="name">griabcrh</p>
+              <p class="site-description motion-element" itemprop="description">nice to meet you</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">93</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">62</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://griabcrh.github.io/about/" title="欢迎关注公众号" target="_blank">欢迎关注公众号</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://jemgeek.com/" title="Kylin's Blog" target="_blank">Kylin's Blog</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Seata简介"><span class="nav-number">1.</span> <span class="nav-text">Seata简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#分布式事务产生背景"><span class="nav-number">2.</span> <span class="nav-text">分布式事务产生背景</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#TCC"><span class="nav-number">2.1.</span> <span class="nav-text">TCC</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本原理"><span class="nav-number">2.1.1.</span> <span class="nav-text">基本原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#幂等控制"><span class="nav-number">2.1.2.</span> <span class="nav-text">幂等控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#空回滚"><span class="nav-number">2.1.3.</span> <span class="nav-text">空回滚</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#防悬挂"><span class="nav-number">2.1.4.</span> <span class="nav-text">防悬挂</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事务消息"><span class="nav-number">2.1.5.</span> <span class="nav-text">事务消息</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Demo上手-AT模式Dubbo集成Seata"><span class="nav-number">3.</span> <span class="nav-text">Demo上手-AT模式Dubbo集成Seata</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#配置修改"><span class="nav-number">3.0.1.</span> <span class="nav-text">配置修改</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Demo上手-TCC模式Dubbo集成Seata"><span class="nav-number">4.</span> <span class="nav-text">Demo上手-TCC模式Dubbo集成Seata</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#配置修改-1"><span class="nav-number">4.0.1.</span> <span class="nav-text">配置修改</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动测试"><span class="nav-number">4.0.2.</span> <span class="nav-text">启动测试</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">griabcrh</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+|<span id="busuanzi_container_site_uv">
+  本站访客数<span id="busuanzi_value_site_uv"></span>人次
+</span>
+|<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("8TpPOiYi4ReJYs5sYfMdFmSO-gzGzoHsz", "hX7JfGRvJG8zcMqMRAWNMNyk");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
