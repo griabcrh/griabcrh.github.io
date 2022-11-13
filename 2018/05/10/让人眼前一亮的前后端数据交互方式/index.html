@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 在改测试提出的bug时，因为项目不是我写的，而且我刚到这个公司，看代码时苦苦找不到前端和后端是怎么交互的，没有看到http请求（其实是有，我眼瞎了），在大神简单的讲了一下， 哇好像突然开窍了，之前没有看到的后端的Controller层也都浮出水面。这里也算积累到了经验，搜索url时不要整段url搜，因为后端可能是用多个@R">
+<meta name="description" content="在改测试提出的bug时，因为项目不是我写的，而且我刚到这个公司，看代码时苦苦找不到前端和后端是怎么交互的，没有看到http请求（其实是有，我眼瞎了），在大神简单的讲了一下， 哇好像突然开窍了，之前没有看到的后端的Controller层也都浮出水面。这里也算积累到了经验，搜索url时不要整段url搜，因为后端可能是用多个@RequestMapper拼装的url，所以几率最大的是从url后面截取搜。">
 <meta name="keywords" content="SpringMVC">
 <meta property="og:type" content="article">
 <meta property="og:title" content="让人眼前一亮的前后端数据交互方式">
 <meta property="og:url" content="https://griabcrh.github.io/2018/05/10/让人眼前一亮的前后端数据交互方式/index.html">
 <meta property="og:site_name" content="Griabcrh&#39;s Blog">
-<meta property="og:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 在改测试提出的bug时，因为项目不是我写的，而且我刚到这个公司，看代码时苦苦找不到前端和后端是怎么交互的，没有看到http请求（其实是有，我眼瞎了），在大神简单的讲了一下， 哇好像突然开窍了，之前没有看到的后端的Controller层也都浮出水面。这里也算积累到了经验，搜索url时不要整段url搜，因为后端可能是用多个@R">
+<meta property="og:description" content="在改测试提出的bug时，因为项目不是我写的，而且我刚到这个公司，看代码时苦苦找不到前端和后端是怎么交互的，没有看到http请求（其实是有，我眼瞎了），在大神简单的讲了一下， 哇好像突然开窍了，之前没有看到的后端的Controller层也都浮出水面。这里也算积累到了经验，搜索url时不要整段url搜，因为后端可能是用多个@RequestMapper拼装的url，所以几率最大的是从url后面截取搜。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-12-18T06:45:57.274Z">
+<meta property="og:updated_time" content="2022-11-13T12:20:21.944Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="让人眼前一亮的前后端数据交互方式">
-<meta name="twitter:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 在改测试提出的bug时，因为项目不是我写的，而且我刚到这个公司，看代码时苦苦找不到前端和后端是怎么交互的，没有看到http请求（其实是有，我眼瞎了），在大神简单的讲了一下， 哇好像突然开窍了，之前没有看到的后端的Controller层也都浮出水面。这里也算积累到了经验，搜索url时不要整段url搜，因为后端可能是用多个@R">
+<meta name="twitter:description" content="在改测试提出的bug时，因为项目不是我写的，而且我刚到这个公司，看代码时苦苦找不到前端和后端是怎么交互的，没有看到http请求（其实是有，我眼瞎了），在大神简单的讲了一下， 哇好像突然开窍了，之前没有看到的后端的Controller层也都浮出水面。这里也算积累到了经验，搜索url时不要整段url搜，因为后端可能是用多个@RequestMapper拼装的url，所以几率最大的是从url后面截取搜。">
 
 
 
@@ -363,8 +363,7 @@
       
 
       
-        <p>如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！</p>
-<p>在改测试提出的bug时，因为项目不是我写的，而且我刚到这个公司，看代码时苦苦找不到前端和后端是怎么交互的，没有看到http请求（其实是有，我眼瞎了），在大神简单的讲了一下，</p>
+        <p>在改测试提出的bug时，因为项目不是我写的，而且我刚到这个公司，看代码时苦苦找不到前端和后端是怎么交互的，没有看到http请求（其实是有，我眼瞎了），在大神简单的讲了一下，</p>
 <p>哇好像突然开窍了，之前没有看到的后端的Controller层也都浮出水面。这里也算积累到了经验，搜索url时不要整段url搜，因为后端可能是用多个@RequestMapper拼装的url，所以几率最大的是从url后面截取搜。</p>
 <p>在前端.jsp页面中只看到了${param}，但没有看到后台到底是怎么传数据的，<strong><strong><em>**</em></strong></strong> 原来 <strong><strong><strong>**</strong></strong></strong></p>
 <p>下面讲讲SpringMVC的几种像页面传值的方式：</p>
@@ -582,7 +581,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

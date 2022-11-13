@@ -79,20 +79,20 @@
 
 
 
-<meta name="description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 1、分表技术（垂直分割、水平分割、库表散列）1.1 分表技术由来&amp;emsp;关系型数据库本身比较容易成为系统性能瓶颈，单机存储容量、连接数、处理能力等都很有限，数据库本身的“有状态性”导致了它并不像Web和应用服务器那么容易扩展。在互联网行业海量数据和高并发访问的考验下，聪明的技术人员提出了分库分表技术（有些地方也称为Sh">
+<meta name="description" content="1、分表技术（垂直分割、水平分割、库表散列）1.1 分表技术由来&amp;emsp;关系型数据库本身比较容易成为系统性能瓶颈，单机存储容量、连接数、处理能力等都很有限，数据库本身的“有状态性”导致了它并不像Web和应用服务器那么容易扩展。在互联网行业海量数据和高并发访问的考验下，聪明的技术人员提出了分库分表技术（有些地方也称为Sharding、分片）。同时，流行的分布式系统中间件（例如MongoDB、El">
 <meta name="keywords" content="数据库优化">
 <meta property="og:type" content="article">
 <meta property="og:title" content="关于“数据库优化”你知道多少？(下)">
 <meta property="og:url" content="https://griabcrh.github.io/2018/09/12/关于“数据库优化”你知道多少？-下/index.html">
 <meta property="og:site_name" content="Griabcrh&#39;s Blog">
-<meta property="og:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 1、分表技术（垂直分割、水平分割、库表散列）1.1 分表技术由来&amp;emsp;关系型数据库本身比较容易成为系统性能瓶颈，单机存储容量、连接数、处理能力等都很有限，数据库本身的“有状态性”导致了它并不像Web和应用服务器那么容易扩展。在互联网行业海量数据和高并发访问的考验下，聪明的技术人员提出了分库分表技术（有些地方也称为Sh">
+<meta property="og:description" content="1、分表技术（垂直分割、水平分割、库表散列）1.1 分表技术由来&amp;emsp;关系型数据库本身比较容易成为系统性能瓶颈，单机存储容量、连接数、处理能力等都很有限，数据库本身的“有状态性”导致了它并不像Web和应用服务器那么容易扩展。在互联网行业海量数据和高并发访问的考验下，聪明的技术人员提出了分库分表技术（有些地方也称为Sharding、分片）。同时，流行的分布式系统中间件（例如MongoDB、El">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://griabcrh.github.io/images/shujuku1.png">
 <meta property="og:image" content="https://griabcrh.github.io/images/shujuku2.png">
-<meta property="og:updated_time" content="2018-12-18T06:44:34.530Z">
+<meta property="og:updated_time" content="2022-11-13T12:22:02.765Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="关于“数据库优化”你知道多少？(下)">
-<meta name="twitter:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 1、分表技术（垂直分割、水平分割、库表散列）1.1 分表技术由来&amp;emsp;关系型数据库本身比较容易成为系统性能瓶颈，单机存储容量、连接数、处理能力等都很有限，数据库本身的“有状态性”导致了它并不像Web和应用服务器那么容易扩展。在互联网行业海量数据和高并发访问的考验下，聪明的技术人员提出了分库分表技术（有些地方也称为Sh">
+<meta name="twitter:description" content="1、分表技术（垂直分割、水平分割、库表散列）1.1 分表技术由来&amp;emsp;关系型数据库本身比较容易成为系统性能瓶颈，单机存储容量、连接数、处理能力等都很有限，数据库本身的“有状态性”导致了它并不像Web和应用服务器那么容易扩展。在互联网行业海量数据和高并发访问的考验下，聪明的技术人员提出了分库分表技术（有些地方也称为Sharding、分片）。同时，流行的分布式系统中间件（例如MongoDB、El">
 <meta name="twitter:image" content="https://griabcrh.github.io/images/shujuku1.png">
 
 
@@ -366,8 +366,7 @@
       
 
       
-        <p>如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！</p>
-<h3 id="1、分表技术（垂直分割、水平分割、库表散列）"><a href="#1、分表技术（垂直分割、水平分割、库表散列）" class="headerlink" title="1、分表技术（垂直分割、水平分割、库表散列）"></a>1、分表技术（垂直分割、水平分割、库表散列）</h3><h4 id="1-1-分表技术由来"><a href="#1-1-分表技术由来" class="headerlink" title="1.1 分表技术由来"></a>1.1 分表技术由来</h4><p>&emsp;关系型数据库本身比较容易成为系统性能瓶颈，单机存储容量、连接数、处理能力等都很有限，数据库本身的“有状态性”导致了它并不像Web和应用服务器那么容易扩展。在互联网行业海量数据和高并发访问的考验下，聪明的技术人员提出了分库分表技术（有些地方也称为Sharding、分片）。同时，流行的分布式系统中间件（例如MongoDB、ElasticSearch等）均自身友好支持Sharding，其原理和思想都是大同小异的。</p>
+        <h3 id="1、分表技术（垂直分割、水平分割、库表散列）"><a href="#1、分表技术（垂直分割、水平分割、库表散列）" class="headerlink" title="1、分表技术（垂直分割、水平分割、库表散列）"></a>1、分表技术（垂直分割、水平分割、库表散列）</h3><h4 id="1-1-分表技术由来"><a href="#1-1-分表技术由来" class="headerlink" title="1.1 分表技术由来"></a>1.1 分表技术由来</h4><p>&emsp;关系型数据库本身比较容易成为系统性能瓶颈，单机存储容量、连接数、处理能力等都很有限，数据库本身的“有状态性”导致了它并不像Web和应用服务器那么容易扩展。在互联网行业海量数据和高并发访问的考验下，聪明的技术人员提出了分库分表技术（有些地方也称为Sharding、分片）。同时，流行的分布式系统中间件（例如MongoDB、ElasticSearch等）均自身友好支持Sharding，其原理和思想都是大同小异的。</p>
 <h4 id="1-2-分布式全局唯一ID"><a href="#1-2-分布式全局唯一ID" class="headerlink" title="1.2 分布式全局唯一ID"></a>1.2 分布式全局唯一ID</h4><p>&emsp;在很多中小项目中，我们往往直接使用数据库自增特性来生成主键ID，这样确实比较简单。而在分库分表的环境中，数据分布在不同的分片上，不能再借助数据库自增长特性直接生成，否则会造成不同分片上的数据表主键会重复。简单介绍下使用和了解过的几种ID生成算法。</p>
 <ul>
 <li>Twitter的Snowflake（又名“雪花算法”）</li>
@@ -630,7 +629,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

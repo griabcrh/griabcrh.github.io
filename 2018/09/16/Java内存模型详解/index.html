@@ -79,19 +79,19 @@
 
 
 
-<meta name="description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 借用一句话：Java与C++之间有一堵内存动态分配和垃圾收集技术围成的高墙，墙外面的人想进来，墙里面的人却想出去。   一.我们为什么要了解JAVA内存　　因为虚拟机帮我们JAVA程序员管理着内存，我们在new Object()申请了内存创建对象之后，便不需要再去delete/free来释放内存。也因此不容易出现内存泄漏和">
+<meta name="description" content="借用一句话：Java与C++之间有一堵内存动态分配和垃圾收集技术围成的高墙，墙外面的人想进来，墙里面的人却想出去。   一.我们为什么要了解JAVA内存　　因为虚拟机帮我们JAVA程序员管理着内存，我们在new Object()申请了内存创建对象之后，便不需要再去delete/free来释放内存。也因此不容易出现内存泄漏和内存溢出的问题，看起来一切都很美好。 　　但是，如果一个程序员不了解虚拟机是">
 <meta name="keywords" content="Java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java内存模型详解">
 <meta property="og:url" content="https://griabcrh.github.io/2018/09/16/Java内存模型详解/index.html">
 <meta property="og:site_name" content="Griabcrh&#39;s Blog">
-<meta property="og:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 借用一句话：Java与C++之间有一堵内存动态分配和垃圾收集技术围成的高墙，墙外面的人想进来，墙里面的人却想出去。   一.我们为什么要了解JAVA内存　　因为虚拟机帮我们JAVA程序员管理着内存，我们在new Object()申请了内存创建对象之后，便不需要再去delete/free来释放内存。也因此不容易出现内存泄漏和">
+<meta property="og:description" content="借用一句话：Java与C++之间有一堵内存动态分配和垃圾收集技术围成的高墙，墙外面的人想进来，墙里面的人却想出去。   一.我们为什么要了解JAVA内存　　因为虚拟机帮我们JAVA程序员管理着内存，我们在new Object()申请了内存创建对象之后，便不需要再去delete/free来释放内存。也因此不容易出现内存泄漏和内存溢出的问题，看起来一切都很美好。 　　但是，如果一个程序员不了解虚拟机是">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://griabcrh.github.io/images/java2.png">
-<meta property="og:updated_time" content="2018-12-18T06:43:12.708Z">
+<meta property="og:updated_time" content="2022-11-13T12:23:53.098Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java内存模型详解">
-<meta name="twitter:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 借用一句话：Java与C++之间有一堵内存动态分配和垃圾收集技术围成的高墙，墙外面的人想进来，墙里面的人却想出去。   一.我们为什么要了解JAVA内存　　因为虚拟机帮我们JAVA程序员管理着内存，我们在new Object()申请了内存创建对象之后，便不需要再去delete/free来释放内存。也因此不容易出现内存泄漏和">
+<meta name="twitter:description" content="借用一句话：Java与C++之间有一堵内存动态分配和垃圾收集技术围成的高墙，墙外面的人想进来，墙里面的人却想出去。   一.我们为什么要了解JAVA内存　　因为虚拟机帮我们JAVA程序员管理着内存，我们在new Object()申请了内存创建对象之后，便不需要再去delete/free来释放内存。也因此不容易出现内存泄漏和内存溢出的问题，看起来一切都很美好。 　　但是，如果一个程序员不了解虚拟机是">
 <meta name="twitter:image" content="https://griabcrh.github.io/images/java2.png">
 
 
@@ -365,8 +365,7 @@
       
 
       
-        <p>如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！</p>
-<p>借用一句话：Java与C++之间有一堵内存动态分配和垃圾收集技术围成的高墙，墙外面的人想进来，墙里面的人却想出去。</p>
+        <p>借用一句话：Java与C++之间有一堵内存动态分配和垃圾收集技术围成的高墙，墙外面的人想进来，墙里面的人却想出去。</p>
 <p><img src="/images/java2.png" alt=""> </p>
 <h3 id="一-我们为什么要了解JAVA内存"><a href="#一-我们为什么要了解JAVA内存" class="headerlink" title="一.我们为什么要了解JAVA内存"></a>一.我们为什么要了解JAVA内存</h3><p>　　因为虚拟机帮我们JAVA程序员管理着内存，我们在new Object()申请了内存创建对象之后，便不需要再去delete/free来释放内存。也因此不容易出现内存泄漏和内存溢出的问题，看起来一切都很美好。</p>
 <p>　　但是，如果一个程序员不了解虚拟机是怎么管理内存的，那么在排查内存相关的错误是便会成为一个巨大的难题。</p>
@@ -613,7 +612,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

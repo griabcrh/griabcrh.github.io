@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 有时候我们有固定的deployment的目录，需要我们将war包放在规定的文件夹里，而不是tomcat的webapps，这就需要我们配置虚拟路径， 假如我们将war包放在deployment/webapps下，我们的tomcat安装目录为：deployment/tools/ 我们需要将tomcat下的webapps映射到d">
+<meta name="description" content="有时候我们有固定的deployment的目录，需要我们将war包放在规定的文件夹里，而不是tomcat的webapps，这就需要我们配置虚拟路径， 假如我们将war包放在deployment/webapps下，我们的tomcat安装目录为：deployment/tools/ 我们需要将tomcat下的webapps映射到deployment/webapps下，需要我们修改server.xml文件，">
 <meta name="keywords" content="Linux">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux服务器中的tomcat配置虚拟路径">
 <meta property="og:url" content="https://griabcrh.github.io/2018/04/21/Linux服务器中的tomcat配置虚拟路径/index.html">
 <meta property="og:site_name" content="Griabcrh&#39;s Blog">
-<meta property="og:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 有时候我们有固定的deployment的目录，需要我们将war包放在规定的文件夹里，而不是tomcat的webapps，这就需要我们配置虚拟路径， 假如我们将war包放在deployment/webapps下，我们的tomcat安装目录为：deployment/tools/ 我们需要将tomcat下的webapps映射到d">
+<meta property="og:description" content="有时候我们有固定的deployment的目录，需要我们将war包放在规定的文件夹里，而不是tomcat的webapps，这就需要我们配置虚拟路径， 假如我们将war包放在deployment/webapps下，我们的tomcat安装目录为：deployment/tools/ 我们需要将tomcat下的webapps映射到deployment/webapps下，需要我们修改server.xml文件，">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-12-18T06:49:23.528Z">
+<meta property="og:updated_time" content="2022-11-13T12:17:04.819Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux服务器中的tomcat配置虚拟路径">
-<meta name="twitter:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 有时候我们有固定的deployment的目录，需要我们将war包放在规定的文件夹里，而不是tomcat的webapps，这就需要我们配置虚拟路径， 假如我们将war包放在deployment/webapps下，我们的tomcat安装目录为：deployment/tools/ 我们需要将tomcat下的webapps映射到d">
+<meta name="twitter:description" content="有时候我们有固定的deployment的目录，需要我们将war包放在规定的文件夹里，而不是tomcat的webapps，这就需要我们配置虚拟路径， 假如我们将war包放在deployment/webapps下，我们的tomcat安装目录为：deployment/tools/ 我们需要将tomcat下的webapps映射到deployment/webapps下，需要我们修改server.xml文件，">
 
 
 
@@ -363,8 +363,7 @@
       
 
       
-        <p>如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！</p>
-<p>有时候我们有固定的deployment的目录，需要我们将war包放在规定的文件夹里，而不是tomcat的webapps，这就需要我们配置虚拟路径，</p>
+        <p>有时候我们有固定的deployment的目录，需要我们将war包放在规定的文件夹里，而不是tomcat的webapps，这就需要我们配置虚拟路径，</p>
 <p>假如我们将war包放在deployment/webapps下，我们的tomcat安装目录为：deployment/tools/</p>
 <p>我们需要将tomcat下的webapps映射到deployment/webapps下，需要我们修改server.xml文件，增加如下配置：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;Context path=<span class="string">"/interact/api/"</span> docBase=<span class="string">"/home/ec2-user/deployment/webapps/aligenie-validation.war"</span> debug=<span class="string">"0"</span> reloadable=<span class="string">"false"</span>/&gt;</span><br></pre></td></tr></table></figure>
@@ -552,7 +551,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

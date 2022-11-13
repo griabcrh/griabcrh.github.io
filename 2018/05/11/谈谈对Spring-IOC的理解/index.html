@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 今天在改bug时，突然想到了Spring Ioc，发现自己一直在用Spring 但对Spring的核心一点都不了解。自己都是基于使用来对待一门技术，而不是静下心学习一门技术 然后我就在网上搜了一下Spring Ioc看到了一个博客，哇这个博客写的很通俗，比喻很恰当。 1.分享Bromon的blog上对IoC与DI浅显易懂的">
+<meta name="description" content="今天在改bug时，突然想到了Spring Ioc，发现自己一直在用Spring 但对Spring的核心一点都不了解。自己都是基于使用来对待一门技术，而不是静下心学习一门技术 然后我就在网上搜了一下Spring Ioc看到了一个博客，哇这个博客写的很通俗，比喻很恰当。 1.分享Bromon的blog上对IoC与DI浅显易懂的讲解1.1、IoC(控制反转)　　首先想说说IoC（Inversion of">
 <meta name="keywords" content="Spring">
 <meta property="og:type" content="article">
 <meta property="og:title" content="谈谈对Spring IOC的理解">
 <meta property="og:url" content="https://griabcrh.github.io/2018/05/11/谈谈对Spring-IOC的理解/index.html">
 <meta property="og:site_name" content="Griabcrh&#39;s Blog">
-<meta property="og:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 今天在改bug时，突然想到了Spring Ioc，发现自己一直在用Spring 但对Spring的核心一点都不了解。自己都是基于使用来对待一门技术，而不是静下心学习一门技术 然后我就在网上搜了一下Spring Ioc看到了一个博客，哇这个博客写的很通俗，比喻很恰当。 1.分享Bromon的blog上对IoC与DI浅显易懂的">
+<meta property="og:description" content="今天在改bug时，突然想到了Spring Ioc，发现自己一直在用Spring 但对Spring的核心一点都不了解。自己都是基于使用来对待一门技术，而不是静下心学习一门技术 然后我就在网上搜了一下Spring Ioc看到了一个博客，哇这个博客写的很通俗，比喻很恰当。 1.分享Bromon的blog上对IoC与DI浅显易懂的讲解1.1、IoC(控制反转)　　首先想说说IoC（Inversion of">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-12-18T06:45:49.418Z">
+<meta property="og:updated_time" content="2022-11-13T12:20:31.414Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="谈谈对Spring IOC的理解">
-<meta name="twitter:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 今天在改bug时，突然想到了Spring Ioc，发现自己一直在用Spring 但对Spring的核心一点都不了解。自己都是基于使用来对待一门技术，而不是静下心学习一门技术 然后我就在网上搜了一下Spring Ioc看到了一个博客，哇这个博客写的很通俗，比喻很恰当。 1.分享Bromon的blog上对IoC与DI浅显易懂的">
+<meta name="twitter:description" content="今天在改bug时，突然想到了Spring Ioc，发现自己一直在用Spring 但对Spring的核心一点都不了解。自己都是基于使用来对待一门技术，而不是静下心学习一门技术 然后我就在网上搜了一下Spring Ioc看到了一个博客，哇这个博客写的很通俗，比喻很恰当。 1.分享Bromon的blog上对IoC与DI浅显易懂的讲解1.1、IoC(控制反转)　　首先想说说IoC（Inversion of">
 
 
 
@@ -363,8 +363,7 @@
       
 
       
-        <p>如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！</p>
-<p>今天在改bug时，突然想到了Spring Ioc，发现自己一直在用Spring 但对Spring的核心一点都不了解。自己都是基于使用来对待一门技术，而不是静下心学习一门技术</p>
+        <p>今天在改bug时，突然想到了Spring Ioc，发现自己一直在用Spring 但对Spring的核心一点都不了解。自己都是基于使用来对待一门技术，而不是静下心学习一门技术</p>
 <p>然后我就在网上搜了一下Spring Ioc看到了一个博客，哇这个博客写的很通俗，比喻很恰当。</p>
 <h4 id="1-分享Bromon的blog上对IoC与DI浅显易懂的讲解"><a href="#1-分享Bromon的blog上对IoC与DI浅显易懂的讲解" class="headerlink" title="1.分享Bromon的blog上对IoC与DI浅显易懂的讲解"></a>1.分享Bromon的blog上对IoC与DI浅显易懂的讲解</h4><h5 id="1-1、IoC-控制反转"><a href="#1-1、IoC-控制反转" class="headerlink" title="1.1、IoC(控制反转)"></a>1.1、IoC(控制反转)</h5><p>　　首先想说说IoC（Inversion of Control，控制反转）。这是spring的核心，贯穿始终。所谓IoC，对于spring框架来说，就是由spring来负责控制对象的生命周期和对象间的关系。这是什么意思呢，举个简单的例子，我们是如何找女朋友的？常见的情况是，我们到处去看哪里有长得漂亮身材又好的mm，然后打听她们的兴趣爱好、qq号、电话号、ip号、iq号………，想办法认识她们，投其所好送其所要，然后嘿嘿……这个过程是复杂深奥的，我们必须自己设计和面对每个环节。传统的程序开发也是如此，在一个对象中，如果要使用另外的对象，就必须得到它（自己new一个，或者从JNDI中查询一个），使用完之后还要将对象销毁（比如Connection等），对象始终会和其他的接口或类藕合起来。</p>
 <p>　　那么IoC是如何做的呢？有点像通过婚介找女朋友，在我和女朋友之间引入了一个第三者：婚姻介绍所。婚介管理了很多男男女女的资料，我可以向婚介提出一个列表，告诉它我想找个什么样的女朋友，比如长得像李嘉欣，身材像林熙雷，唱歌像周杰伦，速度像卡洛斯，技术像齐达内之类的，然后婚介就会按照我们的要求，提供一个mm，我们只需要去和她谈恋爱、结婚就行了。简单明了，如果婚介给我们的人选不符合要求，我们就会抛出异常。整个过程不再由我自己控制，而是有婚介这样一个类似容器的机构来控制。Spring所倡导的开发方式就是如此，所有的类都会在spring容器中登记，告诉spring你是个什么东西，你需要什么东西，然后spring会在系统运行到适当的时候，把你要的东西主动给你，同时也把你交给其他需要你的东西。所有的类的创建、销毁都由 spring来控制，也就是说控制对象生存周期的不再是引用它的对象，而是spring。对于某个具体的对象而言，以前是它控制其他对象，现在是所有对象都被spring控制，所以这叫控制反转。</p>
@@ -578,7 +577,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

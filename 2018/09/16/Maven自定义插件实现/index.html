@@ -79,21 +79,21 @@
 
 
 
-<meta name="description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 没有接触过自定义插件，都会把它想的特别难，我刚接触也是，但“手是英雄”，真正动手做了才知道。 Maven 作为一个优秀的项目管理工具，其插件机制为其功能扩展提供了非常大的便捷性。虽然说大多数情况下，我们可能不太会自己去编写 Maven 插件，但不排除在某些特殊的情况下，我们需要去完成一个自己的插件，来协助我们处理某些比较通">
+<meta name="description" content="没有接触过自定义插件，都会把它想的特别难，我刚接触也是，但“手是英雄”，真正动手做了才知道。 Maven 作为一个优秀的项目管理工具，其插件机制为其功能扩展提供了非常大的便捷性。虽然说大多数情况下，我们可能不太会自己去编写 Maven 插件，但不排除在某些特殊的情况下，我们需要去完成一个自己的插件，来协助我们处理某些比较通用的事情。 什么是 Mojo？Mojo 就是 Maven plain Old">
 <meta name="keywords" content="Maven">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Maven自定义插件实现">
 <meta property="og:url" content="https://griabcrh.github.io/2018/09/16/Maven自定义插件实现/index.html">
 <meta property="og:site_name" content="Griabcrh&#39;s Blog">
-<meta property="og:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 没有接触过自定义插件，都会把它想的特别难，我刚接触也是，但“手是英雄”，真正动手做了才知道。 Maven 作为一个优秀的项目管理工具，其插件机制为其功能扩展提供了非常大的便捷性。虽然说大多数情况下，我们可能不太会自己去编写 Maven 插件，但不排除在某些特殊的情况下，我们需要去完成一个自己的插件，来协助我们处理某些比较通">
+<meta property="og:description" content="没有接触过自定义插件，都会把它想的特别难，我刚接触也是，但“手是英雄”，真正动手做了才知道。 Maven 作为一个优秀的项目管理工具，其插件机制为其功能扩展提供了非常大的便捷性。虽然说大多数情况下，我们可能不太会自己去编写 Maven 插件，但不排除在某些特殊的情况下，我们需要去完成一个自己的插件，来协助我们处理某些比较通用的事情。 什么是 Mojo？Mojo 就是 Maven plain Old">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://griabcrh.github.io/images/mavenplugin1.png">
 <meta property="og:image" content="https://griabcrh.github.io/images/mavenplugin2.png">
 <meta property="og:image" content="https://griabcrh.github.io/images/mavenplugin3.png">
-<meta property="og:updated_time" content="2018-12-18T06:42:58.261Z">
+<meta property="og:updated_time" content="2022-11-13T12:24:20.008Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Maven自定义插件实现">
-<meta name="twitter:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 没有接触过自定义插件，都会把它想的特别难，我刚接触也是，但“手是英雄”，真正动手做了才知道。 Maven 作为一个优秀的项目管理工具，其插件机制为其功能扩展提供了非常大的便捷性。虽然说大多数情况下，我们可能不太会自己去编写 Maven 插件，但不排除在某些特殊的情况下，我们需要去完成一个自己的插件，来协助我们处理某些比较通">
+<meta name="twitter:description" content="没有接触过自定义插件，都会把它想的特别难，我刚接触也是，但“手是英雄”，真正动手做了才知道。 Maven 作为一个优秀的项目管理工具，其插件机制为其功能扩展提供了非常大的便捷性。虽然说大多数情况下，我们可能不太会自己去编写 Maven 插件，但不排除在某些特殊的情况下，我们需要去完成一个自己的插件，来协助我们处理某些比较通用的事情。 什么是 Mojo？Mojo 就是 Maven plain Old">
 <meta name="twitter:image" content="https://griabcrh.github.io/images/mavenplugin1.png">
 
 
@@ -367,8 +367,7 @@
       
 
       
-        <p>如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！</p>
-<p>没有接触过自定义插件，都会把它想的特别难，我刚接触也是，但“手是英雄”，真正动手做了才知道。</p>
+        <p>没有接触过自定义插件，都会把它想的特别难，我刚接触也是，但“手是英雄”，真正动手做了才知道。</p>
 <p>Maven 作为一个优秀的项目管理工具，其插件机制为其功能扩展提供了非常大的便捷性。虽然说大多数情况下，我们可能不太会自己去编写 Maven 插件，但不排除在某些特殊的情况下，我们需要去完成一个自己的插件，来协助我们处理某些比较通用的事情。</p>
 <h3>什么是 Mojo？</h3><br>Mojo 就是 Maven plain Old Java Object。每一个 Mojo 就是 Maven 中的一个执行目标（executable goal），而插件则是对单个或多个相关的 Mojo 做统一分发。一个 Mojo 包含一个简单的 Java 类。插件中多个类似 Mojo 的通用之处可以使用抽象父类来封装。<br><br><h3>1、新建Maven项目</h3><br>在IDEA中新建Maven项目，选择maven-archetype-mojo,点击下一步，输入对应的参数最后点击完成即可创建一个简单的 Mojo 工程。<br><img src="/images/mavenplugin1.png" alt="这里写图片描述"><br><br>创建完成后，工程内会生成对应的 pom.xml 文件。其内容比较简单，与普通 Maven 工程的 pom.xml 基本一致，只是自动添加了对 maven-plugin-api 的依赖，这个依赖里面会包含一些 Mojo 的接口与抽象类，在后续编写具体的 Mojo 时再进行详细讲解。<br><br>整体的pom.xml文件如下<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">  xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd&quot;&gt;</span><br><span class="line">  &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;</span><br><span class="line">  &lt;groupId&gt;maven-plugin-dbs&lt;/groupId&gt;</span><br><span class="line">  &lt;artifactId&gt;maven-plugin-dbs&lt;/artifactId&gt;</span><br><span class="line">  &lt;packaging&gt;maven-plugin&lt;/packaging&gt;</span><br><span class="line">  &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;</span><br><span class="line">  &lt;name&gt;mavenplugin Maven Mojo&lt;/name&gt;</span><br><span class="line">  &lt;url&gt;http://maven.apache.org&lt;/url&gt;</span><br><span class="line">  </span><br><span class="line">  &lt;dependencies&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">      &lt;groupId&gt;org.apache.maven&lt;/groupId&gt;</span><br><span class="line">      &lt;artifactId&gt;maven-plugin-api&lt;/artifactId&gt;</span><br><span class="line">      &lt;version&gt;2.0&lt;/version&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">      &lt;groupId&gt;org.apache.maven.plugin-tools&lt;/groupId&gt;</span><br><span class="line">      &lt;artifactId&gt;maven-plugin-annotations&lt;/artifactId&gt;</span><br><span class="line">      &lt;version&gt;3.3&lt;/version&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">  &lt;/dependencies&gt;</span><br><span class="line"></span><br><span class="line">&lt;/project&gt;</span><br></pre></td></tr></table></figure><br><br>其中打包方式一定要是<code>&lt;packaging&gt;maven-plugin&lt;/packaging&gt;</code><br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;groupId&gt;maven-plugin-dbs&lt;/groupId&gt; //一级目录</span><br><span class="line">&lt;artifactId&gt;maven-plugin-dbs&lt;/artifactId&gt;  //二级目录</span><br><span class="line">&lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;  //三级目录</span><br></pre></td></tr></table></figure><br><br>这里先记住一二三级目录，后面会用到。<br><br><h3>2、Mojo类</h3>
 
@@ -597,7 +596,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

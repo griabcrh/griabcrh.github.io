@@ -79,20 +79,20 @@
 
 
 
-<meta name="description" content="写在前面 欢迎关注公众号：java开发高级进阶, 有不会的可以直接公众号留言提问 monaco-editor不提供全局搜索，只提供单个文件内的搜索，那么如何实现全局搜索呢？ 环境：Nodejs + React + Dva + monaco-editor + react-monaco-editor + antd 一、绑定快捷键调用editor.addCommand方法绑定快捷键，通过monaco.K">
+<meta name="description" content="monaco-editor不提供全局搜索，只提供单个文件内的搜索，那么如何实现全局搜索呢？ 环境：Nodejs + React + Dva + monaco-editor + react-monaco-editor + antd 一、绑定快捷键调用editor.addCommand方法绑定快捷键，通过monaco.KeyMod和monaco.KeyCode选择快捷键 快捷键要在编辑器创建完成时创建">
 <meta name="keywords" content="monaco-editor">
 <meta property="og:type" content="article">
 <meta property="og:title" content="monaco-editor实现全局内容和文件搜索">
 <meta property="og:url" content="https://griabcrh.github.io/2019/05/23/monaco-editor实现全局内容和文件搜索/index.html">
 <meta property="og:site_name" content="Griabcrh&#39;s Blog">
-<meta property="og:description" content="写在前面 欢迎关注公众号：java开发高级进阶, 有不会的可以直接公众号留言提问 monaco-editor不提供全局搜索，只提供单个文件内的搜索，那么如何实现全局搜索呢？ 环境：Nodejs + React + Dva + monaco-editor + react-monaco-editor + antd 一、绑定快捷键调用editor.addCommand方法绑定快捷键，通过monaco.K">
+<meta property="og:description" content="monaco-editor不提供全局搜索，只提供单个文件内的搜索，那么如何实现全局搜索呢？ 环境：Nodejs + React + Dva + monaco-editor + react-monaco-editor + antd 一、绑定快捷键调用editor.addCommand方法绑定快捷键，通过monaco.KeyMod和monaco.KeyCode选择快捷键 快捷键要在编辑器创建完成时创建">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://griabcrh.github.io/images/monaco-editor1.png">
 <meta property="og:image" content="https://griabcrh.github.io/images/海报.jpg">
-<meta property="og:updated_time" content="2019-05-23T10:58:46.386Z">
+<meta property="og:updated_time" content="2022-11-13T12:13:40.808Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="monaco-editor实现全局内容和文件搜索">
-<meta name="twitter:description" content="写在前面 欢迎关注公众号：java开发高级进阶, 有不会的可以直接公众号留言提问 monaco-editor不提供全局搜索，只提供单个文件内的搜索，那么如何实现全局搜索呢？ 环境：Nodejs + React + Dva + monaco-editor + react-monaco-editor + antd 一、绑定快捷键调用editor.addCommand方法绑定快捷键，通过monaco.K">
+<meta name="twitter:description" content="monaco-editor不提供全局搜索，只提供单个文件内的搜索，那么如何实现全局搜索呢？ 环境：Nodejs + React + Dva + monaco-editor + react-monaco-editor + antd 一、绑定快捷键调用editor.addCommand方法绑定快捷键，通过monaco.KeyMod和monaco.KeyCode选择快捷键 快捷键要在编辑器创建完成时创建">
 <meta name="twitter:image" content="https://griabcrh.github.io/images/monaco-editor1.png">
 
 
@@ -366,8 +366,7 @@
       
 
       
-        <p><strong>写在前面</strong> 欢迎关注公众号：java开发高级进阶, 有不会的可以直接公众号留言提问</p>
-<p>monaco-editor不提供全局搜索，只提供单个文件内的搜索，那么如何实现全局搜索呢？</p>
+        <p>monaco-editor不提供全局搜索，只提供单个文件内的搜索，那么如何实现全局搜索呢？</p>
 <p><strong>环境</strong>：Nodejs + React + Dva + monaco-editor + react-monaco-editor + antd</p>
 <h3 id="一、绑定快捷键"><a href="#一、绑定快捷键" class="headerlink" title="一、绑定快捷键"></a>一、绑定快捷键</h3><p>调用editor.addCommand方法绑定快捷键，通过monaco.KeyMod和monaco.KeyCode选择快捷键</p>
 <p>快捷键要在编辑器创建完成时创建，故这段代码要写在editorDidMount里面</p>
@@ -613,7 +612,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

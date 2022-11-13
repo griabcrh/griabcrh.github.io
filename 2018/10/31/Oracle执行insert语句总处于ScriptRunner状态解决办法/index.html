@@ -79,20 +79,20 @@
 
 
 
-<meta name="description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 当我们使用oracle数据库连接工具执行sql语句时，出现如下图所示的状态  一直处于卡死的状态，首先我们换一种连接工具使用，看是否还是折中情况；如果还是这种情况，可能是由于在sql Developer执行update时没有commit，oracle将该条记录锁住了。 可以通过以下办法解决：先查询锁定记录，Sql代码：1S">
+<meta name="description" content="当我们使用oracle数据库连接工具执行sql语句时，出现如下图所示的状态  一直处于卡死的状态，首先我们换一种连接工具使用，看是否还是折中情况；如果还是这种情况，可能是由于在sql Developer执行update时没有commit，oracle将该条记录锁住了。 可以通过以下办法解决：先查询锁定记录，Sql代码：1SELECT s.sid, s.serial# FROM v$locked_o">
 <meta name="keywords" content="Oracle">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Oracle执行insert语句总处于ScriptRunner状态解决办法">
 <meta property="og:url" content="https://griabcrh.github.io/2018/10/31/Oracle执行insert语句总处于ScriptRunner状态解决办法/index.html">
 <meta property="og:site_name" content="Griabcrh&#39;s Blog">
-<meta property="og:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 当我们使用oracle数据库连接工具执行sql语句时，出现如下图所示的状态  一直处于卡死的状态，首先我们换一种连接工具使用，看是否还是折中情况；如果还是这种情况，可能是由于在sql Developer执行update时没有commit，oracle将该条记录锁住了。 可以通过以下办法解决：先查询锁定记录，Sql代码：1S">
+<meta property="og:description" content="当我们使用oracle数据库连接工具执行sql语句时，出现如下图所示的状态  一直处于卡死的状态，首先我们换一种连接工具使用，看是否还是折中情况；如果还是这种情况，可能是由于在sql Developer执行update时没有commit，oracle将该条记录锁住了。 可以通过以下办法解决：先查询锁定记录，Sql代码：1SELECT s.sid, s.serial# FROM v$locked_o">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://griabcrh.github.io/images/oracle1.png">
 <meta property="og:image" content="https://griabcrh.github.io/2018/10/31/Oracle执行insert语句总处于ScriptRunner状态解决办法/images/oracle2.png">
-<meta property="og:updated_time" content="2018-12-18T06:41:34.019Z">
+<meta property="og:updated_time" content="2022-11-13T12:26:17.658Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Oracle执行insert语句总处于ScriptRunner状态解决办法">
-<meta name="twitter:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 当我们使用oracle数据库连接工具执行sql语句时，出现如下图所示的状态  一直处于卡死的状态，首先我们换一种连接工具使用，看是否还是折中情况；如果还是这种情况，可能是由于在sql Developer执行update时没有commit，oracle将该条记录锁住了。 可以通过以下办法解决：先查询锁定记录，Sql代码：1S">
+<meta name="twitter:description" content="当我们使用oracle数据库连接工具执行sql语句时，出现如下图所示的状态  一直处于卡死的状态，首先我们换一种连接工具使用，看是否还是折中情况；如果还是这种情况，可能是由于在sql Developer执行update时没有commit，oracle将该条记录锁住了。 可以通过以下办法解决：先查询锁定记录，Sql代码：1SELECT s.sid, s.serial# FROM v$locked_o">
 <meta name="twitter:image" content="https://griabcrh.github.io/images/oracle1.png">
 
 
@@ -366,8 +366,7 @@
       
 
       
-        <p>如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！</p>
-<p>当我们使用oracle数据库连接工具执行sql语句时，出现如下图所示的状态</p>
+        <p>当我们使用oracle数据库连接工具执行sql语句时，出现如下图所示的状态</p>
 <p><img src="/images/oracle1.png" alt=""></p>
 <p>一直处于卡死的状态，首先我们换一种连接工具使用，看是否还是折中情况；如果还是这种情况，可能是由于在sql Developer执行update时没有commit，oracle将该条记录锁住了。</p>
 <p>可以通过以下办法解决：<br>先查询锁定记录，Sql代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT s.sid, s.serial# FROM v$locked_object lo, dba_objects ao, v$session s WHERE ao.object_id = lo.object_id AND lo.session_id = s.sid;</span><br></pre></td></tr></table></figure></p>
@@ -557,7 +556,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

@@ -79,20 +79,20 @@
 
 
 
-<meta name="description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ ###6　定制化镜像 使用类似 Puppet、Chef 及 Ansible 这些自动化配置管理工具的一个问题 是，需要花费大量时间在机器上运行这些脚本。考虑这样一个例子：对服务器进行配置，使其能够部署 Java 应用程序。假设我的服务器在 AWS 上，使用的是标准的 Ubuntu 镜像。为了运行 Java 应用程序，需要做">
+<meta name="description" content="###6　定制化镜像 使用类似 Puppet、Chef 及 Ansible 这些自动化配置管理工具的一个问题 是，需要花费大量时间在机器上运行这些脚本。考虑这样一个例子：对服务器进行配置，使其能够部署 Java 应用程序。假设我的服务器在 AWS 上，使用的是标准的 Ubuntu 镜像。为了运行 Java 应用程序，需要做的第一件事情是安装 Oracle JVM。这个简单的过程可能就会花费五分钟，">
 <meta name="keywords" content="微服务">
 <meta property="og:type" content="article">
 <meta property="og:title" content="构建什么、如何构建以及如何部署?（下）">
 <meta property="og:url" content="https://griabcrh.github.io/2018/10/28/构建什么、如何构建以及如何部署-（下）/index.html">
 <meta property="og:site_name" content="Griabcrh&#39;s Blog">
-<meta property="og:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ ###6　定制化镜像 使用类似 Puppet、Chef 及 Ansible 这些自动化配置管理工具的一个问题 是，需要花费大量时间在机器上运行这些脚本。考虑这样一个例子：对服务器进行配置，使其能够部署 Java 应用程序。假设我的服务器在 AWS 上，使用的是标准的 Ubuntu 镜像。为了运行 Java 应用程序，需要做">
+<meta property="og:description" content="###6　定制化镜像 使用类似 Puppet、Chef 及 Ansible 这些自动化配置管理工具的一个问题 是，需要花费大量时间在机器上运行这些脚本。考虑这样一个例子：对服务器进行配置，使其能够部署 Java 应用程序。假设我的服务器在 AWS 上，使用的是标准的 Ubuntu 镜像。为了运行 Java 应用程序，需要做的第一件事情是安装 Oracle JVM。这个简单的过程可能就会花费五分钟，">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://griabcrh.github.io/2018/10/28/构建什么、如何构建以及如何部署-（下）/images/微服务8.png">
 <meta property="og:image" content="https://griabcrh.github.io/2018/10/28/构建什么、如何构建以及如何部署-（下）/images/微服务9.png">
-<meta property="og:updated_time" content="2018-12-18T06:41:57.237Z">
+<meta property="og:updated_time" content="2022-11-13T12:25:34.441Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="构建什么、如何构建以及如何部署?（下）">
-<meta name="twitter:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ ###6　定制化镜像 使用类似 Puppet、Chef 及 Ansible 这些自动化配置管理工具的一个问题 是，需要花费大量时间在机器上运行这些脚本。考虑这样一个例子：对服务器进行配置，使其能够部署 Java 应用程序。假设我的服务器在 AWS 上，使用的是标准的 Ubuntu 镜像。为了运行 Java 应用程序，需要做">
+<meta name="twitter:description" content="###6　定制化镜像 使用类似 Puppet、Chef 及 Ansible 这些自动化配置管理工具的一个问题 是，需要花费大量时间在机器上运行这些脚本。考虑这样一个例子：对服务器进行配置，使其能够部署 Java 应用程序。假设我的服务器在 AWS 上，使用的是标准的 Ubuntu 镜像。为了运行 Java 应用程序，需要做的第一件事情是安装 Oracle JVM。这个简单的过程可能就会花费五分钟，">
 <meta name="twitter:image" content="https://griabcrh.github.io/2018/10/28/构建什么、如何构建以及如何部署-（下）/images/微服务8.png">
 
 
@@ -366,8 +366,7 @@
       
 
       
-        <p>如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！</p>
-<p>###6　定制化镜像</p>
+        <p>###6　定制化镜像</p>
 <pre><code>使用类似 Puppet、Chef 及 Ansible 这些自动化配置管理工具的一个问题
 </code></pre><p>是，需要花费大量时间在机器上运行这些脚本。考虑这样一个例子：对服务器进行配置，使其能够部署 Java 应用程序。假设我的服务器在 AWS 上，使用的是标准的 Ubuntu 镜像。为了运行 Java 应用程序，需要做的第一件事情是安装 Oracle JVM。这个简单的过程可能就会花费五分钟，其中一些时间用于启动机器上，剩下的则用于安装 JVM。然后我们才能开始考虑把软件放上去。</p>
 <pre><code>上面这个例子比较简单，实际情况下还需要安装其他常用软件。比如，可能需要使用 collectd 来收集操作系统的状态，使用 logstash 来做日志的聚合，还可能需要安装 nagios 来做监控。随着时间的推移，越来越多的东西被添加进来，所以自动化配置环境所需的时间也会越来越长。
@@ -665,7 +664,7 @@ Docker 本身并不能解决所有的问题，它只是一个在单机上运行�
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

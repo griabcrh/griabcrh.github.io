@@ -79,20 +79,20 @@
 
 
 
-<meta name="description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 一、前言在同一个 JVM 进程中，我们可以使用 JUC 提供的一些锁来解决多个线程竞争同一个共享资源时候的线程安全问题，但是当多个不同 JVM 进程中的线程共同竞争同一个共享资源时候，JUC 包的锁就无能无力了，这时候就需要分布式锁了。 本文主要讲解几种常见的分布式锁实现方案以及原理，主要内容如下： 分布式锁与 JUC 包">
+<meta name="description" content="一、前言在同一个 JVM 进程中，我们可以使用 JUC 提供的一些锁来解决多个线程竞争同一个共享资源时候的线程安全问题，但是当多个不同 JVM 进程中的线程共同竞争同一个共享资源时候，JUC 包的锁就无能无力了，这时候就需要分布式锁了。 本文主要讲解几种常见的分布式锁实现方案以及原理，主要内容如下： 分布式锁与 JUC 包锁的不同； 使用数据库锁来实现分布式锁； 使用 Redis 来实现分布式锁；">
 <meta name="keywords" content="分布式">
 <meta property="og:type" content="article">
 <meta property="og:title" content="分布式锁原理探究">
 <meta property="og:url" content="https://griabcrh.github.io/2018/09/16/分布式锁原理探究/index.html">
 <meta property="og:site_name" content="Griabcrh&#39;s Blog">
-<meta property="og:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 一、前言在同一个 JVM 进程中，我们可以使用 JUC 提供的一些锁来解决多个线程竞争同一个共享资源时候的线程安全问题，但是当多个不同 JVM 进程中的线程共同竞争同一个共享资源时候，JUC 包的锁就无能无力了，这时候就需要分布式锁了。 本文主要讲解几种常见的分布式锁实现方案以及原理，主要内容如下： 分布式锁与 JUC 包">
+<meta property="og:description" content="一、前言在同一个 JVM 进程中，我们可以使用 JUC 提供的一些锁来解决多个线程竞争同一个共享资源时候的线程安全问题，但是当多个不同 JVM 进程中的线程共同竞争同一个共享资源时候，JUC 包的锁就无能无力了，这时候就需要分布式锁了。 本文主要讲解几种常见的分布式锁实现方案以及原理，主要内容如下： 分布式锁与 JUC 包锁的不同； 使用数据库锁来实现分布式锁； 使用 Redis 来实现分布式锁；">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://griabcrh.github.io/images/分布式锁1.jpg">
 <meta property="og:image" content="https://griabcrh.github.io/images/分布式锁2.jpg">
-<meta property="og:updated_time" content="2018-12-18T06:42:42.109Z">
+<meta property="og:updated_time" content="2022-11-13T12:24:44.904Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="分布式锁原理探究">
-<meta name="twitter:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 一、前言在同一个 JVM 进程中，我们可以使用 JUC 提供的一些锁来解决多个线程竞争同一个共享资源时候的线程安全问题，但是当多个不同 JVM 进程中的线程共同竞争同一个共享资源时候，JUC 包的锁就无能无力了，这时候就需要分布式锁了。 本文主要讲解几种常见的分布式锁实现方案以及原理，主要内容如下： 分布式锁与 JUC 包">
+<meta name="twitter:description" content="一、前言在同一个 JVM 进程中，我们可以使用 JUC 提供的一些锁来解决多个线程竞争同一个共享资源时候的线程安全问题，但是当多个不同 JVM 进程中的线程共同竞争同一个共享资源时候，JUC 包的锁就无能无力了，这时候就需要分布式锁了。 本文主要讲解几种常见的分布式锁实现方案以及原理，主要内容如下： 分布式锁与 JUC 包锁的不同； 使用数据库锁来实现分布式锁； 使用 Redis 来实现分布式锁；">
 <meta name="twitter:image" content="https://griabcrh.github.io/images/分布式锁1.jpg">
 
 
@@ -366,8 +366,7 @@
       
 
       
-        <p>如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！</p>
-<h3 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h3><p>在同一个 JVM 进程中，我们可以使用 JUC 提供的一些锁来解决多个线程竞争同一个共享资源时候的线程安全问题，但是当多个不同 JVM 进程中的线程共同竞争同一个共享资源时候，JUC 包的锁就无能无力了，这时候就需要分布式锁了。</p>
+        <h3 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h3><p>在同一个 JVM 进程中，我们可以使用 JUC 提供的一些锁来解决多个线程竞争同一个共享资源时候的线程安全问题，但是当多个不同 JVM 进程中的线程共同竞争同一个共享资源时候，JUC 包的锁就无能无力了，这时候就需要分布式锁了。</p>
 <p>本文主要讲解几种常见的分布式锁实现方案以及原理，主要内容如下：</p>
 <p>分布式锁与 JUC 包锁的不同；</p>
 <p>使用数据库锁来实现分布式锁；</p>
@@ -643,7 +642,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

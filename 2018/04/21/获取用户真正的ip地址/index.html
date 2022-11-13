@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 我在用百度ip地址定位接口时，当把封装的ip定位的接口打war包放在服务器上时，出现获取的地址为服务器所在地的地址，百度ip地址定位接口是可以根据你输入的ip来定位，需要用户输入ip地址是不可能的，用户也不知道他的ip地址是多少。 X-Forwarded-ForX-Forwarded-For:简称XFF头，它代表客户端，也">
+<meta name="description" content="我在用百度ip地址定位接口时，当把封装的ip定位的接口打war包放在服务器上时，出现获取的地址为服务器所在地的地址，百度ip地址定位接口是可以根据你输入的ip来定位，需要用户输入ip地址是不可能的，用户也不知道他的ip地址是多少。 X-Forwarded-ForX-Forwarded-For:简称XFF头，它代表客户端，也就是HTTP的请求端真实的IP，只有在通过了HTTP 代理或者负载均衡服务器">
 <meta name="keywords" content="Ip">
 <meta property="og:type" content="article">
 <meta property="og:title" content="获取用户真正的ip地址">
 <meta property="og:url" content="https://griabcrh.github.io/2018/04/21/获取用户真正的ip地址/index.html">
 <meta property="og:site_name" content="Griabcrh&#39;s Blog">
-<meta property="og:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 我在用百度ip地址定位接口时，当把封装的ip定位的接口打war包放在服务器上时，出现获取的地址为服务器所在地的地址，百度ip地址定位接口是可以根据你输入的ip来定位，需要用户输入ip地址是不可能的，用户也不知道他的ip地址是多少。 X-Forwarded-ForX-Forwarded-For:简称XFF头，它代表客户端，也">
+<meta property="og:description" content="我在用百度ip地址定位接口时，当把封装的ip定位的接口打war包放在服务器上时，出现获取的地址为服务器所在地的地址，百度ip地址定位接口是可以根据你输入的ip来定位，需要用户输入ip地址是不可能的，用户也不知道他的ip地址是多少。 X-Forwarded-ForX-Forwarded-For:简称XFF头，它代表客户端，也就是HTTP的请求端真实的IP，只有在通过了HTTP 代理或者负载均衡服务器">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-12-18T06:50:10.166Z">
+<meta property="og:updated_time" content="2022-11-13T12:16:21.371Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="获取用户真正的ip地址">
-<meta name="twitter:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 我在用百度ip地址定位接口时，当把封装的ip定位的接口打war包放在服务器上时，出现获取的地址为服务器所在地的地址，百度ip地址定位接口是可以根据你输入的ip来定位，需要用户输入ip地址是不可能的，用户也不知道他的ip地址是多少。 X-Forwarded-ForX-Forwarded-For:简称XFF头，它代表客户端，也">
+<meta name="twitter:description" content="我在用百度ip地址定位接口时，当把封装的ip定位的接口打war包放在服务器上时，出现获取的地址为服务器所在地的地址，百度ip地址定位接口是可以根据你输入的ip来定位，需要用户输入ip地址是不可能的，用户也不知道他的ip地址是多少。 X-Forwarded-ForX-Forwarded-For:简称XFF头，它代表客户端，也就是HTTP的请求端真实的IP，只有在通过了HTTP 代理或者负载均衡服务器">
 
 
 
@@ -363,8 +363,7 @@
       
 
       
-        <p>如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！</p>
-<p>我在用百度ip地址定位接口时，当把封装的ip定位的接口打war包放在服务器上时，出现获取的地址为服务器所在地的地址，<br>百度ip地址定位接口是可以根据你输入的ip来定位，需要用户输入ip地址是不可能的，用户也不知道他的ip地址是多少。</p>
+        <p>我在用百度ip地址定位接口时，当把封装的ip定位的接口打war包放在服务器上时，出现获取的地址为服务器所在地的地址，<br>百度ip地址定位接口是可以根据你输入的ip来定位，需要用户输入ip地址是不可能的，用户也不知道他的ip地址是多少。</p>
 <h4 id="X-Forwarded-For"><a href="#X-Forwarded-For" class="headerlink" title="X-Forwarded-For"></a>X-Forwarded-For</h4><p>X-Forwarded-For:简称XFF头，它代表客户端，也就是HTTP的请求端真实的IP，只有在通过了HTTP 代理或者负载均衡服务器时才会添加该项。它不是RFC中定义的标准请求头信息，在squid缓存代理服务器开发文档中可以找到该项的详细介绍。标准格式如下：X-Forwarded-For: client1, proxy1, proxy2。</p>
 <h4 id="产生背景"><a href="#产生背景" class="headerlink" title="产生背景"></a>产生背景</h4><p>X-Forwarded-For(XFF)是用来识别通过HTTP代理或负载均衡方式连接到Web服务器的客户端最原始的IP地址的HTTP请求头字段。 Squid 缓存代理服务器的开发人员最早引入了这一HTTP头字段，并由IETF在Forwarded-For HTTP头字段标准化草案中正式提出。<br>当今多数缓存服务器的使用者为大型ISP，为了通过缓存的方式来降低他们的外部带宽，他们常常通过鼓励或强制用户使用代理服务器来接入互联网。有些情况下, 这些代理服务器是透明代理, 用户甚至不知道自己正在使用代理上网。<br>如果没有XFF或者另外一种相似的技术，所有通过代理服务器的连接只会显示代理服务器的IP地址(而非连接发起的原始IP地址), 这样的代理服务器实际上充当了匿名服务提供者的角色, 如果连接的原始IP地址不可得，恶意访问的检测与预防的难度将大大增加。XFF的有效性依赖于代理服务器提供的连接原始IP地址的真实性，因此, XFF的有效使用应该保证代理服务器是可信的, 比如可以通过建立可信服务器白名单的方式。[1] </p>
 <h4 id="格式"><a href="#格式" class="headerlink" title="格式"></a>格式</h4><p>这一HTTP头一般格式如下:<br>X-Forwarded-For: client1, proxy1, proxy2, proxy3<br>其中的值通过一个 逗号+空格 把多个IP地址区分开, 最左边(client1)是最原始客户端的IP地址, 代理服务器每成功收到一个请求，就把请求来源IP地址添加到右边。 在上面这个例子中，这个请求成功通过了三台代理服务器：proxy1, proxy2 及 proxy3。请求由client1发出，到达了proxy3(proxy3可能是请求的终点)。请求刚从client1中发出时，XFF是空的，请求被发往proxy1；通过proxy1的时候，client1被添加到XFF中，之后请求被发往proxy2;通过proxy2的时候，proxy1被添加到XFF中，之后请求被发往proxy3；通过proxy3时，proxy2被添加到XFF中，之后请求的的去向不明，如果proxy3不是请求终点，请求会被继续转发。<br>鉴于伪造这一字段非常容易，应该谨慎使用X-Forwarded-For字段。正常情况下XFF中最后一个IP地址是最后一个代理服务器的IP地址, 这通常是一个比较可靠的信息来源。[1] </p>
@@ -579,7 +578,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

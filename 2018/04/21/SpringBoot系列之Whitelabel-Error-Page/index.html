@@ -79,19 +79,19 @@
 
 
 
-<meta name="description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 一路走来，从maven–&amp;gt;springMVC–&amp;gt;springBoot，只了解了很粗浅的东西，今天第一次搭建springBoot框架，最经典的Hello World。还是出现了bug，出现如图所示错误：  下面说说具体解决办法">
+<meta name="description" content="一路走来，从maven–&amp;gt;springMVC–&amp;gt;springBoot，只了解了很粗浅的东西，今天第一次搭建springBoot框架，最经典的Hello World。还是出现了bug，出现如图所示错误：  下面说说具体解决办法">
 <meta name="keywords" content="SpringBoot">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SpringBoot系列之Whitelabel-Error-Page">
 <meta property="og:url" content="https://griabcrh.github.io/2018/04/21/SpringBoot系列之Whitelabel-Error-Page/index.html">
 <meta property="og:site_name" content="Griabcrh&#39;s Blog">
-<meta property="og:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 一路走来，从maven–&amp;gt;springMVC–&amp;gt;springBoot，只了解了很粗浅的东西，今天第一次搭建springBoot框架，最经典的Hello World。还是出现了bug，出现如图所示错误：  下面说说具体解决办法">
+<meta property="og:description" content="一路走来，从maven–&amp;gt;springMVC–&amp;gt;springBoot，只了解了很粗浅的东西，今天第一次搭建springBoot框架，最经典的Hello World。还是出现了bug，出现如图所示错误：  下面说说具体解决办法">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://griabcrh.github.io/images/springboot1.png">
-<meta property="og:updated_time" content="2018-12-18T06:48:49.490Z">
+<meta property="og:updated_time" content="2022-11-13T12:17:38.629Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SpringBoot系列之Whitelabel-Error-Page">
-<meta name="twitter:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 一路走来，从maven–&amp;gt;springMVC–&amp;gt;springBoot，只了解了很粗浅的东西，今天第一次搭建springBoot框架，最经典的Hello World。还是出现了bug，出现如图所示错误：  下面说说具体解决办法">
+<meta name="twitter:description" content="一路走来，从maven–&amp;gt;springMVC–&amp;gt;springBoot，只了解了很粗浅的东西，今天第一次搭建springBoot框架，最经典的Hello World。还是出现了bug，出现如图所示错误：  下面说说具体解决办法">
 <meta name="twitter:image" content="https://griabcrh.github.io/images/springboot1.png">
 
 
@@ -365,8 +365,7 @@
       
 
       
-        <p>如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！</p>
-<p>一路走来，从maven–&gt;springMVC–&gt;springBoot，只了解了很粗浅的东西，今天第一次搭建springBoot框架，最经典的Hello World。还是出现了bug，出现如图所示错误：</p>
+        <p>一路走来，从maven–&gt;springMVC–&gt;springBoot，只了解了很粗浅的东西，今天第一次搭建springBoot框架，最经典的Hello World。还是出现了bug，出现如图所示错误：</p>
 <p><img src="/images/springboot1.png" alt=""></p>
 <p>下面说说具体解决办法<br><a id="more"></a></p>
 <p>问题很像是访问地址不对，我第一反应就是看url是否正确。  其实不是   ，真正的原因是【Application启动类放的位置不对】要将Application放在最外层，也就是要包含所有子包。比如你的groupId是com.google,子包就是所谓的com.google.xxx,所以要将Application类要放在com.google包下。springboot会自动加载启动类所在包下及其子包下的所有组件。</p>
@@ -553,7 +552,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

@@ -79,19 +79,19 @@
 
 
 
-<meta name="description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 垃圾收集（Garbage Collection ,GC），是一个长久以来就被思考的问题，当考虑GC的时候，我们必须思考3件事情：　　哪些内存需要回收？ 　　什么时候回收？ 　　如何回收？ 　　那么在Java中，我们要怎么来考虑GC呢？首先回想以下内存区域的划分，其中程序计数器、本地方法栈、虚拟机栈三个区域随线程而生，随线程">
+<meta name="description" content="垃圾收集（Garbage Collection ,GC），是一个长久以来就被思考的问题，当考虑GC的时候，我们必须思考3件事情：　　哪些内存需要回收？ 　　什么时候回收？ 　　如何回收？ 　　那么在Java中，我们要怎么来考虑GC呢？首先回想以下内存区域的划分，其中程序计数器、本地方法栈、虚拟机栈三个区域随线程而生，随线程释放，栈中的栈帧随着方法的进入和退出执行着出栈和入栈的操作，每一个栈帧分配多">
 <meta name="keywords" content="Java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="一篇文章彻底了解Java垃圾收集(GC)机制">
 <meta property="og:url" content="https://griabcrh.github.io/2018/09/16/一篇文章彻底了解Java垃圾收集-GC-机制/index.html">
 <meta property="og:site_name" content="Griabcrh&#39;s Blog">
-<meta property="og:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 垃圾收集（Garbage Collection ,GC），是一个长久以来就被思考的问题，当考虑GC的时候，我们必须思考3件事情：　　哪些内存需要回收？ 　　什么时候回收？ 　　如何回收？ 　　那么在Java中，我们要怎么来考虑GC呢？首先回想以下内存区域的划分，其中程序计数器、本地方法栈、虚拟机栈三个区域随线程而生，随线程">
+<meta property="og:description" content="垃圾收集（Garbage Collection ,GC），是一个长久以来就被思考的问题，当考虑GC的时候，我们必须思考3件事情：　　哪些内存需要回收？ 　　什么时候回收？ 　　如何回收？ 　　那么在Java中，我们要怎么来考虑GC呢？首先回想以下内存区域的划分，其中程序计数器、本地方法栈、虚拟机栈三个区域随线程而生，随线程释放，栈中的栈帧随着方法的进入和退出执行着出栈和入栈的操作，每一个栈帧分配多">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://griabcrh.github.io/images/javaGc1.png">
-<meta property="og:updated_time" content="2018-12-18T06:43:05.252Z">
+<meta property="og:updated_time" content="2022-11-13T12:24:06.701Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一篇文章彻底了解Java垃圾收集(GC)机制">
-<meta name="twitter:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 垃圾收集（Garbage Collection ,GC），是一个长久以来就被思考的问题，当考虑GC的时候，我们必须思考3件事情：　　哪些内存需要回收？ 　　什么时候回收？ 　　如何回收？ 　　那么在Java中，我们要怎么来考虑GC呢？首先回想以下内存区域的划分，其中程序计数器、本地方法栈、虚拟机栈三个区域随线程而生，随线程">
+<meta name="twitter:description" content="垃圾收集（Garbage Collection ,GC），是一个长久以来就被思考的问题，当考虑GC的时候，我们必须思考3件事情：　　哪些内存需要回收？ 　　什么时候回收？ 　　如何回收？ 　　那么在Java中，我们要怎么来考虑GC呢？首先回想以下内存区域的划分，其中程序计数器、本地方法栈、虚拟机栈三个区域随线程而生，随线程释放，栈中的栈帧随着方法的进入和退出执行着出栈和入栈的操作，每一个栈帧分配多">
 <meta name="twitter:image" content="https://griabcrh.github.io/images/javaGc1.png">
 
 
@@ -365,8 +365,7 @@
       
 
       
-        <p>如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！</p>
-<h3 id="垃圾收集（Garbage-Collection-GC），是一个长久以来就被思考的问题，当考虑GC的时候，我们必须思考3件事情："><a href="#垃圾收集（Garbage-Collection-GC），是一个长久以来就被思考的问题，当考虑GC的时候，我们必须思考3件事情：" class="headerlink" title="垃圾收集（Garbage Collection ,GC），是一个长久以来就被思考的问题，当考虑GC的时候，我们必须思考3件事情："></a>垃圾收集（Garbage Collection ,GC），是一个长久以来就被思考的问题，当考虑GC的时候，我们必须思考3件事情：</h3><p>　　哪些内存需要回收？</p>
+        <h3 id="垃圾收集（Garbage-Collection-GC），是一个长久以来就被思考的问题，当考虑GC的时候，我们必须思考3件事情："><a href="#垃圾收集（Garbage-Collection-GC），是一个长久以来就被思考的问题，当考虑GC的时候，我们必须思考3件事情：" class="headerlink" title="垃圾收集（Garbage Collection ,GC），是一个长久以来就被思考的问题，当考虑GC的时候，我们必须思考3件事情："></a>垃圾收集（Garbage Collection ,GC），是一个长久以来就被思考的问题，当考虑GC的时候，我们必须思考3件事情：</h3><p>　　哪些内存需要回收？</p>
 <p>　　什么时候回收？</p>
 <p>　　如何回收？</p>
 <p>　　那么在Java中，我们要怎么来考虑GC呢？首先回想以下内存区域的划分，其中程序计数器、本地方法栈、虚拟机栈三个区域随线程而生，随线程释放，栈中的栈帧随着方法的进入和退出执行着出栈和入栈的操作，每一个栈帧分配多少内存基本是在类结构确定时就已经固定的（可能会进行一些优化，但是大体上已知），因此这几个区域就不需要考虑回收的问题，因为方法结束或者线程结束时，内存自然都被回收。不需要额外的GC算法等。</p>
@@ -616,7 +615,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

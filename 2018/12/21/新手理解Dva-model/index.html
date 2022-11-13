@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 刚接触Dva对Dva的理念一点都不懂，看代码不知道为啥这里要这么写，于是我就百度了一下，找到了一片博客写的很通俗，对我帮助很大，在这里我将他的博客文章迁移过来了，给自己做了记录。 model.js：model层一般包含几个部分： namespace：model的名字，用来在页面中找到要调用哪一个model，就想id一样。s">
+<meta name="description" content="刚接触Dva对Dva的理念一点都不懂，看代码不知道为啥这里要这么写，于是我就百度了一下，找到了一片博客写的很通俗，对我帮助很大，在这里我将他的博客文章迁移过来了，给自己做了记录。 model.js：model层一般包含几个部分： namespace：model的名字，用来在页面中找到要调用哪一个model，就想id一样。state: 用来存放数据的地方。subscriptions:在我看来就是绑定">
 <meta name="keywords" content="Dva">
 <meta property="og:type" content="article">
 <meta property="og:title" content="新手理解Dva model">
 <meta property="og:url" content="https://griabcrh.github.io/2018/12/21/新手理解Dva-model/index.html">
 <meta property="og:site_name" content="Griabcrh&#39;s Blog">
-<meta property="og:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 刚接触Dva对Dva的理念一点都不懂，看代码不知道为啥这里要这么写，于是我就百度了一下，找到了一片博客写的很通俗，对我帮助很大，在这里我将他的博客文章迁移过来了，给自己做了记录。 model.js：model层一般包含几个部分： namespace：model的名字，用来在页面中找到要调用哪一个model，就想id一样。s">
+<meta property="og:description" content="刚接触Dva对Dva的理念一点都不懂，看代码不知道为啥这里要这么写，于是我就百度了一下，找到了一片博客写的很通俗，对我帮助很大，在这里我将他的博客文章迁移过来了，给自己做了记录。 model.js：model层一般包含几个部分： namespace：model的名字，用来在页面中找到要调用哪一个model，就想id一样。state: 用来存放数据的地方。subscriptions:在我看来就是绑定">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-01-31T01:49:50.079Z">
+<meta property="og:updated_time" content="2022-11-13T12:14:51.782Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="新手理解Dva model">
-<meta name="twitter:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 刚接触Dva对Dva的理念一点都不懂，看代码不知道为啥这里要这么写，于是我就百度了一下，找到了一片博客写的很通俗，对我帮助很大，在这里我将他的博客文章迁移过来了，给自己做了记录。 model.js：model层一般包含几个部分： namespace：model的名字，用来在页面中找到要调用哪一个model，就想id一样。s">
+<meta name="twitter:description" content="刚接触Dva对Dva的理念一点都不懂，看代码不知道为啥这里要这么写，于是我就百度了一下，找到了一片博客写的很通俗，对我帮助很大，在这里我将他的博客文章迁移过来了，给自己做了记录。 model.js：model层一般包含几个部分： namespace：model的名字，用来在页面中找到要调用哪一个model，就想id一样。state: 用来存放数据的地方。subscriptions:在我看来就是绑定">
 
 
 
@@ -363,8 +363,7 @@
       
 
       
-        <p>如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！</p>
-<p>刚接触Dva对Dva的理念一点都不懂，看代码不知道为啥这里要这么写，于是我就百度了一下，找到了一片博客写的很通俗，对我帮助很大，在这里我将他的博客文章迁移过来了，给自己做了记录。</p>
+        <p>刚接触Dva对Dva的理念一点都不懂，看代码不知道为啥这里要这么写，于是我就百度了一下，找到了一片博客写的很通俗，对我帮助很大，在这里我将他的博客文章迁移过来了，给自己做了记录。</p>
 <h3 id="model-js："><a href="#model-js：" class="headerlink" title="model.js："></a>model.js：</h3><p>model层一般包含几个部分：</p>
 <h5 id="namespace：model的名字，用来在页面中找到要调用哪一个model，就想id一样。"><a href="#namespace：model的名字，用来在页面中找到要调用哪一个model，就想id一样。" class="headerlink" title="namespace：model的名字，用来在页面中找到要调用哪一个model，就想id一样。"></a>namespace：model的名字，用来在页面中找到要调用哪一个model，就想id一样。</h5><h5 id="state-用来存放数据的地方。"><a href="#state-用来存放数据的地方。" class="headerlink" title="state: 用来存放数据的地方。"></a>state: 用来存放数据的地方。</h5><h5 id="subscriptions-在我看来就是绑定监听页面的，只有进入监听的页面才会触发，且在当前页面只会触发一次-列如："><a href="#subscriptions-在我看来就是绑定监听页面的，只有进入监听的页面才会触发，且在当前页面只会触发一次-列如：" class="headerlink" title="subscriptions:在我看来就是绑定监听页面的，只有进入监听的页面才会触发，且在当前页面只会触发一次 列如："></a>subscriptions:在我看来就是绑定监听页面的，只有进入监听的页面才会触发，且在当前页面只会触发一次 列如：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">subscriptions: &#123;</span><br><span class="line"></span><br><span class="line">setup (&#123; dispatch, history &#125;) &#123;</span><br><span class="line"></span><br><span class="line">history.listen((location) =&gt; &#123;//监听</span><br><span class="line"></span><br><span class="line">if (location.pathname === &apos;/storeManage/storeInfo&apos;) &#123;//当进入这个页面的时候，就会调用下面的dispatch方法。</span><br><span class="line"></span><br><span class="line">dispatch(&#123;</span><br><span class="line"></span><br><span class="line">type: &apos;add&apos;, </span><br><span class="line"></span><br><span class="line">payload:</span><br><span class="line"></span><br><span class="line">location.query.id,</span><br><span class="line"></span><br><span class="line">&#125;)&#125;&#125;)&#125;,&#125;,</span><br></pre></td></tr></table></figure>
 <h5 id="reducers：方法，经常就是调用来把页面，后台传来的值存入到state中：列如："><a href="#reducers：方法，经常就是调用来把页面，后台传来的值存入到state中：列如：" class="headerlink" title="reducers：方法，经常就是调用来把页面，后台传来的值存入到state中：列如："></a>reducers：方法，经常就是调用来把页面，后台传来的值存入到state中：列如：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">reducers:&#123;</span><br><span class="line"></span><br><span class="line">addSuccess(state,&#123;payload:value&#125;)&#123;</span><br><span class="line"></span><br><span class="line">return &#123;...state,...value&#125;</span><br><span class="line"></span><br><span class="line">//把传的值存入到state中</span><br><span class="line"></span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
@@ -580,7 +579,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

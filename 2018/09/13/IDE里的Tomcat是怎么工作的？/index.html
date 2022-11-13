@@ -79,13 +79,13 @@
 
 
 
-<meta name="description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ &amp;emsp;如果正在阅读本文的你是一名开发者，那么一定听说过Eclipse和Intellij IDEA这两款可以称之为神器的集成开发环境(IDE)。 &amp;emsp;Eclipse以其代码开源、插件众多、扩展方便等特点，可以通过配置支持多种开发语言，用户众多。 &amp;emsp;Intellij IDEA则是分为社区版和专业版。由于">
+<meta name="description" content="&amp;emsp;如果正在阅读本文的你是一名开发者，那么一定听说过Eclipse和Intellij IDEA这两款可以称之为神器的集成开发环境(IDE)。 &amp;emsp;Eclipse以其代码开源、插件众多、扩展方便等特点，可以通过配置支持多种开发语言，用户众多。 &amp;emsp;Intellij IDEA则是分为社区版和专业版。由于是商业公司在维护和更新，因此专业版有更丰富的功能，使用起来更便捷，但如果只使">
 <meta name="keywords" content="Tomcat">
 <meta property="og:type" content="article">
 <meta property="og:title" content="IDE里的Tomcat是怎么工作的？">
 <meta property="og:url" content="https://griabcrh.github.io/2018/09/13/IDE里的Tomcat是怎么工作的？/index.html">
 <meta property="og:site_name" content="Griabcrh&#39;s Blog">
-<meta property="og:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ &amp;emsp;如果正在阅读本文的你是一名开发者，那么一定听说过Eclipse和Intellij IDEA这两款可以称之为神器的集成开发环境(IDE)。 &amp;emsp;Eclipse以其代码开源、插件众多、扩展方便等特点，可以通过配置支持多种开发语言，用户众多。 &amp;emsp;Intellij IDEA则是分为社区版和专业版。由于">
+<meta property="og:description" content="&amp;emsp;如果正在阅读本文的你是一名开发者，那么一定听说过Eclipse和Intellij IDEA这两款可以称之为神器的集成开发环境(IDE)。 &amp;emsp;Eclipse以其代码开源、插件众多、扩展方便等特点，可以通过配置支持多种开发语言，用户众多。 &amp;emsp;Intellij IDEA则是分为社区版和专业版。由于是商业公司在维护和更新，因此专业版有更丰富的功能，使用起来更便捷，但如果只使">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://griabcrh.github.io/images/tomcat1.png">
 <meta property="og:image" content="https://griabcrh.github.io/images/tomcat2.png">
@@ -93,10 +93,10 @@
 <meta property="og:image" content="https://griabcrh.github.io/images/tomcat5.png">
 <meta property="og:image" content="https://griabcrh.github.io/images/tomcat7.png">
 <meta property="og:image" content="https://griabcrh.github.io/images/tomcat8.png">
-<meta property="og:updated_time" content="2018-12-18T06:44:05.329Z">
+<meta property="og:updated_time" content="2022-11-13T12:22:46.408Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="IDE里的Tomcat是怎么工作的？">
-<meta name="twitter:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ &amp;emsp;如果正在阅读本文的你是一名开发者，那么一定听说过Eclipse和Intellij IDEA这两款可以称之为神器的集成开发环境(IDE)。 &amp;emsp;Eclipse以其代码开源、插件众多、扩展方便等特点，可以通过配置支持多种开发语言，用户众多。 &amp;emsp;Intellij IDEA则是分为社区版和专业版。由于">
+<meta name="twitter:description" content="&amp;emsp;如果正在阅读本文的你是一名开发者，那么一定听说过Eclipse和Intellij IDEA这两款可以称之为神器的集成开发环境(IDE)。 &amp;emsp;Eclipse以其代码开源、插件众多、扩展方便等特点，可以通过配置支持多种开发语言，用户众多。 &amp;emsp;Intellij IDEA则是分为社区版和专业版。由于是商业公司在维护和更新，因此专业版有更丰富的功能，使用起来更便捷，但如果只使">
 <meta name="twitter:image" content="https://griabcrh.github.io/images/tomcat1.png">
 
 
@@ -370,8 +370,7 @@
       
 
       
-        <p>如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！</p>
-<p>&emsp;如果正在阅读本文的你是一名开发者，那么一定听说过Eclipse和Intellij IDEA这两款可以称之为神器的集成开发环境(IDE)。</p>
+        <p>&emsp;如果正在阅读本文的你是一名开发者，那么一定听说过Eclipse和Intellij IDEA这两款可以称之为神器的集成开发环境(IDE)。</p>
 <p>&emsp;Eclipse以其代码开源、插件众多、扩展方便等特点，可以通过配置支持多种开发语言，用户众多。</p>
 <p>&emsp;Intellij IDEA则是分为社区版和专业版。由于是商业公司在维护和更新，因此专业版有更丰富的功能，使用起来更便捷，但如果只使用社区版，则一大块功能不能使用。<br>&emsp;当然，我们今天要讨论的不是两个IDE孰优孰劣，而是简要分析下Tomcat在这两个使用量巨大的IDE中是如何工作的。</p>
 <h3 id="1-Eclipse"><a href="#1-Eclipse" class="headerlink" title="1. Eclipse"></a>1. Eclipse</h3><p>&emsp;首先来看下Eclipse，通过配置将本地已经下载好的Tomcat添加到Server中。之后，在部署Web应用的时候，就可以选择已经配置好的Tomcat。此时，通过启动的Log，我们来看下其背后的原理。</p>
@@ -598,7 +597,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

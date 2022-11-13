@@ -79,13 +79,13 @@
 
 
 
-<meta name="description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 初识深度学习，想找几个模型训练一下，又苦于笔记本的计算能力太弱。自己搭建一台深度学习服务器又麻烦又贵，搭载K80的AWS EC2 P2实例，十几个小时训练下来也很心疼钱包啊。有没有现成又免费的深度学习平台呢？嘻嘻，今天就给大家介绍Google的一项免费云端机器学习服务——Colaboratry。 Google Colab">
+<meta name="description" content="初识深度学习，想找几个模型训练一下，又苦于笔记本的计算能力太弱。自己搭建一台深度学习服务器又麻烦又贵，搭载K80的AWS EC2 P2实例，十几个小时训练下来也很心疼钱包啊。有没有现成又免费的深度学习平台呢？嘻嘻，今天就给大家介绍Google的一项免费云端机器学习服务——Colaboratry。 Google Colab 提供免费的 Jupyter 笔记本环境，不需要进行任何设置就可以使用，并且完">
 <meta name="keywords" content="GPU">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Google免费GPU使用教程">
 <meta property="og:url" content="https://griabcrh.github.io/2018/10/19/Google免费GPU使用教程/index.html">
 <meta property="og:site_name" content="Griabcrh&#39;s Blog">
-<meta property="og:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 初识深度学习，想找几个模型训练一下，又苦于笔记本的计算能力太弱。自己搭建一台深度学习服务器又麻烦又贵，搭载K80的AWS EC2 P2实例，十几个小时训练下来也很心疼钱包啊。有没有现成又免费的深度学习平台呢？嘻嘻，今天就给大家介绍Google的一项免费云端机器学习服务——Colaboratry。 Google Colab">
+<meta property="og:description" content="初识深度学习，想找几个模型训练一下，又苦于笔记本的计算能力太弱。自己搭建一台深度学习服务器又麻烦又贵，搭载K80的AWS EC2 P2实例，十几个小时训练下来也很心疼钱包啊。有没有现成又免费的深度学习平台呢？嘻嘻，今天就给大家介绍Google的一项免费云端机器学习服务——Colaboratry。 Google Colab 提供免费的 Jupyter 笔记本环境，不需要进行任何设置就可以使用，并且完">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://griabcrh.github.io/images/gpu1.png">
 <meta property="og:image" content="https://griabcrh.github.io/images/gpu2.png">
@@ -99,10 +99,10 @@
 <meta property="og:image" content="https://griabcrh.github.io/images/gpu10.png">
 <meta property="og:image" content="https://griabcrh.github.io/images/gpu11.png">
 <meta property="og:image" content="https://griabcrh.github.io/images/gpu12.png">
-<meta property="og:updated_time" content="2018-12-18T06:42:28.046Z">
+<meta property="og:updated_time" content="2022-11-13T12:24:59.865Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Google免费GPU使用教程">
-<meta name="twitter:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 初识深度学习，想找几个模型训练一下，又苦于笔记本的计算能力太弱。自己搭建一台深度学习服务器又麻烦又贵，搭载K80的AWS EC2 P2实例，十几个小时训练下来也很心疼钱包啊。有没有现成又免费的深度学习平台呢？嘻嘻，今天就给大家介绍Google的一项免费云端机器学习服务——Colaboratry。 Google Colab">
+<meta name="twitter:description" content="初识深度学习，想找几个模型训练一下，又苦于笔记本的计算能力太弱。自己搭建一台深度学习服务器又麻烦又贵，搭载K80的AWS EC2 P2实例，十几个小时训练下来也很心疼钱包啊。有没有现成又免费的深度学习平台呢？嘻嘻，今天就给大家介绍Google的一项免费云端机器学习服务——Colaboratry。 Google Colab 提供免费的 Jupyter 笔记本环境，不需要进行任何设置就可以使用，并且完">
 <meta name="twitter:image" content="https://griabcrh.github.io/images/gpu1.png">
 
 
@@ -376,8 +376,7 @@
       
 
       
-        <p>如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！</p>
-<p>初识深度学习，想找几个模型训练一下，又苦于笔记本的计算能力太弱。自己搭建一台深度学习服务器又麻烦又贵，搭载K80的AWS EC2 P2实例，十几个小时训练下来也很心疼钱包啊。有没有现成又免费的深度学习平台呢？嘻嘻，今天就给大家介绍Google的一项免费云端机器学习服务——Colaboratry。</p>
+        <p>初识深度学习，想找几个模型训练一下，又苦于笔记本的计算能力太弱。自己搭建一台深度学习服务器又麻烦又贵，搭载K80的AWS EC2 P2实例，十几个小时训练下来也很心疼钱包啊。有没有现成又免费的深度学习平台呢？嘻嘻，今天就给大家介绍Google的一项免费云端机器学习服务——Colaboratry。</p>
 <p>Google Colab 提供免费的 Jupyter 笔记本环境，不需要进行任何设置就可以使用，并且完全在云端运行，其默认的后台深度学习框架是TensorFlow, 除此之外，你也可以在上面安装并使用Keras、PyTorch、OpenCV等等流行的深度学习库来练练手，开发深度学习应用。Google还贴心地写了中文版简介：<a href="https://colab.research.google.com/notebook" target="_blank" rel="noopener">https://colab.research.google.com/notebook</a></p>
 <h4 id="1-准备工作"><a href="#1-准备工作" class="headerlink" title="1. 准备工作"></a>1. 准备工作</h4><p>要使用Colab,首先我们需要有一个Google Drive账号（当然，前提条件是你能科学上网，限于篇幅此处不具体介绍，请自行百度）。请注意，非教育邮箱申请到 Google Drive账号云盘只有15个G的免费容量，这对于深度学习是远远不够的，要知道可能一个数据集都不止15个G。因此你必须想办法将云盘扩容，这…..可能就要收费了。嘻嘻，秉持着免费到底的原则，小编这里附上一个链接，教你如何申请美国的教育邮箱，获取无限量的google云盘容量，过程有点繁琐，但是谁让你免费呢？网址见文末附录。</p>
 <p>Colab用的数据都存储在Google Drive云端硬盘上，所以为了方便管理我们的项目，先在GoogleDrive上新建一个文件夹，用于存放项目有关的所有文件。这里我们新建一个文件夹，取名“MyProject”。</p>
@@ -625,7 +624,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

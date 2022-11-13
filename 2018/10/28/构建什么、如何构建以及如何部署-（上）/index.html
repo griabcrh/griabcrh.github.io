@@ -79,22 +79,22 @@
 
 
 
-<meta name="description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 部署一个单块系统的流程非常简单。然而在众多相互依赖的微服务中，部署却是完全不同的情况。如果部署的方法不合适，那么其带来的复杂程度会让你很痛苦。本文会讲解一些技巧和技术，从而帮助我们在细粒度的架构中更好地部署微服务。 我会从持续集成和持续交付说起。这些概念与我们下面要讨论的主题并不相同，但又有所关联，了解它们可以帮助我们在考">
+<meta name="description" content="部署一个单块系统的流程非常简单。然而在众多相互依赖的微服务中，部署却是完全不同的情况。如果部署的方法不合适，那么其带来的复杂程度会让你很痛苦。本文会讲解一些技巧和技术，从而帮助我们在细粒度的架构中更好地部署微服务。 我会从持续集成和持续交付说起。这些概念与我们下面要讨论的主题并不相同，但又有所关联，了解它们可以帮助我们在考虑构建什么、如何构建以及如何部署时，做出更好的决定。 1　持续集成简介CI（">
 <meta name="keywords" content="微服务">
 <meta property="og:type" content="article">
 <meta property="og:title" content="构建什么、如何构建以及如何部署?（上）">
 <meta property="og:url" content="https://griabcrh.github.io/2018/10/28/构建什么、如何构建以及如何部署-（上）/index.html">
 <meta property="og:site_name" content="Griabcrh&#39;s Blog">
-<meta property="og:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 部署一个单块系统的流程非常简单。然而在众多相互依赖的微服务中，部署却是完全不同的情况。如果部署的方法不合适，那么其带来的复杂程度会让你很痛苦。本文会讲解一些技巧和技术，从而帮助我们在细粒度的架构中更好地部署微服务。 我会从持续集成和持续交付说起。这些概念与我们下面要讨论的主题并不相同，但又有所关联，了解它们可以帮助我们在考">
+<meta property="og:description" content="部署一个单块系统的流程非常简单。然而在众多相互依赖的微服务中，部署却是完全不同的情况。如果部署的方法不合适，那么其带来的复杂程度会让你很痛苦。本文会讲解一些技巧和技术，从而帮助我们在细粒度的架构中更好地部署微服务。 我会从持续集成和持续交付说起。这些概念与我们下面要讨论的主题并不相同，但又有所关联，了解它们可以帮助我们在考虑构建什么、如何构建以及如何部署时，做出更好的决定。 1　持续集成简介CI（">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://griabcrh.github.io/2018/10/28/构建什么、如何构建以及如何部署-（上）/images/微服务4.png">
 <meta property="og:image" content="https://griabcrh.github.io/2018/10/28/构建什么、如何构建以及如何部署-（上）/images/微服务5.png">
 <meta property="og:image" content="https://griabcrh.github.io/2018/10/28/构建什么、如何构建以及如何部署-（上）/images/微服务6.png">
 <meta property="og:image" content="https://griabcrh.github.io/2018/10/28/构建什么、如何构建以及如何部署-（上）/images/微服务7.png">
-<meta property="og:updated_time" content="2018-12-18T06:42:03.491Z">
+<meta property="og:updated_time" content="2022-11-13T12:25:25.583Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="构建什么、如何构建以及如何部署?（上）">
-<meta name="twitter:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ 部署一个单块系统的流程非常简单。然而在众多相互依赖的微服务中，部署却是完全不同的情况。如果部署的方法不合适，那么其带来的复杂程度会让你很痛苦。本文会讲解一些技巧和技术，从而帮助我们在细粒度的架构中更好地部署微服务。 我会从持续集成和持续交付说起。这些概念与我们下面要讨论的主题并不相同，但又有所关联，了解它们可以帮助我们在考">
+<meta name="twitter:description" content="部署一个单块系统的流程非常简单。然而在众多相互依赖的微服务中，部署却是完全不同的情况。如果部署的方法不合适，那么其带来的复杂程度会让你很痛苦。本文会讲解一些技巧和技术，从而帮助我们在细粒度的架构中更好地部署微服务。 我会从持续集成和持续交付说起。这些概念与我们下面要讨论的主题并不相同，但又有所关联，了解它们可以帮助我们在考虑构建什么、如何构建以及如何部署时，做出更好的决定。 1　持续集成简介CI（">
 <meta name="twitter:image" content="https://griabcrh.github.io/2018/10/28/构建什么、如何构建以及如何部署-（上）/images/微服务4.png">
 
 
@@ -368,8 +368,7 @@
       
 
       
-        <p>如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！</p>
-<p>部署一个单块系统的流程非常简单。然而在众多相互依赖的微服务中，部署却是完全不同的情况。如果部署的方法不合适，那么其带来的复杂程度会让你很痛苦。本文会讲解一些技巧和技术，从而帮助我们在细粒度的架构中更好地部署微服务。</p>
+        <p>部署一个单块系统的流程非常简单。然而在众多相互依赖的微服务中，部署却是完全不同的情况。如果部署的方法不合适，那么其带来的复杂程度会让你很痛苦。本文会讲解一些技巧和技术，从而帮助我们在细粒度的架构中更好地部署微服务。</p>
 <pre><code>我会从持续集成和持续交付说起。这些概念与我们下面要讨论的主题并不相同，但又有所关联，了解它们可以帮助我们在考虑构建什么、如何构建以及如何部署时，做出更好的决定。
 </code></pre><h3 id="1-持续集成简介"><a href="#1-持续集成简介" class="headerlink" title="1　持续集成简介"></a>1　持续集成简介</h3><pre><code>CI（Continuous Integration，持续集成）已经出现很多年了，但还是值得花点时间来好好复习一下它的基本用法，因为在微服务之间的映射、构建及代码库版本管理等方面，存在很多不同的选择。
 
@@ -679,7 +678,7 @@ CD（Continuous Delivery，持续交付）基于上述的这些概念，并在�
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ session详细解析(是否过期、失效时间) Session一直是我们做web项目经常使用的，以前没太注意，这次又细致的看了下！ 1.session其实就是一个Map，键=值对，通过session.getAttribute(“name”);获得session中设置的参数 2.session的过期时间是从什么时候开始计算的？">
+<meta name="description" content="session详细解析(是否过期、失效时间) Session一直是我们做web项目经常使用的，以前没太注意，这次又细致的看了下！ 1.session其实就是一个Map，键=值对，通过session.getAttribute(“name”);获得session中设置的参数 2.session的过期时间是从什么时候开始计算的？是从一登录就开始计算还是说从停止活动开始计算？ 答：从session不活动的">
 <meta name="keywords" content="Session">
 <meta property="og:type" content="article">
 <meta property="og:title" content="session过期设置">
 <meta property="og:url" content="https://griabcrh.github.io/2018/05/07/session过期设置/index.html">
 <meta property="og:site_name" content="Griabcrh&#39;s Blog">
-<meta property="og:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ session详细解析(是否过期、失效时间) Session一直是我们做web项目经常使用的，以前没太注意，这次又细致的看了下！ 1.session其实就是一个Map，键=值对，通过session.getAttribute(“name”);获得session中设置的参数 2.session的过期时间是从什么时候开始计算的？">
+<meta property="og:description" content="session详细解析(是否过期、失效时间) Session一直是我们做web项目经常使用的，以前没太注意，这次又细致的看了下！ 1.session其实就是一个Map，键=值对，通过session.getAttribute(“name”);获得session中设置的参数 2.session的过期时间是从什么时候开始计算的？是从一登录就开始计算还是说从停止活动开始计算？ 答：从session不活动的">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-12-18T06:46:08.571Z">
+<meta property="og:updated_time" content="2022-11-13T12:20:13.993Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="session过期设置">
-<meta name="twitter:description" content="如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！ session详细解析(是否过期、失效时间) Session一直是我们做web项目经常使用的，以前没太注意，这次又细致的看了下！ 1.session其实就是一个Map，键=值对，通过session.getAttribute(“name”);获得session中设置的参数 2.session的过期时间是从什么时候开始计算的？">
+<meta name="twitter:description" content="session详细解析(是否过期、失效时间) Session一直是我们做web项目经常使用的，以前没太注意，这次又细致的看了下！ 1.session其实就是一个Map，键=值对，通过session.getAttribute(“name”);获得session中设置的参数 2.session的过期时间是从什么时候开始计算的？是从一登录就开始计算还是说从停止活动开始计算？ 答：从session不活动的">
 
 
 
@@ -363,8 +363,7 @@
       
 
       
-        <p>如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！</p>
-<p>session详细解析(是否过期、失效时间)</p>
+        <p>session详细解析(是否过期、失效时间)</p>
 <p>Session一直是我们做web项目经常使用的，以前没太注意，这次又细致的看了下！</p>
 <p>1.session其实就是一个Map，键=值对，通过session.getAttribute(“name”);获得session中设置的参数</p>
 <p>2.session的过期时间是从什么时候开始计算的？是从一登录就开始计算还是说从停止活动开始计算？</p>
@@ -566,7 +565,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

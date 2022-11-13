@@ -366,9 +366,9 @@
       
         
           
-          如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！
-刚接触Dva对Dva的理念一点都不懂，看代码不知道为啥这里要这么写，于是我就百度了一下，找到了一片博客写的很通俗，对我帮助很大，在这里我将他的博客文章迁移过来了，给自己做了记录。
-model.js：model层一般包含几个部
+          刚接触Dva对Dva的理念一点都不懂，看代码不知道为啥这里要这么写，于是我就百度了一下，找到了一片博客写的很通俗，对我帮助很大，在这里我将他的博客文章迁移过来了，给自己做了记录。
+model.js：model层一般包含几个部分：
+namespace：model的名字，用来在页面中找到要调用哪一个mo
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -506,8 +506,7 @@ model.js：model层一般包含几个部
       
         
           
-          如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！
-dependencies和devDependencies 具体代码如下123456789101112131415161718192021&quot;name&quot;: &quot;webpack-react-expres
+          dependencies和devDependencies 具体代码如下123456789101112131415161718192021&quot;name&quot;: &quot;webpack-react-express&quot;,  &quot;version&quot;: &quot;0
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -645,10 +644,9 @@ dependencies和devDependencies 具体代码如下1234567891011121314151617181920
       
         
           
-          如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！
-本文将讲解Linux系统中怎么安装Oracle， 本文设计的系统为阿里云的CentOS 7.3系统 ， Oracle为oracle 12g 
+          本文将讲解Linux系统中怎么安装Oracle， 本文设计的系统为阿里云的CentOS 7.3系统 ， Oracle为oracle 12g 
 1. 环境Yum安装环境 
-1234567891011121314yum inst
+1234567891011121314yum install -y binutils* yum install -y compat
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -786,9 +784,9 @@ dependencies和devDependencies 具体代码如下1234567891011121314151617181920
       
         
           
-          如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！
-博主在流程设计器中遇到的问题，在此记录一下
+          博主在流程设计器中遇到的问题，在此记录一下
 流程设计器使用Angular整合的，现遇到一个bug解决办法需要在html中添加onmousedown方法，然后在js中调用Angular里面写好的关闭弹框方法，现简化的代码如下：
+1234567891011121314151617181920212223
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -926,12 +924,11 @@ dependencies和devDependencies 具体代码如下1234567891011121314151617181920
       
         
           
-          如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！
-
+          
 git客户端客户端安装参考说明文档。(git+图形化管理界面)
 TortoiseGit
 SourceTree
-拉取代码,建立本地仓库配置git提交用户名和邮箱，定义别名方便区分12git config --global u
+拉取代码,建立本地仓库配置git提交用户名和邮箱，定义别名方便区分12git config --global user.name &quot;你的姓名&quot;git config --
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1069,9 +1066,10 @@ SourceTree
       
         
           
-          如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！
-博主我今天更新了一下代码，竟竟竟然报：不兼容的类型: HttpServletRequest无法转换为javax.servlet.http.HttpServletRequest 的错误， 真的是一脸。。。。。。
-打开FIle 
+          博主我今天更新了一下代码，竟竟竟然报：不兼容的类型: HttpServletRequest无法转换为javax.servlet.http.HttpServletRequest 的错误， 真的是一脸。。。。。。
+打开FIle -&gt; project structure 看到如下截图
+
+报aopal
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1209,10 +1207,10 @@ SourceTree
       
         
           
-          如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！
-当我们使用oracle数据库连接工具执行sql语句时，出现如下图所示的状态
+          当我们使用oracle数据库连接工具执行sql语句时，出现如下图所示的状态
 
-一直处于卡死的状态，首先我们换一种连接工具使用，看是否还是折中情况；如果还是这种情况，可能是由于在sql Developer执行update时没有
+一直处于卡死的状态，首先我们换一种连接工具使用，看是否还是折中情况；如果还是这种情况，可能是由于在sql Developer执行update时没有commit，oracle将该条记录锁住了。
+可以通过以下办法解决：先查询锁
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1350,8 +1348,8 @@ SourceTree
       
         
           
-          如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！
-我们的行业还很年轻，它似乎在不断地重塑自己。不过，一些关键定律还是经受住了时间的考验。例如摩尔定律，它表示集成电路上可容纳的晶体管数目每两年会增加一倍。该定律已经被证明准确得惊人（尽管有人预测，这种趋势已经放缓）。还有一条定
+          我们的行业还很年轻，它似乎在不断地重塑自己。不过，一些关键定律还是经受住了时间的考验。例如摩尔定律，它表示集成电路上可容纳的晶体管数目每两年会增加一倍。该定律已经被证明准确得惊人（尽管有人预测，这种趋势已经放缓）。还有一条定律，我发现几乎普遍适用，在我的日常工作中也更有用，那就是康威定律。
+梅尔 ·
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1489,9 +1487,8 @@ SourceTree
       
         
           
-          如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！
-正如我之前所展示的，将系统拆分成更小的、细粒度的微服务会带来很多好处。然而，它也增加了生产系统的监控复杂性。在本文中，我将带大家看看细粒度的系统在系统监控和定位问题上所面临的挑战，同时还会介绍一些应对方法，让鱼和熊掌兼得！
-
+          正如我之前所展示的，将系统拆分成更小的、细粒度的微服务会带来很多好处。然而，它也增加了生产系统的监控复杂性。在本文中，我将带大家看看细粒度的系统在系统监控和定位问题上所面临的挑战，同时还会介绍一些应对方法，让鱼和熊掌兼得！
+设想一下这样的场景：一个安静的周五下午，团队期待着早点开溜去酒吧，开始一个远
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1629,10 +1626,9 @@ SourceTree
       
         
           
-          如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！
-###6　定制化镜像
+          ###6　定制化镜像
 使用类似 Puppet、Chef 及 Ansible 这些自动化配置管理工具的一个问题
-是，需要花费大量时间在机器上运行这些脚本。考虑这样一个例子：对服务器进行配置，使其能够部署 Java 应用程序。假
+是，需要花费大量时间在机器上运行这些脚本。考虑这样一个例子：对服务器进行配置，使其能够部署 Java 应用程序。假设我的服务器在 AWS 上，使用的是标准的 Ubuntu 镜像。为了运行 J
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1796,7 +1792,7 @@ SourceTree
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

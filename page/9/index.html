@@ -366,9 +366,8 @@
       
         
           
-          如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！
-CentOS7默认数据库是mariadb,配置等用着不习惯,因此决定改成mysql,但是CentOS7的yum源中默认好像是没有mysql的。为了解决这个问题，我们要先下载mysql的repo源。
-1.下载mysql的rep
+          CentOS7默认数据库是mariadb,配置等用着不习惯,因此决定改成mysql,但是CentOS7的yum源中默认好像是没有mysql的。为了解决这个问题，我们要先下载mysql的repo源。
+1.下载mysql的repo源1$ wget http://repo.mysql.com/mysql-
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -506,9 +505,9 @@ CentOS7默认数据库是mariadb,配置等用着不习惯,因此决定改成mysq
       
         
           
-          如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！
-有时候我们有固定的deployment的目录，需要我们将war包放在规定的文件夹里，而不是tomcat的webapps，这就需要我们配置虚拟路径，
-假如我们将war包放在deployment/webapps下，我们的tomc
+          有时候我们有固定的deployment的目录，需要我们将war包放在规定的文件夹里，而不是tomcat的webapps，这就需要我们配置虚拟路径，
+假如我们将war包放在deployment/webapps下，我们的tomcat安装目录为：deployment/tools/
+我们需要将tomcat下
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -646,11 +645,11 @@ CentOS7默认数据库是mariadb,配置等用着不习惯,因此决定改成mysq
       
         
           
-          如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！
-有时我们会要求有固定的war包名，war包部署在服务器上需要包名来进行url访问，有的公司需要有意义的包名（url），下面我们就来说说如何改包名
+          有时我们会要求有固定的war包名，war包部署在服务器上需要包名来进行url访问，有的公司需要有意义的包名（url），下面我们就来说说如何改包名
 1 在pom.xml里修改package，如下图
 只修改这个还不可以
-2 在b
+2 在build里面增加finalName，如下图
+3 打包，看target下的包名
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -788,8 +787,8 @@ CentOS7默认数据库是mariadb,配置等用着不习惯,因此决定改成mysq
       
         
           
-          如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！
-一、Git简介Git是一个分布式的版本控制系统，与集中式的版本控制系统不同的是，每个人都工作在通过克隆建立的本地版本库中。也就是说每个人都拥有一个完整的版本库，查看提交日志、提交、创建里程碑和分支、合并分支、回退等所有操作都
+          一、Git简介Git是一个分布式的版本控制系统，与集中式的版本控制系统不同的是，每个人都工作在通过克隆建立的本地版本库中。也就是说每个人都拥有一个完整的版本库，查看提交日志、提交、创建里程碑和分支、合并分支、回退等所有操作都直接在本地完成而不需要网络连接。
+对于Git仓库来说，每个人都有一个独立完整
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -927,8 +926,7 @@ CentOS7默认数据库是mariadb,配置等用着不习惯,因此决定改成mysq
       
         
           
-          如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！
-在Linux操作系统下，几乎所有的软件均通过RPM进行安装、卸载及管理等操作。RPM的全称为Redhat Package Manager，是由Redhat公司提出的，用于管理Linux 下软件包的软件。Linux安装时，除了
+          在Linux操作系统下，几乎所有的软件均通过RPM进行安装、卸载及管理等操作。RPM的全称为Redhat Package Manager，是由Redhat公司提出的，用于管理Linux 下软件包的软件。Linux安装时，除了几个核心模块以外，其余几乎所有的模块均通过RPM 完成安装。RPM有五种操作
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1066,8 +1064,8 @@ CentOS7默认数据库是mariadb,配置等用着不习惯,因此决定改成mysq
       
         
           
-          如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！
-我在用百度ip地址定位接口时，当把封装的ip定位的接口打war包放在服务器上时，出现获取的地址为服务器所在地的地址，百度ip地址定位接口是可以根据你输入的ip来定位，需要用户输入ip地址是不可能的，用户也不知道他的ip地址是
+          我在用百度ip地址定位接口时，当把封装的ip定位的接口打war包放在服务器上时，出现获取的地址为服务器所在地的地址，百度ip地址定位接口是可以根据你输入的ip来定位，需要用户输入ip地址是不可能的，用户也不知道他的ip地址是多少。
+X-Forwarded-ForX-Forwarded-For:简称X
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1205,9 +1203,9 @@ CentOS7默认数据库是mariadb,配置等用着不习惯,因此决定改成mysq
       
         
           
-          如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！
-在用百度ip定位的接口时遇到了返回回来的数据位Unicode编码，我一直以为是我接口封装错了，结果返回的结果就是unicode编码。
-Unicode转utf-8我用的是StringEscapeUtils.unescapeJa
+          在用百度ip定位的接口时遇到了返回回来的数据位Unicode编码，我一直以为是我接口封装错了，结果返回的结果就是unicode编码。
+Unicode转utf-8我用的是StringEscapeUtils.unescapeJava()
+首先需要引入12345&lt;dependency&gt;	&lt
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1345,8 +1343,7 @@ Unicode转utf-8我用的是StringEscapeUtils.unescapeJa
       
         
           
-          如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！
-不知道是怎么回事，yum  install redis 出现No package redis availableLoaded plugins: priorities, update-motd, upgrade-helperN
+          不知道是怎么回事，yum  install redis 出现No package redis availableLoaded plugins: priorities, update-motd, upgrade-helperNo package redis available.Error: Nothi
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1483,8 +1480,7 @@ Unicode转utf-8我用的是StringEscapeUtils.unescapeJa
 
       
         
-          <p>如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！</p>
-<p>我最近两天在看maven，因为之前用MyEclipse的ssh框架挺好用的，所以就用MyEclipse集成的maven进行学习。本文主要介绍<strong>maven project</strong>的构建。</p>
+          <p>我最近两天在看maven，因为之前用MyEclipse的ssh框架挺好用的，所以就用MyEclipse集成的maven进行学习。本文主要介绍<strong>maven project</strong>的构建。</p>
 <h3 id="1-maven介绍"><a href="#1-maven介绍" class="headerlink" title="1. maven介绍"></a>1. maven介绍</h3><h4 id="1-1-什么是maven"><a href="#1-1-什么是maven" class="headerlink" title="1.1 什么是maven"></a>1.1 什么是maven</h4><p>maven是Apache下一个纯java开发的开源项目，它是一个<strong>项目管理工具</strong>，使用maven对Java项目进行构建、依赖管理。<br>
           <!--noindex-->
           <div class="post-button text-center">
@@ -1622,9 +1618,8 @@ Unicode转utf-8我用的是StringEscapeUtils.unescapeJa
       
         
           
-          如果觉得文章不错，请关注公众号：Java开发高级进阶 ，感谢对博主的支持！
-测试环境中，随便stop和restart项目都无所谓，但在生产环境中，我们想要动态的修改配置信息就会很麻烦。这里用springBoot的 @PropertySource来读取.properties配置文件
-1.读取本项目re
+          测试环境中，随便stop和restart项目都无所谓，但在生产环境中，我们想要动态的修改配置信息就会很麻烦。这里用springBoot的 @PropertySource来读取.properties配置文件
+1.读取本项目resources目录下的.properties配置文件1.1 读取applic
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1788,7 +1783,7 @@ Unicode转utf-8我用的是StringEscapeUtils.unescapeJa
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
